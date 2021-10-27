@@ -2,21 +2,15 @@
 #include <numeric>
 #include <complex>
 #include "Vector.h"
+#include "utils/ArrayUtils.h"
 
 //---------------------------Constructor---------------------------
 Vector::Vector(double x, double y, double z) : vector{x, y, z} {};
 Vector::Vector(std::array<double, 3> &vector) : vector{vector} {};
 
-//---------------------------------------------------------------
 //---------------------------Operators---------------------------
-//---------------------------------------------------------------
-
-//---------------------------operator+---------------------------
 Vector Vector::operator+(const Vector &other) const {
-  std::array<double, 3> vec{};
-  for (int i = 0; i < vec.size(); ++i) {
-    vec[i] = vector[i] + other[i];
-  }
+  auto vec = ArrayUtils::elementWisePairOp(vector, other.vector, std::plus<>());
   return Vector(vec);
 };
 
@@ -27,12 +21,8 @@ Vector &Vector::operator+=(const Vector &other) {
   return *this;
 };
 
-//---------------------------operator----------------------------
 Vector Vector::operator-(const Vector &other) const {
-  std::array<double, 3> vec{};
-  for (int i = 0; i < vec.size(); ++i) {
-    vec[i] = vector[i] - other[i];
-  }
+  auto vec = ArrayUtils::elementWisePairOp(vector, other.vector, std::minus<>());
   return Vector(vec);
 };
 
@@ -43,7 +33,6 @@ Vector &Vector::operator-=(const Vector &other) {
   return *this;
 };
 
-//---------------------------operator*---------------------------
 // Scalar product
 double Vector::operator*(const Vector &other) const {
   return std::inner_product(std::begin(vector), std::end(vector), std::begin(other.vector), 0.0);
@@ -51,10 +40,7 @@ double Vector::operator*(const Vector &other) const {
 
 // Scaling of vectors
 Vector Vector::operator*(double d) const {
-  std::array<double, 3> vec{};
-  for (int i = 0; i < vec.size(); ++i) {
-    vec[i] = vector[i] * d;
-  }
+  auto vec = ArrayUtils::elementWiseScalarOp(d, vector, std::multiplies());
   return Vector(vec);
 };
 
@@ -66,15 +52,8 @@ Vector &Vector::operator*=(double d) {
   return *this;
 };
 
-//---------------------------operator[]---------------------------
 double Vector::operator[](int i) const {
   return vector[i];
-};
-
-//---------------------------operator<<---------------------------
-std::ostream &operator<<(std::ostream &stream, Vector &v) {
-  stream << v.toString();
-  return stream;
 };
 
 //---------------------------Getter & Setter---------------------------
@@ -95,10 +74,6 @@ void Vector::setZ(double z) {
 }
 
 //---------------------------Methods---------------------------
-std::string Vector::toString() const {
-  return "x: " + std::to_string(vector[0]) + " y: " + std::to_string(vector[1]) + " z: " + std::to_string(vector[2]);
-}
-
 double Vector::euclideanNorm(const Vector &i, const Vector &j) {
   double sum = 0;
   for (int t = 0; t < i.vector.size(); ++t) {

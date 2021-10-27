@@ -64,8 +64,3 @@ bool Particle::operator==(Particle &other) {
   return (x == other.x) and (v == other.v) and (f == other.f) and
       (type == other.type) and (m == other.m) and (old_f == other.old_f);
 }
-
-std::ostream &operator<<(std::ostream &stream, Particle &p) {
-  stream << p.toString();
-  return stream;
-}

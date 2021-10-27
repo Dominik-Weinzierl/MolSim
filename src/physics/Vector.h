@@ -4,12 +4,14 @@
 #include <ostream>
 
 class Vector {
-
  private:
   std::array<double, 3> vector{};
 
  public:
   static double euclideanNorm(const Vector &i, const Vector &j);
+
+  double *begin() { return vector.begin(); }
+  double *end() { return vector.end(); }
 
   Vector() = default;
   Vector(double x, double y, double z);
@@ -30,9 +32,8 @@ class Vector {
   void setX(double x);
   void setY(double y);
   void setZ(double z);
-
-  [[nodiscard]] std::string toString() const;
-
 };
 
+// Implemented in "utils/ArrayUtils.h"
 std::ostream &operator<<(std::ostream &stream, const Vector &v);
+Vector operator*(double value, const Vector &v);
