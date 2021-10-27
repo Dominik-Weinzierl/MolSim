@@ -74,5 +74,3 @@ class Particle {
 
   [[nodiscard]] std::string toString() const;
 };
-
-std::ostream &operator<<(std::ostream &stream, Particle &p);

@@ -31,6 +31,8 @@ class Vector {
   void setY(double y);
   void setZ(double z);
 
+  [[nodiscard]] std::string toString() const;
+
   [[nodiscard]] const double *begin() const{ return vector.begin(); }
   [[nodiscard]] const double *end() const{ return vector.end(); }
   [[nodiscard]] size_t size() const;

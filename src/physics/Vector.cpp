@@ -81,6 +81,16 @@ double Vector::euclideanNorm(const Vector &i, const Vector &j) {
   }
   return std::sqrt(sum);
 }
+
 size_t Vector::size() const {
   return length;
+}
+
+std::string Vector::toString() const{
+  return "x: " + std::to_string(vector[0]) + " y: " + std::to_string(vector[1]) + " z: " + std::to_string(vector[2]);
+}
+
+std::ostream &operator<<(std::ostream &stream, Vector &v) {
+  stream << v.toString();
+  return stream;
 }
