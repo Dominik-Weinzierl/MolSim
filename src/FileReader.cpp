@@ -13,47 +13,47 @@ void FileReader::readFile(ParticleContainer &particleContainer, char *filename) 
   std::array<double, 3> x{};
   std::array<double, 3> v{};
   double m;
-  int num_particles = 0;
+  int numParticles = 0;
 
-  std::ifstream input_file(filename);
-  std::string tmp_string;
+  std::ifstream inputFile(filename);
+  std::string tmpString;
 
-  if (input_file.is_open()) {
+  if (inputFile.is_open()) {
 
-    getline(input_file, tmp_string);
-    std::cout << "Read line: " << tmp_string << std::endl;
+    getline(inputFile, tmpString);
+    std::cout << "Read line: " << tmpString << std::endl;
 
-    while (tmp_string.empty() or tmp_string[0] == '#') {
-      getline(input_file, tmp_string);
-      std::cout << "Read line: " << tmp_string << std::endl;
+    while (tmpString.empty() or tmpString[0] == '#') {
+      getline(inputFile, tmpString);
+      std::cout << "Read line: " << tmpString << std::endl;
     }
 
-    std::istringstream numstream(tmp_string);
-    numstream >> num_particles;
-    std::cout << "Reading " << num_particles << "." << std::endl;
-    getline(input_file, tmp_string);
-    std::cout << "Read line: " << tmp_string << std::endl;
+    std::istringstream numStream(tmpString);
+    numStream >> numParticles;
+    std::cout << "Reading " << numParticles << "." << std::endl;
+    getline(inputFile, tmpString);
+    std::cout << "Read line: " << tmpString << std::endl;
 
-    for (int i = 0; i < num_particles; i++) {
-      std::istringstream datastream(tmp_string);
+    for (int i = 0; i < numParticles; i++) {
+      std::istringstream dataStream(tmpString);
 
       for (auto &xj: x) {
-        datastream >> xj;
+        dataStream >> xj;
       }
       for (auto &vj: v) {
-        datastream >> vj;
+        dataStream >> vj;
       }
-      if (datastream.eof()) {
+      if (dataStream.eof()) {
         std::cout
             << "Error reading file: eof reached unexpectedly reading from line "
             << i << std::endl;
         exit(-1);
       }
-      datastream >> m;
-      particleContainer.addParticle(Particle(Vector(x), Vector(v), m));
+      dataStream >> m;
+      particleContainer.addParticle({Vector(x), Vector(v), m});
 
-      getline(input_file, tmp_string);
-      std::cout << "Read line: " << tmp_string << std::endl;
+      getline(inputFile, tmpString);
+      std::cout << "Read line: " << tmpString << std::endl;
     }
   } else {
     std::cout << "Error: could not open file " << filename << std::endl;

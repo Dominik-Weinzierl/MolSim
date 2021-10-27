@@ -1,13 +1,10 @@
 #include "FileReader.h"
 #include "MolSim.h"
-#include "physics/Physics.h"
-#include "outputWriter/XYZWriter.h"
-#include "utils/ArrayUtils.h"
-
+#include "outputWriter/VTKWriter/VTKWriter.h"
 #include <iostream>
-#include <list>
+#include <physics/gravitation/Gravitation.h>
 
-int main(int argc, char *argsv[]) {
+void handleDialog(int argc, char *argv[]) {
   std::cout << "Hello from MolSim for PSE!" << std::endl;
   if (argc != 2) {
     std::cout << "Erroneous programme call! " << std::endl;
@@ -15,9 +12,11 @@ int main(int argc, char *argsv[]) {
   }
 
   ParticleContainer particleContainer;
-  Physics physics;
+  Gravitation physics;
+  std::string out_name("MD_vtk");
+  VTKWriter vtk_writer{out_name, particleContainer};
 
-  FileReader::readFile(particleContainer, argsv[1]);
+  FileReader::readFile(particleContainer, argv[1]);
 
   double current_time = start_time;
 
@@ -34,13 +33,15 @@ int main(int argc, char *argsv[]) {
 
     iteration++;
     if (iteration % 10 == 0) {
-      std::string out_name("MD_vtk");
-      outputWriter::XYZWriter::plotParticles(particleContainer, out_name, iteration);
+      vtk_writer.writeFile(iteration);
     }
     std::cout << "Iteration " << iteration << " finished." << std::endl;
     current_time += delta_t;
   }
 
   std::cout << "output written. Terminating..." << std::endl;
-  return 0;
+}
+
+int main(int argc, char *argv[]) {
+  handleDialog(argc, argv);
 }

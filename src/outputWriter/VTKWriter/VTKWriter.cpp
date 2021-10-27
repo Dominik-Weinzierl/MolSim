@@ -1,15 +1,12 @@
 #include "VTKWriter.h"
 
-#include <cstdlib>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <string>
 
-namespace outputWriter {
-
-VTKWriter::VTKWriter() : vtkFile{new VTKFile_t("empty")}{};
-
+VTKWriter::VTKWriter(const std::string &file_name, const ParticleContainer &container) : OutputWriter(file_name,
+                                                                                                      container) {};
 VTKWriter::~VTKWriter() = default;
 
 void VTKWriter::initializeOutput(int numParticles) {
@@ -43,15 +40,6 @@ void VTKWriter::initializeOutput(int numParticles) {
                                 numParticles, 0);
   UnstructuredGrid_t unstructuredGrid(piece);
   vtkFile->UnstructuredGrid(unstructuredGrid);
-}
-
-void VTKWriter::writeFile(const std::string &filename, int iteration) {
-  std::stringstream strstr;
-  strstr << filename << "_" << std::setfill('0') << std::setw(4) << iteration << ".vtu";
-
-  std::ofstream file(strstr.str().c_str());
-  VTKFile(file, *vtkFile);
-  delete vtkFile;
 }
 
 void VTKWriter::plotParticle(Particle &p) {
@@ -91,4 +79,16 @@ void VTKWriter::plotParticle(Particle &p) {
   pointsIterator->push_back(p.getX()[2]);
 }
 
-} // namespace outputWriter
+void VTKWriter::writeFile(int iteration) {
+  std::stringstream strStream;
+  strStream << fileName << "_" << std::setfill('0') << std::setw(4) << iteration << ".vtu";
+  std::ofstream file(strStream.str().c_str());
+
+  initializeOutput(container.size());
+  for (auto particle: container.getParticles()) {
+    plotParticle(particle);
+  }
+
+  VTKFile(file, *vtkFile);
+  delete vtkFile;
+}

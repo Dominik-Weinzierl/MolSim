@@ -5,14 +5,14 @@
 #include "utils/ArrayUtils.h"
 
 //---------------------------Constructor---------------------------
-Vector::Vector(double x, double y, double z) : vector{x, y, z} {};
-Vector::Vector(std::array<double, 3> &vector) : vector{vector} {};
+Vector::Vector(double x, double y, double z) : vector{x, y, z} {}
+Vector::Vector(std::array<double, 3> &vector) : vector{vector} {}
 
 //---------------------------Operators---------------------------
 Vector Vector::operator+(const Vector &other) const {
   auto vec = ArrayUtils::elementWisePairOp(vector, other.vector, std::plus<>());
   return Vector(vec);
-};
+}
 
 Vector &Vector::operator+=(const Vector &other) {
   for (auto i = 0; i < length; ++i) {
@@ -95,7 +95,7 @@ size_t Vector::size() const {
 }
 
 std::string Vector::toString() const {
-  return "x: " + std::to_string(vector[0]) + " y: " + std::to_string(vector[1]) + " z: " + std::to_string(vector[2]);
+  return "x: " + ArrayUtils::to_string(vector);
 }
 
 std::ostream &operator<<(std::ostream &stream, const Vector &v) {

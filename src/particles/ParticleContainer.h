@@ -19,4 +19,6 @@ class ParticleContainer {
 
   [[nodiscard]] const std::list<Particle> &getParticles() const;
   [[nodiscard]] const std::list<std::pair<Particle, Particle>> &getParticlePairs() const;
+
+  [[nodiscard]] int size() const;
 };
