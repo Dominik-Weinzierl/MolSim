@@ -1,10 +1,3 @@
-/*
- * VTKWriter.h
- *
- *  Created on: 01.03.2010
- *      Author: eckhardw
- */
-
 #pragma once
 
 #include "particles/Particle.h"
