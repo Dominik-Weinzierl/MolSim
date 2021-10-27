@@ -1,7 +1,7 @@
 #pragma once
 
-#include <array>
 #include <string>
+#include "physics/Vector.h"
 
 class Particle {
 
@@ -9,22 +9,22 @@ private:
   /**
    * Position of the particle
    */
-  std::array<double, 3> x{};
+  Vector x;
 
   /**
    * Velocity of the particle
    */
-  std::array<double, 3> v{};
+  Vector v;
 
   /**
    * Force effective on this particle
    */
-  std::array<double, 3> f{};
+  Vector f;
 
   /**
    * Force which was effective on this particle
    */
-  std::array<double, 3> old_f{};
+  Vector old_f;
 
   /**
    * Mass of this particle
@@ -45,22 +45,30 @@ public:
   Particle(
       // for visualization, we always need 3 coordinates
       // -> in case of 2d, we use only the first and the second
-      std::array<double, 3> x_arg, std::array<double, 3> v_arg, double m_arg,
+      const Vector& x_arg, const Vector& v_arg, double m_arg,
       int type = 0);
 
   virtual ~Particle();
 
-  [[nodiscard]] const std::array<double, 3> &getX() const;
+  [[nodiscard]] const Vector &getX() const;
 
-  [[nodiscard]] const std::array<double, 3> &getV() const;
+  [[nodiscard]] const Vector &getV() const;
 
-  [[nodiscard]] const std::array<double, 3> &getF() const;
+  [[nodiscard]] const Vector &getF() const;
 
-  [[nodiscard]] const std::array<double, 3> &getOldF() const;
+  [[nodiscard]] const Vector &getOldF() const;
 
   [[nodiscard]] double getM() const;
 
   [[nodiscard]] int getType() const;
+
+  void setX(const Vector& position);
+
+  void setV(const Vector& velocity);
+
+  void setF(const Vector& force);
+
+  void setOldF(const Vector& oldForce);
 
   bool operator==(Particle &other);
 
