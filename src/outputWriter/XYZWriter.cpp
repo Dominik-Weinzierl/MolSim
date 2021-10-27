@@ -8,6 +8,7 @@
 #include "outputWriter/XYZWriter.h"
 #include <iomanip>
 #include <sstream>
+#include <particles/ParticleContainer.h>
 
 namespace outputWriter {
 
@@ -15,7 +16,7 @@ XYZWriter::XYZWriter() = default;
 
 XYZWriter::~XYZWriter() = default;
 
-void XYZWriter::plotParticles(std::list<Particle> particles,
+void XYZWriter::plotParticles(const ParticleContainer& particleContainer,
                               const std::string &filename, int iteration) {
   std::ofstream file;
   std::stringstream strstr;
