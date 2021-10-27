@@ -1,10 +1,3 @@
-/*
- * Particle.h
- *
- *  Created on: 23.02.2010
- *      Author: eckhardw
- */
-
 #pragma once
 
 #include <array>
@@ -16,27 +9,27 @@ private:
   /**
    * Position of the particle
    */
-  std::array<double, 3> x;
+  std::array<double, 3> x{};
 
   /**
    * Velocity of the particle
    */
-  std::array<double, 3> v;
+  std::array<double, 3> v{};
 
   /**
    * Force effective on this particle
    */
-  std::array<double, 3> f;
+  std::array<double, 3> f{};
 
   /**
    * Force which was effective on this particle
    */
-  std::array<double, 3> old_f;
+  std::array<double, 3> old_f{};
 
   /**
    * Mass of this particle
    */
-  double m;
+  double m{};
 
   /**
    * Type of the particle. Use it for whatever you want (e.g. to separate

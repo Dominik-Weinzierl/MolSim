@@ -1,10 +1,3 @@
-/*
- * FileReader.h
- *
- *  Created on: 23.02.2010
- *      Author: eckhardw
- */
-
 #pragma once
 
 #include "particles/Particle.h"

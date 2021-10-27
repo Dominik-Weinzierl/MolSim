@@ -5,9 +5,12 @@
 
 class ParticleContainer {
  private:
-  const std::list<Particle> particles;
+  const std::list<Particle> particles{};
 
  public:
-   ParticleContainer();
-   const std::list<Particle>& getParticles();
+  ParticleContainer() = default;
+  virtual ~ParticleContainer() = default;
+  explicit ParticleContainer(std::list<Particle> particles);
+
+  [[nodiscard]] const std::list<Particle> &getParticles() const;
 };
