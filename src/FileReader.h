@@ -1,13 +1,6 @@
-/*
- * FileReader.h
- *
- *  Created on: 23.02.2010
- *      Author: eckhardw
- */
-
 #pragma once
 
-#include "Particle.h"
+#include "particles/ParticleContainer.h"
 
 #include <list>
 
@@ -17,5 +10,5 @@ public:
   FileReader();
   virtual ~FileReader();
 
-  void readFile(std::list<Particle> &particles, char *filename);
+  static void readFile(ParticleContainer &particleContainer, char *filename);
 };

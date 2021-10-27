@@ -1,10 +1,3 @@
-/*
- * VTKWriter.cpp
- *
- *  Created on: 01.03.2010
- *      Author: eckhardw
- */
-
 #include "VTKWriter.h"
 
 #include <cstdlib>
@@ -15,7 +8,7 @@
 
 namespace outputWriter {
 
-VTKWriter::VTKWriter() = default;
+VTKWriter::VTKWriter() : vtkFile{new VTKFile_t("empty")}{};
 
 VTKWriter::~VTKWriter() = default;
 
