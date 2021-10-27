@@ -24,6 +24,7 @@ class Vector {
   Vector &operator*=(double d);
   Vector operator*(double d) const;
   double operator[](int i) const;
+  bool operator==(const Vector &other) const;
 
   [[nodiscard]] const std::array<double, 3> &getVector() const;
 
@@ -38,6 +39,6 @@ class Vector {
   [[nodiscard]] size_t size() const;
 };
 
-// Implemented in "utils/ArrayUtils.h"
-std::ostream &operator<<(std::ostream &stream, const Vector &v);
 Vector operator*(double value, const Vector &v);
+std::ostream &operator<<(std::ostream &stream, const Vector &v);
+

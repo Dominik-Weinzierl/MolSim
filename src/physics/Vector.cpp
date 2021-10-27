@@ -44,6 +44,10 @@ Vector Vector::operator*(double d) const {
   return Vector(vec);
 };
 
+Vector operator*(double value, const Vector &v) {
+  return v * value;
+}
+
 // Scaling of vectors
 Vector &Vector::operator*=(double d) {
   for (double &i: vector) {
@@ -55,6 +59,10 @@ Vector &Vector::operator*=(double d) {
 double Vector::operator[](int i) const {
   return vector[i];
 };
+
+bool Vector::operator==(const Vector &other) const {
+  return vector == other.vector;
+}
 
 //---------------------------Getter & Setter---------------------------
 const std::array<double, 3> &Vector::getVector() const {
@@ -86,11 +94,12 @@ size_t Vector::size() const {
   return length;
 }
 
-std::string Vector::toString() const{
+std::string Vector::toString() const {
   return "x: " + std::to_string(vector[0]) + " y: " + std::to_string(vector[1]) + " z: " + std::to_string(vector[2]);
 }
 
-std::ostream &operator<<(std::ostream &stream, Vector &v) {
+std::ostream &operator<<(std::ostream &stream, const Vector &v) {
   stream << v.toString();
   return stream;
 }
+
