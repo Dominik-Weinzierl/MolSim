@@ -55,9 +55,8 @@ void Particle::setOldF(const Vector &oldForce) { old_f = oldForce; }
 
 std::string Particle::toString() const {
   std::stringstream stream;
-  //TODO: fix Pipe for Vector
-  stream << "Particle: X:" << x.toString() << " v: " << v.toString() << " f: " << f.toString()
-         << " old_f: " << old_f.toString() << " type: " << type;
+  stream << "Particle: X:" << x << " v: " << v << " f: " << f
+         << " old_f: " << old_f << " type: " << type;
   return stream.str();
 }
 

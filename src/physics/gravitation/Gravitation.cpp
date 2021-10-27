@@ -8,6 +8,6 @@ void Gravitation::calculateF(const ParticleContainer &particleContainer) {
 
   for(const auto& [i, j]: pairs){
     // TODO: google const common practice
-     auto force = (i.getM()*j.getM()/ std::pow(Vector::getDistance(i.getX(), j.getX()), 3) )*(j.getX() - i.getX());
+     auto force = (i.getM()*j.getM()/ std::pow(Vector::euclideanNorm(i.getX(), j.getX()), 3) ) * (j.getX() - i.getX());
   }
 }

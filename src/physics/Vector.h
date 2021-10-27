@@ -3,28 +3,27 @@
 #include <array>
 #include <ostream>
 
-class Vector{
+class Vector {
 
  private:
   std::array<double, 3> vector{};
 
  public:
-
-  //TODO: getDistance with euclidianNorm, operators -, scalar-multiplication, *
-  static double getDistance(const Vector& i, const Vector& j);
-  static double euclidianNorm(const Vector& i, const Vector& j);
+  static double euclideanNorm(const Vector &i, const Vector &j);
 
   Vector() = default;
   Vector(double x, double y, double z);
   explicit Vector(std::array<double, 3> &vector);
   virtual ~Vector() = default;
 
-  Vector operator+(Vector& other);
-  Vector operator-(const Vector& other);
-  Vector operator*(Vector& other);
-  Vector operator*(double d);
-  double operator[](int i);
-  std::ostream& operator<<(std::ostream& os) const;
+  Vector operator+(const Vector &other) const;
+  Vector &operator+=(const Vector &other);
+  Vector operator-(const Vector &other) const;
+  Vector &operator-=(const Vector &other);
+  double operator*(const Vector &other) const;
+  Vector &operator*=(double d);
+  Vector operator*(double d) const;
+  double operator[](int i) const;
 
   [[nodiscard]] const std::array<double, 3> &getVector() const;
 
@@ -35,3 +34,5 @@ class Vector{
   [[nodiscard]] std::string toString() const;
 
 };
+
+std::ostream &operator<<(std::ostream &stream, const Vector &v);
