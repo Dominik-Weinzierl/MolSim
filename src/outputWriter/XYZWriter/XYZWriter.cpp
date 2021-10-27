@@ -1,6 +1,6 @@
 #include "XYZWriter.h"
 #include <sstream>
-#include <particles/ParticleContainer.h>
+#include "particles/ParticleContainer.h"
 #include <iomanip>
 
 XYZWriter::XYZWriter(const std::string &file_name, const ParticleContainer &container) : OutputWriter(file_name,
