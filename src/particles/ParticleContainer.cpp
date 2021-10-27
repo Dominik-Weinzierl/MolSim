@@ -1,12 +1,22 @@
 #include "ParticleContainer.h"
 
 #include <utility>
+#include <iostream>
 
 //---------------------------Constructor---------------------------
 ParticleContainer::ParticleContainer(std::list<Particle> particles) : particles{std::move(particles)} {
   for (const auto &particle: particles) {
     addParticleToPairs(particle);
   }
+  std::cout << "ParticleContainer generated!" << std::endl;
+}
+
+ParticleContainer::ParticleContainer() : particles{}, particlePairs{} {
+  std::cout << "ParticleContainer generated!" << std::endl;
+}
+
+ParticleContainer::~ParticleContainer() {
+  std::cout << "ParticleContainer destructed!" << std::endl;
 }
 
 //---------------------------Methods---------------------------
@@ -20,7 +30,7 @@ const std::list<std::pair<Particle, Particle>> &ParticleContainer::getParticlePa
 
 void ParticleContainer::addParticle(const Particle &p) {
   addParticleToPairs(p);
-  particles.emplace_back(p);
+  particles.push_back(p);
 }
 
 void ParticleContainer::addParticleToPairs(const Particle &p) {
@@ -32,5 +42,4 @@ void ParticleContainer::addParticleToPairs(const Particle &p) {
 int ParticleContainer::size() const {
   return particles.size();
 }
-
 

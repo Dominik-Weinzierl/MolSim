@@ -45,8 +45,7 @@ class Particle {
   Particle(
       // for visualization, we always need 3 coordinates
       // -> in case of 2d, we use only the first and the second
-      const Vector &x_arg, const Vector &v_arg, double m_arg,
-      int type = 0);
+      const Vector &x_arg, const Vector &v_arg, double m_arg, int type = 0);
 
   virtual ~Particle();
 
