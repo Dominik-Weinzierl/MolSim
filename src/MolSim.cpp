@@ -4,7 +4,7 @@
 #include <iostream>
 #include <physics/gravitation/Gravitation.h>
 
-void performSimulation(OutputWriter &&writer, const Physics &physics, ParticleContainer &particleContainer) {
+void performSimulation(OutputWriter &writer, const Physics &physics, ParticleContainer &particleContainer) {
   double current_time = start_time;
   int iteration = 0;
 
@@ -33,9 +33,11 @@ int main(int argc, char *argv[]) {
     std::cout << "./molsym filename" << std::endl;
   }
   ParticleContainer particleContainer;
+  Gravitation gravitation;
+  VTKWriter writer{"MD_vtk", particleContainer};
   FileReader::readFile(particleContainer, argv[1]);
 
-  performSimulation(VTKWriter{"MD_vtk", particleContainer}, Gravitation{}, particleContainer);
+  performSimulation(writer, gravitation, particleContainer);
 
   std::cout << "output written. Terminating..." << std::endl;
 
