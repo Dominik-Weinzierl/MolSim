@@ -5,7 +5,7 @@
 
 class Particle {
 
-private:
+ private:
   /**
    * Position of the particle
    */
@@ -37,7 +37,7 @@ private:
    */
   int type;
 
-public:
+ public:
   explicit Particle(int type = 0);
 
   Particle(const Particle &other);
@@ -45,7 +45,7 @@ public:
   Particle(
       // for visualization, we always need 3 coordinates
       // -> in case of 2d, we use only the first and the second
-      const Vector& x_arg, const Vector& v_arg, double m_arg,
+      const Vector &x_arg, const Vector &v_arg, double m_arg,
       int type = 0);
 
   virtual ~Particle();
@@ -62,13 +62,13 @@ public:
 
   [[nodiscard]] int getType() const;
 
-  void setX(const Vector& position);
+  void setX(const Vector &position);
 
-  void setV(const Vector& velocity);
+  void setV(const Vector &velocity);
 
-  void setF(const Vector& force);
+  void setF(const Vector &force);
 
-  void setOldF(const Vector& oldForce);
+  void setOldF(const Vector &oldForce);
 
   bool operator==(Particle &other);
 

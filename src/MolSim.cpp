@@ -17,7 +17,7 @@ int main(int argc, char *argsv[]) {
   ParticleContainer particleContainer;
   Physics physics;
 
-  FileReader::readFile(const_cast<std::list<Particle> &>(particleContainer.getParticles()), argsv[1]);
+  FileReader::readFile(particleContainer, argsv[1]);
 
   double current_time = start_time;
 

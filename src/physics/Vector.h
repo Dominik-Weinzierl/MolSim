@@ -6,12 +6,10 @@
 class Vector {
  private:
   std::array<double, 3> vector{};
+  int length = 3;
 
  public:
   static double euclideanNorm(const Vector &i, const Vector &j);
-
-  double *begin() { return vector.begin(); }
-  double *end() { return vector.end(); }
 
   Vector() = default;
   Vector(double x, double y, double z);
@@ -32,6 +30,10 @@ class Vector {
   void setX(double x);
   void setY(double y);
   void setZ(double z);
+
+  [[nodiscard]] const double *begin() const{ return vector.begin(); }
+  [[nodiscard]] const double *end() const{ return vector.end(); }
+  [[nodiscard]] size_t size() const;
 };
 
 // Implemented in "utils/ArrayUtils.h"

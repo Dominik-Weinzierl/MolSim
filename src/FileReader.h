@@ -1,6 +1,6 @@
 #pragma once
 
-#include "particles/Particle.h"
+#include "particles/ParticleContainer.h"
 
 #include <list>
 
@@ -10,5 +10,5 @@ public:
   FileReader();
   virtual ~FileReader();
 
-  static void readFile(std::list<Particle> &particles, char *filename);
+  static void readFile(ParticleContainer &particleContainer, char *filename);
 };
