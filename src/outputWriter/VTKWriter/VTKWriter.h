@@ -18,7 +18,7 @@ class VTKWriter : public OutputWriter {
   void writeFile(int iteration) override;
  private:
   void initializeOutput(int numParticles);
-  void plotParticle(Particle &p);
+  void plotParticle(const Particle &p);
  private:
   VTKFile_t *vtkFile{};
 };

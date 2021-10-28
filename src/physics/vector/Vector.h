@@ -11,10 +11,10 @@ class Vector {
  public:
   static double euclideanNorm(const Vector &i, const Vector &j);
 
-  Vector() = default;
   Vector(double x, double y, double z);
+  Vector(const Vector &other);
   explicit Vector(std::array<double, 3> &vector);
-  virtual ~Vector() = default;
+  virtual ~Vector();
 
   Vector operator+(const Vector &other) const;
   Vector &operator+=(const Vector &other);

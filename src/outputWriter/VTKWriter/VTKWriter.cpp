@@ -36,21 +36,19 @@ void VTKWriter::initializeOutput(int numParticles) {
   DataArray_t cells_data(type::Float32, "types", 0);
   cells.DataArray().push_back(cells_data);
 
-  PieceUnstructuredGrid_t piece(pointData, cellData, points, cells,
-                                numParticles, 0);
+  PieceUnstructuredGrid_t piece(pointData, cellData, points, cells, numParticles, 0);
   UnstructuredGrid_t unstructuredGrid(piece);
   vtkFile->UnstructuredGrid(unstructuredGrid);
 }
 
-void VTKWriter::plotParticle(Particle &p) {
+void VTKWriter::plotParticle(const Particle &p) {
   if (vtkFile->UnstructuredGrid().present()) {
     std::cout << "UnstructuredGrid is present" << std::endl;
   } else {
     std::cout << "ERROR: No UnstructuredGrid present" << std::endl;
   }
 
-  PointData::DataArray_sequence &pointDataSequence =
-      vtkFile->UnstructuredGrid()->Piece().PointData().DataArray();
+  PointData::DataArray_sequence &pointDataSequence = vtkFile->UnstructuredGrid()->Piece().PointData().DataArray();
   PointData::DataArray_iterator dataIterator = pointDataSequence.begin();
 
   dataIterator->push_back(p.getM());
@@ -71,8 +69,7 @@ void VTKWriter::plotParticle(Particle &p) {
   dataIterator++;
   dataIterator->push_back(p.getType());
 
-  Points::DataArray_sequence &pointsSequence =
-      vtkFile->UnstructuredGrid()->Piece().Points().DataArray();
+  Points::DataArray_sequence &pointsSequence = vtkFile->UnstructuredGrid()->Piece().Points().DataArray();
   Points::DataArray_iterator pointsIterator = pointsSequence.begin();
   pointsIterator->push_back(p.getX()[0]);
   pointsIterator->push_back(p.getX()[1]);
@@ -85,7 +82,7 @@ void VTKWriter::writeFile(int iteration) {
   std::ofstream file(strStream.str().c_str());
 
   initializeOutput(container.size());
-  for (auto particle: container.getParticles()) {
+  for (const auto &particle: container.getParticles()) {
     plotParticle(particle);
   }
 
