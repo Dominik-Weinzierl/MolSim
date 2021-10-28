@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "physics/Vector.h"
+#include "physics/vector/Vector.h"
 
 class Particle {
 

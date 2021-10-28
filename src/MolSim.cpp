@@ -1,4 +1,4 @@
-#include "FileReader.h"
+#include "fileReader/FileReader.h"
 #include "MolSim.h"
 #include "outputWriter/VTKWriter/VTKWriter.h"
 #include <iostream>
