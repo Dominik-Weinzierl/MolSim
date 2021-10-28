@@ -17,9 +17,9 @@ class Physics {
   /**
   * calculate the position for all particles
   */
-  virtual void calculateX(const ParticleContainer &particleContainer) const = 0;
+  virtual void calculateX(const ParticleContainer &particleContainer, double deltaT) const = 0;
   /**
   * calculate the velocity for all particles
   */
-  virtual void calculateV(const ParticleContainer &particleContainer) const = 0;
+  virtual void calculateV(const ParticleContainer &particleContainer, double deltaT) const = 0;
 };
