@@ -25,6 +25,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Install Xerces
+        run: sudo apt install libxerces-c-dev
+
       - name: Create Build Directory
         run: cmake -E make_directory ${{github.workspace}}/build
 
