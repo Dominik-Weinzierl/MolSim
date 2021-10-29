@@ -31,7 +31,7 @@ jobs:
         run: cmake -E make_directory ${{github.workspace}}/build
 
       - name: Run cmake
-        run: cmake .. -DBUILD_DOCUMENTATION=ON
+        run: cmake .. -DBUILD_DOCUMENTATION=ON -DCMAKE_CXX_COMPILER=${{matrix.compiler}}
         working-directory: ${{github.workspace}}/build
         env:
           CC: ${{ matrix.compiler }}
