@@ -23,7 +23,7 @@ jobs:
         run: sudo apt-get install cppcheck
 
       - name: Run cppcheck
-        run: cppcheck --enable=style --enable=performance .
+        run: cppcheck --enable=style --enable=performance ${{github.workspace}}/src
 
       - name: Create Build Directory
         run: cmake -E make_directory ${{github.workspace}}/build
