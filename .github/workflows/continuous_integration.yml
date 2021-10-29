@@ -17,7 +17,13 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Install Xerces
-        run: sudo apt install libxerces-c-dev
+        run: sudo apt-get install libxerces-c-dev
+
+      - name: Install cppcheck
+        run: sudo apt-get install cppcheck
+
+      - name: Run cppcheck
+        run: cppcheck cppcheck --quiet ${{github.workspace}}/src
 
       - name: Create Build Directory
         run: cmake -E make_directory ${{github.workspace}}/build
