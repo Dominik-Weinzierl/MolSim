@@ -9,7 +9,7 @@
 
 class XYZWriter : public OutputWriter {
  public:
-  explicit XYZWriter(const std::string &file_name, const ParticleContainer &container);
+  explicit XYZWriter(const std::string &file_name, const std::string &path, const ParticleContainer &container);
   ~XYZWriter() override;
   void writeFile(int iteration) override;
 

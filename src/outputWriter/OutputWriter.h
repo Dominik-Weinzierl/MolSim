@@ -6,12 +6,13 @@
 
 class OutputWriter {
  public:
-  OutputWriter(std::string fileName, const ParticleContainer &container);
+  OutputWriter(std::string fileName, std::string path, const ParticleContainer &container);
   virtual ~OutputWriter() = default;
 
   virtual void writeFile(int iteration) = 0;
  protected:
   const std::string fileName;
+  const std::string path;
   const ParticleContainer &container;
 };
 

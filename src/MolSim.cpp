@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
   }
   ParticleContainer particleContainer;
   Gravitation gravitation;
-  VTKWriter writer{"MD_vtk", particleContainer};
+  VTKWriter writer{"MD_vtk", "output", particleContainer};
   FileReader::readFile(particleContainer, argv[1]);
 
   performSimulation(writer, gravitation, particleContainer);
