@@ -13,7 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        compiler: [ g++, clang ]
+        ccompiler: [ g++, clang++ ]
+        compiler: [ gcc, clang ]
 
     steps:
       - uses: actions/checkout@v2
@@ -31,8 +32,10 @@ jobs:
         run: cmake -E make_directory ${{github.workspace}}/build
 
       - name: Run cmake
-        run: cmake .. -DBUILD_DOCUMENTATION=ON
+        run: cmake .. -DBUILD_DOCUMENTATION=ON -DCMAKE_CXX_COMPILER=${{matrix.ccompiler}}
         working-directory: ${{github.workspace}}/build
+        env:
+          CC: ${{ matrix.compiler }}
 
       - name: Run make
         run: make
