@@ -23,7 +23,7 @@ file(GLOB_RECURSE MY_SRC
 add_executable(MolSim ${MY_SRC})
 
 # set cxx standard. You may raise this if you want.
-target_compile_features(MolSim Public cxx_std_17)
+target_compile_features(MolSim PUBLIC cxx_std_17)
 
 target_include_directories(MolSim
         PUBLIC
