@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler: [ gcc, clang ]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -31,6 +34,8 @@ jobs:
       - name: Run cmake
         run: cmake .. -DBUILD_DOCUMENTATION=ON
         working-directory: ${{github.workspace}}/build
+        env:
+          CC: ${{ matrix.compiler }}
 
       - name: Run make
         run: make
