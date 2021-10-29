@@ -3,8 +3,8 @@
 #include "outputWriter/VTKWriter/VTKWriter.h"
 #include <iostream>
 #include <physics/gravitation/Gravitation.h>
-#include <arguments/Argument.h>
-#include <arguments/ArgumentParser.h>
+#include <arguments/Argument/Argument.h>
+#include <arguments/BasicArgumentParser/BasicArgumentParser.h>
 
 void performSimulation(OutputWriter &writer, const Physics &physics, ParticleContainer &particleContainer,
                        Argument &arg) {
@@ -30,17 +30,17 @@ void performSimulation(OutputWriter &writer, const Physics &physics, ParticleCon
 }
 
 int main(int argc, char *argv[]) {
-  ArgumentParser parser{argc, argv};
+  BasicArgumentParser parser{argc, argv};
   ParserStatus status = parser.validateInput();
 
-  if(status == ParserStatus::Operation_Help) {
-    ArgumentParser::showUsage();
+  if (status == ParserStatus::Operation_Help) {
+    BasicArgumentParser::showUsage();
     return 0;
   }
 
-  if(status != ParserStatus::Operation_Simulation) {
+  if (status != ParserStatus::Operation_Simulation) {
     std::cout << "Erroneous programme call! " << std::endl;
-    ArgumentParser::showUsage();
+    BasicArgumentParser::showUsage();
     return -1;
   }
 
