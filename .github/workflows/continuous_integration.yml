@@ -39,6 +39,8 @@ jobs:
       - name: Run make
         run: make
         working-directory: ${{github.workspace}}/build
+        env:
+          CC: ${{ matrix.compiler }}
 
       # Optional add tests
 
