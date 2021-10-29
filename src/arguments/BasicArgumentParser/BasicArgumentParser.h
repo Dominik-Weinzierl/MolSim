@@ -1,3 +1,4 @@
+#include <optional>
 #include "arguments/ArgumentParser.h"
 
 class BasicArgumentParser : public ArgumentParser {
@@ -8,6 +9,7 @@ class BasicArgumentParser : public ArgumentParser {
  public:
   explicit BasicArgumentParser(int argc_1, char *arguments_1[]);
   ~BasicArgumentParser();
+  void showUsage() override;
   ParserStatus validateInput() override;
   Argument createArgument() override;
 };

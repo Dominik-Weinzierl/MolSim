@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include <optional>
 #include "arguments/Argument/Argument.h"
 
 enum ParserStatus {
@@ -13,6 +10,6 @@ class ArgumentParser {
  public:
   virtual ParserStatus validateInput() = 0;
   virtual Argument createArgument() = 0;
-  static void showUsage();
+  virtual void showUsage() = 0;
  private:
 };

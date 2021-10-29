@@ -34,13 +34,13 @@ int main(int argc, char *argv[]) {
   ParserStatus status = parser.validateInput();
 
   if (status == ParserStatus::Operation_Help) {
-    BasicArgumentParser::showUsage();
+    parser.showUsage();
     return 0;
   }
 
   if (status != ParserStatus::Operation_Simulation) {
     std::cout << "Erroneous programme call! " << std::endl;
-    BasicArgumentParser::showUsage();
+    parser.showUsage();
     return -1;
   }
 
