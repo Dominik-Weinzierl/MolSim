@@ -12,4 +12,6 @@ class Argument {
 
   [[nodiscard]] double getEndTime() const;
   [[nodiscard]] double getDeltaT() const;
+  [[nodiscard]] std::basic_string<char> getFileName() const;
+
 };

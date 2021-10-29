@@ -15,3 +15,6 @@ double Argument::getEndTime() const {
 double Argument::getDeltaT() const {
   return delta_t;
 }
+std::basic_string<char> Argument::getFileName() const {
+  return inputFileName;
+}

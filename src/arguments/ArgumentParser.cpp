@@ -14,34 +14,32 @@ ArgumentParser::~ArgumentParser() {
   std::cout << "ArgumentParser destructed!" << std::endl;
 }
 
-bool ArgumentParser::validateInput() {
-  if ((argumentOptionIsAvailable("-h") || argumentOptionIsAvailable("--help")) && tokens.size() != 1) {
-    std::cout << "Help should be used without any additional arguments" << std::endl;
-    return false;
-  } else {
-    if (!argumentOptionIsAvailable("-f") || !argumentOptionIsAvailable("--filename")) {
-      return false;
-    }
-    if (!argumentOptionIsAvailable("-t") || !argumentOptionIsAvailable("--t_end")) {
-      return false;
-    }
-    if (!argumentOptionIsAvailable("-d") || !argumentOptionIsAvailable("--delta_t")) {
-      return false;
-    }
-    if (tokens.size() != 6) {
-      return false;
-    }
+ParserStatus ArgumentParser::validateInput() {
+  if ((argumentOptionIsAvailable("-h") || argumentOptionIsAvailable("--help")) && tokens.size() == 1) {
+    return Operation_Help;
   }
-  return true;
+  if (!argumentOptionIsAvailable("-f") && !argumentOptionIsAvailable("--filename")) {
+    return Error_MissingArgument;
+  }
+  if (!argumentOptionIsAvailable("-t") && !argumentOptionIsAvailable("--t_end")) {
+    return Error_MissingArgument;
+  }
+  if (!argumentOptionIsAvailable("-d") && !argumentOptionIsAvailable("--delta_t")) {
+    return Error_MissingArgument;
+  }
+  if (tokens.size() != 6) {
+    return Error_InvalidOperation;
+  }
+  return Operation_Simulation;
 }
 
 void ArgumentParser::showUsage() {
   std::stringstream usage;
   usage << "Usage: " << "./molsym" << std::endl;
   usage << "Options:" << std::endl;
-  usage << "\t-h,--help\t\t\tShow this help message" << std::endl;
+  usage << "\t-h,--help\t\tShow this help message" << std::endl;
   usage << "\t-f,--filename\t\tSpecify the end time of this simulation" << std::endl;
-  usage << "\t-t,--t_end\t\t\tSpecify the end time of this simulation" << std::endl;
+  usage << "\t-t,--t_end\t\tSpecify the end time of this simulation" << std::endl;
   usage << "\t-d,--delta_t\t\tSpecify the time steps per calculation" << std::endl;
   std::cout << usage.str();
 }

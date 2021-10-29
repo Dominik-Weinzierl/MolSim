@@ -31,16 +31,25 @@ void performSimulation(OutputWriter &writer, const Physics &physics, ParticleCon
 
 int main(int argc, char *argv[]) {
   ArgumentParser parser{argc, argv};
-  if (!parser.validateInput()) {
+  ParserStatus status = parser.validateInput();
+
+  if(status == ParserStatus::Operation_Help) {
+    ArgumentParser::showUsage();
+    return 0;
+  }
+
+  if(status != ParserStatus::Operation_Simulation) {
+    std::cout << "Erroneous programme call! " << std::endl;
     ArgumentParser::showUsage();
     return -1;
   }
+
   Argument arg = parser.createArgument();
 
   ParticleContainer particleContainer;
   Gravitation gravitation;
   VTKWriter writer{"MD_vtk", particleContainer};
-  FileReader::readFile(particleContainer, argv[1]);
+  FileReader::readFile(particleContainer, arg.getFileName());
 
   performSimulation(writer, gravitation, particleContainer, arg);
 
