@@ -23,10 +23,7 @@ file(GLOB_RECURSE MY_SRC
 add_executable(MolSim ${MY_SRC})
 
 # set cxx standard. You may raise this if you want.
-target_compile_features(MolSim
-        PRIVATE
-            cxx_std_14
-)
+target_compile_features(MolSim Public cxx_std_17)
 
 target_include_directories(MolSim
         PUBLIC
@@ -49,8 +46,6 @@ target_compile_options(MolSim
             # disable some spam warnings for icpc...
             $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>
 )
-
-set_property(TARGET MolSim PROPERTY CXX_STANDARD 17)
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
