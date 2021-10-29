@@ -32,7 +32,7 @@ target_link_libraries(MolSim PUBLIC xerces-c)
 # activate all compiler warnings. Clean up your code :P
 # depending on the compiler different flags are used
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
-  target_compile_options(MolSim PRIVATE -Wall -Wextra -Wconversion -pedantic -Wfatal-errors)
+  target_compile_options(MolSim PRIVATE -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wold-style-cast -Wpedantic -Wconversion)
 endif ()
 
 target_compile_options(MolSim PRIVATE $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>)
