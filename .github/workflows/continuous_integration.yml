@@ -22,12 +22,6 @@ jobs:
       - name: Install Xerces
         run: sudo apt-get install libxerces-c-dev
 
-      - name: Install cppcheck
-        run: sudo apt-get install cppcheck
-
-      - name: Run cppcheck
-        run: cppcheck --enable=style --enable=performance ${{github.workspace}}/src
-
       - name: Create Build Directory
         run: cmake -E make_directory ${{github.workspace}}/build
 
@@ -41,8 +35,21 @@ jobs:
         run: make
         working-directory: ${{github.workspace}}/build
 
+  cppcheck:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install cppcheck
+        run: sudo apt-get install cppcheck
+
+      - name: Run cppcheck
+        run: cppcheck --enable=style --enable=performance ${{github.workspace}}/src
+
   testing:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - uses: actions/checkout@v2
 
