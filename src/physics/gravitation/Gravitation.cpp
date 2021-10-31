@@ -17,7 +17,7 @@ void Gravitation::calculateF(ParticleContainer &particleContainer) const {
     const auto &factor = ((i.getM() * j.getM()) / (std::pow(Vector::euclideanNorm(i.getX(), j.getX()), 3)));
     const auto &force = factor * difference;
     i.setF(i.getF() + force);
-    j.setF(i.getF() - force);
+    j.setF(j.getF() - force);
   }
   std::cout << "[GRAVITATION] Ended calculating force" << std::endl;;
 }
