@@ -7,13 +7,13 @@
 
 //---------------------------Constructor---------------------------
 Vector::Vector(double x, double y, double z) : vector{x, y, z} {
-  std::cout << "Vector generated!" << std::endl;
+  //std::cout << "Vector generated!" << std::endl;
 }
 Vector::Vector(std::array<double, 3> &vector) : vector{vector} {
-  std::cout << "Vector generated!" << std::endl;
+  //std::cout << "Vector generated!" << std::endl;
 }
 Vector::~Vector() {
-  std::cout << "Vector destructed!" << std::endl;
+  //std::cout << "Vector destructed!" << std::endl;
 }
 
 //---------------------------Operators---------------------------

@@ -78,7 +78,7 @@ void VTKWriter::plotParticle(const Particle &p) {
 
 void VTKWriter::writeFile(int iteration) {
   std::stringstream strStream;
-  strStream << fileName << "_" << std::setfill('0') << std::setw(4) << iteration << ".vtu";
+  strStream << path << "/" << fileName << "_" << std::setfill('0') << std::setw(4) << iteration << ".vtu";
   std::ofstream file(strStream.str().c_str());
 
   initializeOutput(container.size());
