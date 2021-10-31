@@ -24,18 +24,20 @@ std::list<Particle> &ParticleContainer::getParticles() {
   return particles;
 }
 
-std::list<std::pair<Particle, Particle>> &ParticleContainer::getParticlePairs() {
+std::list<std::pair<Particle &, Particle &>> &ParticleContainer::getParticlePairs() {
   return particlePairs;
 }
 
-void ParticleContainer::addParticle(Particle p) {
-  addParticleToPairs(p);
-  particles.push_back(p);
+void ParticleContainer::addParticle(const Particle& p) {
+  particles.emplace_back(p);
+  addParticleToPairs(particles.back());
 }
 
 void ParticleContainer::addParticleToPairs(Particle &p) {
-  for (const auto &particle: particles) {
-    particlePairs.emplace_back(p, particle);
+  for (auto &particle: particles) {
+    if (&p != &particle) {
+      particlePairs.emplace_back(particle, p);
+    }
   }
 }
 

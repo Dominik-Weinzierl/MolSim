@@ -29,6 +29,24 @@ void performSimulation(OutputWriter &writer, const Physics &physics, ParticleCon
   }
 }
 
+void performSimulationTest(const Physics &physics, ParticleContainer &particleContainer, Argument &arg) {
+  double current_time = start_time;
+  int iteration = 0;
+
+  // for this loop, we assume: current x, current f and current v are known
+  while (current_time < arg.getEndTime()) {
+    // calculate new f
+    physics.calculateF(particleContainer);
+    iteration++;
+    //std::cout << std::endl;
+    for (const auto &p: particleContainer.getParticles()) {
+      std::cout << p.getF() << std::endl;
+    }
+    //std::cout << std::endl;
+    current_time += arg.getDeltaT();
+  }
+}
+
 int main(int argc, char *argv[]) {
   BasicArgumentParser parser{argc, argv};
   ParserStatus status = parser.validateInput();
@@ -45,13 +63,19 @@ int main(int argc, char *argv[]) {
   }
 
   Argument arg = parser.createArgument();
-
   ParticleContainer particleContainer;
+
   Gravitation gravitation;
   VTKWriter writer{"MD_vtk", "output", particleContainer};
   FileReader::readFile(particleContainer, arg.getFileName());
 
   performSimulation(writer, gravitation, particleContainer, arg);
+  //Particle p1{{0, 0, 0}, {1, 1, 1}, 1};
+  //Particle p2{{1, 1, 1}, {1, 1, 1}, 1};
+  //particleContainer.addParticle(p1);
+  //particleContainer.addParticle(p2);
+
+  //performSimulationTest(gravitation, particleContainer, arg);
 
   std::cout << "output written. Terminating..." << std::endl;
 

@@ -9,7 +9,6 @@ class Vector {
   int length = 3;
 
  public:
-  static double euclideanNorm(const Vector &i, const Vector &j);
 
   Vector(double x, double y, double z);
   explicit Vector(std::array<double, 3> &vector);

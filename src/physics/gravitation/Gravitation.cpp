@@ -2,9 +2,10 @@
 #include "physics/vector/Vector.h"
 #include <cmath>
 #include <iostream>
+#include <utils/ArrayUtils.h>
 
 void Gravitation::calculateF(ParticleContainer &particleContainer) const {
-  std::cout << "[GRAVITATION] Started calculating force" << std::endl;
+  //std::cout << "[GRAVITATION] Started calculating force" << std::endl;
   auto &particles = particleContainer.getParticles();
   const Vector zero = Vector(0, 0, 0);
   for (auto &p: particles) {
@@ -13,15 +14,15 @@ void Gravitation::calculateF(ParticleContainer &particleContainer) const {
   }
   auto &pairs = particleContainer.getParticlePairs();
   for (auto&[i, j]: pairs) {
-    if (i == j)
-      break;
-    const auto &difference = (j.getX() - i.getX());
-    const auto &factor = ((i.getM() * j.getM()) / (std::pow(Vector::euclideanNorm(i.getX(), j.getX()), 3)));
-    const auto &force = factor * difference;
+    const auto difference = (j.getX() - i.getX());
+    const auto l2Norm = ArrayUtils::L2Norm(difference);
+    const auto pow = (std::pow((l2Norm), 3));
+    const auto factor = ((i.getM() * j.getM()) / pow);
+    const auto force = factor * difference;
     i.setF(i.getF() + force);
     j.setF(j.getF() - force);
   }
-  std::cout << "[GRAVITATION] Ended calculating force" << std::endl;;
+  //std::cout << "[GRAVITATION] Ended calculating force" << std::endl;;
 }
 
 void Gravitation::calculateV(ParticleContainer &particleContainer, const double deltaT) const {

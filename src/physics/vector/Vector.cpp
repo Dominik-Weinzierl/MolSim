@@ -35,7 +35,7 @@ Vector Vector::operator-(const Vector &other) const {
 };
 
 Vector &Vector::operator-=(const Vector &other) {
-  for (int i = 0; i < length; ++i) {
+  for (auto i = 0; i < length; ++i) {
     vector[i] -= other[i];
   }
   return *this;
@@ -97,13 +97,6 @@ void Vector::setZ(double z) {
 }
 
 //---------------------------Methods---------------------------
-double Vector::euclideanNorm(const Vector &i, const Vector &j) {
-  double sum = 0;
-  for (int t = 0; t < i.length; ++t) {
-    sum += std::pow((i[t] - j[t]), 2);
-  }
-  return std::sqrt(sum);
-}
 
 size_t Vector::size() const {
   return length;
