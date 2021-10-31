@@ -22,7 +22,7 @@ file(GLOB_RECURSE MY_SRC
 add_executable(MolSim ${MY_SRC})
 
 # set cxx standard. You may raise this if you want.
-target_compile_features(MolSim PRIVATE cxx_std_14)
+target_compile_features(MolSim PUBLIC cxx_std_17)
 
 target_include_directories(MolSim PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libs/libxsd)
 target_include_directories(MolSim PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
