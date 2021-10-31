@@ -13,7 +13,7 @@
 class VTKWriter : public OutputWriter {
 
  public:
-  explicit VTKWriter(const std::string &file_name, const ParticleContainer &container);
+  explicit VTKWriter(const std::string &file_name, ParticleContainer &container);
   ~VTKWriter() override;
   void writeFile(int iteration) override;
  private:
