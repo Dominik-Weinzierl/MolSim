@@ -68,7 +68,7 @@ Argument BasicArgumentParser::createArgument() {
 
 void BasicArgumentParser::showUsage() {
   std::stringstream usage;
-  usage << "Usage: " << "./molsym" << std::endl;
+  usage << "Usage: " << "./MolSim" << std::endl;
   usage << "Options:" << std::endl;
   usage << "\t-h,--help\t\tShow this help message" << std::endl;
   usage << "\t-f,--filename\t\tSpecify the input filename" << std::endl;
