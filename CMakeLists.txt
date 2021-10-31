@@ -37,6 +37,13 @@ endif ()
 
 target_compile_options(MolSim PRIVATE $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>)
 
+# Clean additional output files as part of 'make clean'
+set_property(
+        TARGET MolSim
+        APPEND
+        PROPERTY ADDITIONAL_CLEAN_FILES ${CMAKE_CURRENT_BINARY_DIR}/output
+)
+
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
 include(doxygen)
