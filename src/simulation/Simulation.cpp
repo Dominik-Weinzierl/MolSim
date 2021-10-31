@@ -25,7 +25,7 @@ void Simulation::performSimulation(OutputWriter &writer, const Physics &physics,
               << particleContainer.getParticles()[3].getX() << " | Velocity: "
               << particleContainer.getParticles()[3].getV() << std::endl;
 
-    if (iteration % 30 == 0) {
+    if (iteration % 60 == 0) {
       writer.writeFile(iteration);
     }
     std::cout << "Iteration " << iteration << " finished." << std::endl;
