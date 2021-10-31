@@ -12,10 +12,10 @@ class Vector {
   static double euclideanNorm(const Vector &i, const Vector &j);
 
   Vector(double x, double y, double z);
-  Vector(const Vector &other);
   explicit Vector(std::array<double, 3> &vector);
   virtual ~Vector();
 
+  Vector& operator=(const Vector &other);
   Vector operator+(const Vector &other) const;
   Vector &operator+=(const Vector &other);
   Vector operator-(const Vector &other) const;
@@ -34,8 +34,8 @@ class Vector {
 
   [[nodiscard]] std::string toString() const;
 
-  [[nodiscard]] const double *begin() const{ return vector.begin(); }
-  [[nodiscard]] const double *end() const{ return vector.end(); }
+  [[nodiscard]] auto begin() const { return vector.begin(); }
+  [[nodiscard]] auto end() const { return vector.end(); }
   [[nodiscard]] size_t size() const;
 };
 

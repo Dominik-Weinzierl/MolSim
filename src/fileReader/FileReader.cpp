@@ -48,7 +48,7 @@ void FileReader::readFile(ParticleContainer &particleContainer, const std::strin
         exit(-1);
       }
       dataStream >> m;
-      particleContainer.addParticle({Vector(x), Vector(v), m});
+      particleContainer.addParticle(Particle{Vector(x), Vector(v), m});
 
       getline(inputFile, tmpString);
       std::cout << "Read line: " << tmpString << std::endl;

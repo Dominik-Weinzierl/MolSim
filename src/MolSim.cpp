@@ -13,12 +13,12 @@ void performSimulation(OutputWriter &writer, const Physics &physics, ParticleCon
 
   // for this loop, we assume: current x, current f and current v are known
   while (current_time < arg.getEndTime()) {
-    // calculate new x
-    physics.calculateX(particleContainer);
     // calculate new f
     physics.calculateF(particleContainer);
+    // calculate new x
+    physics.calculateX(particleContainer, arg.getDeltaT());
     // calculate new v
-    physics.calculateV(particleContainer);
+    physics.calculateV(particleContainer, arg.getDeltaT());
 
     iteration++;
     if (iteration % 10 == 0) {

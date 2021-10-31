@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        cxx: [ g++, clang++ ]
+        cc: [ gcc, clang ]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Xerces
+        run: sudo apt-get install libxerces-c-dev
+
+      - name: Create Build Directory
+        run: cmake -E make_directory ${{github.workspace}}/build
+
+      - name: Run cmake
+        run: cmake .. -DBUILD_DOCUMENTATION=ON -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}
+        working-directory: ${{github.workspace}}/build
+        env:
+          CC: ${{ matrix.cc }}
+
+      - name: Run make
+        run: make
+        working-directory: ${{github.workspace}}/build
+
+  cppcheck:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install cppcheck
+        run: sudo apt-get install cppcheck
+
+      - name: Run cppcheck
+        run: cppcheck --enable=style --enable=performance ${{github.workspace}}/src
+
+  testing:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install test environement (1/2)
+        run: |
+          sudo apt-get install libxerces-c-dev
+          cmake -E make_directory ${{github.workspace}}/build
+
+      - name: Install test environement (2/2)
+        run: |
+          cmake .. -DBUILD_DOCUMENTATION=ON
+          make
+        working-directory: ${{github.workspace}}/build
+
+      - name: Run CTest
+        run: ctest
