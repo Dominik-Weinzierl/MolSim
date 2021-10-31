@@ -8,17 +8,17 @@ class ParticleContainer {
   std::list<Particle> particles;
   std::list<std::pair<Particle, Particle>> particlePairs;
 
-  void addParticleToPairs(const Particle &p);
+  void addParticleToPairs(Particle &p);
 
  public:
   ParticleContainer();
   virtual ~ParticleContainer();
   explicit ParticleContainer(std::list<Particle> particles);
 
-  void addParticle(const Particle &p);
+  void addParticle(Particle p);
 
-  [[nodiscard]] const std::list<Particle> &getParticles() const;
-  [[nodiscard]] const std::list<std::pair<Particle, Particle>> &getParticlePairs() const;
+  [[nodiscard]] std::list<Particle> &getParticles();
+  [[nodiscard]] std::list<std::pair<Particle, Particle>> &getParticlePairs();
 
   [[nodiscard]] int size() const;
 };

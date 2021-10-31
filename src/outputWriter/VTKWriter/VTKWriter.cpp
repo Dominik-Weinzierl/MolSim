@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string>
 
-VTKWriter::VTKWriter(const std::string &file_name, const ParticleContainer &container) : OutputWriter(file_name,
+VTKWriter::VTKWriter(const std::string &file_name, ParticleContainer &container) : OutputWriter(file_name,
                                                                                                       container) {};
 VTKWriter::~VTKWriter() = default;
 

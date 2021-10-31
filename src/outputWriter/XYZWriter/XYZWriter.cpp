@@ -3,7 +3,7 @@
 #include "particles/ParticleContainer.h"
 #include <iomanip>
 
-XYZWriter::XYZWriter(const std::string &file_name, const ParticleContainer &container) : OutputWriter(file_name,
+XYZWriter::XYZWriter(const std::string &file_name, ParticleContainer &container) : OutputWriter(file_name,
                                                                                                       container) {};
 XYZWriter::~XYZWriter() = default;
 
