@@ -4,7 +4,7 @@
 #include <iostream>
 
 //---------------------------Constructor---------------------------
-ParticleContainer::ParticleContainer(std::list<Particle> particles) : particles{std::move(particles)} {
+ParticleContainer::ParticleContainer(std::vector<Particle> particles) : particles{std::move(particles)} {
   for (auto &particle: particles) {
     addParticleToPairs(particle);
   }
@@ -20,11 +20,11 @@ ParticleContainer::~ParticleContainer() {
 }
 
 //---------------------------Methods---------------------------
-std::list<Particle> &ParticleContainer::getParticles() {
+std::vector<Particle> &ParticleContainer::getParticles() {
   return particles;
 }
 
-std::list<std::pair<Particle &, Particle &>> &ParticleContainer::getParticlePairs() {
+std::vector<std::pair<Particle &, Particle &>> &ParticleContainer::getParticlePairs() {
   return particlePairs;
 }
 
@@ -41,7 +41,7 @@ void ParticleContainer::addParticleToPairs(Particle &p) {
   }
 }
 
-int ParticleContainer::size() const {
+unsigned long ParticleContainer::size() const {
   return particles.size();
 }
 

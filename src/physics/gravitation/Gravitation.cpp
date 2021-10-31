@@ -1,13 +1,13 @@
 #include "Gravitation.h"
-#include "physics/vector/Vector.h"
 #include <cmath>
 #include <iostream>
 #include <utils/ArrayUtils.h>
+#include "physics/vector/Vector.h"
 
 void Gravitation::calculateF(ParticleContainer &particleContainer) const {
   //std::cout << "[GRAVITATION] Started calculating force" << std::endl;
   auto &particles = particleContainer.getParticles();
-  const Vector zero = Vector(0, 0, 0);
+  const Vector zero;
   for (auto &p: particles) {
     p.setOldF(p.getF());
     p.setF(zero);
@@ -26,7 +26,7 @@ void Gravitation::calculateF(ParticleContainer &particleContainer) const {
 }
 
 void Gravitation::calculateV(ParticleContainer &particleContainer, const double deltaT) const {
-  std::cout << "[GRAVITATION] Started calculating velocity" << std::endl;;
+  //std::cout << "[GRAVITATION] Started calculating velocity" << std::endl;;
   auto &particles = particleContainer.getParticles();
   for (auto &p: particles) {
     const auto &oldV = p.getV();
@@ -34,12 +34,12 @@ void Gravitation::calculateV(ParticleContainer &particleContainer, const double 
     const auto &f = p.getF();
     const auto &m = p.getM();
 
-    p.setV(oldV + deltaT * (oldF + f) * (1 / (2 * m)));
+    p.setV(oldV + (deltaT * (oldF + f) / (2 * m)));
   }
-  std::cout << "[GRAVITATION] Ended calculating velocity" << std::endl;;
+  //std::cout << "[GRAVITATION] Ended calculating velocity" << std::endl;;
 }
 void Gravitation::calculateX(ParticleContainer &particleContainer, const double deltaT) const {
-  std::cout << "[GRAVITATION] Started calculating position" << std::endl;
+  //std::cout << "[GRAVITATION] Started calculating position" << std::endl;
   auto &particles = particleContainer.getParticles();
   for (auto &p: particles) {
     const auto &v = p.getV();
@@ -47,7 +47,7 @@ void Gravitation::calculateX(ParticleContainer &particleContainer, const double 
     const auto &oldF = p.getOldF();
     const auto &m = p.getM();
 
-    p.setX(oldX + deltaT * v + (deltaT * deltaT) * (1 / (2 * m)) * oldF);
+    p.setX(oldX + deltaT * v + (deltaT * deltaT) * oldF / (2 * m));
   }
-  std::cout << "[GRAVITATION] Ended calculating position" << std::endl;;
+  //std::cout << "[GRAVITATION] Ended calculating position" << std::endl;;
 }

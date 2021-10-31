@@ -5,10 +5,6 @@
 #include <iostream>
 #include <sstream>
 
-FileReader::FileReader() = default;
-
-FileReader::~FileReader() = default;
-
 void FileReader::readFile(ParticleContainer &particleContainer, const std::string &filename) {
   std::array<double, 3> x{};
   std::array<double, 3> v{};
