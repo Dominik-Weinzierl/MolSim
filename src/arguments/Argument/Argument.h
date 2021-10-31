@@ -5,6 +5,7 @@ class Argument {
   const std::string inputFileName;
   const double end_time;
   const double delta_t;
+  //! Argument stores the arguments for easy access
 
  public:
   Argument(std::string inputFileName, double end_time, double delta_t);

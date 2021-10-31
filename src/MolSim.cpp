@@ -6,6 +6,11 @@
 #include <arguments/Argument/Argument.h>
 #include <arguments/BasicArgumentParser/BasicArgumentParser.h>
 
+/// Performs the simulation
+/// \param writer the way, in which files should be written
+/// \param physics the physics to be used
+/// \param particleContainer the initial particles
+/// \param arg the command line-arguments
 void performSimulation(OutputWriter &writer, const Physics &physics, ParticleContainer &particleContainer,
                        Argument &arg) {
   double current_time = start_time;
