@@ -13,6 +13,8 @@ void Gravitation::calculateF(ParticleContainer &particleContainer) const {
   }
   auto &pairs = particleContainer.getParticlePairs();
   for (auto&[i, j]: pairs) {
+    if (i == j)
+      break;
     const auto &difference = (j.getX() - i.getX());
     const auto &factor = ((i.getM() * j.getM()) / (std::pow(Vector::euclideanNorm(i.getX(), j.getX()), 3)));
     const auto &force = factor * difference;
@@ -41,10 +43,10 @@ void Gravitation::calculateX(ParticleContainer &particleContainer, const double 
   for (auto &p: particles) {
     const auto &v = p.getV();
     const auto &oldX = p.getX();
-    const auto &f = p.getF();
+    const auto &oldF = p.getOldF();
     const auto &m = p.getM();
 
-    p.setX(oldX + deltaT * v + (deltaT * deltaT) * (1 / (2 * m)) * f);
+    p.setX(oldX + deltaT * v + (deltaT * deltaT) * (1 / (2 * m)) * oldF);
   }
   std::cout << "[GRAVITATION] Ended calculating position" << std::endl;;
 }

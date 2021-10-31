@@ -13,10 +13,10 @@ void performSimulation(OutputWriter &writer, const Physics &physics, ParticleCon
 
     // calculate new f
     physics.calculateF(particleContainer);
-    // calculate new v
-    physics.calculateV(particleContainer, delta_t);
     // calculate new x
     physics.calculateX(particleContainer, delta_t);
+    // calculate new v
+    physics.calculateV(particleContainer, delta_t);
 
     iteration++;
     if (iteration % 10 == 0) {
