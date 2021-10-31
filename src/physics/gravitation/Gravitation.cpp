@@ -4,12 +4,20 @@
 #include <iostream>
 
 void Gravitation::calculateF(ParticleContainer &particleContainer) const {
-  std::cout << "[GRAVITATION] Started calculating force" << std::endl;;
-  const auto &pairs = particleContainer.getParticlePairs();
-  for (const auto&[i, j]: pairs) {
+  std::cout << "[GRAVITATION] Started calculating force" << std::endl;
+  auto &particles = particleContainer.getParticles();
+  const Vector zero = Vector(0, 0, 0);
+  for (auto &p: particles) {
+    p.setOldF(p.getF());
+    p.setF(zero);
+  }
+  auto &pairs = particleContainer.getParticlePairs();
+  for (auto&[i, j]: pairs) {
     const auto &difference = (j.getX() - i.getX());
     const auto &factor = ((i.getM() * j.getM()) / (std::pow(Vector::euclideanNorm(i.getX(), j.getX()), 3)));
     const auto &force = factor * difference;
+    i.setF(i.getF() + force);
+    j.setF(i.getF() - force);
   }
   std::cout << "[GRAVITATION] Ended calculating force" << std::endl;;
 }
