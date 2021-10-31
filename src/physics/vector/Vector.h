@@ -34,8 +34,8 @@ class Vector {
 
   [[nodiscard]] std::string toString() const;
 
-  [[nodiscard]] const double *begin() const{ return vector.begin(); }
-  [[nodiscard]] const double *end() const{ return vector.end(); }
+  [[nodiscard]] auto begin() const { return vector.begin(); }
+  [[nodiscard]] auto end() const { return vector.end(); }
   [[nodiscard]] size_t size() const;
 };
 

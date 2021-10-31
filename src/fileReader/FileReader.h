@@ -1,8 +1,7 @@
 #pragma once
 
-#include "particles/ParticleContainer.h"
-
 #include <list>
+#include <particles/ParticleContainer.h>
 
 class FileReader {
 
