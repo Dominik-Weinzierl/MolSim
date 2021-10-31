@@ -29,7 +29,7 @@ class Particle {
   /**
    * Mass of this particle
    */
-  double m{};
+  double m;
 
   /**
    * Type of the particle. Use it for whatever you want (e.g. to separate

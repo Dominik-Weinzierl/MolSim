@@ -38,6 +38,7 @@ void Gravitation::calculateV(ParticleContainer &particleContainer, const double 
   }
   std::cout << "[GRAVITATION] Ended calculating velocity" << std::endl;;
 }
+
 void Gravitation::calculateX(ParticleContainer &particleContainer, const double deltaT) const {
   std::cout << "[GRAVITATION] Started calculating position" << std::endl;
   auto &particles = particleContainer.getParticles();

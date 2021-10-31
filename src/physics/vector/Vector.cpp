@@ -18,7 +18,7 @@ Vector::~Vector() {
 
 //---------------------------Operators---------------------------
 Vector Vector::operator+(const Vector &other) const {
-  auto vec = ArrayUtils::elementWisePairOp(vector, other.vector, std::plus<>());
+  auto vec = ArrayUtils::elementWisePairOp(vector, other.vector, std::plus());
   return Vector(vec);
 }
 
@@ -30,7 +30,7 @@ Vector &Vector::operator+=(const Vector &other) {
 };
 
 Vector Vector::operator-(const Vector &other) const {
-  auto vec = ArrayUtils::elementWisePairOp(vector, other.vector, std::minus<>());
+  auto vec = ArrayUtils::elementWisePairOp(vector, other.vector, std::minus());
   return Vector(vec);
 };
 
