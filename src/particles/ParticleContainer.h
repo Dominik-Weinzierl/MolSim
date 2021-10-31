@@ -7,9 +7,6 @@
 class ParticleContainer {
  private:
   std::vector<Particle> particles;
-  std::vector<std::pair<Particle &, Particle &>> particlePairs;
-
-  void addParticleToPairs(Particle &p);
 
  public:
   ParticleContainer();
@@ -25,7 +22,9 @@ class ParticleContainer {
   void addParticle(const Particle &p);
 
   [[nodiscard]] std::vector<Particle> &getParticles();
-  [[nodiscard]] std::vector<std::pair<Particle &, Particle &>> &getParticlePairs();
 
   [[nodiscard]] unsigned long size() const;
+
+  [[nodiscard]] auto begin() { return particles.begin(); }
+  [[nodiscard]] auto end() { return particles.end(); }
 };
