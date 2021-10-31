@@ -6,7 +6,7 @@
 class ParticleContainer {
  private:
   std::list<Particle> particles;
-  std::list<std::pair<Particle, Particle>> particlePairs;
+  std::list<std::pair<Particle&, Particle&>> particlePairs;
 
   void addParticleToPairs(Particle &p);
 
@@ -15,10 +15,10 @@ class ParticleContainer {
   virtual ~ParticleContainer();
   explicit ParticleContainer(std::list<Particle> particles);
 
-  void addParticle(Particle p);
+  void addParticle(const Particle& p);
 
   [[nodiscard]] std::list<Particle> &getParticles();
-  [[nodiscard]] std::list<std::pair<Particle, Particle>> &getParticlePairs();
+  [[nodiscard]] std::list<std::pair<Particle&, Particle&>> &getParticlePairs();
 
   [[nodiscard]] int size() const;
 };
