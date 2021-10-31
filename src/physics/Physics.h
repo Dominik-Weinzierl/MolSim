@@ -12,14 +12,14 @@ class Physics {
   /**
   * calculate the force for all particles
   */
-  virtual void calculateF(const ParticleContainer &particleContainer) const = 0;
+  virtual void calculateF(ParticleContainer &particleContainer) const = 0;
 
   /**
   * calculate the position for all particles
   */
-  virtual void calculateX(const ParticleContainer &particleContainer) const = 0;
+  virtual void calculateX(ParticleContainer &particleContainer, double deltaT) const = 0;
   /**
   * calculate the velocity for all particles
   */
-  virtual void calculateV(const ParticleContainer &particleContainer) const = 0;
+  virtual void calculateV(ParticleContainer &particleContainer, double deltaT) const = 0;
 };

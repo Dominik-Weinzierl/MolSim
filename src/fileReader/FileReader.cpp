@@ -9,7 +9,7 @@ FileReader::FileReader() = default;
 
 FileReader::~FileReader() = default;
 
-void FileReader::readFile(ParticleContainer &particleContainer, char *filename) {
+void FileReader::readFile(ParticleContainer &particleContainer, const std::string &filename) {
   std::array<double, 3> x{};
   std::array<double, 3> v{};
   double m;
@@ -44,13 +44,11 @@ void FileReader::readFile(ParticleContainer &particleContainer, char *filename) 
         dataStream >> vj;
       }
       if (dataStream.eof()) {
-        std::cout
-            << "Error reading file: eof reached unexpectedly reading from line "
-            << i << std::endl;
+        std::cout << "Error reading file: eof reached unexpectedly reading from line " << i << std::endl;
         exit(-1);
       }
       dataStream >> m;
-      particleContainer.addParticle({Vector(x), Vector(v), m});
+      particleContainer.addParticle(Particle{Vector(x), Vector(v), m});
 
       getline(inputFile, tmpString);
       std::cout << "Read line: " << tmpString << std::endl;
