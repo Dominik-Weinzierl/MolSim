@@ -3,7 +3,6 @@
 #include <iostream>
 #include "Vector.h"
 #include "utils/ArrayUtils.h"
-#include <algorithm>
 
 //---------------------------Constructor---------------------------
 Vector::Vector(double x, double y, double z) : vector{x, y, z} {}
@@ -52,7 +51,7 @@ Vector operator*(const double &rhs, Vector lhs) {
 };
 
 Vector &Vector::operator*=(double d) {
-  std::transform(this->begin(), this->end(), this->begin(), [d](auto v) {
+  std::transform(this->begin(), this->end(), this->begin(), [&](auto v) {
     return v * d;
   });
   return *this;
@@ -64,7 +63,7 @@ Vector operator/(Vector lhs, const double &rhs) {
 }
 
 Vector &Vector::operator/=(double d) {
-  std::transform(this->begin(), this->end(), this->begin(), [d](auto v) {
+  std::transform(this->begin(), this->end(), this->begin(), [&](auto v) {
     return v / d;
   });
   return *this;
