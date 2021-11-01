@@ -6,6 +6,7 @@
 #include <arguments/Argument/Argument.h>
 #include <arguments/BasicArgumentParser/BasicArgumentParser.h>
 
+//! Simulation class which contains a start time and a method to run a simulation
 class Simulation {
  protected:
   static constexpr double start_time = 0;

@@ -12,9 +12,13 @@ void Gravitation::calculateF(ParticleContainer &particleContainer) const {
     p.setF(zero);
   }
   for (auto i = particleContainer.begin(); i != particleContainer.end(); ++i) {
-    for (auto j = i; ++j != particleContainer.end();) {
+    for (auto j = i + 1; j != particleContainer.end(); ++j) {
+      Vector force = (j->getX() - i->getX());
+
       const auto l2Norm = ArrayUtils::L2Norm(i->getX() - j->getX());
-      const auto force = ((i->getM() * j->getM()) / std::pow(l2Norm, 3.0)) * (j->getX() - i->getX());
+      const auto factor = ((i->getM() * j->getM()) / std::pow(l2Norm, 3));
+
+      force *= factor;
 
       i->setF(i->getF() + force);
       j->setF(j->getF() - force);
@@ -26,24 +30,37 @@ void Gravitation::calculateF(ParticleContainer &particleContainer) const {
 void Gravitation::calculateV(ParticleContainer &particleContainer, const double deltaT) const {
   //std::cout << "[GRAVITATION] Started calculating velocity" << std::endl;;
   for (auto &p: particleContainer) {
+    Vector velocity;
     const auto &oldV = p.getV();
     const auto &oldF = p.getOldF();
     const auto &f = p.getF();
     const auto &m = p.getM();
 
-    p.setV(oldV + deltaT * ((oldF + f) / (2 * m)));
+    const auto forceAddition = (oldF + f);
+
+    velocity += oldV;
+    velocity += deltaT * (forceAddition / (2 * m));
+
+    p.setV(velocity);
   }
   //std::cout << "[GRAVITATION] Ended calculating velocity" << std::endl;;
 }
 void Gravitation::calculateX(ParticleContainer &particleContainer, const double deltaT) const {
   //std::cout << "[GRAVITATION] Started calculating position" << std::endl;
+  const auto deltaTPow = deltaT * deltaT;
+
   for (auto &p: particleContainer) {
+    Vector position;
     const auto &v = p.getV();
     const auto &oldX = p.getX();
-    const auto &oldF = p.getOldF();
+    const auto &F = p.getF();
     const auto &m = p.getM();
 
-    p.setX(oldX + deltaT * v + (deltaT * deltaT) * (oldF / (2 * m)));
+    position += oldX;
+    position += deltaT * v;
+    position += deltaTPow * (F / (2 * m));
+
+    p.setX(position);
   }
   //std::cout << "[GRAVITATION] Ended calculating position" << std::endl;;
 }

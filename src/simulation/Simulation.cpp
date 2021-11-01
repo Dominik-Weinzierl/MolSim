@@ -12,10 +12,10 @@ void Simulation::performSimulation(OutputWriter &writer, const Physics &physics,
 
   // for this loop, we assume: current x, current f and current v are known
   while (current_time < arg.getEndTime()) {
-    // calculate new f
-    physics.calculateF(particleContainer);
     // calculate new x
     physics.calculateX(particleContainer, arg.getDeltaT());
+    // calculate new f
+    physics.calculateF(particleContainer);
     // calculate new v
     physics.calculateV(particleContainer, arg.getDeltaT());
 
