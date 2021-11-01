@@ -11,10 +11,6 @@ BasicArgumentParser::BasicArgumentParser(int argc, char *arguments[]) {
   std::cout << "BasicArgumentParser generated!" << std::endl;
 }
 
-BasicArgumentParser::~BasicArgumentParser() {
-  std::cout << "BasicArgumentParser destructed!" << std::endl;
-}
-
 //---------------------------Methods---------------------------
 ParserStatus BasicArgumentParser::validateInput() {
   if ((argumentOptionIsAvailable("-h") || argumentOptionIsAvailable("--help")) && tokens.size() == 1) {

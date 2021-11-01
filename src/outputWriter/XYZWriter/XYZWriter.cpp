@@ -5,7 +5,6 @@
 
 XYZWriter::XYZWriter(const std::string &file_name, const std::string &path, ParticleContainer &container)
     : OutputWriter(file_name, path, container) {};
-XYZWriter::~XYZWriter() = default;
 
 void XYZWriter::plotParticles(int iteration) {
   auto particles = container.getParticles();
