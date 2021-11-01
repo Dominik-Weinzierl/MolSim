@@ -13,11 +13,8 @@ void Gravitation::calculateF(ParticleContainer &particleContainer) const {
   }
   for (auto i = particleContainer.begin(); i != particleContainer.end(); ++i) {
     for (auto j = i; ++j != particleContainer.end();) {
-      const auto difference = (j->getX() - i->getX());
-      const auto l2Norm = ArrayUtils::L2Norm(difference);
-      const auto pow = (std::pow((l2Norm), 3));
-      const auto factor = ((i->getM() * j->getM()) / pow);
-      const auto force = factor * difference;
+      const auto l2Norm = ArrayUtils::L2Norm(i->getX() - j->getX());
+      const auto force = ((i->getM() * j->getM()) / std::pow(l2Norm, 3.0)) * (j->getX() - i->getX());
 
       i->setF(i->getF() + force);
       j->setF(j->getF() - force);
