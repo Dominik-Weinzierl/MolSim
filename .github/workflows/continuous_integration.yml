@@ -13,8 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        cxx: [ g++, clang++ ]
-        cc: [ gcc, clang ]
+        cxx: [ clang++ ]
+        cc: [ clang ]
 
     steps:
       - uses: actions/checkout@v2
