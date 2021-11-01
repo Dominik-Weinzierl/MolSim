@@ -6,7 +6,6 @@ class Physics {
  private:
 
  public:
-  Physics() = default;
   virtual ~Physics() = default;
 
   //! calculates and updates the force for all particles in the specified container
