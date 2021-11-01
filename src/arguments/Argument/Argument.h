@@ -9,7 +9,6 @@ class Argument {
 
  public:
   Argument(std::string inputFileName, double end_time, double delta_t);
-  ~Argument();
 
   [[nodiscard]] double getEndTime() const;
   [[nodiscard]] double getDeltaT() const;

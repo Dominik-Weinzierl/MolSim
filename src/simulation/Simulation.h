@@ -2,7 +2,7 @@
 
 #include "outputWriter/VTKWriter/VTKWriter.h"
 #include <iostream>
-#include <physics/gravitation/Gravitation.h>
+#include <physics/Gravitation/Gravitation.h>
 #include <arguments/Argument/Argument.h>
 #include <arguments/BasicArgumentParser/BasicArgumentParser.h>
 

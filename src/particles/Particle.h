@@ -1,40 +1,27 @@
 #pragma once
 
 #include <string>
-#include "physics/vector/Vector.h"
+#include "physics/Vector/Vector.h"
 
 class Particle {
-
  private:
-  /**
-   * Position of the particle
-   */
+  //! Position of the particle
   Vector x;
 
-  /**
-   * Velocity of the particle
-   */
+  //! Velocity of the particle
   Vector v;
 
-  /**
-   * Force effective on this particle
-   */
+  //! Force effective on this particle
   Vector f;
 
-  /**
-   * Force which was effective on this particle
-   */
+  //! Force which was effective on this particle
   Vector old_f;
 
-  /**
-   * Mass of this particle
-   */
+  //! Mass of this particle
   double m{};
 
-  /**
-   * Type of the particle. Use it for whatever you want (e.g. to separate
-   * molecules belonging to different bodies, matters, and so on)
-   */
+  //! Type of the particle. Use it for whatever you want (e.g. to separate
+  //! molecules belonging to different bodies, matters, and so on)
   int type;
 
  public:

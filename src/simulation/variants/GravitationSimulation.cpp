@@ -1,7 +1,3 @@
-//
-// Created by domi on 31/10/2021.
-//
-
 #include "GravitationSimulation.h"
 
 void GravitationSimulation::performSimulation(Argument &arg, OutputWriter &writer,

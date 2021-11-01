@@ -78,7 +78,7 @@ bool Vector::operator==(const Vector &other) const {
 }
 
 //---------------------------Getter & Setter---------------------------
-const std::array<double, 3> &Vector::getVector() const {
+const std::array<double, 3> &Vector::get() const {
   return vector;
 };
 

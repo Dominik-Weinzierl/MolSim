@@ -15,8 +15,7 @@ class BasicArgumentParser : public ArgumentParser {
   [[nodiscard]] bool argumentOptionIsAvailable(const std::string &option) const;
 
  public:
-  explicit BasicArgumentParser(int argc_1, char *arguments_1[]);
-  ~BasicArgumentParser() override;
+  explicit BasicArgumentParser(int argc, char *arguments[]);
   void showUsage() override;
   ParserStatus validateInput() override;
   Argument createArgument() override;

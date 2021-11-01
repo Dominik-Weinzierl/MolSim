@@ -30,7 +30,7 @@ class Vector {
   friend Vector operator/(Vector lhs, const double &rhs);
   friend std::ostream &operator<<(std::ostream &stream, const Vector &v);
 
-  [[nodiscard]] const std::array<double, 3> &getVector() const;
+  [[nodiscard]] const std::array<double, 3> &get() const;
 
   [[nodiscard]] std::string toString() const;
 

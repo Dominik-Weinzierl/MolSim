@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <utils/ArrayUtils.h>
-#include "physics/vector/Vector.h"
+#include "physics/Vector/Vector.h"
 
 void Gravitation::calculateF(ParticleContainer &particleContainer) const {
   //std::cout << "[GRAVITATION] Started calculating force" << std::endl;
