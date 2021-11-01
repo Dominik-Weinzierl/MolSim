@@ -1,13 +1,14 @@
 #include "FileReader.h"
 
+#include "physics/Vector/Vector.h"
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 
 void FileReader::readFile(ParticleContainer &particleContainer, const std::string &filename) {
-  std::array<double, 3> x{};
-  std::array<double, 3> v{};
+  Vector x;
+  Vector v;
   double m;
   int numParticles = 0;
 
@@ -44,7 +45,7 @@ void FileReader::readFile(ParticleContainer &particleContainer, const std::strin
         exit(-1);
       }
       dataStream >> m;
-      particleContainer.addParticle(Particle{Vector(x), Vector(v), m});
+      particleContainer.addParticle({x, v, m});
 
       getline(inputFile, tmpString);
       std::cout << "Read line: " << tmpString << std::endl;
