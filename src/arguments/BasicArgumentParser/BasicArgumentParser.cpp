@@ -11,10 +11,6 @@ BasicArgumentParser::BasicArgumentParser(int argc, char *arguments[]) {
   std::cout << "BasicArgumentParser generated!" << std::endl;
 }
 
-BasicArgumentParser::~BasicArgumentParser() {
-  std::cout << "BasicArgumentParser destructed!" << std::endl;
-}
-
 //---------------------------Methods---------------------------
 ParserStatus BasicArgumentParser::validateInput() {
   if ((argumentOptionIsAvailable("-h") || argumentOptionIsAvailable("--help")) && tokens.size() == 1) {
@@ -68,10 +64,10 @@ Argument BasicArgumentParser::createArgument() {
 
 void BasicArgumentParser::showUsage() {
   std::stringstream usage;
-  usage << "Usage: " << "./molsym" << std::endl;
+  usage << "Usage: " << "./MolSim" << std::endl;
   usage << "Options:" << std::endl;
   usage << "\t-h,--help\t\tShow this help message" << std::endl;
-  usage << "\t-f,--filename\t\tSpecify the end time of this simulation" << std::endl;
+  usage << "\t-f,--filename\t\tSpecify the input filename" << std::endl;
   usage << "\t-t,--t_end\t\tSpecify the end time of this simulation" << std::endl;
   usage << "\t-d,--delta_t\t\tSpecify the time steps per calculation" << std::endl;
   std::cout << usage.str();

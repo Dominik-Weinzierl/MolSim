@@ -14,7 +14,6 @@ class VTKWriter : public OutputWriter {
 
  public:
   explicit VTKWriter(const std::string &file_name, const std::string &path, ParticleContainer &container);
-  ~VTKWriter() override;
   void writeFile(int iteration) override;
  private:
   void initializeOutput(int numParticles);

@@ -4,14 +4,11 @@
 #include <iostream>
 
 //---------------------------Constructor---------------------------
-ParticleContainer::ParticleContainer(std::list<Particle> particles) : particles{std::move(particles)} {
-  for (auto &particle: particles) {
-    addParticleToPairs(particle);
-  }
+ParticleContainer::ParticleContainer(std::vector<Particle> particles) : particles{std::move(particles)} {
   std::cout << "ParticleContainer generated!" << std::endl;
 }
 
-ParticleContainer::ParticleContainer() : particles{}, particlePairs{} {
+ParticleContainer::ParticleContainer() : particles{} {
   std::cout << "ParticleContainer generated!" << std::endl;
 }
 
@@ -20,28 +17,15 @@ ParticleContainer::~ParticleContainer() {
 }
 
 //---------------------------Methods---------------------------
-std::list<Particle> &ParticleContainer::getParticles() {
+std::vector<Particle> &ParticleContainer::getParticles() {
   return particles;
-}
-
-std::list<std::pair<Particle &, Particle &>> &ParticleContainer::getParticlePairs() {
-  return particlePairs;
 }
 
 void ParticleContainer::addParticle(const Particle& p) {
   particles.emplace_back(p);
-  addParticleToPairs(particles.back());
 }
 
-void ParticleContainer::addParticleToPairs(Particle &p) {
-  for (auto &particle: particles) {
-    if (&p != &particle) {
-      particlePairs.emplace_back(particle, p);
-    }
-  }
-}
-
-int ParticleContainer::size() const {
+unsigned long ParticleContainer::size() const {
   return particles.size();
 }
 

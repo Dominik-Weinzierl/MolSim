@@ -1,24 +1,30 @@
 #pragma once
 
 #include "Particle.h"
-#include <list>
+#include <vector>
 
+//! a container for particles that provides functions to iterate over single particles and a vector of (unique) pairs.
 class ParticleContainer {
  private:
-  std::list<Particle> particles;
-  std::list<std::pair<Particle&, Particle&>> particlePairs;
-
-  void addParticleToPairs(Particle &p);
+  std::vector<Particle> particles;
 
  public:
   ParticleContainer();
   virtual ~ParticleContainer();
-  explicit ParticleContainer(std::list<Particle> particles);
 
-  void addParticle(const Particle& p);
+  //! Constructs a ParticleContainer from the provided vector of particles
+  //! \param particles
+  explicit ParticleContainer(std::vector<Particle> particles);
+  ParticleContainer(const ParticleContainer &particleContainer) = default;
 
-  [[nodiscard]] std::list<Particle> &getParticles();
-  [[nodiscard]] std::list<std::pair<Particle&, Particle&>> &getParticlePairs();
+  //! Adds the particle to the ParticleContainer
+  //! \param p the particle to be added
+  void addParticle(const Particle &p);
 
-  [[nodiscard]] int size() const;
+  [[nodiscard]] std::vector<Particle> &getParticles();
+
+  [[nodiscard]] unsigned long size() const;
+
+  [[nodiscard]] auto begin() { return particles.begin(); }
+  [[nodiscard]] auto end() { return particles.end(); }
 };
