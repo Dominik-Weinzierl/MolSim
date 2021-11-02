@@ -13,7 +13,7 @@ class XYZWriter : public OutputWriter {
   void writeFile(int iteration) override;
 
  private:
-  void plotParticles(int iteration);
+  void plotParticles();
   std::ofstream file;
   std::stringstream strStream;
 };

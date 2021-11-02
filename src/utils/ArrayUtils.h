@@ -172,7 +172,7 @@ inline Container elementWiseScalarOp(const Scalar &lhs, const Container &rhs,
  */
 template<class Container>
 auto L2Norm(const Container &c) {
-  return std::sqrt(std::accumulate(std::cbegin(c), std::cend(c), 0.0,
+  return std::sqrt(std::accumulate(std::begin(c), std::end(c), 0.0,
                                    [](auto a, auto b) { return a + b * b; }));
 }
 } // namespace ArrayUtils
