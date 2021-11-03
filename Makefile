@@ -13,7 +13,7 @@ build_with_doc: create_folder
 	$(CMAKE) -S$(SOURCE) -B$(OUTPUT) -D BUILD_DOCUMENTATION=ON -D CMAKE_C_COMPILER=$(CC)  -D CMAKE_CXX_COMPILER=$(CXX)
 
 create_folder:
-	@if [ -d "./build" ]; then rm -rf ./build; fi
+	@if [ -d "$(OUTPUT)" ]; then rm -rf $(OUTPUT); fi
 	@mkdir $(OUTPUT)
 	@echo "Build folder created -> $(OUTPUT)";
 
