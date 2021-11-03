@@ -4,6 +4,7 @@
 
 #pragma once
 
+//! OutputWriter is an extendable file writer for simulation states
 class OutputWriter {
  public:
   OutputWriter(std::string fileName, std::string path, ParticleContainer &container);

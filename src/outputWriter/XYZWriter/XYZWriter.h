@@ -7,6 +7,7 @@
 #include <list>
 #include <sstream>
 
+//! XYZWriter writes files based on the XYZ file format
 class XYZWriter : public OutputWriter {
  public:
   explicit XYZWriter(const std::string &file_name, const std::string &path, ParticleContainer &container);

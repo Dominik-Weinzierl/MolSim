@@ -2,6 +2,8 @@
 
 #include "particles/ParticleContainer.h"
 
+//! Physics is an abstract class which provides methods to calculate the next simulation step.
+//! Based on the template method pattern.
 class Physics {
  protected:
   const Vector ZERO{};
