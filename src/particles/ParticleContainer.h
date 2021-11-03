@@ -3,7 +3,7 @@
 #include "Particle.h"
 #include <vector>
 
-//! a container for particles that provides functions to iterate over single particles and a vector of (unique) pairs.
+//! ParticleContainer is a container for particles that provides functions to iterate over single particles and pairs.
 class ParticleContainer {
  private:
   std::vector<Particle> particles;

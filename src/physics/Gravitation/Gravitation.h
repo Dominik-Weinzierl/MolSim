@@ -5,7 +5,7 @@
 //! The Gravitation class is a subclass of Physics and therefore implements the calculation methods
 //! for the active force, position and velocity of all particles in the particleContainer
 class Gravitation : public Physics {
- public:
+ protected:
   //! Calculates the position via the Velocity-Strömer-Verlet-Algorithm given
   //! in the meeting for worksheet 1
   void calculateX(ParticleContainer &particleContainer, double deltaT) const override;
@@ -15,4 +15,7 @@ class Gravitation : public Physics {
   //! Calculates the velocity via the Velocity-Strömer-Verlet-Algorithm given
   //! in the meeting for worksheet 1
   void calculateV(ParticleContainer &particleContainer, double deltaT) const override;
+
+ public:
+  void calculateNextStep(ParticleContainer &particleContainer, double deltaT) const override;
 };

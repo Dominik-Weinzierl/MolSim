@@ -6,10 +6,7 @@
 
 #include <list>
 
-/**
- * This class implements the functionality to generate vtk output from
- * particles.
- */
+//! VTKWriter writes files based on the VTK file format
 class VTKWriter : public OutputWriter {
 
  public:

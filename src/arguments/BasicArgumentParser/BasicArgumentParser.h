@@ -4,6 +4,7 @@
 #include <optional>
 #include <vector>
 
+//! BasicArgumentParser is a parser for arguments via commandline
 class BasicArgumentParser : public ArgumentParser {
  private:
   std::vector<std::string> tokens;
