@@ -11,30 +11,24 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        cxx: [ clang++ ]
-        cc: [ clang ]
-
     steps:
       - uses: actions/checkout@v2
 
       - name: Install Xerces
         run: sudo apt-get install libxerces-c-dev
 
-      - name: Create Build Directory
-        run: cmake -E make_directory ${{github.workspace}}/build
-
-      - name: Run cmake
-        run: cmake .. -DBUILD_DOCUMENTATION=ON
-        working-directory: ${{github.workspace}}/build
+      - name: Use makefile to prepare and run cmake
+        run: make
         env:
-          CC: ${{ matrix.cc }}
-          CXX: ${{ matrix.cxx }}
+          CC: clang
+          CXX: clang++
 
       - name: Run make
         run: make
         working-directory: ${{github.workspace}}/build
+
+      - name: Run make clean to remove build folder
+        run: make clean
 
   cppcheck:
     runs-on: ubuntu-latest

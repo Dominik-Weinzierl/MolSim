@@ -20,7 +20,3 @@ create_folder:
 clean:
 	@rm -rf $(OUTPUT)
 	@echo "Build folder removed!";
-
-
-
-
