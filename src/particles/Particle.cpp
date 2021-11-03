@@ -59,7 +59,7 @@ void Particle::updateForce(const Vector &force) {
   f += force;
 }
 
-std::ostream &operator<<(std::ostream &stream, Particle &p) {
+std::ostream &operator<<(std::ostream &stream, const Particle &p) {
   stream << p.toString();
   return stream;
 }
