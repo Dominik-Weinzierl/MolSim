@@ -3,8 +3,8 @@
 #include "particles/ParticleContainer.h"
 
 class Physics {
- private:
-
+ protected:
+  const Vector ZERO{};
  public:
   virtual ~Physics() = default;
 

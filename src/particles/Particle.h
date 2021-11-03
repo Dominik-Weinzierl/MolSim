@@ -52,6 +52,8 @@ class Particle {
   void setF(const Vector &force);
   void setOldF(const Vector &oldForce);
 
+  void updateForce(const Vector &force);
+
   //! Operator which allows the comparison of the particle to a given particle
   bool operator==(Particle &other);
 

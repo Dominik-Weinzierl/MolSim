@@ -5,9 +5,21 @@
 #include "utils/ArrayUtils.h"
 
 //---------------------------Constructor---------------------------
-Vector::Vector(double x, double y, double z) : vector{x, y, z} {}
-Vector::Vector(std::array<double, 3> &vector) : vector{vector} {}
-Vector::Vector() : vector({0, 0, 0}) {}
+Vector::Vector(double x, double y, double z) : vector{x, y, z} {
+  // std::cout << "Vector constructed!" << std::endl;
+}
+
+Vector::Vector(std::array<double, 3> &vector) : vector{vector} {
+  // std::cout << "Vector constructed!" << std::endl;
+}
+
+Vector::Vector() : vector({0, 0, 0}) {
+  // std::cout << "Vector constructed!" << std::endl;
+}
+
+Vector::~Vector() {
+  // std::cout << "Vector destructed!" << std::endl;
+}
 
 //---------------------------Operators---------------------------
 Vector &Vector::operator+=(const Vector &other) {
@@ -33,6 +45,13 @@ Vector operator-(Vector lhs, const Vector &rhs) {
   lhs -= rhs;
   return lhs;
 };
+
+Vector &Vector::operator-() {
+  std::transform(begin(), end(), begin(), [](auto l) {
+    return -l;
+  });
+  return *this;
+}
 
 // Scalar product
 double Vector::operator*(const Vector &other) const {
@@ -67,6 +86,10 @@ Vector &Vector::operator/=(double d) {
     return v / d;
   });
   return *this;
+};
+
+double &Vector::operator[](unsigned long i) {
+  return vector[i];
 };
 
 double Vector::operator[](unsigned long i) const {

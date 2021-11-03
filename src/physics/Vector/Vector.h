@@ -9,23 +9,24 @@ class Vector {
   //! Defines a double-array of length 3 called vector
   std::array<double, 3> vector{};
  public:
-
   Vector(double x, double y, double z);
   Vector(const Vector &other) = default;
   Vector();
   explicit Vector(std::array<double, 3> &vector);
-  virtual ~Vector() = default;
+  virtual ~Vector();
 
   //! Operators that allow basic arithmetic operations on vectors and the setting of members
   Vector &operator=(const Vector &other) = default;
   Vector &operator+=(const Vector &other);
   Vector &operator-=(const Vector &other);
+  Vector &operator-();
   //! Scalar multiplication
   Vector &operator*=(double d);
   Vector &operator/=(double d);
   //! Cross Product
   double operator*(const Vector &other) const;
   //! Member access
+  double &operator[](unsigned long i);
   double operator[](unsigned long i) const;
   //! Comparision
   bool operator==(const Vector &other) const;
