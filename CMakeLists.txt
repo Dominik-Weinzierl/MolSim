@@ -3,6 +3,11 @@ cmake_minimum_required(VERSION 3.10)
 # define project name, version
 project(PSEMolDyn_GroupA)
 
+# prevent in-source builds
+if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
+  message(FATAL_ERROR "In-source builds are not allowed. Please create a separate build directory.")
+endif()
+
 # let ccmake and cmake-gui offer the default build type options
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug;Release;RelWithDebInfo;MinSizeRel")
 
@@ -22,7 +27,7 @@ file(GLOB_RECURSE MY_SRC
 add_executable(MolSim ${MY_SRC})
 
 # set cxx standard. You may raise this if you want.
-target_compile_features(MolSim PUBLIC cxx_std_17)
+target_compile_features(MolSim PUBLIC cxx_std_20)
 
 target_include_directories(MolSim SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libs/libxsd)
 target_include_directories(MolSim PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
