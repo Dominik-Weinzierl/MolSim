@@ -21,10 +21,6 @@ void Simulation::performSimulation(OutputWriter &writer, const Physics &physics,
 
     iteration++;
 
-    std::cout << "Force: " << particleContainer.getParticles()[3].getF() << " | Position: "
-              << particleContainer.getParticles()[3].getX() << " | Velocity: "
-              << particleContainer.getParticles()[3].getV() << std::endl;
-
     if (iteration % 60 == 0) {
       writer.writeFile(iteration);
     }
