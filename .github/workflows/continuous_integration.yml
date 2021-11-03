@@ -26,10 +26,11 @@ jobs:
         run: cmake -E make_directory ${{github.workspace}}/build
 
       - name: Run cmake
-        run: cmake .. -DBUILD_DOCUMENTATION=ON -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}
+        run: cmake .. -DBUILD_DOCUMENTATION=ON
         working-directory: ${{github.workspace}}/build
         env:
           CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx }}
 
       - name: Run make
         run: make
@@ -63,6 +64,9 @@ jobs:
           cmake .. -DBUILD_DOCUMENTATION=ON
           make
         working-directory: ${{github.workspace}}/build
+        env:
+          CC: clang
+          CXX: clang++
 
       - name: Run CTest
         run: ctest

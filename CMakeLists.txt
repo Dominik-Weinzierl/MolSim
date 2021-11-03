@@ -24,24 +24,19 @@ add_executable(MolSim ${MY_SRC})
 # set cxx standard. You may raise this if you want.
 target_compile_features(MolSim PUBLIC cxx_std_17)
 
-target_include_directories(MolSim PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libs/libxsd)
+target_include_directories(MolSim SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libs/libxsd)
 target_include_directories(MolSim PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 target_link_libraries(MolSim PUBLIC xerces-c)
 
-# activate all compiler warnings. Clean up your code :P
-# depending on the compiler different flags are used
-if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
-  target_compile_options(MolSim PRIVATE -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wold-style-cast -Wpedantic -Wconversion)
-endif ()
-
-target_compile_options(MolSim PRIVATE $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>)
+# activate all compiler warnings
+target_compile_options(MolSim PRIVATE -W -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wold-style-cast -Wpedantic -Wconversion -Werror -Wdouble-promotion)
 
 # Clean additional output files as part of 'make clean'
 set_property(
-        TARGET MolSim
-        APPEND
-        PROPERTY ADDITIONAL_CLEAN_FILES ${CMAKE_CURRENT_BINARY_DIR}/output
+    TARGET MolSim
+    APPEND
+    PROPERTY ADDITIONAL_CLEAN_FILES ${CMAKE_CURRENT_BINARY_DIR}/output
 )
 
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
