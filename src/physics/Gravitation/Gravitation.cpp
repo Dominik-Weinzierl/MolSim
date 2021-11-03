@@ -51,3 +51,12 @@ void Gravitation::calculateX(ParticleContainer &particleContainer, const double 
   }
   //std::cout << "[GRAVITATION] Ended calculating position" << std::endl;;
 }
+
+void Gravitation::calculateNextStep(ParticleContainer &particleContainer, double deltaT) const {
+  // calculate new x
+  calculateX(particleContainer, deltaT);
+  // calculate new f
+  calculateF(particleContainer);
+  // calculate new v
+  calculateV(particleContainer, deltaT);
+}

@@ -5,7 +5,6 @@
 class Physics {
  protected:
   const Vector ZERO{};
- public:
   virtual ~Physics() = default;
 
   //! calculates and updates the position of all particles in the specified container
@@ -19,4 +18,7 @@ class Physics {
   //! calculates and updates the velocity of all particles in the specified container
   //! \param particleContainer the ParticleContainer, for whose contents the velocity should be calculated
   virtual void calculateV(ParticleContainer &particleContainer, double deltaT) const = 0;
+
+ public:
+  virtual void calculateNextStep(ParticleContainer &particleContainer, double deltaT) const = 0;
 };
