@@ -8,7 +8,7 @@ BasicArgumentParser::BasicArgumentParser(int argc, char *arguments[]) {
   for (int i = 1; i < argc; ++i) {
     tokens.emplace_back(arguments[i]);
   }
-  std::cout << "BasicArgumentParser generated!" << std::endl;
+  //std::cout << "BasicArgumentParser generated!" << std::endl;
 }
 
 //---------------------------Methods---------------------------
@@ -33,7 +33,7 @@ ParserStatus BasicArgumentParser::validateInput() {
 
 std::optional<std::string> BasicArgumentParser::getValueOfArgumentOption(const std::string &option) const {
   for (auto it = tokens.begin(); it != tokens.end(); ++it) {
-    if (option == *it) {
+    if (option == *it && it + 1 != tokens.end()) {
       return {*(++it)};
     }
   }

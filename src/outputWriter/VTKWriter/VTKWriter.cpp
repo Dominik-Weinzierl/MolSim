@@ -41,12 +41,6 @@ void VTKWriter::initializeOutput(int numParticles) {
 }
 
 void VTKWriter::plotParticle(const Particle &p) {
-  if (vtkFile->UnstructuredGrid().present()) {
-    std::cout << "UnstructuredGrid is present" << std::endl;
-  } else {
-    std::cout << "ERROR: No UnstructuredGrid present" << std::endl;
-  }
-
   PointData::DataArray_sequence &pointDataSequence = vtkFile->UnstructuredGrid()->Piece().PointData().DataArray();
   PointData::DataArray_iterator dataIterator = pointDataSequence.begin();
 

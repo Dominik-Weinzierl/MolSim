@@ -5,15 +5,15 @@
 
 //---------------------------Constructor---------------------------
 ParticleContainer::ParticleContainer(std::vector<Particle> particles) : particles{std::move(particles)} {
-  std::cout << "ParticleContainer generated!" << std::endl;
+  // std::cout << "ParticleContainer generated!" << std::endl;
 }
 
 ParticleContainer::ParticleContainer() : particles{} {
-  std::cout << "ParticleContainer generated!" << std::endl;
+  // std::cout << "ParticleContainer generated!" << std::endl;
 }
 
 ParticleContainer::~ParticleContainer() {
-  std::cout << "ParticleContainer destructed!" << std::endl;
+  // std::cout << "ParticleContainer destructed!" << std::endl;
 }
 
 //---------------------------Methods---------------------------
@@ -21,7 +21,7 @@ std::vector<Particle> &ParticleContainer::getParticles() {
   return particles;
 }
 
-void ParticleContainer::addParticle(const Particle& p) {
+void ParticleContainer::addParticle(const Particle &p) {
   particles.emplace_back(p);
 }
 

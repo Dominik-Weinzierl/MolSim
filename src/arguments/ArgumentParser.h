@@ -31,7 +31,7 @@ class ArgumentParser {
    * @return Constructor of Argument.
    */
   virtual Argument createArgument() = 0;
-  
+
   /**
    * Prints the available flag-options.
    */
