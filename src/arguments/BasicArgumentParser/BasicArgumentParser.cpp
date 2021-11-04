@@ -32,8 +32,8 @@ ParserStatus BasicArgumentParser::validateInput() {
 }
 
 std::optional<std::string> BasicArgumentParser::getValueOfArgumentOption(const std::string &option) const {
-  for (auto it = tokens.begin(); it != tokens.end(); ++it) {
-    if (option == *it && it + 1 != tokens.end()) {
+  for (auto it = tokens.begin(); it != tokens.end() && it + 1 != tokens.end(); ++it) {
+    if (option == *it) {
       return {*(++it)};
     }
   }
