@@ -32,7 +32,15 @@ int main(int argc, char *argv[]) {
     parser.showUsage();
     return -1;
   }
-  Argument arg = parser.createArgument();
+
+  std::optional<Argument> optionalArg = parser.createArgument();
+  if (!optionalArg.has_value()) {
+    std::cout << "Erroneous programme call! " << std::endl;
+    parser.showUsage();
+    return -1;
+  }
+
+  Argument arg = optionalArg.value();
   ParticleContainer particleContainer;
   VTKWriter writer{"MD_vtk", "output", particleContainer};
   FileReader::readFile(particleContainer, arg.getFileName());

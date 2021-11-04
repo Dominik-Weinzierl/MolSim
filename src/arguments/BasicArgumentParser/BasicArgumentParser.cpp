@@ -44,7 +44,7 @@ bool BasicArgumentParser::argumentOptionIsAvailable(const std::string &option) c
   return std::find(tokens.begin(), tokens.end(), option) != this->tokens.end();
 }
 
-Argument BasicArgumentParser::createArgument() {
+std::optional<Argument> BasicArgumentParser::createArgument() {
   auto filename = getValueOfArgumentOption("-f");
   if (!filename.has_value()) {
     filename = getValueOfArgumentOption("--filename");
@@ -59,7 +59,16 @@ Argument BasicArgumentParser::createArgument() {
   if (!delta_t.has_value()) {
     delta_t = getValueOfArgumentOption("--delta_t");
   }
-  return {filename.value(), std::stod(t_end.value()), std::stod(delta_t.value())};
+
+  double parsedDeltaT = 0;
+  double parsedEndTime = 0;
+  try {
+    parsedDeltaT = std::stod(delta_t.value());
+    parsedEndTime = std::stod(t_end.value());
+  } catch (std::invalid_argument &e) {
+    return std::nullopt;
+  }
+  return {{filename.value(), parsedEndTime, parsedDeltaT}};
 }
 
 void BasicArgumentParser::showUsage() {
