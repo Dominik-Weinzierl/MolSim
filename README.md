@@ -125,12 +125,12 @@ $ cd MolSim
 - Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
     $ ./MolSim
-   Usage: ./MolSim
-   Options:
-   -h,--help               Show this help message
-   -f,--filename           Specify the input filename
-   -t,--t_end              Specify the end time of this simulation
-   -d,--delta_t            Specify the time steps per calculation
+      Usage: ./MolSim
+      Options:
+      -h,--help               Show this help message
+      -f,--filename           Specify the input filename
+      -t,--t_end              Specify the end time of this simulation
+      -d,--delta_t            Specify the time steps per calculation
    ```
 - Run example simulation from `Worksheet 1`.
    ```bash
