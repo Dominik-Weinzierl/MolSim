@@ -65,7 +65,7 @@ $ cd MolSim
    ```
 3. Run `cmake` with specified arguments.
    ```bash
-   $ cmake . -DBUILD_DOCUMENTATION=OFF -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+   $ cmake .. -DBUILD_DOCUMENTATION=OFF -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
    ```
 4. Create the `MolSim` target with the generated `Makefile`.
    ```bash
@@ -111,7 +111,7 @@ $ cd MolSim
    ```
 3. Run `cmake` with specified arguments.
    ```bash
-   $ cmake . -DBUILD_DOCUMENTATION=ON -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+   $ cmake .. -DBUILD_DOCUMENTATION=ON -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
    ```
 4. Create the `MolSim` target with the generated `Makefile`.
    ```bash
