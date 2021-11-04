@@ -3,60 +3,107 @@
 #include <string>
 #include "physics/Vector/Vector.h"
 
-//! Particle is a class that wraps up the properties of a particle, getters, setters and standard methods.
+/**
+ * Particle is a class that wraps up the properties of a particle, getters, setters and standard methods.
+ */
 class Particle {
- private:
-  //! Position of the particle
-  Vector x;
+private:
 
-  //! Velocity of the particle
-  Vector v;
+    /**
+     * Position of the particle.
+     */
+    Vector x;
 
-  //! Force effective on this particle
-  Vector f;
+    /**
+     * Velocity of the particle.
+     */
+    Vector v;
 
-  //! Force which was effective on this particle
-  Vector old_f;
+    /**
+     * Force effective on this particle.
+     */
+    Vector f;
 
-  //! Mass of this particle
-  double m;
+    /**
+     * Force which was effective on this particle.
+     */
+    Vector old_f;
 
-  //! Type of the particle. Use it for whatever you want (e.g. to separate
-  //! molecules belonging to different bodies, matters, and so on)
-  int type;
+    /**
+     * Mass of this particle.
+     */
+    double m;
 
- public:
-  //! Default constructor
-  explicit Particle(int type = 0);
+    /**
+     * Type of the particle. Use it for whatever you want
+     * (e.g. to separate molecules belonging to different bodies, matters, and so on).
+     */
+    int type;
 
-  //! Copy constructor
-  Particle(const Particle &other);
+public:
 
-  //! Constructor which generates a particle with the given parameters
-  Particle(const Vector &x_arg, const Vector &v_arg, double m_arg, int type = 0);
+    /**
+     * Default constructor.
+     * @param type Default value 0.
+     */
+    explicit Particle(int type = 0);
 
-  //! Default destructor
-  virtual ~Particle();
+    /**
+     * Copy constructor.
+     * @param other Particle to copy.
+     */
+    Particle(const Particle &other);
 
-  //! Returns the position, velocity, force, old force, mass or type of the particle
-  [[nodiscard]] const Vector &getX() const;
-  [[nodiscard]] const Vector &getV() const;
-  [[nodiscard]] const Vector &getF() const;
-  [[nodiscard]] const Vector &getOldF() const;
-  [[nodiscard]] double getM() const;
-  [[nodiscard]] int getType() const;
+    /**
+     * Constructor which generates a particle with the given parameters.
+     * @param x_arg Position-Vector.
+     * @param v_arg Velocity-Vector.
+     * @param m_arg Mass.
+     * @param type
+     */
+    Particle(const Vector &x_arg, const Vector &v_arg, double m_arg, int type = 0);
 
-  //! Sets the position, velocity, force or old force of the particle
-  void setX(const Vector &position);
-  void setV(const Vector &velocity);
-  void setF(const Vector &force);
-  void setOldF(const Vector &oldForce);
+    /**
+     * Default destructor.
+     */
+    virtual ~Particle();
 
-  void updateForce(const Vector &force);
+    [[nodiscard]] const Vector &getX() const;
 
-  //! Operator which allows the comparison of the particle to a given particle
-  bool operator==(Particle &other);
+    [[nodiscard]] const Vector &getV() const;
 
-  //! Method which returns the properties of the particle as a String
-  [[nodiscard]] std::string toString() const;
+    [[nodiscard]] const Vector &getF() const;
+
+    [[nodiscard]] const Vector &getOldF() const;
+
+    [[nodiscard]] double getM() const;
+
+    [[nodiscard]] int getType() const;
+
+    void setX(const Vector &position);
+
+    void setV(const Vector &velocity);
+
+    void setF(const Vector &force);
+
+    void setOldF(const Vector &oldForce);
+
+    /**
+     * Adds given force to current force of the Particle.
+     * @param force
+     */
+    void updateForce(const Vector &force);
+
+    /**
+     * Operator which allows the comparison of the particle to a given particle.
+     * @param other
+     * @return True, if the given Particle equals this Particle.
+     */
+    bool operator==(Particle &other);
+
+    /**
+     * Method which returns the properties of the particle as a String.
+     * @return
+     */
+    [[nodiscard]] std::string toString() const;
 };

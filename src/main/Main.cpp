@@ -5,9 +5,14 @@
 #include <simulation/variants/GravitationSimulation.h>
 #include "fileReader/FileReader.h"
 
-//! Creates a parser which parses information based on the selected parser
-//! (e.g. BasicArgumentParser parses arguments from the command line),
-//! writes the VTK file and performs the simulation
+/**
+ * Creates a parser which parses information based on the selected parser
+ * (e.g. BasicArgumentParser parses arguments from the command line),
+ * writes the VTK file and performs the simulation
+ * @param argc
+ * @param argv
+ * @return Program exit.
+ */
 int main(int argc, char *argv[]) {
   BasicArgumentParser parser{argc, argv};
   ParserStatus status = parser.validateInput();

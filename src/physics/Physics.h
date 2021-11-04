@@ -2,25 +2,41 @@
 
 #include "particles/ParticleContainer.h"
 
-//! Physics is an abstract class which provides methods to calculate the next simulation step.
-//! Based on the template method pattern.
+/**
+ * Physics is an abstract class which provides methods to calculate the next simulation step
+ * based on the template method pattern.
+ */
 class Physics {
  protected:
   const Vector ZERO{};
   virtual ~Physics() = default;
 
-  //! calculates and updates the position of all particles in the specified container
-  //! \param particleContainer the ParticleContainer, for whose contents the positions should be calculated
+  /**
+   * Calculates and updates the position of all particles in the specified container.
+   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   * @param deltaT
+   */
   virtual void calculateX(ParticleContainer &particleContainer, double deltaT) const = 0;
 
-  //! calculates and updates the force for all particles in the specified container
-  //! \param particleContainer the ParticleContainer, for whose contents the forces should be calculated
+  /**
+   * Calculates and updates the force for all particles in the specified container
+   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   */
   virtual void calculateF(ParticleContainer &particleContainer) const = 0;
 
-  //! calculates and updates the velocity of all particles in the specified container
-  //! \param particleContainer the ParticleContainer, for whose contents the velocity should be calculated
+  /**
+   * Calculates and updates the velocity of all particles in the specified container.
+   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   * @param deltaT
+   */
   virtual void calculateV(ParticleContainer &particleContainer, double deltaT) const = 0;
 
  public:
+
+  /**
+   * Calls the calculate-Methods for the position, force and velocity with the given parameters.
+   * @param particleContainer
+   * @param deltaT
+   */
   virtual void calculateNextStep(ParticleContainer &particleContainer, double deltaT) const = 0;
 };

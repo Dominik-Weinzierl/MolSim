@@ -9,7 +9,7 @@ XYZWriter::XYZWriter(const std::string &file_name, const std::string &path, Part
 void XYZWriter::plotParticles() {
   auto particles = container.getParticles();
   for (auto &p: particles) {
-    Vector x = p.getX();
+    auto& x = p.getX();
     file << "Ar ";
     file.setf(std::ios_base::showpoint);
     for (auto &xi: x) {
