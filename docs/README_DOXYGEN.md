@@ -1,7 +1,5 @@
 # MolSim
 
-![CI](https://github.com/Dominik-Weinzierl/MolSim/actions/workflows/continuous_integration.yml/badge.svg)
-
 ## Description
 
 Part of a practical course on molecular dynamics at TU Munich (IN0012). Based on a template provided
@@ -28,101 +26,93 @@ $ cd MolSim
 
 ## Run application
 
-### Build with option `BUILD_DOCUMENTATION` disabled
+### Build with option BUILD_DOCUMENTATION disabled
 
-<details>
-  <summary>Using the Makefile</summary>
+Using the Makefile
 
-1. Create build folder and run `cmake` with `make`.
+1. Create build folder and run cmake with make.
 
     ```bash
     $ make
     ```
 
-   *Existing build folder will be `deleted` and `created` again.
+   *Existing build folder will be deleted and created again.
 
-2. Switch into your `build` folder.
+2. Switch into your build folder.
    ```bash
    $ cd ./build
    ```
-3. Create the `MolSim` target with the generated `Makefile`.
+3. Create the MolSim target with the generated Makefile.
    ```bash
    $ make
    ```
 
-</details>
 
-<details>
-  <summary>Using CMake</summary>
+Using CMake
 
-1. Create build folder (`in-source-builds` are disabled).
+1. Create build folder (in-source-builds are disabled).
     ```bash
     $ mkdir ./build
     ```
-2. Switch into your `build` folder.
+2. Switch into your build folder.
    ```bash
    $ cd ./build
    ```
-3. Run `cmake` with specified arguments.
+3. Run cmake with specified arguments.
    ```bash
    $ cmake .. -DBUILD_DOCUMENTATION=OFF -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
    ```
-4. Create the `MolSim` target with the generated `Makefile`.
+4. Create the MolSim target with the generated Makefile.
    ```bash
    $ make
    ```
 
-</details>
 
-### Build with option `BUILD_DOCUMENTATION` enabled
+### Build with option BUILD_DOCUMENTATION enabled
 
-<details>
-  <summary>Using the Makefile</summary>
+Using the Makefile
 
-1. Create build folder and run `cmake` with `make`.
+1. Create build folder and run cmake with make.
 
     ```bash
     $ make build_with_doc
     ```
 
-   *Existing build folder will be `deleted` and `created` again.
+   *Existing build folder will be deleted and created again.
 
-2. Switch into your `build` folder.
+2. Switch into your build folder.
    ```bash
    $ cd ./build
    ```
-3. Create the `MolSim` target with the generated `Makefile`.
+3. Create the MolSim target with the generated Makefile.
    ```bash
    $ make
    ```
 
-</details>
 
-<details>
-  <summary>Using CMake</summary>
+Using CMake
 
-1. Create build folder (`in-source-builds` are disabled).
+1. Create build folder (in-source-builds are disabled).
     ```bash
     $ mkdir ./build
     ```
-2. Switch into your `build` folder.
+2. Switch into your build folder.
    ```bash
    $ cd ./build
    ```
-3. Run `cmake` with specified arguments.
+3. Run cmake with specified arguments.
    ```bash
    $ cmake .. -DBUILD_DOCUMENTATION=ON -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
    ```
-4. Create the `MolSim` target with the generated `Makefile`.
+4. Create the MolSim target with the generated Makefile.
    ```bash
    $ make
    ```
 
-</details>
 
 ### Perform simulations
 
-- Run `./MolSim` without any arguments to list possible and required arguments.
+- Run ./MolSim without any arguments to list possible and required arguments.
    ```bash
     $ ./MolSim
       Usage: ./MolSim
@@ -132,11 +122,11 @@ $ cd MolSim
       -t,--t_end              Specify the end time of this simulation
       -d,--delta_t            Specify the time steps per calculation
    ```
-- Run example simulation from `Worksheet 1`.
+- Run example simulation from Worksheet 1.
    ```bash
    $ ./MolSim --filename ../eingabe-sonne.txt --t_end 1000 --delta_t 0.014
    ```
-- _(optional)_ Run example simulation from `Worksheet 1`.
+- _(optional)_ Run example simulation from Worksheet 1.
    ```bash
    $ ./MolSim -f ../eingabe-sonne.txt -t 1000 -d 0.014
    ```
@@ -147,30 +137,29 @@ $ cd MolSim
 
 ### Additional Makefile commands
 
-You need to perform the following commands in the top level `project` folder.
-<details>
-<summary>Project Makefile</summary>
+You need to perform the following commands in the top level project folder.
 
-- Remove the `build` folder.
+Project Makefile
+
+- Remove the build folder.
    ```bash
    $ make clean
    ```
-- Remove and create the `build` folder.
+- Remove and create the build folder.
    ```bash
    $ make create_folder
    ```
 
-</details>
 
-You need to perform the following commands in the `build` folder.
-<details>
-  <summary>Build Makefile</summary>
+You need to perform the following commands in the build folder.
 
-- Make the `doxygen` documentation.
+Build Makefile
+
+- Make the doxygen documentation.
     ```bash
     $ make doc_doxygen
     ```
-- Remove the `doxygen` documentation.
+- Remove the doxygen documentation.
     ```bash
     $ make clean_doxygen
     ```
@@ -178,8 +167,6 @@ You need to perform the following commands in the `build` folder.
     ```bash
     $ make clean
     ```
-
-</details>
 
 ## Contributors
 
