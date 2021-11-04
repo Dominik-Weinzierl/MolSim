@@ -50,7 +50,7 @@ class BasicArgumentParser : public ArgumentParser {
 
   /**
    * Creates an Argument via the getValueOfArgumentOption-Method.
-   * @return Constructor of Argument.
+   * @return Optional Argument.
    */
-  Argument createArgument() override;
+  std::optional<Argument> createArgument() override;
 };

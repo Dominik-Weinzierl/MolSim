@@ -7,29 +7,28 @@
 #include <sstream>
 
 void FileReader::readFile(ParticleContainer &particleContainer, const std::string &filename) {
-  Vector x;
-  Vector v;
-  double m;
-  int numParticles = 0;
-
   std::ifstream inputFile(filename);
   std::string tmpString;
 
   if (inputFile.is_open()) {
+    double m;
+    int numParticles = 0;
+    Vector x;
+    Vector v;
 
     getline(inputFile, tmpString);
-    std::cout << "Read line: " << tmpString << std::endl;
+    // std::cout << "Read line: " << tmpString << std::endl;
 
     while (tmpString.empty() or tmpString[0] == '#') {
       getline(inputFile, tmpString);
-      std::cout << "Read line: " << tmpString << std::endl;
+      // std::cout << "Read line: " << tmpString << std::endl;
     }
 
     std::istringstream numStream(tmpString);
     numStream >> numParticles;
-    std::cout << "Reading " << numParticles << "." << std::endl;
+    // std::cout << "Reading " << numParticles << "." << std::endl;
     getline(inputFile, tmpString);
-    std::cout << "Read line: " << tmpString << std::endl;
+    // std::cout << "Read line: " << tmpString << std::endl;
 
     for (int i = 0; i < numParticles; i++) {
       std::istringstream dataStream(tmpString);
@@ -48,7 +47,7 @@ void FileReader::readFile(ParticleContainer &particleContainer, const std::strin
       particleContainer.addParticle({x, v, m});
 
       getline(inputFile, tmpString);
-      std::cout << "Read line: " << tmpString << std::endl;
+      // std::cout << "Read line: " << tmpString << std::endl;
     }
   } else {
     std::cout << "Error: could not open file " << filename << std::endl;

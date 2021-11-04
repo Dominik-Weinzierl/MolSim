@@ -47,7 +47,6 @@ Using the Makefile
    $ make
    ```
 
-
 Using CMake
 
 1. Create build folder (in-source-builds are disabled).
@@ -66,7 +65,6 @@ Using CMake
    ```bash
    $ make
    ```
-
 
 ### Build with option BUILD_DOCUMENTATION enabled
 
@@ -89,7 +87,6 @@ Using the Makefile
    $ make
    ```
 
-
 Using CMake
 
 1. Create build folder (in-source-builds are disabled).
@@ -108,7 +105,6 @@ Using CMake
    ```bash
    $ make
    ```
-
 
 ### Perform simulations
 
@@ -137,9 +133,9 @@ Using CMake
 
 ### Additional Makefile commands
 
-You need to perform the following commands in the top level project folder.
+#### Project Makefile
 
-Project Makefile
+You need to perform the following commands in the top level project folder.
 
 - Remove the build folder.
    ```bash
@@ -150,10 +146,9 @@ Project Makefile
    $ make create_folder
    ```
 
+#### Build Makefile
 
 You need to perform the following commands in the build folder.
-
-Build Makefile
 
 - Make the doxygen documentation.
     ```bash

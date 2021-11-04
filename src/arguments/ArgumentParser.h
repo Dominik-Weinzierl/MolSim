@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include "arguments/Argument/Argument.h"
 
 /**
@@ -28,10 +29,10 @@ class ArgumentParser {
 
   /**
    * Creates an Argument via the getValueOfArgumentOption-Method.
-   * @return Constructor of Argument.
+   * @return Optional Argument.
    */
-  virtual Argument createArgument() = 0;
-  
+  virtual std::optional<Argument> createArgument() = 0;
+
   /**
    * Prints the available flag-options.
    */

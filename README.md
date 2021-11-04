@@ -147,9 +147,10 @@ $ cd MolSim
 
 ### Additional Makefile commands
 
-You need to perform the following commands in the top level `project` folder.
 <details>
 <summary>Project Makefile</summary>
+
+You need to perform the following commands in the top level `project` folder.
 
 - Remove the `build` folder.
    ```bash
@@ -162,9 +163,10 @@ You need to perform the following commands in the top level `project` folder.
 
 </details>
 
-You need to perform the following commands in the `build` folder.
 <details>
   <summary>Build Makefile</summary>
+
+You need to perform the following commands in the `build` folder.
 
 - Make the `doxygen` documentation.
     ```bash
