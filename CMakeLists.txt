@@ -47,3 +47,5 @@ set_property(
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
 include(doxygen)
+
+include(test)
