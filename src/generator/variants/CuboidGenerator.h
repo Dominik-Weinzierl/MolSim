@@ -8,9 +8,6 @@ class CuboidGenerator : public Generator {
   CuboidGenerator() = default;
 
  public:
-
-  void generate(GeneratorArguments& g, ParticleContainer& p) override;
-  void applyMotion(double meanValue, Particle& p) override;
+  void generate(GeneratorArguments &g, ParticleContainer &p) override;
+  void applyMotion(double meanValue, Particle &p) override;
 };
-
-
