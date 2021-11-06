@@ -4,6 +4,7 @@
 #include <iostream>
 #include <simulation/variants/GravitationSimulation.h>
 #include "fileReader/FileReader.h"
+#include "spdlog/spdlog.h"
 
 /**
  * Creates a parser which parses information based on the selected parser
@@ -28,14 +29,14 @@ int main(int argc, char *argv[]) {
   }
 
   if (status != ParserStatus::Operation_Simulation) {
-    std::cout << "Erroneous programme call! " << std::endl;
+    SPDLOG_ERROR("Erroneous program call!");
     parser.showUsage();
     return -1;
   }
 
   std::optional<Argument> optionalArg = parser.createArgument();
   if (!optionalArg.has_value()) {
-    std::cout << "Erroneous programme call! " << std::endl;
+    SPDLOG_ERROR("Erroneous program call!");
     parser.showUsage();
     return -1;
   }

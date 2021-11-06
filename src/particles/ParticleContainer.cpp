@@ -2,18 +2,19 @@
 
 #include <utility>
 #include <iostream>
+#include <spdlog/spdlog.h>
 
 //---------------------------Constructor---------------------------
 ParticleContainer::ParticleContainer(std::vector<Particle> particles) : particles{std::move(particles)} {
-  // std::cout << "ParticleContainer generated!" << std::endl;
+  SPDLOG_INFO("ParticleContainer generated");
 }
 
 ParticleContainer::ParticleContainer() : particles{} {
-  // std::cout << "ParticleContainer generated!" << std::endl;
+  SPDLOG_INFO("ParticleContainer generated");
 }
 
 ParticleContainer::~ParticleContainer() {
-  // std::cout << "ParticleContainer destructed!" << std::endl;
+  SPDLOG_INFO("ParticleContainer destructed");
 }
 
 //---------------------------Methods---------------------------

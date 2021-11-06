@@ -4,9 +4,26 @@ cmake_minimum_required(VERSION 3.10)
 project(PSEMolDyn_GroupA)
 
 # prevent in-source builds
-if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
+if ("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
   message(FATAL_ERROR "In-source builds are not allowed. Please create a separate build directory.")
-endif()
+endif ()
+
+# add spdlog
+
+include(FetchContent)
+
+FetchContent_Declare(
+        spdlog
+        GIT_REPOSITORY https://github.com/gabime/spdlog.git
+        GIT_TAG v1.x
+)
+
+FetchContent_GetProperties(spdlog)
+if (NOT spdlog_POPULATED)
+  FetchContent_Populate(spdlog)
+  add_subdirectory(${spdlog_SOURCE_DIR} ${spdlog_BINARY_DIR})
+endif ()
+
 
 # let ccmake and cmake-gui offer the default build type options
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug;Release;RelWithDebInfo;MinSizeRel")
@@ -14,7 +31,7 @@ set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug;Release;RelWithDebIn
 # set Release as the default build type if it is not yet set.
 if (NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Release" CACHE STRING
-      "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
+          "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
 endif (NOT CMAKE_BUILD_TYPE)
 
 # collect all cpp files
@@ -32,7 +49,8 @@ target_compile_features(MolSim PUBLIC cxx_std_20)
 target_include_directories(MolSim SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libs/libxsd)
 target_include_directories(MolSim PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-target_link_libraries(MolSim PUBLIC xerces-c)
+target_link_libraries(MolSim PUBLIC xerces-c spdlog::spdlog)
+
 
 # activate all compiler warnings
 target_compile_options(MolSim PRIVATE -W -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wold-style-cast -Wpedantic -Wconversion -Werror -Wdouble-promotion)
