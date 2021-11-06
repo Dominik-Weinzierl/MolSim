@@ -39,7 +39,7 @@ class BasicArgumentParser : public ArgumentParser {
   * Validates the arguments
   * @return bool
   */
-  virtual bool validateInput() override;
+  bool validateInput() override;
 
   /**
    * Creates an Argument via the getValueOfArgumentOption-Method.
