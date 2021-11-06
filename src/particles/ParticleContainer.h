@@ -60,4 +60,18 @@ class ParticleContainer {
    * @return Iterator to the end of the particles-Vector.
    */
   [[nodiscard]] auto end() { return particles.end(); }
+
+  /**
+ * Operator that allows mutable member access.
+ * @param i Index for member access.
+ * @return
+ */
+  Particle &operator[](unsigned long i);
+
+  /**
+   * Operator that allows immutable member access.
+   * @param i Index for member access.
+   * @return
+   */
+  Particle operator[](unsigned long i) const;
 };

@@ -11,7 +11,7 @@ void Simulation::performSimulation(OutputWriter &writer, const Physics &physics,
 
     iteration++;
 
-    if (iteration % 60 == 0) {
+    if (iteration % 10 == 0) {
       writer.writeFile(iteration);
     }
     std::cout << "Iteration " << iteration << " finished." << std::endl;
