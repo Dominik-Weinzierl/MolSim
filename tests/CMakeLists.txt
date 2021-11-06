@@ -11,7 +11,7 @@ file(GLOB_RECURSE MY_TESTS
 add_executable(Test ${MY_TESTS})
 
 # Link libs
-target_link_libraries(Test gtest_main lib::libMolSim)
+target_link_libraries(Test gtest_main lib::Sim)
 
 # Require C++20
 target_compile_features(Test PUBLIC cxx_std_20)
