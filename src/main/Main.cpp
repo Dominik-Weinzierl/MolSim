@@ -29,14 +29,14 @@ int main(int argc, char *argv[]) {
   }
 
   if (status != ParserStatus::Operation_Simulation) {
-    SPDLOG_ERROR("Erroneous program call!");
+    std::cout << ("Erroneous program call!") << std::endl;
     parser.showUsage();
     return -1;
   }
 
   std::optional<Argument> optionalArg = parser.createArgument();
   if (!optionalArg.has_value()) {
-    SPDLOG_ERROR("Erroneous program call!");
+    std::cout << ("Erroneous program call!") << std::endl;
     parser.showUsage();
     return -1;
   }
