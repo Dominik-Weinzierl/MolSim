@@ -42,7 +42,7 @@ class ParticleContainer {
    * Adds the particle to the ParticleContainer.
    * @param p The particle to be added.
    */
-  void addParticle(const Particle &p);
+  void addParticle(Particle p);
 
   [[nodiscard]] std::vector<Particle> &getParticles();
 
