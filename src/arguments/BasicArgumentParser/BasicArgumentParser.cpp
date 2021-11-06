@@ -38,7 +38,7 @@ bool BasicArgumentParser::validateInput() {
       }
     }
   }
-  if (tokens.size() >= 6 || invalid || !status.validStatus()) {
+  if (tokens.size() < 6 || invalid || !status.validStatus()) {
     return false;
   }
   return true;
