@@ -14,5 +14,5 @@ class GravitationSimulation : public Simulation {
    * @param writer Defines the writer for the output.
    * @param particleContainer
    */
-  static void performSimulation(Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer);
+  static void performSimulation(const Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer);
 };

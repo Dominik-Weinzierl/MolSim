@@ -3,7 +3,7 @@
 #include "outputWriter/VTKWriter/VTKWriter.h"
 #include <iostream>
 #include <physics/Gravitation/Gravitation.h>
-#include <arguments/Argument/Argument.h>
+#include <arguments/Argument.h>
 #include <arguments/BasicArgumentParser/BasicArgumentParser.h>
 
 /**
@@ -21,5 +21,5 @@ class Simulation {
    * @param arg The command line-arguments.
    */
   static void performSimulation(OutputWriter &writer, const Physics &physics, ParticleContainer &particleContainer,
-                                Argument &arg);
+                                const Argument &arg);
 };
