@@ -1,10 +1,11 @@
 #include <algorithm>
 #include <iostream>
 #include <sstream>
+#include <arguments/BasicArgument/BasicArgument.h>
 #include "BasicArgumentParser.h"
 
 //---------------------------Constructor---------------------------
-BasicArgumentParser::BasicArgumentParser(int argc, char *arguments[]) {
+BasicArgumentParser::BasicArgumentParser(int argc, char *arguments[]) : ArgumentParser() {
   for (int i = 1; i < argc; ++i) {
     tokens.emplace_back(arguments[i]);
   }
@@ -12,63 +13,40 @@ BasicArgumentParser::BasicArgumentParser(int argc, char *arguments[]) {
 }
 
 //---------------------------Methods---------------------------
-ParserStatus BasicArgumentParser::validateInput() {
-  if ((argumentOptionIsAvailable("-h") || argumentOptionIsAvailable("--help")) && tokens.size() == 1) {
-    return Operation_Help;
-  }
-  if (!argumentOptionIsAvailable("-f") && !argumentOptionIsAvailable("--filename")) {
-    return Error_MissingArgument;
-  }
-  if (!argumentOptionIsAvailable("-t") && !argumentOptionIsAvailable("--t_end")) {
-    return Error_MissingArgument;
-  }
-  if (!argumentOptionIsAvailable("-d") && !argumentOptionIsAvailable("--delta_t")) {
-    return Error_MissingArgument;
-  }
-  if (tokens.size() != 6) {
-    return Error_InvalidOperation;
-  }
-  return Operation_Simulation;
-}
-
-std::optional<std::string> BasicArgumentParser::getValueOfArgumentOption(const std::string &option) const {
+bool BasicArgumentParser::validateInput() {
+  bool invalid = false;
   for (auto it = tokens.begin(); it != tokens.end() && it + 1 != tokens.end(); ++it) {
-    if (option == *it) {
-      return {*(++it)};
+    if (*it == "-f" || *it == "--filename") {
+      status.setInputFileName(*it, *(it + 1));
+    } else if (*it == "-t" || *it == "--t_end") {
+      try {
+        status.setEnd_time(*it, std::stod(*(it + 1)));
+      } catch (std::invalid_argument &e) {
+        std::cout << "Erroneous programme call! " << std::endl;
+        std::cout << "ERROR: End time needs to be a double, but is " << *(it + 1) << std::endl;
+        invalid = true;
+        break;
+      }
+    } else if (*it == "-d" || *it == "--delta_t") {
+      try {
+        status.setDelta_t(*it, std::stod(*(it + 1)));
+      } catch (std::invalid_argument &e) {
+        std::cout << "Erroneous programme call! " << std::endl;
+        std::cout << "ERROR: Delta t needs to be a double, but is " << *(it + 1) << std::endl;
+        invalid = true;
+        break;
+      }
     }
   }
-  return std::nullopt;
+  if (tokens.size() >= 6 || invalid || !status.validStatus()) {
+    return false;
+  }
+  return true;
 }
 
-bool BasicArgumentParser::argumentOptionIsAvailable(const std::string &option) const {
-  return std::find(tokens.begin(), tokens.end(), option) != this->tokens.end();
-}
-
-std::optional<Argument> BasicArgumentParser::createArgument() {
-  auto filename = getValueOfArgumentOption("-f");
-  if (!filename.has_value()) {
-    filename = getValueOfArgumentOption("--filename");
-  }
-
-  auto t_end = getValueOfArgumentOption("-t");
-  if (!t_end.has_value()) {
-    t_end = getValueOfArgumentOption("--t_end");
-  }
-
-  auto delta_t = getValueOfArgumentOption("-d");
-  if (!delta_t.has_value()) {
-    delta_t = getValueOfArgumentOption("--delta_t");
-  }
-
-  double parsedDeltaT = 0;
-  double parsedEndTime = 0;
-  try {
-    parsedDeltaT = std::stod(delta_t.value());
-    parsedEndTime = std::stod(t_end.value());
-  } catch (std::invalid_argument &e) {
-    return std::nullopt;
-  }
-  return {{filename.value(), parsedEndTime, parsedDeltaT}};
+std::unique_ptr<Argument> BasicArgumentParser::createArgument() {
+  return std::make_unique<BasicArgument>(std::get<2>(status.getInputFileName()), std::get<2>(status.getEnd_time()),
+                                         std::get<2>(status.getDelta_t()));
 }
 
 void BasicArgumentParser::showUsage() {

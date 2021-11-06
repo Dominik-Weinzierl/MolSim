@@ -4,6 +4,11 @@
 #include <optional>
 #include <vector>
 
+class BasicArgumentStatus : public ArgumentStatus {
+ public:
+  BasicArgumentStatus() = default;
+};
+
 /**
  * BasicArgumentParser is a parser for arguments via commandline.
  */
@@ -14,19 +19,7 @@ class BasicArgumentParser : public ArgumentParser {
   */
   std::vector<std::string> tokens;
 
-  /**
-   * Gives the value of the specified option.
-   * @param option the option, for which the value is to be returned.
-   * @return the value of the specified option or std::nullopt, if no value was specified.
-   */
-  [[nodiscard]] std::optional<std::string> getValueOfArgumentOption(const std::string &option) const;
-
-  /**
-   * Checks whether the option is an element of the tokens Vector.
-   * @param option is an argument flag.
-   * @return true if the option is an element of the tokens Vector.
-   */
-  [[nodiscard]] bool argumentOptionIsAvailable(const std::string &option) const;
+  BasicArgumentStatus status;
 
  public:
 
@@ -43,14 +36,14 @@ class BasicArgumentParser : public ArgumentParser {
   void showUsage() override;
 
   /**
-   * Validates the arguments via the argumentOptionIsAvailable-Method.
-   * @return Member of enum ParserStatus, which is used in the main-Method to catch errors.
-   */
-  ParserStatus validateInput() override;
+  * Validates the arguments
+  * @return bool
+  */
+  virtual bool validateInput() override;
 
   /**
    * Creates an Argument via the getValueOfArgumentOption-Method.
-   * @return Optional Argument.
+   * @return Argument.
    */
-  std::optional<Argument> createArgument() override;
+  std::unique_ptr<Argument> createArgument() override;
 };
