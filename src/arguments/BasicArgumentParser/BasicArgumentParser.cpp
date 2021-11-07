@@ -16,9 +16,9 @@ BasicArgumentParser::BasicArgumentParser(int argc, char *arguments[]) : Argument
 BasicArgumentStatus::BasicArgumentStatus() : ArgumentStatus() {
   flags.insert({"endTime", {false, "", ""}});
   flags.insert({"deltaT", {false, "", ""}});
-  flags.insert({"writer", {true, "default", "vtk"}});
-  flags.insert({"output", {true, "default", "MD_vtk"}});
-  flags.insert({"physics", {true, "default", "gravitation"}});
+  flags.insert({"writer", {true, "default", std::string{"vtk"}}});
+  flags.insert({"output", {true, "default", std::string{"MD_vtk"}}});
+  flags.insert({"physics", {true, "default", std::string{"gravitation"}}});
   flags.insert({"iteration", {true, "default", 60}});
 }
 
@@ -43,9 +43,9 @@ bool BasicArgumentParser::validateInput() {
 
 std::unique_ptr<Argument> BasicArgumentParser::createArgument() {
   auto filename = std::any_cast<std::string>(status.getValue("filename"));
-  auto endTime = std::any_cast<double>(status.getValue("endtime"));
+  auto endTime = std::any_cast<double>(status.getValue("endTime"));
   auto deltaT = std::any_cast<double>(status.getValue("deltaT"));
-  auto output = std::any_cast<std::string>(status.getValue("filename"));
+  auto output = std::any_cast<std::string>(status.getValue("output"));
   auto writer = std::any_cast<std::string>(status.getValue("writer"));
   auto iteration = std::any_cast<int>(status.getValue("iteration"));
   auto physics = std::any_cast<std::string>(status.getValue("physics"));
