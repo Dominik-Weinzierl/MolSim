@@ -1,6 +1,9 @@
 #include "BasicArgument.h"
 
-BasicArgument::BasicArgument(const std::string &inputFileName, double end_time, double delta_t) : Argument(
-    inputFileName, end_time, delta_t) {
+#include <utility>
+
+BasicArgument::BasicArgument(std::string inputFileName, double end_time, double delta_t, std::string output,
+                             std::string writer, double iteration) : Argument(
+    std::move(inputFileName), end_time, delta_t, std::move(output), std::move(writer), iteration) {
 
 }

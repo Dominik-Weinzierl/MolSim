@@ -28,6 +28,9 @@ set_target_properties(${LIBRARY_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 add_executable(MolSim ${CMAKE_CURRENT_SOURCE_DIR}/main/Main.cpp)
 target_link_libraries(MolSim PUBLIC xerces-c PRIVATE lib::Sim spdlog::spdlog)
 
+# Require C++20
+target_compile_features(MolSim PUBLIC cxx_std_20)
+
 # Activate all compiler warnings
 target_compile_options(MolSim PRIVATE -W -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wold-style-cast -Wpedantic -Wconversion -Werror -Wdouble-promotion)
 target_compile_options(${LIBRARY_NAME} PRIVATE -W -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wold-style-cast -Wpedantic -Wconversion -Werror -Wdouble-promotion)

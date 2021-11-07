@@ -1,8 +1,9 @@
 #include <arguments/Argument.h>
-#include <arguments/ArgumentParser.h>
 #include <arguments/BasicArgumentParser/BasicArgumentParser.h>
 #include <iostream>
 #include <simulation/variants/GravitationSimulation.h>
+#include <spdlog/spdlog.h>
+#include <outputWriter/XYZWriter/XYZWriter.h>
 #include "fileReader/FileReader.h"
 
 /**
@@ -21,16 +22,26 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
-  bool valid = parser.validateInput();
-  if (!valid) {
+  try {
+    parser.validateInput();
+  } catch (std::invalid_argument &exception) {
+    std::cout << "[ERROR] " << exception.what() << std::endl;
+    SPDLOG_ERROR(exception.what());
     parser.showUsage();
     return -1;
   }
 
   std::unique_ptr<Argument> arg = parser.createArgument();
+  std::unique_ptr<OutputWriter> writer;
   ParticleContainer particleContainer;
-  VTKWriter writer{"MD_vtk", "output", particleContainer};
+
+  if (arg->getWriter() == "vtk") {
+    writer = std::make_unique<VTKWriter>(arg->getOutput(), "output", particleContainer);
+  } else if (arg->getWriter() == "xyz") {
+    writer = std::make_unique<XYZWriter>(arg->getOutput(), "output", particleContainer);
+  }
+
   FileReader::readFile(particleContainer, arg->getFileName());
-  GravitationSimulation::performSimulation(*arg, writer, particleContainer);
+  GravitationSimulation::performSimulation(*arg, *writer, particleContainer);
 }
 

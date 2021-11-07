@@ -7,6 +7,33 @@
 class BasicArgumentStatus : public ArgumentStatus {
  public:
   BasicArgumentStatus() = default;
+
+  /**
+   * Required arguments
+   */
+  std::tuple<bool, std::string, double> end_time;
+  std::tuple<bool, std::string, double> delta_t;
+
+  /**
+   * Optional arguments
+   */
+  std::tuple<bool, std::string, std::string> writer;
+  std::tuple<bool, std::string, std::string> output;
+  std::tuple<bool, std::string, int> iteration;
+
+  std::tuple<bool, std::string, double> &getEnd_time();
+  std::tuple<bool, std::string, double> &getDelta_t();
+  std::tuple<bool, std::string, std::string> &getWriter();
+  std::tuple<bool, std::string, std::string> &getOutput();
+  std::tuple<bool, std::string, int> &getIteration();
+
+  void setEnd_time(const std::string &flag, const double &value);
+  void setDelta_t(const std::string &flag, const double &value);
+  void setWriter(const std::string &flag, const std::string &value);
+  void setOutput(const std::string &flag, const std::string &value);
+  void setIteration(const std::string &flag, const int &value);
+
+  bool validStatus() override;
 };
 
 /**
@@ -20,6 +47,33 @@ class BasicArgumentParser : public ArgumentParser {
   std::vector<std::string> tokens;
 
   BasicArgumentStatus status;
+
+  /**
+  * Handle end_t flag and sets the status accordingly.
+  */
+  static void handleEndTimeFlag(BasicArgumentStatus &argumentStatus, const std::string &flag,
+                         const std::string &possibleValue);
+
+  /**
+   * Handle end_t flag and sets the status accordingly.
+   */
+  static void handleDeltaTFlag(BasicArgumentStatus &argumentStatus, const std::string &flag, const std::string &possibleValue);
+
+  /**
+   * Handle writer flag and sets the status accordingly.
+   */
+  static void handleWriterFlag(BasicArgumentStatus &argumentStatus, const std::string &flag, const std::string &possibleValue);
+
+  /**
+   * Handle output flag and sets the status accordingly.
+   */
+  static void handleOutputFlag(BasicArgumentStatus &argumentStatus, const std::string &flag, const std::string &possibleValue);
+
+  /**
+   * Handle iteration flag and sets the status accordingly.
+   */
+  static void handleIterationFlag(BasicArgumentStatus &argumentStatus, const std::string &flag,
+                           const std::string &possibleValue);
 
  public:
 

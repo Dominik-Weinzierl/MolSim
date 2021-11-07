@@ -10,5 +10,6 @@ class BasicArgument : public Argument {
    * @param end_time
    * @param delta_t
    */
-  BasicArgument(const std::string &inputFileName, double end_time, double delta_t);
+  BasicArgument(std::string inputFileName, double end_time, double delta_t, std::string output,
+                std::string writer, double iteration);
 };
