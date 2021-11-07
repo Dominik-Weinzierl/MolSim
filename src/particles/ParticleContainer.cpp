@@ -22,8 +22,8 @@ std::vector<Particle> &ParticleContainer::getParticles() {
   return particles;
 }
 
-void ParticleContainer::addParticle(const Particle &p) {
-  particles.emplace_back(p);
+void ParticleContainer::addParticle(Particle p) {
+  particles.push_back(std::move(p));
 }
 
 unsigned long ParticleContainer::size() const {
