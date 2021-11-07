@@ -42,13 +42,13 @@ bool BasicArgumentParser::validateInput() {
 }
 
 std::unique_ptr<Argument> BasicArgumentParser::createArgument() {
-  auto filename = std::any_cast<std::string>(status.getValue("filename"));
-  auto endTime = std::any_cast<double>(status.getValue("endTime"));
-  auto deltaT = std::any_cast<double>(status.getValue("deltaT"));
-  auto output = std::any_cast<std::string>(status.getValue("output"));
-  auto writer = std::any_cast<std::string>(status.getValue("writer"));
-  auto iteration = std::any_cast<int>(status.getValue("iteration"));
-  auto physics = std::any_cast<std::string>(status.getValue("physics"));
+  auto filename = std::get<std::string>(status.getValue("filename"));
+  auto endTime = std::get<double>(status.getValue("endTime"));
+  auto deltaT = std::get<double>(status.getValue("deltaT"));
+  auto output = std::get<std::string>(status.getValue("output"));
+  auto writer = std::get<std::string>(status.getValue("writer"));
+  auto iteration = std::get<int>(status.getValue("iteration"));
+  auto physics = std::get<std::string>(status.getValue("physics"));
 
   return std::make_unique<BasicArgument>(filename, endTime, deltaT, output, writer, iteration, physics);
 }

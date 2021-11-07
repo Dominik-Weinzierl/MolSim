@@ -5,12 +5,11 @@
 #include "Argument.h"
 #include <tuple>
 #include <map>
-#include <any>
-#include <functional>
+#include <variant>
 
 class ArgumentStatus {
  protected:
-  std::map<std::string, std::tuple<bool, std::string, std::any>> flags;
+  std::map<std::string, std::tuple<bool, std::string, std::variant<std::string, int, double>>> flags;
 
  public:
   ArgumentStatus();
@@ -20,9 +19,9 @@ class ArgumentStatus {
   virtual ~ArgumentStatus() = default;
   virtual bool validStatus();
 
-  void updateFlag(const std::string &name, const std::string &flag, std::any value);
+  void updateFlag(const std::string &name, const std::string &flag, std::variant<std::string, int, double> value);
 
-  std::any getValue(const std::string &name);
+  std::variant<std::string, int, double> getValue(const std::string &name);
 };
 
 /**
