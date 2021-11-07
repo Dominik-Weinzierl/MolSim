@@ -22,17 +22,6 @@ class BasicArgumentParser : public ArgumentParser {
 
   BasicArgumentStatus status;
 
-  /**
-   * Handle writer flag and sets the status accordingly.
-   */
-  static void handleWriterFlag(BasicArgumentStatus &argumentStatus, const std::string &flag, const std::string &possibleValue);
-
-  /**
-   * Handle physics flag and sets the status accordingly.
-   */
-  static void handlePhysicsFlag(BasicArgumentStatus &argumentStatus, const std::string &flag,
-                                  const std::string &possibleValue);
-
  public:
 
   /**

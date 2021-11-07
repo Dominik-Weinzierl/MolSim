@@ -32,8 +32,8 @@ bool BasicArgumentParser::validateInput() {
     handleFlag<double>(status, "endTime", flag, possibleValue, {"-t", "--t_end"});
     handleFlag<double>(status, "deltaT", flag, possibleValue, {"-d", "--delta_t"});
     handleFlag<int>(status, "iteration", flag, possibleValue, {"-i", "--iteration"});
-    handleWriterFlag(status, flag, possibleValue);
-    handlePhysicsFlag(status, flag, possibleValue);
+    handleFlag(status, "physics", flag, possibleValue, {"-p", "--physics"}, {"gravitation"});
+    handleFlag(status, "writer", flag, possibleValue, {"-w", "--writer"}, {"vtx", "xyz"});
   }
   if (!status.validStatus()) {
     throw std::invalid_argument("Missing required argument. Please check your arguments!");
@@ -66,26 +66,6 @@ void BasicArgumentParser::showUsage() {
   usage << "\t-w,--writer\t\tSpecify the writer used for the output files" << std::endl;
   usage << "\t-p,--physics\t\tSpecify the physics used for the simulation" << std::endl;
   std::cout << usage.str();
-}
-
-void BasicArgumentParser::handleWriterFlag(BasicArgumentStatus &argumentStatus, const std::string &flag,
-                                           const std::string &possibleValue) {
-  if (flag == "-w" || flag == "--writer") {
-    if (possibleValue != "vtk" || possibleValue != "xyz") {
-      throw std::invalid_argument("Expected: vtk or xyz | Got: " + possibleValue);
-    }
-    argumentStatus.updateFlag("writer", flag, possibleValue);
-  }
-}
-
-void BasicArgumentParser::handlePhysicsFlag(BasicArgumentStatus &argumentStatus, const std::string &flag,
-                                            const std::string &possibleValue) {
-  if (flag == "-p" || flag == "--physics") {
-    if (possibleValue != "gravitation") {
-      throw std::invalid_argument("Expected: gravitation | Got: " + possibleValue);
-    }
-    argumentStatus.updateFlag("physics", flag, possibleValue);
-  }
 }
 
 bool BasicArgumentStatus::validStatus() {
