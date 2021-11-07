@@ -15,7 +15,6 @@
  */
 int main(int argc, char *argv[]) {
   BasicArgumentParser parser{argc, argv};
-  ParserStatus status = parser.validateInput();
 
   if (argc == 1) {
     parser.showUsage();
