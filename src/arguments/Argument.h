@@ -13,6 +13,7 @@ class Argument {
   double delta_t;
   std::string output;
   std::string writer;
+  std::string physics;
   int iteration;
 
  public:
@@ -25,7 +26,7 @@ class Argument {
   * @param delta_t
   */
   Argument(std::string inputFileName, double end_time, double delta_t, std::string output,
-           std::string writer, double iteration);
+           std::string writer, int iteration, std::string physics);
 
   [[nodiscard]] double getEndTime() const;
 
@@ -38,4 +39,6 @@ class Argument {
   [[nodiscard]] std::basic_string<char> getOutput() const;
 
   [[nodiscard]] std::basic_string<char> getWriter() const;
+
+  [[nodiscard]] std::basic_string<char> getPhysics() const;
 };

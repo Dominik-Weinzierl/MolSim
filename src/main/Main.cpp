@@ -42,6 +42,9 @@ int main(int argc, char *argv[]) {
   }
 
   FileReader::readFile(particleContainer, arg->getFileName());
-  GravitationSimulation::performSimulation(*arg, *writer, particleContainer);
+
+  if (arg->getPhysics() == "gravitation") {
+    GravitationSimulation::performSimulation(*arg, *writer, particleContainer);
+  }
 }
 

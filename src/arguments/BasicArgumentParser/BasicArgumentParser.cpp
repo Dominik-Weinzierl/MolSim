@@ -1,9 +1,7 @@
 #include <algorithm>
 #include <iostream>
-#include <sstream>
 #include <arguments/BasicArgument/BasicArgument.h>
 #include <spdlog/spdlog.h>
-#include <outputWriter/VTKWriter/VTKWriter.h>
 #include <outputWriter/XYZWriter/XYZWriter.h>
 #include "BasicArgumentParser.h"
 
@@ -20,6 +18,7 @@ bool BasicArgumentParser::validateInput() {
   status.setOutput("default", "MD_vtk");
   status.setWriter("default", "vtk");
   status.setIteration("default", 60);
+  status.setPhysics("default", "gravitation");
 
   for (auto it = tokens.begin(); it != tokens.end() && it + 1 != tokens.end(); ++it) {
     const auto &flag = *it;
@@ -30,6 +29,7 @@ bool BasicArgumentParser::validateInput() {
     handleOutputFlag(status, flag, possibleValue);
     handleIterationFlag(status, flag, possibleValue);
     handleWriterFlag(status, flag, possibleValue);
+    handlePhysicsFlag(status, flag, possibleValue);
   }
   if (!status.validStatus()) {
     throw std::invalid_argument("Missing required argument. Please check your arguments!");
@@ -42,8 +42,8 @@ std::unique_ptr<Argument> BasicArgumentParser::createArgument() {
 
   return std::make_unique<BasicArgument>(std::get<2>(status.getInputFileName()), std::get<2>(status.getEnd_time()),
                                          std::get<2>(status.getDelta_t()), std::get<2>(status.getOutput()),
-                                         std::move(std::get<2>(status.getWriter())),
-                                         std::get<2>(status.getIteration()));
+                                         std::move(std::get<2>(status.getWriter())), std::get<2>(status.getIteration()),
+                                         std::get<2>(status.getPhysics()));
 }
 
 void BasicArgumentParser::showUsage() {
@@ -110,6 +110,15 @@ void BasicArgumentParser::handleIterationFlag(BasicArgumentStatus &argumentStatu
     }
   }
 }
+void BasicArgumentParser::handlePhysicsFlag(BasicArgumentStatus &argumentStatus, const std::string &flag,
+                                            const std::string &possibleValue) {
+  if (flag == "-p" || flag == "--physics") {
+    if (possibleValue != "gravitation") {
+      throw std::invalid_argument("Expected: gravitation | Got: " + possibleValue);
+    }
+    argumentStatus.setPhysics(flag, possibleValue);
+  }
+}
 
 bool BasicArgumentStatus::validStatus() {
   return ArgumentStatus::validStatus() && std::get<0>(end_time) && std::get<0>(delta_t);
@@ -162,4 +171,14 @@ void BasicArgumentStatus::setIteration(const std::string &flag, const int &value
   std::get<0>(iteration) = true;
   std::get<1>(iteration) = flag;
   std::get<2>(iteration) = value;
+}
+
+std::tuple<bool, std::string, std::string> &BasicArgumentStatus::getPhysics() {
+  return physics;
+}
+
+void BasicArgumentStatus::setPhysics(const std::string &flag, const std::string &value) {
+  std::get<0>(physics) = true;
+  std::get<1>(physics) = flag;
+  std::get<2>(physics) = value;
 }

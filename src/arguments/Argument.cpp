@@ -3,11 +3,11 @@
 #include <utility>
 
 Argument::Argument(std::string inputFileName, double end_time, double delta_t, std::string output,
-                   std::string writer, double iteration) : inputFileName{std::move(inputFileName)},
+                   std::string writer, int iteration, std::string physics) : inputFileName{std::move(inputFileName)},
                                                                              end_time{end_time}, delta_t{delta_t},
                                                                              output{std::move(output)},
                                                                              writer{std::move(writer)},
-                                                                             iteration{iteration} {
+                                                                             physics{std::move(physics)}, iteration{iteration} {
 
 }
 
@@ -34,4 +34,8 @@ std::basic_string<char> Argument::getOutput() const {
 
 std::basic_string<char> Argument::getWriter() const {
   return writer;
+}
+
+std::basic_string<char> Argument::getPhysics() const {
+  return physics;
 }
