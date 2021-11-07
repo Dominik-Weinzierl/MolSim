@@ -1,22 +1,29 @@
 #include "ArgumentParser.h"
 
-void ArgumentStatus::setInputFileName(const std::string &flag, const std::string &value) {
-  std::get<0>(inputFileName) = true;
-  std::get<1>(inputFileName) = flag;
-  std::get<2>(inputFileName) = value;
-}
+#include <utility>
+#include <utils/ArrayUtils.h>
 
-std::tuple<bool, std::string, std::string> &ArgumentStatus::getInputFileName() {
-  return inputFileName;
+ArgumentStatus::ArgumentStatus() {
+  flags.insert({"filename", {false, "", ""}});
 }
 
 bool ArgumentStatus::validStatus() {
-  return std::get<0>(inputFileName);
+  return std::get<0>(flags["filename"]);
 }
 
-void ArgumentParser::handleInputFileFlag(ArgumentStatus &status, const std::string &flag,
-                                         const std::string &possibleValue) {
-  if (flag == "-f" || flag == "--filename") {
-    status.setInputFileName(flag, possibleValue);
+void ArgumentStatus::updateFlag(const std::string &name, const std::string &flag, std::any value) {
+  std::get<0>(flags[name]) = true;
+  std::get<1>(flags[name]) = flag;
+  std::get<2>(flags[name]) = std::move(value);
+}
+
+std::any ArgumentStatus::getValue(const std::string &name) {
+  return std::get<2>(flags[name]);
+}
+
+void ArgumentParser::handleFlag(ArgumentStatus &status, const std::string &name, const std::string &flag,
+                                const std::string &possibleValue, std::array<std::string, 2> flags) {
+  if (flag == flags[0] || flag == flags[1]) {
+    status.updateFlag(name, flag, possibleValue);
   }
 }
