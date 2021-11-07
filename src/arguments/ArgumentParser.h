@@ -57,4 +57,10 @@ class ArgumentParser {
   static void handleFlag(ArgumentStatus &status, const std::string &name, const std::string &flag,
                          const std::string &possibleValue, std::array<std::string, 2> flags);
 
+  /**
+   * Handle the flags and sets the status accordingly with additional check
+   */
+  template<typename T>
+  void handleFlag(ArgumentStatus &status, const std::string &name, const std::string &flag,
+                         const std::string &possibleValue, std::array<std::string, 2> flags);
 };

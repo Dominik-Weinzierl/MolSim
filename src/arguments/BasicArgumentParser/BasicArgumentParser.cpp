@@ -29,9 +29,9 @@ bool BasicArgumentParser::validateInput() {
     const auto &possibleValue = *(it + 1);
     handleFlag(status, "filename", flag, possibleValue, {"-f", "--filename"});
     handleFlag(status, "output", flag, possibleValue, {"-o", "--output"});
-    handleEndTimeFlag(status, flag, possibleValue);
-    handleDeltaTFlag(status, flag, possibleValue);
-    handleIterationFlag(status, flag, possibleValue);
+    handleFlag<double>(status, "endTime", flag, possibleValue, {"-t", "--t_end"});
+    handleFlag<double>(status, "deltaT", flag, possibleValue, {"-d", "--delta_t"});
+    handleFlag<int>(status, "iteration", flag, possibleValue, {"-i", "--iteration"});
     handleWriterFlag(status, flag, possibleValue);
     handlePhysicsFlag(status, flag, possibleValue);
   }
@@ -68,39 +68,6 @@ void BasicArgumentParser::showUsage() {
   std::cout << usage.str();
 }
 
-void BasicArgumentParser::handleEndTimeFlag(BasicArgumentStatus &argumentStatus, const std::string &flag,
-                                            const std::string &possibleValue) {
-  if (flag == "-t" || flag == "--t_end") {
-    try {
-      argumentStatus.updateFlag("endTime", flag, std::stod(possibleValue));
-    } catch (std::invalid_argument &e) {
-      throw std::invalid_argument("Expected: number | Got: " + possibleValue);
-    }
-  }
-}
-
-void BasicArgumentParser::handleDeltaTFlag(BasicArgumentStatus &argumentStatus, const std::string &flag,
-                                           const std::string &possibleValue) {
-  if (flag == "-d" || flag == "--delta_t") {
-    try {
-      argumentStatus.updateFlag("deltaT", flag, std::stod(possibleValue));
-    } catch (std::invalid_argument &e) {
-      throw std::invalid_argument("Expected: number | Got: " + possibleValue);
-    }
-  }
-}
-
-void BasicArgumentParser::handleIterationFlag(BasicArgumentStatus &argumentStatus, const std::string &flag,
-                                              const std::string &possibleValue) {
-  if (flag == "-i" || flag == "--iteration") {
-    try {
-      argumentStatus.updateFlag("iteration", flag, std::stoi(possibleValue));
-    } catch (std::invalid_argument &e) {
-      throw std::invalid_argument("Expected: int | Got: " + possibleValue);
-    }
-  }
-}
-
 void BasicArgumentParser::handleWriterFlag(BasicArgumentStatus &argumentStatus, const std::string &flag,
                                            const std::string &possibleValue) {
   if (flag == "-w" || flag == "--writer") {
@@ -108,7 +75,6 @@ void BasicArgumentParser::handleWriterFlag(BasicArgumentStatus &argumentStatus, 
       throw std::invalid_argument("Expected: vtk or xyz | Got: " + possibleValue);
     }
     argumentStatus.updateFlag("writer", flag, possibleValue);
-    argumentStatus.updateFlag("output", "default", "MD_" + possibleValue);
   }
 }
 

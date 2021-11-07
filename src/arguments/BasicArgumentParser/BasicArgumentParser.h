@@ -23,31 +23,9 @@ class BasicArgumentParser : public ArgumentParser {
   BasicArgumentStatus status;
 
   /**
-  * Handle end_t flag and sets the status accordingly.
-  */
-  static void handleEndTimeFlag(BasicArgumentStatus &argumentStatus, const std::string &flag,
-                         const std::string &possibleValue);
-
-  /**
-   * Handle end_t flag and sets the status accordingly.
-   */
-  static void handleDeltaTFlag(BasicArgumentStatus &argumentStatus, const std::string &flag, const std::string &possibleValue);
-
-  /**
    * Handle writer flag and sets the status accordingly.
    */
   static void handleWriterFlag(BasicArgumentStatus &argumentStatus, const std::string &flag, const std::string &possibleValue);
-
-  /**
-   * Handle output flag and sets the status accordingly.
-   */
-  static void handleOutputFlag(BasicArgumentStatus &argumentStatus, const std::string &flag, const std::string &possibleValue);
-
-  /**
-   * Handle iteration flag and sets the status accordingly.
-   */
-  static void handleIterationFlag(BasicArgumentStatus &argumentStatus, const std::string &flag,
-                           const std::string &possibleValue);
 
   /**
    * Handle physics flag and sets the status accordingly.

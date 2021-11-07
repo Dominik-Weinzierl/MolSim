@@ -27,3 +27,27 @@ void ArgumentParser::handleFlag(ArgumentStatus &status, const std::string &name,
     status.updateFlag(name, flag, possibleValue);
   }
 }
+
+template<>
+void ArgumentParser::handleFlag<int>(ArgumentStatus &status, const std::string &name, const std::string &flag,
+                                     const std::string &possibleValue, std::array<std::string, 2> flags) {
+  if (flag == flags[0] || flag == flags[1]) {
+    try {
+      status.updateFlag(name, flag, std::stoi(possibleValue));
+    } catch (std::invalid_argument &e) {
+      throw std::invalid_argument("Expected: int  | Got: " + possibleValue);
+    }
+  }
+}
+
+template<>
+void ArgumentParser::handleFlag<double>(ArgumentStatus &status, const std::string &name, const std::string &flag,
+                                        const std::string &possibleValue, std::array<std::string, 2> flags) {
+  if (flag == flags[0] || flag == flags[1]) {
+    try {
+      status.updateFlag(name, flag, std::stod(possibleValue));
+    } catch (std::invalid_argument &e) {
+      throw std::invalid_argument("Expected: double  | Got: " + possibleValue);
+    }
+  }
+}
