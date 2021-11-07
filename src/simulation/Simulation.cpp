@@ -1,3 +1,4 @@
+#include <spdlog/spdlog.h>
 #include "Simulation.h"
 
 void Simulation::performSimulation(OutputWriter &writer, const Physics &physics, ParticleContainer &particleContainer,
@@ -14,7 +15,7 @@ void Simulation::performSimulation(OutputWriter &writer, const Physics &physics,
     if (iteration % 60 == 0) {
       writer.writeFile(iteration);
     }
-    std::cout << "Iteration " << iteration << " finished." << std::endl;
+    SPDLOG_INFO("Iteration {} finished", iteration);
     current_time += arg.getDeltaT();
   }
 }

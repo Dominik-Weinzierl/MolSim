@@ -5,12 +5,14 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <spdlog/spdlog.h>
 
 void FileReader::readFile(ParticleContainer &particleContainer, const std::string &filename) {
   std::ifstream inputFile(filename);
   std::string tmpString;
 
   if (inputFile.is_open()) {
+    SPDLOG_INFO("Opened file {}", filename);
     double m;
     int numParticles = 0;
     Vector x;
@@ -40,7 +42,7 @@ void FileReader::readFile(ParticleContainer &particleContainer, const std::strin
         dataStream >> vj;
       }
       if (dataStream.eof()) {
-        std::cout << "Error reading file: eof reached unexpectedly reading from line " << i << std::endl;
+        SPDLOG_ERROR("Reached end of file {0} unexpectedly after {1} lines of data", filename, i);
         exit(-1);
       }
       dataStream >> m;
@@ -50,7 +52,7 @@ void FileReader::readFile(ParticleContainer &particleContainer, const std::strin
       // std::cout << "Read line: " << tmpString << std::endl;
     }
   } else {
-    std::cout << "Error: could not open file " << filename << std::endl;
+    SPDLOG_ERROR("Could not open file {}", filename);
     exit(-1);
   }
 }
