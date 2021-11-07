@@ -18,7 +18,7 @@ jobs:
         run: sudo apt-get install libxerces-c-dev
 
       - name: Use makefile to prepare and run cmake
-        run: make
+        run: make build_without_tests
         env:
           CC: clang
           CXX: clang++
@@ -51,16 +51,15 @@ jobs:
       - name: Install test environement (1/2)
         run: |
           sudo apt-get install libxerces-c-dev
-          cmake -E make_directory ${{github.workspace}}/build
-
-      - name: Install test environement (2/2)
-        run: |
-          cmake .. -DBUILD_DOCUMENTATION=ON
           make
-        working-directory: ${{github.workspace}}/build
         env:
           CC: clang
           CXX: clang++
 
+      - name: Install test environement (2/2)
+        run: make
+        working-directory: ${{github.workspace}}/build
+
       - name: Run CTest
         run: ctest
+        working-directory: ${{github.workspace}}/build

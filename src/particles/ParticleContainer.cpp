@@ -30,3 +30,11 @@ unsigned long ParticleContainer::size() const {
   return particles.size();
 }
 
+Particle &ParticleContainer::operator[](unsigned long i) {
+  return particles[i];
+}
+
+Particle ParticleContainer::operator[](unsigned long i) const {
+  return particles[i];
+}
+

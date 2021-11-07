@@ -1,10 +1,9 @@
-#include <arguments/Argument/Argument.h>
+#include <arguments/Argument.h>
 #include <arguments/ArgumentParser.h>
 #include <arguments/BasicArgumentParser/BasicArgumentParser.h>
 #include <iostream>
 #include <simulation/variants/GravitationSimulation.h>
 #include "fileReader/FileReader.h"
-#include "spdlog/spdlog.h"
 
 /**
  * Creates a parser which parses information based on the selected parser
@@ -23,28 +22,16 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
-  if (status == ParserStatus::Operation_Help) {
-    parser.showUsage();
-    return 0;
-  }
-
-  if (status != ParserStatus::Operation_Simulation) {
-    std::cout << ("Erroneous program call!") << std::endl;
+  bool valid = parser.validateInput();
+  if (!valid) {
     parser.showUsage();
     return -1;
   }
 
-  std::optional<Argument> optionalArg = parser.createArgument();
-  if (!optionalArg.has_value()) {
-    std::cout << ("Erroneous program call!") << std::endl;
-    parser.showUsage();
-    return -1;
-  }
-
-  Argument arg = optionalArg.value();
+  std::unique_ptr<Argument> arg = parser.createArgument();
   ParticleContainer particleContainer;
   VTKWriter writer{"MD_vtk", "output", particleContainer};
-  FileReader::readFile(particleContainer, arg.getFileName());
-  GravitationSimulation::performSimulation(arg, writer, particleContainer);
+  FileReader::readFile(particleContainer, arg->getFileName());
+  GravitationSimulation::performSimulation(*arg, writer, particleContainer);
 }
 

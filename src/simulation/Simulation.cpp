@@ -2,7 +2,7 @@
 #include "Simulation.h"
 
 void Simulation::performSimulation(OutputWriter &writer, const Physics &physics, ParticleContainer &particleContainer,
-                                   Argument &arg) {
+                                   const Argument &arg) {
   double current_time = start_time;
   int iteration = 0;
 
