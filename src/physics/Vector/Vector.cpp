@@ -24,6 +24,7 @@ Vector::~Vector() {
 
 //---------------------------Operators---------------------------
 Vector &Vector::operator+=(const Vector &other) {
+  SPDLOG_DEBUG("Calculating {0} + {1}", this, other);
   std::transform(this->begin(), this->end(), other.begin(), this->begin(), [](auto l, auto r) {
     return l + r;
   });
@@ -31,11 +32,13 @@ Vector &Vector::operator+=(const Vector &other) {
 };
 
 Vector operator+(Vector lhs, const Vector &rhs) {
+  SPDLOG_DEBUG("Calculating {0} + {1}", lhs, rhs);
   lhs += rhs;
   return lhs;
 }
 
 Vector &Vector::operator-=(const Vector &other) {
+  SPDLOG_DEBUG("Calculating {0} - {1}", this, other);
   std::transform(this->begin(), this->end(), other.begin(), this->begin(), [](auto l, auto r) {
     return l - r;
   });
@@ -43,11 +46,13 @@ Vector &Vector::operator-=(const Vector &other) {
 };
 
 Vector operator-(Vector lhs, const Vector &rhs) {
+  SPDLOG_DEBUG("Calculating {0} - {1}", lhs, rhs);
   lhs -= rhs;
   return lhs;
 };
 
 Vector &Vector::operator-() {
+  SPDLOG_DEBUG("Calculating -{}", this);
   std::transform(begin(), end(), begin(), [](auto l) {
     return -l;
   });
@@ -56,21 +61,25 @@ Vector &Vector::operator-() {
 
 // Scalar product
 double Vector::operator*(const Vector &other) const {
+  SPDLOG_DEBUG("Calculating {0} * {1}", this, other);
   return std::inner_product(std::begin(vector), std::end(vector), std::begin(other.vector), 0.0);
 };
 
 // Scaling of vectors
 Vector operator*(Vector lhs, const double &rhs) {
+  SPDLOG_DEBUG("Calculating {0} * {1}", lhs, rhs);
   lhs *= rhs;
   return lhs;
 };
 
 Vector operator*(const double &rhs, Vector lhs) {
+  SPDLOG_DEBUG("Calculating {0} * {1}", rhs, lhs);
   lhs *= rhs;
   return lhs;
 };
 
 Vector &Vector::operator*=(double d) {
+  SPDLOG_DEBUG("Calculating {0} * {1}", this, d);
   std::transform(this->begin(), this->end(), this->begin(), [&](auto v) {
     return v * d;
   });
@@ -78,11 +87,13 @@ Vector &Vector::operator*=(double d) {
 };
 
 Vector operator/(Vector lhs, const double &rhs) {
+  SPDLOG_DEBUG("Calculating {0} / {1}", lhs, rhs);
   lhs /= rhs;
   return lhs;
 }
 
 Vector &Vector::operator/=(double d) {
+  SPDLOG_DEBUG("Calculating {0} / {1}", this, d);
   std::transform(this->begin(), this->end(), this->begin(), [&](auto v) {
     return v / d;
   });

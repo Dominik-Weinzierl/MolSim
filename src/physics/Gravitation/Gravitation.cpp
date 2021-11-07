@@ -13,6 +13,7 @@ void Gravitation::calculateF(ParticleContainer &particleContainer) const {
   }
   for (auto i = particleContainer.begin(); i != particleContainer.end(); ++i) {
     for (auto j = i + 1; j != particleContainer.end(); ++j) {
+      SPDLOG_DEBUG("Calculating force for {} and {}", i, j);
       const auto difference = j->getX() - i->getX();
       Vector force = difference;
       const auto l2Norm = ArrayUtils::L2Norm(difference);
@@ -29,6 +30,7 @@ void Gravitation::calculateF(ParticleContainer &particleContainer) const {
 void Gravitation::calculateV(ParticleContainer &particleContainer, const double deltaT) const {
   SPDLOG_INFO("started calculating velocities");
   for (auto &p: particleContainer) {
+    SPDLOG_DEBUG("Calculating velocity for {}", p);
     Vector velocity = (p.getOldF() + p.getF());
     velocity /= (2 * p.getM());
     velocity *= deltaT;
@@ -42,6 +44,7 @@ void Gravitation::calculateX(ParticleContainer &particleContainer, const double 
   const auto deltaTPow = deltaT * deltaT;
 
   for (auto &p: particleContainer) {
+    SPDLOG_DEBUG("Calculating position for {}", p);
     Vector position = p.getF();
     position /= 2 * p.getM();
     position *= deltaTPow;
