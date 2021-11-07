@@ -57,6 +57,7 @@ void BasicArgumentParser::showUsage() {
   usage << "\t-o,--output\t\tSpecify the output filename" << std::endl;
   usage << "\t-i,--iteration\t\tSpecify the iteration" << std::endl;
   usage << "\t-w,--writer\t\tSpecify the writer used for the output files" << std::endl;
+  usage << "\t-p,--physics\t\tSpecify the physics used for the simulation" << std::endl;
   std::cout << usage.str();
 }
 
