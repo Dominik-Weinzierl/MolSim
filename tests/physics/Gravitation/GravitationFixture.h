@@ -9,4 +9,3 @@ class GravitationFixture : public ::testing::Test, public Gravitation {
  public:
   GravitationFixture() = default;
 };
-

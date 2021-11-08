@@ -20,3 +20,4 @@ target_compile_features(Test PUBLIC cxx_std_20)
 target_compile_options(Test PUBLIC -W -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -Wold-style-cast -Wpedantic -Wconversion -Werror -Wdouble-promotion)
 
 gtest_discover_tests(Test)
+

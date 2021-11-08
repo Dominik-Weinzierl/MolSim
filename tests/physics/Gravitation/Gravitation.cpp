@@ -4,6 +4,12 @@
 
 
 /**
+ * ***************************************************
+ * Test correct functionality of the class Gravitation
+ * ******************************************+********
+ */
+
+/**
  * Test basic calculations of next steps. In this case, we test the force between two planets.
  */
 TEST_F(GravitationFixture, calculateForceBetweenSunAndEarth) { // NOLINT(cert-err58-cpp)
