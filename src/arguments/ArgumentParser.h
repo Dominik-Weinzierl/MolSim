@@ -3,12 +3,12 @@
 #include <memory>
 #include "Argument.h"
 #include <tuple>
-#include <map>
+#include <unordered_map>
 #include <variant>
 
 class ArgumentStatus {
  protected:
-  std::map<std::string, std::tuple<bool, std::string, std::variant<std::string, int, double>>> flags;
+  std::unordered_map<std::string, std::tuple<bool, std::string, std::variant<std::string, int, double>>> flags;
 
  public:
   ArgumentStatus();

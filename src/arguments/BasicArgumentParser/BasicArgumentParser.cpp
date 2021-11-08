@@ -33,7 +33,7 @@ bool BasicArgumentParser::validateInput() {
     handleFlag<double>(status, "deltaT", flag, possibleValue, {"-d", "--delta_t"});
     handleFlag<int>(status, "iteration", flag, possibleValue, {"-i", "--iteration"});
     handleFlag(status, "physics", flag, possibleValue, {"-p", "--physics"}, {"gravitation"});
-    handleFlag(status, "writer", flag, possibleValue, {"-w", "--writer"}, {"vtx", "xyz"});
+    handleFlag(status, "writer", flag, possibleValue, {"-w", "--writer"}, {"vtk", "xyz"});
   }
   if (!status.validStatus()) {
     throw std::invalid_argument("Missing required argument. Please check your arguments!");
