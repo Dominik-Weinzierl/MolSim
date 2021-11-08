@@ -4,7 +4,7 @@
 #include <simulation/variants/GravitationSimulation.h>
 #include <spdlog/spdlog.h>
 #include <outputWriter/XYZWriter/XYZWriter.h>
-#include "fileReader/FileReader.h"
+#include "fileReader/InputFile/InputReader.h"
 
 /**
  * Creates a parser which parses information based on the selected parser
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     writer = std::make_unique<XYZWriter>(arg->getOutput(), "output", particleContainer);
   }
 
-  FileReader::readFile(particleContainer, arg->getFileName());
+  InputReader::readFile(particleContainer, arg->getFileName());
 
   if (arg->getPhysics() == "gravitation") {
     GravitationSimulation::performSimulation(*arg, *writer, particleContainer);

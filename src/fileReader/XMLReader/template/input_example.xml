@@ -1,0 +1,10 @@
+<Simulation>
+    <Cuboid mass="5.0" distance="5.0" meanValue="5.0">
+        <Position x="1.0" y="2.0" z="3.0"/>
+    </Cuboid>
+    <Cuboid mass="5.0" distance="5.0" meanValue="5.0">
+        <Position x="1.0" y="2.0" z="3.0"/>
+    </Cuboid>
+    <Source location="./input/eingabe-sonne.txt"/>
+    <Source location="./input/sun_system.txt"/>
+</Simulation>

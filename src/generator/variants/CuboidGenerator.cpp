@@ -1,10 +1,10 @@
 #include "CuboidGenerator.h"
-#include "generator/GeneratorArguments/CuboidArguments.h"
+#include "generator/GeneratorArguments/CuboidArgument.h"
 
 void CuboidGenerator::generate(GeneratorArguments &g, ParticleContainer &container) {
 
   // Usage of static_cast since we know that we'll only operate on CuboidArguments
-  auto &c = static_cast<CuboidArguments &>(g); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
+  auto &c = static_cast<CuboidArgument &>(g); // NOLINT(cppcoreguidelines-pro-type-static-cast-downcast)
 
   for (auto x = 0; x < c.dimensions[0]; x++) {
     for (auto y = 0; y < c.dimensions[1]; y++) {

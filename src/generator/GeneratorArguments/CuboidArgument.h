@@ -3,7 +3,7 @@
 #include "generator/Generator.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
 
- struct CuboidArguments : public GeneratorArguments {
+ struct CuboidArgument : public GeneratorArguments {
    Vector startingCoordinates;
    Vector dimensions;
    Vector initialVelocity;
