@@ -3,8 +3,8 @@
 #include "outputWriter/VTKWriter/VTKWriter.h"
 #include <iostream>
 #include <physics/Gravitation/Gravitation.h>
-#include <arguments/Argument.h>
-#include <arguments/BasicArgumentParser/BasicArgumentParser.h>
+#include <arguments/argument/Argument.h>
+#include <arguments/argumentParser/BasicArgumentParser/BasicArgumentParser.h>
 
 /**
  * Simulation class which contains a start time and a method to run a simulation.

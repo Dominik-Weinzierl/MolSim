@@ -115,18 +115,18 @@ namespace xml_schema {
  * @brief C++ type corresponding to the anyType XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::type Type;
+typedef ::xsd::cxx::tree::type type;
 
 /**
  * @brief C++ type corresponding to the anySimpleType XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::simple_type<char, Type> SimpleType;
+typedef ::xsd::cxx::tree::simple_type<char, type> simple_type;
 
 /**
  * @brief Alias for the anyType type.
  */
-typedef ::xsd::cxx::tree::type Container;
+typedef ::xsd::cxx::tree::type container;
 
 
 // 8-bit
@@ -136,13 +136,13 @@ typedef ::xsd::cxx::tree::type Container;
  * @brief C++ type corresponding to the byte XML Schema
  * built-in type.
  */
-typedef signed char Byte;
+typedef signed char byte;
 
 /**
  * @brief C++ type corresponding to the unsignedByte XML Schema
  * built-in type.
  */
-typedef unsigned char UnsignedByte;
+typedef unsigned char unsigned_byte;
 
 
 // 16-bit
@@ -152,13 +152,13 @@ typedef unsigned char UnsignedByte;
  * @brief C++ type corresponding to the short XML Schema
  * built-in type.
  */
-typedef short Short;
+typedef short short_;
 
 /**
  * @brief C++ type corresponding to the unsignedShort XML Schema
  * built-in type.
  */
-typedef unsigned short UnsignedShort;
+typedef unsigned short unsigned_short;
 
 
 // 32-bit
@@ -168,13 +168,13 @@ typedef unsigned short UnsignedShort;
  * @brief C++ type corresponding to the int XML Schema
  * built-in type.
  */
-typedef int Int;
+typedef int int_;
 
 /**
  * @brief C++ type corresponding to the unsignedInt XML Schema
  * built-in type.
  */
-typedef unsigned int UnsignedInt;
+typedef unsigned int unsigned_int;
 
 
 // 64-bit
@@ -184,13 +184,13 @@ typedef unsigned int UnsignedInt;
  * @brief C++ type corresponding to the long XML Schema
  * built-in type.
  */
-typedef long long Long;
+typedef long long long_;
 
 /**
  * @brief C++ type corresponding to the unsignedLong XML Schema
  * built-in type.
  */
-typedef unsigned long long UnsignedLong;
+typedef unsigned long long unsigned_long;
 
 
 // Supposed to be arbitrary-length integral types.
@@ -200,31 +200,31 @@ typedef unsigned long long UnsignedLong;
  * @brief C++ type corresponding to the integer XML Schema
  * built-in type.
  */
-typedef long long Integer;
+typedef long long integer;
 
 /**
  * @brief C++ type corresponding to the nonPositiveInteger XML Schema
  * built-in type.
  */
-typedef long long NonPositiveInteger;
+typedef long long non_positive_integer;
 
 /**
  * @brief C++ type corresponding to the nonNegativeInteger XML Schema
  * built-in type.
  */
-typedef unsigned long long NonNegativeInteger;
+typedef unsigned long long non_negative_integer;
 
 /**
  * @brief C++ type corresponding to the positiveInteger XML Schema
  * built-in type.
  */
-typedef unsigned long long PositiveInteger;
+typedef unsigned long long positive_integer;
 
 /**
  * @brief C++ type corresponding to the negativeInteger XML Schema
  * built-in type.
  */
-typedef long long NegativeInteger;
+typedef long long negative_integer;
 
 
 // Boolean.
@@ -234,7 +234,7 @@ typedef long long NegativeInteger;
  * @brief C++ type corresponding to the boolean XML Schema
  * built-in type.
  */
-typedef bool Boolean;
+typedef bool boolean;
 
 
 // Floating-point types.
@@ -244,19 +244,19 @@ typedef bool Boolean;
  * @brief C++ type corresponding to the float XML Schema
  * built-in type.
  */
-typedef float Float;
+typedef float float_;
 
 /**
  * @brief C++ type corresponding to the double XML Schema
  * built-in type.
  */
-typedef double Double;
+typedef double double_;
 
 /**
  * @brief C++ type corresponding to the decimal XML Schema
  * built-in type.
  */
-typedef double Decimal;
+typedef double decimal;
 
 
 // String types.
@@ -266,49 +266,49 @@ typedef double Decimal;
  * @brief C++ type corresponding to the string XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::string<char, SimpleType> String;
+typedef ::xsd::cxx::tree::string<char, simple_type> string;
 
 /**
  * @brief C++ type corresponding to the normalizedString XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::normalized_string<char, String> NormalizedString;
+typedef ::xsd::cxx::tree::normalized_string<char, string> normalized_string;
 
 /**
  * @brief C++ type corresponding to the token XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::token<char, NormalizedString> Token;
+typedef ::xsd::cxx::tree::token<char, normalized_string> token;
 
 /**
  * @brief C++ type corresponding to the Name XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::name<char, Token> Name;
+typedef ::xsd::cxx::tree::name<char, token> name;
 
 /**
  * @brief C++ type corresponding to the NMTOKEN XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::nmtoken<char, Token> Nmtoken;
+typedef ::xsd::cxx::tree::nmtoken<char, token> nmtoken;
 
 /**
  * @brief C++ type corresponding to the NMTOKENS XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::nmtokens<char, SimpleType, Nmtoken> Nmtokens;
+typedef ::xsd::cxx::tree::nmtokens<char, simple_type, nmtoken> nmtokens;
 
 /**
  * @brief C++ type corresponding to the NCName XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::ncname<char, Name> Ncname;
+typedef ::xsd::cxx::tree::ncname<char, name> ncname;
 
 /**
  * @brief C++ type corresponding to the language XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::language<char, Token> Language;
+typedef ::xsd::cxx::tree::language<char, token> language;
 
 
 // ID/IDREF.
@@ -318,19 +318,19 @@ typedef ::xsd::cxx::tree::language<char, Token> Language;
  * @brief C++ type corresponding to the ID XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::id<char, Ncname> Id;
+typedef ::xsd::cxx::tree::id<char, ncname> id;
 
 /**
  * @brief C++ type corresponding to the IDREF XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::idref<char, Ncname, Type> Idref;
+typedef ::xsd::cxx::tree::idref<char, ncname, type> idref;
 
 /**
  * @brief C++ type corresponding to the IDREFS XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::idrefs<char, SimpleType, Idref> Idrefs;
+typedef ::xsd::cxx::tree::idrefs<char, simple_type, idref> idrefs;
 
 
 // URI.
@@ -340,7 +340,7 @@ typedef ::xsd::cxx::tree::idrefs<char, SimpleType, Idref> Idrefs;
  * @brief C++ type corresponding to the anyURI XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::uri<char, SimpleType> Uri;
+typedef ::xsd::cxx::tree::uri<char, simple_type> uri;
 
 
 // Qualified name.
@@ -350,7 +350,7 @@ typedef ::xsd::cxx::tree::uri<char, SimpleType> Uri;
  * @brief C++ type corresponding to the QName XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::qname<char, SimpleType, Uri, Ncname> Qname;
+typedef ::xsd::cxx::tree::qname<char, simple_type, uri, ncname> qname;
 
 
 // Binary.
@@ -359,19 +359,19 @@ typedef ::xsd::cxx::tree::qname<char, SimpleType, Uri, Ncname> Qname;
 /**
  * @brief Binary buffer type.
  */
-typedef ::xsd::cxx::tree::buffer<char> Buffer;
+typedef ::xsd::cxx::tree::buffer<char> buffer;
 
 /**
  * @brief C++ type corresponding to the base64Binary XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::base64_binary<char, SimpleType> Base64Binary;
+typedef ::xsd::cxx::tree::base64_binary<char, simple_type> base64_binary;
 
 /**
  * @brief C++ type corresponding to the hexBinary XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::hex_binary<char, SimpleType> HexBinary;
+typedef ::xsd::cxx::tree::hex_binary<char, simple_type> hex_binary;
 
 
 // Date/time.
@@ -380,61 +380,61 @@ typedef ::xsd::cxx::tree::hex_binary<char, SimpleType> HexBinary;
 /**
  * @brief Time zone type.
  */
-typedef ::xsd::cxx::tree::time_zone TimeZone;
+typedef ::xsd::cxx::tree::time_zone time_zone;
 
 /**
  * @brief C++ type corresponding to the date XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::date<char, SimpleType> Date;
+typedef ::xsd::cxx::tree::date<char, simple_type> date;
 
 /**
  * @brief C++ type corresponding to the dateTime XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::date_time<char, SimpleType> DateTime;
+typedef ::xsd::cxx::tree::date_time<char, simple_type> date_time;
 
 /**
  * @brief C++ type corresponding to the duration XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::duration<char, SimpleType> Duration;
+typedef ::xsd::cxx::tree::duration<char, simple_type> duration;
 
 /**
  * @brief C++ type corresponding to the gDay XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::gday<char, SimpleType> Gday;
+typedef ::xsd::cxx::tree::gday<char, simple_type> gday;
 
 /**
  * @brief C++ type corresponding to the gMonth XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::gmonth<char, SimpleType> Gmonth;
+typedef ::xsd::cxx::tree::gmonth<char, simple_type> gmonth;
 
 /**
  * @brief C++ type corresponding to the gMonthDay XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::gmonth_day<char, SimpleType> GmonthDay;
+typedef ::xsd::cxx::tree::gmonth_day<char, simple_type> gmonth_day;
 
 /**
  * @brief C++ type corresponding to the gYear XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::gyear<char, SimpleType> Gyear;
+typedef ::xsd::cxx::tree::gyear<char, simple_type> gyear;
 
 /**
  * @brief C++ type corresponding to the gYearMonth XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::gyear_month<char, SimpleType> GyearMonth;
+typedef ::xsd::cxx::tree::gyear_month<char, simple_type> gyear_month;
 
 /**
  * @brief C++ type corresponding to the time XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::time<char, SimpleType> Time;
+typedef ::xsd::cxx::tree::time<char, simple_type> time;
 
 
 // Entity.
@@ -444,50 +444,50 @@ typedef ::xsd::cxx::tree::time<char, SimpleType> Time;
  * @brief C++ type corresponding to the ENTITY XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::entity<char, Ncname> Entity;
+typedef ::xsd::cxx::tree::entity<char, ncname> entity;
 
 /**
  * @brief C++ type corresponding to the ENTITIES XML Schema
  * built-in type.
  */
-typedef ::xsd::cxx::tree::entities<char, SimpleType, Entity> Entities;
+typedef ::xsd::cxx::tree::entities<char, simple_type, entity> entities;
 
 /**
  * @brief Content order sequence entry.
  */
-typedef ::xsd::cxx::tree::content_order ContentOrder;
+typedef ::xsd::cxx::tree::content_order content_order;
 // Namespace information and list stream. Used in
 // serialization functions.
 //
 /**
  * @brief Namespace serialization information.
  */
-typedef ::xsd::cxx::xml::dom::namespace_info<char> NamespaceInfo;
+typedef ::xsd::cxx::xml::dom::namespace_info<char> namespace_info;
 
 /**
  * @brief Namespace serialization information map.
  */
-typedef ::xsd::cxx::xml::dom::namespace_infomap<char> NamespaceInfomap;
+typedef ::xsd::cxx::xml::dom::namespace_infomap<char> namespace_infomap;
 
 /**
  * @brief List serialization stream.
  */
-typedef ::xsd::cxx::tree::list_stream<char> ListStream;
+typedef ::xsd::cxx::tree::list_stream<char> list_stream;
 
 /**
  * @brief Serialization wrapper for the %double type.
  */
-typedef ::xsd::cxx::tree::as_double<Double> AsDouble;
+typedef ::xsd::cxx::tree::as_double<double_> as_double;
 
 /**
  * @brief Serialization wrapper for the %decimal type.
  */
-typedef ::xsd::cxx::tree::as_decimal<Decimal> AsDecimal;
+typedef ::xsd::cxx::tree::as_decimal<decimal> as_decimal;
 
 /**
  * @brief Simple type facet.
  */
-typedef ::xsd::cxx::tree::facet Facet;
+typedef ::xsd::cxx::tree::facet facet;
 
 // Flags and properties.
 //
@@ -495,12 +495,12 @@ typedef ::xsd::cxx::tree::facet Facet;
 /**
  * @brief Parsing and serialization flags.
  */
-typedef ::xsd::cxx::tree::flags Flags;
+typedef ::xsd::cxx::tree::flags flags;
 
 /**
  * @brief Parsing properties.
  */
-typedef ::xsd::cxx::tree::properties<char> Properties;
+typedef ::xsd::cxx::tree::properties<char> properties;
 
 // Parsing/serialization diagnostics.
 //
@@ -508,17 +508,17 @@ typedef ::xsd::cxx::tree::properties<char> Properties;
 /**
  * @brief Error severity.
  */
-typedef ::xsd::cxx::tree::severity Severity;
+typedef ::xsd::cxx::tree::severity severity;
 
 /**
  * @brief Error condition.
  */
-typedef ::xsd::cxx::tree::error<char> Error;
+typedef ::xsd::cxx::tree::error<char> error;
 
 /**
  * @brief List of %error conditions.
  */
-typedef ::xsd::cxx::tree::diagnostics<char> Diagnostics;
+typedef ::xsd::cxx::tree::diagnostics<char> diagnostics;
 
 // Exceptions.
 //
@@ -526,70 +526,70 @@ typedef ::xsd::cxx::tree::diagnostics<char> Diagnostics;
 /**
  * @brief Root of the C++/Tree %exception hierarchy.
  */
-typedef ::xsd::cxx::tree::exception<char> Exception;
+typedef ::xsd::cxx::tree::exception<char> exception;
 
 /**
  * @brief Exception indicating that the size argument exceeds
  * the capacity argument.
  */
-typedef ::xsd::cxx::tree::bounds<char> Bounds;
+typedef ::xsd::cxx::tree::bounds<char> bounds;
 
 /**
  * @brief Exception indicating that a duplicate ID value
  * was encountered in the object model.
  */
-typedef ::xsd::cxx::tree::duplicate_id<char> DuplicateId;
+typedef ::xsd::cxx::tree::duplicate_id<char> duplicate_id;
 
 /**
  * @brief Exception indicating a parsing failure.
  */
-typedef ::xsd::cxx::tree::parsing<char> Parsing;
+typedef ::xsd::cxx::tree::parsing<char> parsing;
 
 /**
  * @brief Exception indicating that an expected element
  * was not encountered.
  */
-typedef ::xsd::cxx::tree::expected_element<char> ExpectedElement;
+typedef ::xsd::cxx::tree::expected_element<char> expected_element;
 
 /**
  * @brief Exception indicating that an unexpected element
  * was encountered.
  */
-typedef ::xsd::cxx::tree::unexpected_element<char> UnexpectedElement;
+typedef ::xsd::cxx::tree::unexpected_element<char> unexpected_element;
 
 /**
  * @brief Exception indicating that an expected attribute
  * was not encountered.
  */
-typedef ::xsd::cxx::tree::expected_attribute<char> ExpectedAttribute;
+typedef ::xsd::cxx::tree::expected_attribute<char> expected_attribute;
 
 /**
  * @brief Exception indicating that an unexpected enumerator
  * was encountered.
  */
-typedef ::xsd::cxx::tree::unexpected_enumerator<char> UnexpectedEnumerator;
+typedef ::xsd::cxx::tree::unexpected_enumerator<char> unexpected_enumerator;
 
 /**
  * @brief Exception indicating that the text content was
  * expected for an element.
  */
-typedef ::xsd::cxx::tree::expected_text_content<char> ExpectedTextContent;
+typedef ::xsd::cxx::tree::expected_text_content<char> expected_text_content;
 
 /**
  * @brief Exception indicating that a prefix-namespace
  * mapping was not provided.
  */
-typedef ::xsd::cxx::tree::no_prefix_mapping<char> NoPrefixMapping;
+typedef ::xsd::cxx::tree::no_prefix_mapping<char> no_prefix_mapping;
 
 /**
  * @brief Exception indicating a serialization failure.
  */
-typedef ::xsd::cxx::tree::serialization<char> Serialization;
+typedef ::xsd::cxx::tree::serialization<char> serialization;
 
 /**
  * @brief Error handler callback interface.
  */
-typedef ::xsd::cxx::xml::error_handler<char> ErrorHandler;
+typedef ::xsd::cxx::xml::error_handler<char> error_handler;
 
 /**
  * @brief DOM interaction.
@@ -612,10 +612,10 @@ const XMLCh *const tree_node_key = ::xsd::cxx::tree::user_data_keys::node;
 
 // Forward declarations.
 //
-class Cuboid_t;
-class Vector_t;
-class Input_t;
-class Simulation_t;
+class cuboid_t;
+class vector_t;
+class input_t;
+class simulation_t;
 
 #include <memory>    // ::std::unique_ptr
 #include <limits>    // std::numeric_limits
@@ -636,7 +636,7 @@ class Simulation_t;
  *
  * @nosubgrouping
  */
-class Cuboid_t : public ::xml_schema::Type {
+class cuboid_t : public ::xml_schema::type {
  public:
   /**
    * @name Position
@@ -649,26 +649,26 @@ class Cuboid_t : public ::xml_schema::Type {
   /**
    * @brief Element type.
    */
-  typedef ::Vector_t PositionType;
+  typedef ::vector_t Position_type;
 
   /**
    * @brief Element traits type.
    */
-  typedef ::xsd::cxx::tree::traits<PositionType, char> PositionTraits;
+  typedef ::xsd::cxx::tree::traits<Position_type, char> Position_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the element.
    *
    * @return A constant reference to the element.
    */
-  const PositionType &Position() const;
+  const Position_type &Position() const;
 
   /**
    * @brief Return a read-write reference to the element.
    *
    * @return A reference to the element.
    */
-  PositionType &Position();
+  Position_type &Position();
 
   /**
    * @brief Set the element value.
@@ -678,7 +678,7 @@ class Cuboid_t : public ::xml_schema::Type {
    * This function makes a copy of its argument and sets it as
    * the new value of the element.
    */
-  void Position(const PositionType &x);
+  void Position(const Position_type &x);
 
   /**
    * @brief Set the element value without copying.
@@ -688,7 +688,7 @@ class Cuboid_t : public ::xml_schema::Type {
    * This function will try to use the passed value directly
    * instead of making a copy.
    */
-  void Position(::std::unique_ptr<PositionType> p);
+  void Position(::std::unique_ptr<Position_type> p);
 
   //@}
 
@@ -703,26 +703,26 @@ class Cuboid_t : public ::xml_schema::Type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::Decimal DistanceType;
+  typedef ::xml_schema::decimal distance_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<DistanceType, char, ::xsd::cxx::tree::schema_type::decimal> DistanceTraits;
+  typedef ::xsd::cxx::tree::traits<distance_type, char, ::xsd::cxx::tree::schema_type::decimal> distance_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
    *
    * @return A constant reference to the attribute.
    */
-  const DistanceType &distance() const;
+  const distance_type &distance() const;
 
   /**
    * @brief Return a read-write reference to the attribute.
    *
    * @return A reference to the attribute.
    */
-  DistanceType &distance();
+  distance_type &distance();
 
   /**
    * @brief Set the attribute value.
@@ -732,7 +732,7 @@ class Cuboid_t : public ::xml_schema::Type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void distance(const DistanceType &x);
+  void distance(const distance_type &x);
 
   //@}
 
@@ -747,26 +747,26 @@ class Cuboid_t : public ::xml_schema::Type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::Decimal MassType;
+  typedef ::xml_schema::decimal mass_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<MassType, char, ::xsd::cxx::tree::schema_type::decimal> MassTraits;
+  typedef ::xsd::cxx::tree::traits<mass_type, char, ::xsd::cxx::tree::schema_type::decimal> mass_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
    *
    * @return A constant reference to the attribute.
    */
-  const MassType &mass() const;
+  const mass_type &mass() const;
 
   /**
    * @brief Return a read-write reference to the attribute.
    *
    * @return A reference to the attribute.
    */
-  MassType &mass();
+  mass_type &mass();
 
   /**
    * @brief Set the attribute value.
@@ -776,7 +776,7 @@ class Cuboid_t : public ::xml_schema::Type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void mass(const MassType &x);
+  void mass(const mass_type &x);
 
   //@}
 
@@ -791,26 +791,26 @@ class Cuboid_t : public ::xml_schema::Type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::Decimal MeanValueType;
+  typedef ::xml_schema::decimal meanValue_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<MeanValueType, char, ::xsd::cxx::tree::schema_type::decimal> MeanValueTraits;
+  typedef ::xsd::cxx::tree::traits<meanValue_type, char, ::xsd::cxx::tree::schema_type::decimal> meanValue_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
    *
    * @return A constant reference to the attribute.
    */
-  const MeanValueType &meanValue() const;
+  const meanValue_type &meanValue() const;
 
   /**
    * @brief Return a read-write reference to the attribute.
    *
    * @return A reference to the attribute.
    */
-  MeanValueType &meanValue();
+  meanValue_type &meanValue();
 
   /**
    * @brief Set the attribute value.
@@ -820,7 +820,7 @@ class Cuboid_t : public ::xml_schema::Type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void meanValue(const MeanValueType &x);
+  void meanValue(const meanValue_type &x);
 
   //@}
 
@@ -833,7 +833,7 @@ class Cuboid_t : public ::xml_schema::Type {
    * @brief Create an instance from the ultimate base and
    * initializers for required elements and attributes.
    */
-  Cuboid_t(const PositionType &, const DistanceType &, const MassType &, const MeanValueType &);
+  cuboid_t(const Position_type &, const distance_type &, const mass_type &, const meanValue_type &);
 
   /**
    * @brief Create an instance from the ultimate base and
@@ -843,7 +843,7 @@ class Cuboid_t : public ::xml_schema::Type {
    * This constructor will try to use the passed values directly
    * instead of making copies.
    */
-  Cuboid_t(::std::unique_ptr<PositionType>, const DistanceType &, const MassType &, const MeanValueType &);
+  cuboid_t(::std::unique_ptr<Position_type>, const distance_type &, const mass_type &, const meanValue_type &);
 
   /**
    * @brief Create an instance from a DOM element.
@@ -853,7 +853,7 @@ class Cuboid_t : public ::xml_schema::Type {
    * @param c A pointer to the object that will contain the new
    * instance.
    */
-  Cuboid_t(const ::xercesc::DOMElement &e, ::xml_schema::Flags f = 0, ::xml_schema::Container *c = 0);
+  cuboid_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
 
   /**
    * @brief Copy constructor.
@@ -864,7 +864,7 @@ class Cuboid_t : public ::xml_schema::Type {
    *
    * For polymorphic object models use the @c _clone function instead.
    */
-  Cuboid_t(const Cuboid_t &x, ::xml_schema::Flags f = 0, ::xml_schema::Container *c = 0);
+  cuboid_t(const cuboid_t &x, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
 
   /**
    * @brief Copy the instance polymorphically.
@@ -877,7 +877,7 @@ class Cuboid_t : public ::xml_schema::Type {
    * used for copying and should be used for polymorphic object
    * models instead of the copy constructor.
    */
-  virtual Cuboid_t *_clone(::xml_schema::Flags f = 0, ::xml_schema::Container *c = 0) const;
+  virtual cuboid_t *_clone(::xml_schema::flags f = 0, ::xml_schema::container *c = 0) const;
 
   /**
    * @brief Copy assignment operator.
@@ -887,7 +887,7 @@ class Cuboid_t : public ::xml_schema::Type {
    *
    * For polymorphic object models use the @c _clone function instead.
    */
-  Cuboid_t &operator=(const Cuboid_t &x);
+  cuboid_t &operator=(const cuboid_t &x);
 
   //@}
 
@@ -895,7 +895,7 @@ class Cuboid_t : public ::xml_schema::Type {
    * @brief Destructor.
    */
   virtual
-  ~Cuboid_t();
+  ~cuboid_t();
 
   // Implementation.
   //
@@ -903,13 +903,13 @@ class Cuboid_t : public ::xml_schema::Type {
   //@cond
 
  protected:
-  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::Flags);
+  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::flags);
 
  protected:
-  ::xsd::cxx::tree::one<PositionType> Position_;
-  ::xsd::cxx::tree::one<DistanceType> distance_;
-  ::xsd::cxx::tree::one<MassType> mass_;
-  ::xsd::cxx::tree::one<MeanValueType> meanValue_;
+  ::xsd::cxx::tree::one<Position_type> Position_;
+  ::xsd::cxx::tree::one<distance_type> distance_;
+  ::xsd::cxx::tree::one<mass_type> mass_;
+  ::xsd::cxx::tree::one<meanValue_type> meanValue_;
 
   //@endcond
 };
@@ -919,7 +919,7 @@ class Cuboid_t : public ::xml_schema::Type {
  *
  * @nosubgrouping
  */
-class Vector_t : public ::xml_schema::Type {
+class vector_t : public ::xml_schema::type {
  public:
   /**
    * @name x
@@ -932,26 +932,26 @@ class Vector_t : public ::xml_schema::Type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::Decimal XType;
+  typedef ::xml_schema::decimal x_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<XType, char, ::xsd::cxx::tree::schema_type::decimal> XTraits;
+  typedef ::xsd::cxx::tree::traits<x_type, char, ::xsd::cxx::tree::schema_type::decimal> x_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
    *
    * @return A constant reference to the attribute.
    */
-  const XType &x() const;
+  const x_type &x() const;
 
   /**
    * @brief Return a read-write reference to the attribute.
    *
    * @return A reference to the attribute.
    */
-  XType &x();
+  x_type &x();
 
   /**
    * @brief Set the attribute value.
@@ -961,7 +961,7 @@ class Vector_t : public ::xml_schema::Type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void x(const XType &x);
+  void x(const x_type &x);
 
   //@}
 
@@ -976,26 +976,26 @@ class Vector_t : public ::xml_schema::Type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::Decimal YType;
+  typedef ::xml_schema::decimal y_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<YType, char, ::xsd::cxx::tree::schema_type::decimal> YTraits;
+  typedef ::xsd::cxx::tree::traits<y_type, char, ::xsd::cxx::tree::schema_type::decimal> y_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
    *
    * @return A constant reference to the attribute.
    */
-  const YType &y() const;
+  const y_type &y() const;
 
   /**
    * @brief Return a read-write reference to the attribute.
    *
    * @return A reference to the attribute.
    */
-  YType &y();
+  y_type &y();
 
   /**
    * @brief Set the attribute value.
@@ -1005,7 +1005,7 @@ class Vector_t : public ::xml_schema::Type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void y(const YType &x);
+  void y(const y_type &x);
 
   //@}
 
@@ -1020,26 +1020,26 @@ class Vector_t : public ::xml_schema::Type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::Decimal ZType;
+  typedef ::xml_schema::decimal z_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<ZType, char, ::xsd::cxx::tree::schema_type::decimal> ZTraits;
+  typedef ::xsd::cxx::tree::traits<z_type, char, ::xsd::cxx::tree::schema_type::decimal> z_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
    *
    * @return A constant reference to the attribute.
    */
-  const ZType &z() const;
+  const z_type &z() const;
 
   /**
    * @brief Return a read-write reference to the attribute.
    *
    * @return A reference to the attribute.
    */
-  ZType &z();
+  z_type &z();
 
   /**
    * @brief Set the attribute value.
@@ -1049,7 +1049,7 @@ class Vector_t : public ::xml_schema::Type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void z(const ZType &x);
+  void z(const z_type &x);
 
   //@}
 
@@ -1062,7 +1062,7 @@ class Vector_t : public ::xml_schema::Type {
    * @brief Create an instance from the ultimate base and
    * initializers for required elements and attributes.
    */
-  Vector_t(const XType &, const YType &, const ZType &);
+  vector_t(const x_type &, const y_type &, const z_type &);
 
   /**
    * @brief Create an instance from a DOM element.
@@ -1072,7 +1072,7 @@ class Vector_t : public ::xml_schema::Type {
    * @param c A pointer to the object that will contain the new
    * instance.
    */
-  Vector_t(const ::xercesc::DOMElement &e, ::xml_schema::Flags f = 0, ::xml_schema::Container *c = 0);
+  vector_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
 
   /**
    * @brief Copy constructor.
@@ -1083,7 +1083,7 @@ class Vector_t : public ::xml_schema::Type {
    *
    * For polymorphic object models use the @c _clone function instead.
    */
-  Vector_t(const Vector_t &x, ::xml_schema::Flags f = 0, ::xml_schema::Container *c = 0);
+  vector_t(const vector_t &x, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
 
   /**
    * @brief Copy the instance polymorphically.
@@ -1096,7 +1096,7 @@ class Vector_t : public ::xml_schema::Type {
    * used for copying and should be used for polymorphic object
    * models instead of the copy constructor.
    */
-  virtual Vector_t *_clone(::xml_schema::Flags f = 0, ::xml_schema::Container *c = 0) const;
+  virtual vector_t *_clone(::xml_schema::flags f = 0, ::xml_schema::container *c = 0) const;
 
   /**
    * @brief Copy assignment operator.
@@ -1106,7 +1106,7 @@ class Vector_t : public ::xml_schema::Type {
    *
    * For polymorphic object models use the @c _clone function instead.
    */
-  Vector_t &operator=(const Vector_t &x);
+  vector_t &operator=(const vector_t &x);
 
   //@}
 
@@ -1114,7 +1114,7 @@ class Vector_t : public ::xml_schema::Type {
    * @brief Destructor.
    */
   virtual
-  ~Vector_t();
+  ~vector_t();
 
   // Implementation.
   //
@@ -1122,12 +1122,12 @@ class Vector_t : public ::xml_schema::Type {
   //@cond
 
  protected:
-  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::Flags);
+  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::flags);
 
  protected:
-  ::xsd::cxx::tree::one<XType> x_;
-  ::xsd::cxx::tree::one<YType> y_;
-  ::xsd::cxx::tree::one<ZType> z_;
+  ::xsd::cxx::tree::one<x_type> x_;
+  ::xsd::cxx::tree::one<y_type> y_;
+  ::xsd::cxx::tree::one<z_type> z_;
 
   //@endcond
 };
@@ -1137,7 +1137,7 @@ class Vector_t : public ::xml_schema::Type {
  *
  * @nosubgrouping
  */
-class Input_t : public ::xml_schema::Type {
+class input_t : public ::xml_schema::type {
  public:
   /**
    * @name location
@@ -1150,26 +1150,26 @@ class Input_t : public ::xml_schema::Type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::String LocationType;
+  typedef ::xml_schema::string location_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<LocationType, char> LocationTraits;
+  typedef ::xsd::cxx::tree::traits<location_type, char> location_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
    *
    * @return A constant reference to the attribute.
    */
-  const LocationType &location() const;
+  const location_type &location() const;
 
   /**
    * @brief Return a read-write reference to the attribute.
    *
    * @return A reference to the attribute.
    */
-  LocationType &location();
+  location_type &location();
 
   /**
    * @brief Set the attribute value.
@@ -1179,7 +1179,7 @@ class Input_t : public ::xml_schema::Type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void location(const LocationType &x);
+  void location(const location_type &x);
 
   /**
    * @brief Set the attribute value without copying.
@@ -1189,7 +1189,7 @@ class Input_t : public ::xml_schema::Type {
    * This function will try to use the passed value directly
    * instead of making a copy.
    */
-  void location(::std::unique_ptr<LocationType> p);
+  void location(::std::unique_ptr<location_type> p);
 
   //@}
 
@@ -1202,7 +1202,7 @@ class Input_t : public ::xml_schema::Type {
    * @brief Create an instance from the ultimate base and
    * initializers for required elements and attributes.
    */
-  Input_t(const LocationType &);
+  input_t(const location_type &);
 
   /**
    * @brief Create an instance from a DOM element.
@@ -1212,7 +1212,7 @@ class Input_t : public ::xml_schema::Type {
    * @param c A pointer to the object that will contain the new
    * instance.
    */
-  Input_t(const ::xercesc::DOMElement &e, ::xml_schema::Flags f = 0, ::xml_schema::Container *c = 0);
+  input_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
 
   /**
    * @brief Copy constructor.
@@ -1223,7 +1223,7 @@ class Input_t : public ::xml_schema::Type {
    *
    * For polymorphic object models use the @c _clone function instead.
    */
-  Input_t(const Input_t &x, ::xml_schema::Flags f = 0, ::xml_schema::Container *c = 0);
+  input_t(const input_t &x, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
 
   /**
    * @brief Copy the instance polymorphically.
@@ -1236,7 +1236,7 @@ class Input_t : public ::xml_schema::Type {
    * used for copying and should be used for polymorphic object
    * models instead of the copy constructor.
    */
-  virtual Input_t *_clone(::xml_schema::Flags f = 0, ::xml_schema::Container *c = 0) const;
+  virtual input_t *_clone(::xml_schema::flags f = 0, ::xml_schema::container *c = 0) const;
 
   /**
    * @brief Copy assignment operator.
@@ -1246,7 +1246,7 @@ class Input_t : public ::xml_schema::Type {
    *
    * For polymorphic object models use the @c _clone function instead.
    */
-  Input_t &operator=(const Input_t &x);
+  input_t &operator=(const input_t &x);
 
   //@}
 
@@ -1254,7 +1254,7 @@ class Input_t : public ::xml_schema::Type {
    * @brief Destructor.
    */
   virtual
-  ~Input_t();
+  ~input_t();
 
   // Implementation.
   //
@@ -1262,10 +1262,10 @@ class Input_t : public ::xml_schema::Type {
   //@cond
 
  protected:
-  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::Flags);
+  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::flags);
 
  protected:
-  ::xsd::cxx::tree::one<LocationType> location_;
+  ::xsd::cxx::tree::one<location_type> location_;
 
   //@endcond
 };
@@ -1275,7 +1275,7 @@ class Input_t : public ::xml_schema::Type {
  *
  * @nosubgrouping
  */
-class Simulation_t : public ::xml_schema::Type {
+class simulation_t : public ::xml_schema::type {
  public:
   /**
    * @name Cuboid
@@ -1288,27 +1288,27 @@ class Simulation_t : public ::xml_schema::Type {
   /**
    * @brief Element type.
    */
-  typedef ::Cuboid_t CuboidType;
+  typedef ::cuboid_t Cuboid_type;
 
   /**
    * @brief Element sequence container type.
    */
-  typedef ::xsd::cxx::tree::sequence<CuboidType> CuboidSequence;
+  typedef ::xsd::cxx::tree::sequence<Cuboid_type> Cuboid_sequence;
 
   /**
    * @brief Element iterator type.
    */
-  typedef CuboidSequence::iterator CuboidIterator;
+  typedef Cuboid_sequence::iterator Cuboid_iterator;
 
   /**
    * @brief Element constant iterator type.
    */
-  typedef CuboidSequence::const_iterator CuboidConstIterator;
+  typedef Cuboid_sequence::const_iterator Cuboid_const_iterator;
 
   /**
    * @brief Element traits type.
    */
-  typedef ::xsd::cxx::tree::traits<CuboidType, char> CuboidTraits;
+  typedef ::xsd::cxx::tree::traits<Cuboid_type, char> Cuboid_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the element
@@ -1316,14 +1316,14 @@ class Simulation_t : public ::xml_schema::Type {
    *
    * @return A constant reference to the sequence container.
    */
-  const CuboidSequence &Cuboid() const;
+  const Cuboid_sequence &Cuboid() const;
 
   /**
    * @brief Return a read-write reference to the element sequence.
    *
    * @return A reference to the sequence container.
    */
-  CuboidSequence &Cuboid();
+  Cuboid_sequence &Cuboid();
 
   /**
    * @brief Copy elements from a given sequence.
@@ -1334,7 +1334,7 @@ class Simulation_t : public ::xml_schema::Type {
    * to the sequence. Note that this operation completely changes the 
    * sequence and all old elements will be lost.
    */
-  void Cuboid(const CuboidSequence &s);
+  void Cuboid(const Cuboid_sequence &s);
 
   //@}
 
@@ -1349,27 +1349,27 @@ class Simulation_t : public ::xml_schema::Type {
   /**
    * @brief Element type.
    */
-  typedef ::Input_t SourceType;
+  typedef ::input_t Source_type;
 
   /**
    * @brief Element sequence container type.
    */
-  typedef ::xsd::cxx::tree::sequence<SourceType> SourceSequence;
+  typedef ::xsd::cxx::tree::sequence<Source_type> Source_sequence;
 
   /**
    * @brief Element iterator type.
    */
-  typedef SourceSequence::iterator SourceIterator;
+  typedef Source_sequence::iterator Source_iterator;
 
   /**
    * @brief Element constant iterator type.
    */
-  typedef SourceSequence::const_iterator SourceConstIterator;
+  typedef Source_sequence::const_iterator Source_const_iterator;
 
   /**
    * @brief Element traits type.
    */
-  typedef ::xsd::cxx::tree::traits<SourceType, char> SourceTraits;
+  typedef ::xsd::cxx::tree::traits<Source_type, char> Source_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the element
@@ -1377,14 +1377,14 @@ class Simulation_t : public ::xml_schema::Type {
    *
    * @return A constant reference to the sequence container.
    */
-  const SourceSequence &Source() const;
+  const Source_sequence &Source() const;
 
   /**
    * @brief Return a read-write reference to the element sequence.
    *
    * @return A reference to the sequence container.
    */
-  SourceSequence &Source();
+  Source_sequence &Source();
 
   /**
    * @brief Copy elements from a given sequence.
@@ -1395,7 +1395,7 @@ class Simulation_t : public ::xml_schema::Type {
    * to the sequence. Note that this operation completely changes the 
    * sequence and all old elements will be lost.
    */
-  void Source(const SourceSequence &s);
+  void Source(const Source_sequence &s);
 
   //@}
 
@@ -1410,17 +1410,17 @@ class Simulation_t : public ::xml_schema::Type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::Decimal EndTimeType;
+  typedef ::xml_schema::decimal endTime_type;
 
   /**
    * @brief Attribute optional container type.
    */
-  typedef ::xsd::cxx::tree::optional<EndTimeType> EndTimeOptional;
+  typedef ::xsd::cxx::tree::optional<endTime_type> endTime_optional;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<EndTimeType, char, ::xsd::cxx::tree::schema_type::decimal> EndTimeTraits;
+  typedef ::xsd::cxx::tree::traits<endTime_type, char, ::xsd::cxx::tree::schema_type::decimal> endTime_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute
@@ -1428,14 +1428,14 @@ class Simulation_t : public ::xml_schema::Type {
    *
    * @return A constant reference to the optional container.
    */
-  const EndTimeOptional &endTime() const;
+  const endTime_optional &endTime() const;
 
   /**
    * @brief Return a read-write reference to the attribute container.
    *
    * @return A reference to the optional container.
    */
-  EndTimeOptional &endTime();
+  endTime_optional &endTime();
 
   /**
    * @brief Set the attribute value.
@@ -1445,7 +1445,7 @@ class Simulation_t : public ::xml_schema::Type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void endTime(const EndTimeType &x);
+  void endTime(const endTime_type &x);
 
   /**
    * @brief Set the attribute value.
@@ -1456,7 +1456,7 @@ class Simulation_t : public ::xml_schema::Type {
    * of this value and sets it as the new value of the attribute.
    * Otherwise the attribute container is set the 'not present' state.
    */
-  void endTime(const EndTimeOptional &x);
+  void endTime(const endTime_optional &x);
 
   //@}
 
@@ -1471,17 +1471,17 @@ class Simulation_t : public ::xml_schema::Type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::Decimal DeltaTType;
+  typedef ::xml_schema::decimal deltaT_type;
 
   /**
    * @brief Attribute optional container type.
    */
-  typedef ::xsd::cxx::tree::optional<DeltaTType> DeltaTOptional;
+  typedef ::xsd::cxx::tree::optional<deltaT_type> deltaT_optional;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<DeltaTType, char, ::xsd::cxx::tree::schema_type::decimal> DeltaTTraits;
+  typedef ::xsd::cxx::tree::traits<deltaT_type, char, ::xsd::cxx::tree::schema_type::decimal> deltaT_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute
@@ -1489,14 +1489,14 @@ class Simulation_t : public ::xml_schema::Type {
    *
    * @return A constant reference to the optional container.
    */
-  const DeltaTOptional &deltaT() const;
+  const deltaT_optional &deltaT() const;
 
   /**
    * @brief Return a read-write reference to the attribute container.
    *
    * @return A reference to the optional container.
    */
-  DeltaTOptional &deltaT();
+  deltaT_optional &deltaT();
 
   /**
    * @brief Set the attribute value.
@@ -1506,7 +1506,7 @@ class Simulation_t : public ::xml_schema::Type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void deltaT(const DeltaTType &x);
+  void deltaT(const deltaT_type &x);
 
   /**
    * @brief Set the attribute value.
@@ -1517,7 +1517,7 @@ class Simulation_t : public ::xml_schema::Type {
    * of this value and sets it as the new value of the attribute.
    * Otherwise the attribute container is set the 'not present' state.
    */
-  void deltaT(const DeltaTOptional &x);
+  void deltaT(const deltaT_optional &x);
 
   //@}
 
@@ -1532,17 +1532,17 @@ class Simulation_t : public ::xml_schema::Type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::String NameType;
+  typedef ::xml_schema::string name_type;
 
   /**
    * @brief Attribute optional container type.
    */
-  typedef ::xsd::cxx::tree::optional<NameType> NameOptional;
+  typedef ::xsd::cxx::tree::optional<name_type> name_optional;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<NameType, char> NameTraits;
+  typedef ::xsd::cxx::tree::traits<name_type, char> name_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute
@@ -1550,14 +1550,14 @@ class Simulation_t : public ::xml_schema::Type {
    *
    * @return A constant reference to the optional container.
    */
-  const NameOptional &name() const;
+  const name_optional &name() const;
 
   /**
    * @brief Return a read-write reference to the attribute container.
    *
    * @return A reference to the optional container.
    */
-  NameOptional &name();
+  name_optional &name();
 
   /**
    * @brief Set the attribute value.
@@ -1567,7 +1567,7 @@ class Simulation_t : public ::xml_schema::Type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void name(const NameType &x);
+  void name(const name_type &x);
 
   /**
    * @brief Set the attribute value.
@@ -1578,7 +1578,7 @@ class Simulation_t : public ::xml_schema::Type {
    * of this value and sets it as the new value of the attribute.
    * Otherwise the attribute container is set the 'not present' state.
    */
-  void name(const NameOptional &x);
+  void name(const name_optional &x);
 
   /**
    * @brief Set the attribute value without copying.
@@ -1588,7 +1588,7 @@ class Simulation_t : public ::xml_schema::Type {
    * This function will try to use the passed value directly instead
    * of making a copy.
    */
-  void name(::std::unique_ptr<NameType> p);
+  void name(::std::unique_ptr<name_type> p);
 
   //@}
 
@@ -1601,7 +1601,7 @@ class Simulation_t : public ::xml_schema::Type {
    * @brief Create an instance from the ultimate base and
    * initializers for required elements and attributes.
    */
-  Simulation_t();
+  simulation_t();
 
   /**
    * @brief Create an instance from a DOM element.
@@ -1611,7 +1611,7 @@ class Simulation_t : public ::xml_schema::Type {
    * @param c A pointer to the object that will contain the new
    * instance.
    */
-  Simulation_t(const ::xercesc::DOMElement &e, ::xml_schema::Flags f = 0, ::xml_schema::Container *c = 0);
+  simulation_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
 
   /**
    * @brief Copy constructor.
@@ -1622,7 +1622,7 @@ class Simulation_t : public ::xml_schema::Type {
    *
    * For polymorphic object models use the @c _clone function instead.
    */
-  Simulation_t(const Simulation_t &x, ::xml_schema::Flags f = 0, ::xml_schema::Container *c = 0);
+  simulation_t(const simulation_t &x, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
 
   /**
    * @brief Copy the instance polymorphically.
@@ -1635,7 +1635,7 @@ class Simulation_t : public ::xml_schema::Type {
    * used for copying and should be used for polymorphic object
    * models instead of the copy constructor.
    */
-  virtual Simulation_t *_clone(::xml_schema::Flags f = 0, ::xml_schema::Container *c = 0) const;
+  virtual simulation_t *_clone(::xml_schema::flags f = 0, ::xml_schema::container *c = 0) const;
 
   /**
    * @brief Copy assignment operator.
@@ -1645,7 +1645,7 @@ class Simulation_t : public ::xml_schema::Type {
    *
    * For polymorphic object models use the @c _clone function instead.
    */
-  Simulation_t &operator=(const Simulation_t &x);
+  simulation_t &operator=(const simulation_t &x);
 
   //@}
 
@@ -1653,7 +1653,7 @@ class Simulation_t : public ::xml_schema::Type {
    * @brief Destructor.
    */
   virtual
-  ~Simulation_t();
+  ~simulation_t();
 
   // Implementation.
   //
@@ -1661,14 +1661,14 @@ class Simulation_t : public ::xml_schema::Type {
   //@cond
 
  protected:
-  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::Flags);
+  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::flags);
 
  protected:
-  CuboidSequence Cuboid_;
-  SourceSequence Source_;
-  EndTimeOptional endTime_;
-  DeltaTOptional deltaT_;
-  NameOptional name_;
+  Cuboid_sequence Cuboid_;
+  Source_sequence Source_;
+  endTime_optional endTime_;
+  deltaT_optional deltaT_;
+  name_optional name_;
 
   //@endcond
 };
@@ -1694,8 +1694,8 @@ class Simulation_t : public ::xml_schema::Type {
  *
  * This function uses exceptions to report parsing errors.
  */
-::std::unique_ptr<::Simulation_t> Simulation(const ::std::string &uri, ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(const ::std::string &uri, ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a URI or a local file with an error handler.
@@ -1708,9 +1708,9 @@ class Simulation_t : public ::xml_schema::Type {
  *
  * This function reports parsing errors by calling the error handler.
  */
-::std::unique_ptr<::Simulation_t> Simulation(const ::std::string &uri, ::xml_schema::ErrorHandler &eh,
-                                             ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(const ::std::string &uri, ::xml_schema::error_handler &eh,
+                                             ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a URI or a local file with a Xerces-C++ DOM error
@@ -1724,9 +1724,9 @@ class Simulation_t : public ::xml_schema::Type {
  *
  * This function reports parsing errors by calling the error handler.
  */
-::std::unique_ptr<::Simulation_t> Simulation(const ::std::string &uri, ::xercesc::DOMErrorHandler &eh,
-                                             ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(const ::std::string &uri, ::xercesc::DOMErrorHandler &eh,
+                                             ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a standard input stream.
@@ -1738,8 +1738,8 @@ class Simulation_t : public ::xml_schema::Type {
  *
  * This function uses exceptions to report parsing errors.
  */
-::std::unique_ptr<::Simulation_t> Simulation(::std::istream &is, ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(::std::istream &is, ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a standard input stream with an error handler.
@@ -1752,9 +1752,9 @@ class Simulation_t : public ::xml_schema::Type {
  *
  * This function reports parsing errors by calling the error handler.
  */
-::std::unique_ptr<::Simulation_t> Simulation(::std::istream &is, ::xml_schema::ErrorHandler &eh,
-                                             ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(::std::istream &is, ::xml_schema::error_handler &eh,
+                                             ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a standard input stream with a Xerces-C++ DOM error
@@ -1768,9 +1768,9 @@ class Simulation_t : public ::xml_schema::Type {
  *
  * This function reports parsing errors by calling the error handler.
  */
-::std::unique_ptr<::Simulation_t> Simulation(::std::istream &is, ::xercesc::DOMErrorHandler &eh,
-                                             ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(::std::istream &is, ::xercesc::DOMErrorHandler &eh,
+                                             ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a standard input stream with a resource id.
@@ -1786,8 +1786,8 @@ class Simulation_t : public ::xml_schema::Type {
  *
  * This function uses exceptions to report parsing errors.
  */
-::std::unique_ptr<::Simulation_t> Simulation(::std::istream &is, const ::std::string &id, ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(::std::istream &is, const ::std::string &id, ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a standard input stream with a resource id and an
@@ -1805,9 +1805,9 @@ class Simulation_t : public ::xml_schema::Type {
  *
  * This function reports parsing errors by calling the error handler.
  */
-::std::unique_ptr<::Simulation_t> Simulation(::std::istream &is, const ::std::string &id,
-                                             ::xml_schema::ErrorHandler &eh, ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(::std::istream &is, const ::std::string &id,
+                                             ::xml_schema::error_handler &eh, ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a standard input stream with a resource id and a
@@ -1825,9 +1825,9 @@ class Simulation_t : public ::xml_schema::Type {
  *
  * This function reports parsing errors by calling the error handler.
  */
-::std::unique_ptr<::Simulation_t> Simulation(::std::istream &is, const ::std::string &id,
-                                             ::xercesc::DOMErrorHandler &eh, ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(::std::istream &is, const ::std::string &id,
+                                             ::xercesc::DOMErrorHandler &eh, ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a Xerces-C++ input source.
@@ -1839,8 +1839,8 @@ class Simulation_t : public ::xml_schema::Type {
  *
  * This function uses exceptions to report parsing errors.
  */
-::std::unique_ptr<::Simulation_t> Simulation(::xercesc::InputSource &is, ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(::xercesc::InputSource &is, ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a Xerces-C++ input source with an error handler.
@@ -1853,9 +1853,9 @@ class Simulation_t : public ::xml_schema::Type {
  *
  * This function reports parsing errors by calling the error handler.
  */
-::std::unique_ptr<::Simulation_t> Simulation(::xercesc::InputSource &is, ::xml_schema::ErrorHandler &eh,
-                                             ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(::xercesc::InputSource &is, ::xml_schema::error_handler &eh,
+                                             ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a Xerces-C++ input source with a Xerces-C++ DOM
@@ -1869,9 +1869,9 @@ class Simulation_t : public ::xml_schema::Type {
  *
  * This function reports parsing errors by calling the error handler.
  */
-::std::unique_ptr<::Simulation_t> Simulation(::xercesc::InputSource &is, ::xercesc::DOMErrorHandler &eh,
-                                             ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(::xercesc::InputSource &is, ::xercesc::DOMErrorHandler &eh,
+                                             ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a Xerces-C++ DOM document.
@@ -1881,8 +1881,8 @@ class Simulation_t : public ::xml_schema::Type {
  * @param p Parsing properties. 
  * @return A pointer to the root of the object model.
  */
-::std::unique_ptr<::Simulation_t> Simulation(const ::xercesc::DOMDocument &d, ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(const ::xercesc::DOMDocument &d, ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 /**
  * @brief Parse a Xerces-C++ DOM document.
@@ -1896,9 +1896,9 @@ class Simulation_t : public ::xml_schema::Type {
  * own_dom parsing flags to assign ownership of the DOM document
  * to the object model.
  */
-::std::unique_ptr<::Simulation_t> Simulation(::xml_schema::dom::unique_ptr<::xercesc::DOMDocument> d,
-                                             ::xml_schema::Flags f = 0,
-                                             const ::xml_schema::Properties &p = ::xml_schema::Properties());
+::std::unique_ptr<::simulation_t> Simulation(::xml_schema::dom::unique_ptr<::xercesc::DOMDocument> d,
+                                             ::xml_schema::flags f = 0,
+                                             const ::xml_schema::properties &p = ::xml_schema::properties());
 
 //@}
 
@@ -1910,13 +1910,13 @@ class Simulation_t : public ::xml_schema::Type {
 
 #include <xsd/cxx/xml/dom/auto-ptr.hxx>
 
-void operator<<(::xercesc::DOMElement &, const Cuboid_t &);
+void operator<<(::xercesc::DOMElement &, const cuboid_t &);
 
-void operator<<(::xercesc::DOMElement &, const Vector_t &);
+void operator<<(::xercesc::DOMElement &, const vector_t &);
 
-void operator<<(::xercesc::DOMElement &, const Input_t &);
+void operator<<(::xercesc::DOMElement &, const input_t &);
 
-void operator<<(::xercesc::DOMElement &, const Simulation_t &);
+void operator<<(::xercesc::DOMElement &, const simulation_t &);
 
 /**
  * @name Serialization functions for the %Simulation document root.
@@ -1934,9 +1934,9 @@ void operator<<(::xercesc::DOMElement &, const Simulation_t &);
  *
  * This function uses exceptions to report serialization errors.
  */
-void Simulation(::std::ostream &os, const ::Simulation_t &x,
-                const ::xml_schema::NamespaceInfomap &m = ::xml_schema::NamespaceInfomap(),
-                const ::std::string &e = "UTF-8", ::xml_schema::Flags f = 0);
+void Simulation(::std::ostream &os, const ::simulation_t &x,
+                const ::xml_schema::namespace_infomap &m = ::xml_schema::namespace_infomap(),
+                const ::std::string &e = "UTF-8", ::xml_schema::flags f = 0);
 
 /**
  * @brief Serialize to a standard output stream with an error handler.
@@ -1951,9 +1951,9 @@ void Simulation(::std::ostream &os, const ::Simulation_t &x,
  * This function reports serialization errors by calling the error
  * handler.
  */
-void Simulation(::std::ostream &os, const ::Simulation_t &x, ::xml_schema::ErrorHandler &eh,
-                const ::xml_schema::NamespaceInfomap &m = ::xml_schema::NamespaceInfomap(),
-                const ::std::string &e = "UTF-8", ::xml_schema::Flags f = 0);
+void Simulation(::std::ostream &os, const ::simulation_t &x, ::xml_schema::error_handler &eh,
+                const ::xml_schema::namespace_infomap &m = ::xml_schema::namespace_infomap(),
+                const ::std::string &e = "UTF-8", ::xml_schema::flags f = 0);
 
 /**
  * @brief Serialize to a standard output stream with a Xerces-C++ DOM
@@ -1969,9 +1969,9 @@ void Simulation(::std::ostream &os, const ::Simulation_t &x, ::xml_schema::Error
  * This function reports serialization errors by calling the error
  * handler.
  */
-void Simulation(::std::ostream &os, const ::Simulation_t &x, ::xercesc::DOMErrorHandler &eh,
-                const ::xml_schema::NamespaceInfomap &m = ::xml_schema::NamespaceInfomap(),
-                const ::std::string &e = "UTF-8", ::xml_schema::Flags f = 0);
+void Simulation(::std::ostream &os, const ::simulation_t &x, ::xercesc::DOMErrorHandler &eh,
+                const ::xml_schema::namespace_infomap &m = ::xml_schema::namespace_infomap(),
+                const ::std::string &e = "UTF-8", ::xml_schema::flags f = 0);
 
 /**
  * @brief Serialize to a Xerces-C++ XML format target.
@@ -1984,9 +1984,9 @@ void Simulation(::std::ostream &os, const ::Simulation_t &x, ::xercesc::DOMError
  *
  * This function uses exceptions to report serialization errors.
  */
-void Simulation(::xercesc::XMLFormatTarget &ft, const ::Simulation_t &x,
-                const ::xml_schema::NamespaceInfomap &m = ::xml_schema::NamespaceInfomap(),
-                const ::std::string &e = "UTF-8", ::xml_schema::Flags f = 0);
+void Simulation(::xercesc::XMLFormatTarget &ft, const ::simulation_t &x,
+                const ::xml_schema::namespace_infomap &m = ::xml_schema::namespace_infomap(),
+                const ::std::string &e = "UTF-8", ::xml_schema::flags f = 0);
 
 /**
  * @brief Serialize to a Xerces-C++ XML format target with an error
@@ -2002,9 +2002,9 @@ void Simulation(::xercesc::XMLFormatTarget &ft, const ::Simulation_t &x,
  * This function reports serialization errors by calling the error
  * handler.
  */
-void Simulation(::xercesc::XMLFormatTarget &ft, const ::Simulation_t &x, ::xml_schema::ErrorHandler &eh,
-                const ::xml_schema::NamespaceInfomap &m = ::xml_schema::NamespaceInfomap(),
-                const ::std::string &e = "UTF-8", ::xml_schema::Flags f = 0);
+void Simulation(::xercesc::XMLFormatTarget &ft, const ::simulation_t &x, ::xml_schema::error_handler &eh,
+                const ::xml_schema::namespace_infomap &m = ::xml_schema::namespace_infomap(),
+                const ::std::string &e = "UTF-8", ::xml_schema::flags f = 0);
 
 /**
  * @brief Serialize to a Xerces-C++ XML format target with a
@@ -2020,9 +2020,9 @@ void Simulation(::xercesc::XMLFormatTarget &ft, const ::Simulation_t &x, ::xml_s
  * This function reports serialization errors by calling the error
  * handler.
  */
-void Simulation(::xercesc::XMLFormatTarget &ft, const ::Simulation_t &x, ::xercesc::DOMErrorHandler &eh,
-                const ::xml_schema::NamespaceInfomap &m = ::xml_schema::NamespaceInfomap(),
-                const ::std::string &e = "UTF-8", ::xml_schema::Flags f = 0);
+void Simulation(::xercesc::XMLFormatTarget &ft, const ::simulation_t &x, ::xercesc::DOMErrorHandler &eh,
+                const ::xml_schema::namespace_infomap &m = ::xml_schema::namespace_infomap(),
+                const ::std::string &e = "UTF-8", ::xml_schema::flags f = 0);
 
 /**
  * @brief Serialize to an existing Xerces-C++ DOM document.
@@ -2035,7 +2035,7 @@ void Simulation(::xercesc::XMLFormatTarget &ft, const ::Simulation_t &x, ::xerce
  * with the correct root element as well as set the necessary
  * namespace mapping attributes.
  */
-void Simulation(::xercesc::DOMDocument &d, const ::Simulation_t &x, ::xml_schema::Flags f = 0);
+void Simulation(::xercesc::DOMDocument &d, const ::simulation_t &x, ::xml_schema::flags f = 0);
 
 /**
  * @brief Serialize to a new Xerces-C++ DOM document.
@@ -2045,9 +2045,9 @@ void Simulation(::xercesc::DOMDocument &d, const ::Simulation_t &x, ::xml_schema
  * @param f Serialization flags.
  * @return A pointer to the new Xerces-C++ DOM document.
  */
-::xml_schema::dom::unique_ptr<::xercesc::DOMDocument> Simulation(const ::Simulation_t &x,
-                                                                 const ::xml_schema::NamespaceInfomap &m = ::xml_schema::NamespaceInfomap(),
-                                                                 ::xml_schema::Flags f = 0);
+::xml_schema::dom::unique_ptr<::xercesc::DOMDocument> Simulation(const ::simulation_t &x,
+                                                                 const ::xml_schema::namespace_infomap &m = ::xml_schema::namespace_infomap(),
+                                                                 ::xml_schema::flags f = 0);
 
 //@}
 

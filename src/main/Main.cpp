@@ -1,5 +1,5 @@
-#include <arguments/Argument.h>
-#include <arguments/BasicArgumentParser/BasicArgumentParser.h>
+#include <arguments/argument/Argument.h>
+#include <arguments/argumentParser/BasicArgumentParser/BasicArgumentParser.h>
 #include <iostream>
 #include <simulation/variants/GravitationSimulation.h>
 #include <spdlog/spdlog.h>

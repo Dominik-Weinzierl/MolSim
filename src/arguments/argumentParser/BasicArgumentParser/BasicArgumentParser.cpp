@@ -1,6 +1,6 @@
 #include <algorithm>
 #include <iostream>
-#include <arguments/BasicArgument/BasicArgument.h>
+#include <arguments/argument/BasicArgument/BasicArgument.h>
 #include <spdlog/spdlog.h>
 #include <outputWriter/XYZWriter/XYZWriter.h>
 #include "BasicArgumentParser.h"

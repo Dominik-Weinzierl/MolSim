@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <arguments/Argument.h>
+#include <arguments/argument/Argument.h>
 
 class BasicArgument : public Argument {
  public:
