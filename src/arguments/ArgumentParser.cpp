@@ -1,33 +1,85 @@
 #include "ArgumentParser.h"
 
-ArgumentStatus::ArgumentStatus() : inputFileName(std::make_tuple(false, "", "")),
-                                   end_time{std::make_tuple(false, "", -1)}, delta_t{std::make_tuple(false, "", -1)} {
-}
-void ArgumentStatus::setDelta_t(const std::string &flag, const double &value) {
-  std::get<0>(delta_t) = true;
-  std::get<1>(delta_t) = flag;
-  std::get<2>(delta_t) = value;
-}
-void ArgumentStatus::setEnd_time(const std::string &flag, const double &value) {
-  std::get<0>(end_time) = true;
-  std::get<1>(end_time) = flag;
-  std::get<2>(end_time) = value;
-}
-void ArgumentStatus::setInputFileName(const std::string &flag, const std::string &value) {
-  std::get<0>(inputFileName) = true;
-  std::get<1>(inputFileName) = flag;
-  std::get<2>(inputFileName) = value;
+#include <utility>
+#include <utils/ArrayUtils.h>
+
+ArgumentStatus::ArgumentStatus() {
+  flags.insert({"filename", {false, "", ""}});
 }
 
-std::tuple<bool, std::string, std::string> &ArgumentStatus::getInputFileName() {
-  return inputFileName;
-}
-std::tuple<bool, std::string, double> &ArgumentStatus::getEnd_time() {
-  return end_time;
-}
-std::tuple<bool, std::string, double> &ArgumentStatus::getDelta_t() {
-  return delta_t;
-}
 bool ArgumentStatus::validStatus() {
-  return std::get<0>(inputFileName) && std::get<0>(end_time) && std::get<0>(delta_t);
+  return std::get<0>(flags["filename"]);
+}
+
+void ArgumentStatus::updateFlag(const std::string &name, const std::string &flag,
+                                std::variant<std::string, int, double> value) {
+  std::get<0>(flags[name]) = true;
+  std::get<1>(flags[name]) = flag;
+  std::get<2>(flags[name]) = std::move(value);
+}
+
+std::variant<std::string, int, double> ArgumentStatus::getValue(const std::string &name) {
+  return std::get<2>(flags[name]);
+}
+
+void ArgumentParser::handleFlag(ArgumentStatus &status, const std::string &name, const std::string &flag,
+                                const std::string &possibleValue, std::array<std::string, 2> flags) {
+  if (flag == flags[0] || flag == flags[1]) {
+    status.updateFlag(name, flag, possibleValue);
+  }
+}
+
+void ArgumentParser::handleFlag(ArgumentStatus &status, const std::string &name, const std::string &flag,
+                                const std::string &possibleValue, std::array<std::string, 2> flags,
+                                std::vector<std::string> possibleValues) {
+  if (flag == flags[0] || flag == flags[1]) {
+    if (std::find(possibleValues.begin(), possibleValues.end(), possibleValue) == possibleValues.end()) {
+      throw std::invalid_argument("Expected: " + ArrayUtils::to_string(possibleValues) + " | Got: " + possibleValue);
+    }
+    status.updateFlag(name, flag, possibleValue);
+  }
+}
+
+template<>
+void ArgumentParser::performCheck<int>(ArgumentStatus &status, const std::string &name, const std::string &flag,
+                                       const std::string &possibleValue) {
+  try {
+    status.updateFlag(name, flag, std::stoi(possibleValue));
+  } catch (std::invalid_argument &e) {
+    throw std::invalid_argument("Expected: int  | Got: " + possibleValue);
+  }
+}
+
+template<>
+void ArgumentParser::performCheck<double>(ArgumentStatus &status, const std::string &name, const std::string &flag,
+                                          const std::string &possibleValue) {
+  try {
+    status.updateFlag(name, flag, std::stod(possibleValue));
+  } catch (std::invalid_argument &e) {
+    throw std::invalid_argument("Expected: double  | Got: " + possibleValue);
+  }
+}
+
+template<typename T>
+void ArgumentParser::handleFlag(ArgumentStatus &status, const std::string &name, const std::string &flag,
+                                const std::string &possibleValue, std::array<std::string, 2> flags) {
+  if (flag == flags[0] || flag == flags[1]) {
+    performCheck<T>(status, name, flag, possibleValue);
+  }
+}
+
+template<>
+void ArgumentParser::handleFlag<int>(ArgumentStatus &status, const std::string &name, const std::string &flag,
+                                     const std::string &possibleValue, std::array<std::string, 2> flags) {
+  if (flag == flags[0] || flag == flags[1]) {
+    performCheck<int>(status, name, flag, possibleValue);
+  }
+}
+
+template<>
+void ArgumentParser::handleFlag<double>(ArgumentStatus &status, const std::string &name, const std::string &flag,
+                                        const std::string &possibleValue, std::array<std::string, 2> flags) {
+  if (flag == flags[0] || flag == flags[1]) {
+    performCheck<double>(status, name, flag, possibleValue);
+  }
 }

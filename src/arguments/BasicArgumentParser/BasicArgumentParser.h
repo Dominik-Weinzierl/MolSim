@@ -6,7 +6,8 @@
 
 class BasicArgumentStatus : public ArgumentStatus {
  public:
-  BasicArgumentStatus() = default;
+  BasicArgumentStatus();
+  bool validStatus() override;
 };
 
 /**
