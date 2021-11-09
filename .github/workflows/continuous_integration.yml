@@ -24,10 +24,11 @@ jobs:
         run: cmake -E make_directory ${{github.workspace}}/build
 
       - name: Run cmake
-        run: cmake .. -D BUILD_DOCUMENTATION=OFF -D BUILD_TESTS=OFF -DCMAKE_CXX_COMPILER=${{ matrix.compiler[1] }}
+        run: cmake .. -D BUILD_DOCUMENTATION=OFF -D BUILD_TESTS=OFF
         working-directory: ${{github.workspace}}/build
         env:
           CC: ${{ matrix.compiler[0] }}
+          CXX: ${{ matrix.compiler[1] }}
 
       - name: Run make
         run: make
@@ -58,9 +59,6 @@ jobs:
         run: |
           sudo apt-get install libxerces-c-dev
           make
-        env:
-          CC: gcc
-          CXX: g++
 
       - name: Install test environement (2/2)
         run: make
