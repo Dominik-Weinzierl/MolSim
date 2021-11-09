@@ -12,7 +12,7 @@ jobs:
   build:
     strategy:
       matrix:
-        compiler: [ g++, clang++ ]
+        compiler: [ [ gcc, g++ ], [ clang, clang++ ] ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -20,11 +20,15 @@ jobs:
       - name: Install Xerces
         run: sudo apt-get install libxerces-c-dev
 
-      - name: Use makefile to prepare and run cmake
-        run: make build_without_tests
+      - name: Make build dir
+        run: cmake -E make_directory ${{github.workspace}}/build
+
+      - name: Run cmake
+        run: cmake .. -D BUILD_DOCUMENTATION=OFF -D BUILD_TESTS=OFF
+        working-directory: ${{github.workspace}}/build
         env:
-          CC: gcc
-          CXX: ${{matrix.compiler}}
+          CC: ${{ matrix.compiler[0] }}
+          CXX: ${{ matrix.compiler[1] }}
 
       - name: Run make
         run: make
@@ -32,6 +36,7 @@ jobs:
 
       - name: Run make clean to remove build folder
         run: make clean
+
   cppcheck:
     runs-on: ubuntu-latest
     needs: build
