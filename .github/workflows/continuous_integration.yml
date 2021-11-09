@@ -12,7 +12,7 @@ jobs:
   build:
     strategy:
       matrix:
-        compiler: [ [ gcc, g++ ], [ clang, clang++ ] ]
+        compiler: [ [ gcc, g++ ]]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -24,8 +24,11 @@ jobs:
         run: cmake -E make_directory ${{github.workspace}}/build
 
       - name: Run cmake
-        run: cmake .. -DBUILD_DOCUMENTATION=OFF -DBUILD_TESTS=OFF -DCMAKE_C_COMPILER=${{ matrix.compiler[0] }} -DCMAKE_CXX_COMPILER=${{ matrix.compiler[1] }}
+        run: cmake .. -D BUILD_DOCUMENTATION=OFF -D BUILD_TESTS=OFF
         working-directory: ${{github.workspace}}/build
+        env:
+          CC: ${{ matrix.compiler[0] }}
+          CXX: ${{ matrix.compiler[1] }}
 
       - name: Run make
         run: make
