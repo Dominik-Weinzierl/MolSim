@@ -7,6 +7,8 @@ XMLReader::XMLReader(const std::string &path) {
     throw std::invalid_argument("[ERROR] Invalid xml path");
   }
 
+  auto test = simulation->Cuboid();
   auto deltaT = simulation->deltaT();
+  auto entTime = simulation->endTime();
 }
 

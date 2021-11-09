@@ -4,6 +4,7 @@
 #include <simulation/variants/GravitationSimulation.h>
 #include <spdlog/spdlog.h>
 #include <outputWriter/XYZWriter/XYZWriter.h>
+#include <fileReader/XMLReader/XMLReader.h>
 #include "fileReader/InputFile/InputReader.h"
 
 /**
@@ -34,6 +35,8 @@ int main(int argc, char *argv[]) {
   std::unique_ptr<Argument> arg = parser.createArgument();
   std::unique_ptr<OutputWriter> writer;
   ParticleContainer particleContainer;
+
+  XMLReader reader{arg->getFileName()};
 
   if (arg->getWriter() == "vtk") {
     writer = std::make_unique<VTKWriter>(arg->getOutput(), "output", particleContainer);
