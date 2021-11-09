@@ -752,6 +752,13 @@ class DataArrayList_t: public ::xml_schema::simple_type,
           ::xml_schema::container* c = 0) const;
 
   /**
+   * @brief Copy the instance.
+   *
+   * Default copy constructor.
+   */
+  DataArrayList_t& operator=(const DataArrayList_t&) = default;
+
+  /**
    * @brief Destructor.
    */
   virtual 

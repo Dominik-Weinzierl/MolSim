@@ -29,7 +29,7 @@ Vector &Vector::operator+=(const Vector &other) {
     return l + r;
   });
   return *this;
-};
+}
 
 Vector operator+(Vector lhs, const Vector &rhs) {
   SPDLOG_DEBUG("Calculating {0} + {1}", lhs, rhs);
@@ -43,13 +43,13 @@ Vector &Vector::operator-=(const Vector &other) {
     return l - r;
   });
   return *this;
-};
+}
 
 Vector operator-(Vector lhs, const Vector &rhs) {
   SPDLOG_DEBUG("Calculating {0} - {1}", lhs, rhs);
   lhs -= rhs;
   return lhs;
-};
+}
 
 Vector &Vector::operator-() {
   SPDLOG_DEBUG("Calculating -{}", this);
@@ -63,20 +63,20 @@ Vector &Vector::operator-() {
 double Vector::operator*(const Vector &other) const {
   SPDLOG_DEBUG("Calculating {0} * {1}", this, other);
   return std::inner_product(std::begin(vector), std::end(vector), std::begin(other.vector), 0.0);
-};
+}
 
 // Scaling of vectors
 Vector operator*(Vector lhs, const double &rhs) {
   SPDLOG_DEBUG("Calculating {0} * {1}", lhs, rhs);
   lhs *= rhs;
   return lhs;
-};
+}
 
 Vector operator*(const double &rhs, Vector lhs) {
   SPDLOG_DEBUG("Calculating {0} * {1}", rhs, lhs);
   lhs *= rhs;
   return lhs;
-};
+}
 
 Vector &Vector::operator*=(double d) {
   SPDLOG_DEBUG("Calculating {0} * {1}", this, d);
@@ -84,7 +84,7 @@ Vector &Vector::operator*=(double d) {
     return v * d;
   });
   return *this;
-};
+}
 
 Vector operator/(Vector lhs, const double &rhs) {
   SPDLOG_DEBUG("Calculating {0} / {1}", lhs, rhs);
@@ -98,15 +98,15 @@ Vector &Vector::operator/=(double d) {
     return v / d;
   });
   return *this;
-};
+}
 
 double &Vector::operator[](unsigned long i) {
   return vector[i];
-};
+}
 
 double Vector::operator[](unsigned long i) const {
   return vector[i];
-};
+}
 
 bool Vector::operator==(const Vector &other) const {
   return vector == other.vector;
@@ -115,7 +115,7 @@ bool Vector::operator==(const Vector &other) const {
 //---------------------------Getter & Setter---------------------------
 const std::array<double, 3> &Vector::get() const {
   return vector;
-};
+}
 
 //---------------------------Methods---------------------------
 
