@@ -9,7 +9,28 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_GCC:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Xerces
+        run: sudo apt-get install libxerces-c-dev
+
+      - name: Use makefile to prepare and run cmake
+        run: make build_without_tests
+        env:
+          CC: gcc
+          CXX: g++
+
+      - name: Run make
+        run: make
+        working-directory: ${{github.workspace}}/build
+
+      - name: Run make clean to remove build folder
+        run: make clean
+
+  build_Clang:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -32,7 +53,7 @@ jobs:
 
   cppcheck:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [ build_GCC,build_Clang ]
     steps:
       - uses: actions/checkout@v2
 
@@ -44,7 +65,7 @@ jobs:
 
   testing:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [ build_GCC,build_Clang ]
     steps:
       - uses: actions/checkout@v2
 
@@ -53,8 +74,8 @@ jobs:
           sudo apt-get install libxerces-c-dev
           make
         env:
-          CC: clang
-          CXX: clang++
+          CC: gcc
+          CXX: g++
 
       - name: Install test environement (2/2)
         run: make
