@@ -50,7 +50,8 @@ std::unique_ptr<Argument> BasicArgumentParser::createArgument() {
   auto iteration = std::get<int>(status.getValue("iteration"));
   auto physics = std::get<std::string>(status.getValue("physics"));
 
-  return std::make_unique<BasicArgument>(filename, endTime, deltaT, output, writer, iteration, physics);
+  return std::make_unique<BasicArgument>(std::vector<std::string>{filename}, endTime, deltaT, output, writer, iteration,
+                                         physics);
 }
 
 void BasicArgumentParser::showUsage() {

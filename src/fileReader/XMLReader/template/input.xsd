@@ -3,6 +3,8 @@
     <xsd:complexType name="cuboid_t">
         <xsd:sequence>
             <xsd:element name="Position" type="vector_t"/>
+            <xsd:element name="Velocity" type="vector_t"/>
+            <xsd:element name="Dimension" type="vector_i"/>
         </xsd:sequence>
         <xsd:attribute name="distance" type="xsd:decimal" use="required"/>
         <xsd:attribute name="mass" type="xsd:decimal" use="required"/>
@@ -15,19 +17,27 @@
         <xsd:attribute name="z" type="xsd:decimal" use="required"/>
     </xsd:complexType>
 
+    <xsd:complexType name="vector_i">
+        <xsd:attribute name="x" type="xsd:nonNegativeInteger" use="required"/>
+        <xsd:attribute name="y" type="xsd:nonNegativeInteger" use="required"/>
+        <xsd:attribute name="z" type="xsd:nonNegativeInteger" use="required"/>
+    </xsd:complexType>
+
     <xsd:complexType name="input_t">
         <xsd:attribute name="location" type="xsd:string" use="required"/>
     </xsd:complexType>
 
     <xsd:complexType name="simulation_t">
         <xsd:sequence>
-            <xsd:element name="Cuboid" type="cuboid_t" maxOccurs="unbounded"/>
-            <xsd:element name="Source" type="input_t" maxOccurs="unbounded"/>
+            <xsd:element name="Cuboid" type="cuboid_t" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="Source" type="input_t" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="Physics" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="Writer" type="xsd:string" minOccurs="0"/>
         </xsd:sequence>
         <xsd:attribute name="endTime" type="xsd:decimal"/>
         <xsd:attribute name="deltaT" type="xsd:decimal"/>
         <xsd:attribute name="name" type="xsd:string"/>
+        <xsd:attribute name="iteration" type="xsd:nonNegativeInteger"/>
     </xsd:complexType>
-
     <xsd:element name="Simulation" type="simulation_t"/>
 </xsd:schema>

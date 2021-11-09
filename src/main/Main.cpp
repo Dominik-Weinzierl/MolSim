@@ -36,7 +36,8 @@ int main(int argc, char *argv[]) {
   std::unique_ptr<OutputWriter> writer;
   ParticleContainer particleContainer;
 
-  XMLReader reader{arg->getFileName()};
+  XMLReader reader{arg->getFiles()[0]};
+  auto xyz = reader.readXML();
 
   if (arg->getWriter() == "vtk") {
     writer = std::make_unique<VTKWriter>(arg->getOutput(), "output", particleContainer);
@@ -44,7 +45,7 @@ int main(int argc, char *argv[]) {
     writer = std::make_unique<XYZWriter>(arg->getOutput(), "output", particleContainer);
   }
 
-  InputReader::readFile(particleContainer, arg->getFileName());
+  InputReader::readFile(particleContainer, arg->getFiles()[0]);
 
   if (arg->getPhysics() == "gravitation") {
     GravitationSimulation::performSimulation(*arg, *writer, particleContainer);

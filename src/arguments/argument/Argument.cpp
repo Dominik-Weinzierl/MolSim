@@ -2,15 +2,15 @@
 
 #include <utility>
 
-Argument::Argument(std::string inputFileName, double end_time, double delta_t, std::string output,
-                   std::string writer, int iteration, std::string physics) : inputFileName{std::move(inputFileName)},
+Argument::Argument(std::vector<std::string> files, double end_time, double delta_t, std::string output,
+                   std::string writer, int iteration, std::string physics) : files{std::move(files)},
                                                                              end_time{end_time}, delta_t{delta_t},
                                                                              output{std::move(output)},
                                                                              writer{std::move(writer)},
-                                                                             physics{std::move(physics)}, iteration{iteration} {
+                                                                             physics{std::move(physics)},
+                                                                             iteration{iteration} {
 
 }
-
 
 double Argument::getEndTime() const {
   return end_time;
@@ -20,8 +20,8 @@ double Argument::getDeltaT() const {
   return delta_t;
 }
 
-std::basic_string<char> Argument::getFileName() const {
-  return inputFileName;
+std::vector<std::string> Argument::getFiles() const {
+  return files;
 }
 
 int Argument::getIteration() const {

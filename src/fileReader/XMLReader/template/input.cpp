@@ -59,6 +59,38 @@ void cuboid_t::Position(::std::unique_ptr<Position_type> x) {
   this->Position_.set(std::move(x));
 }
 
+const cuboid_t::Velocity_type &cuboid_t::Velocity() const {
+  return this->Velocity_.get();
+}
+
+cuboid_t::Velocity_type &cuboid_t::Velocity() {
+  return this->Velocity_.get();
+}
+
+void cuboid_t::Velocity(const Velocity_type &x) {
+  this->Velocity_.set(x);
+}
+
+void cuboid_t::Velocity(::std::unique_ptr<Velocity_type> x) {
+  this->Velocity_.set(std::move(x));
+}
+
+const cuboid_t::Dimension_type &cuboid_t::Dimension() const {
+  return this->Dimension_.get();
+}
+
+cuboid_t::Dimension_type &cuboid_t::Dimension() {
+  return this->Dimension_.get();
+}
+
+void cuboid_t::Dimension(const Dimension_type &x) {
+  this->Dimension_.set(x);
+}
+
+void cuboid_t::Dimension(::std::unique_ptr<Dimension_type> x) {
+  this->Dimension_.set(std::move(x));
+}
+
 const cuboid_t::distance_type &cuboid_t::distance() const {
   return this->distance_.get();
 }
@@ -136,6 +168,46 @@ void vector_t::z(const z_type &x) {
 }
 
 
+// vector_i
+// 
+
+const vector_i::x_type &vector_i::x() const {
+  return this->x_.get();
+}
+
+vector_i::x_type &vector_i::x() {
+  return this->x_.get();
+}
+
+void vector_i::x(const x_type &x) {
+  this->x_.set(x);
+}
+
+const vector_i::y_type &vector_i::y() const {
+  return this->y_.get();
+}
+
+vector_i::y_type &vector_i::y() {
+  return this->y_.get();
+}
+
+void vector_i::y(const y_type &x) {
+  this->y_.set(x);
+}
+
+const vector_i::z_type &vector_i::z() const {
+  return this->z_.get();
+}
+
+vector_i::z_type &vector_i::z() {
+  return this->z_.get();
+}
+
+void vector_i::z(const z_type &x) {
+  this->z_.set(x);
+}
+
+
 // input_t
 // 
 
@@ -181,6 +253,46 @@ simulation_t::Source_sequence &simulation_t::Source() {
 
 void simulation_t::Source(const Source_sequence &s) {
   this->Source_ = s;
+}
+
+const simulation_t::Physics_optional &simulation_t::Physics() const {
+  return this->Physics_;
+}
+
+simulation_t::Physics_optional &simulation_t::Physics() {
+  return this->Physics_;
+}
+
+void simulation_t::Physics(const Physics_type &x) {
+  this->Physics_.set(x);
+}
+
+void simulation_t::Physics(const Physics_optional &x) {
+  this->Physics_ = x;
+}
+
+void simulation_t::Physics(::std::unique_ptr<Physics_type> x) {
+  this->Physics_.set(std::move(x));
+}
+
+const simulation_t::Writer_optional &simulation_t::Writer() const {
+  return this->Writer_;
+}
+
+simulation_t::Writer_optional &simulation_t::Writer() {
+  return this->Writer_;
+}
+
+void simulation_t::Writer(const Writer_type &x) {
+  this->Writer_.set(x);
+}
+
+void simulation_t::Writer(const Writer_optional &x) {
+  this->Writer_ = x;
+}
+
+void simulation_t::Writer(::std::unique_ptr<Writer_type> x) {
+  this->Writer_.set(std::move(x));
 }
 
 const simulation_t::endTime_optional &simulation_t::endTime() const {
@@ -235,26 +347,48 @@ void simulation_t::name(::std::unique_ptr<name_type> x) {
   this->name_.set(std::move(x));
 }
 
+const simulation_t::iteration_optional &simulation_t::iteration() const {
+  return this->iteration_;
+}
+
+simulation_t::iteration_optional &simulation_t::iteration() {
+  return this->iteration_;
+}
+
+void simulation_t::iteration(const iteration_type &x) {
+  this->iteration_.set(x);
+}
+
+void simulation_t::iteration(const iteration_optional &x) {
+  this->iteration_ = x;
+}
+
 #include <xsd/cxx/xml/dom/parsing-source.hxx>
 
 // cuboid_t
 //
 
-cuboid_t::cuboid_t(const Position_type &Position, const distance_type &distance, const mass_type &mass,
-                   const meanValue_type &meanValue)
-    : ::xml_schema::type(), Position_(Position, this), distance_(distance, this), mass_(mass, this),
-      meanValue_(meanValue, this) {
+cuboid_t::cuboid_t(const Position_type &Position, const Velocity_type &Velocity, const Dimension_type &Dimension,
+                   const distance_type &distance, const mass_type &mass, const meanValue_type &meanValue)
+    : ::xml_schema::type(), Position_(Position, this), Velocity_(Velocity, this), Dimension_(Dimension, this),
+      distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this) {
 }
 
-cuboid_t::cuboid_t(::std::unique_ptr<Position_type> Position, const distance_type &distance, const mass_type &mass,
+cuboid_t::cuboid_t(::std::unique_ptr<Position_type> Position, ::std::unique_ptr<Velocity_type> Velocity,
+                   ::std::unique_ptr<Dimension_type> Dimension, const distance_type &distance, const mass_type &mass,
                    const meanValue_type &meanValue)
-    : ::xml_schema::type(), Position_(std::move(Position), this), distance_(distance, this), mass_(mass, this),
+    : ::xml_schema::type(), Position_(std::move(Position), this), Velocity_(std::move(Velocity), this),
+      Dimension_(std::move(Dimension), this), distance_(distance, this), mass_(mass, this),
       meanValue_(meanValue, this) {
 }
 
 cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
                                                                                            Position_(x.Position_, f,
                                                                                                      this),
+                                                                                           Velocity_(x.Velocity_, f,
+                                                                                                     this),
+                                                                                           Dimension_(x.Dimension_, f,
+                                                                                                      this),
                                                                                            distance_(x.distance_, f,
                                                                                                      this),
                                                                                            mass_(x.mass_, f, this),
@@ -263,8 +397,8 @@ cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::conta
 }
 
 cuboid_t::cuboid_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Position_(this), distance_(this), mass_(this),
-      meanValue_(this) {
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Position_(this), Velocity_(this), Dimension_(this),
+      distance_(this), mass_(this), meanValue_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -287,11 +421,41 @@ void cuboid_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags 
       }
     }
 
+    // Velocity
+    //
+    if (n.name() == "Velocity" && n.namespace_().empty()) {
+      ::std::unique_ptr<Velocity_type> r(Velocity_traits::create(i, f, this));
+
+      if (!Velocity_.present()) {
+        this->Velocity_.set(::std::move(r));
+        continue;
+      }
+    }
+
+    // Dimension
+    //
+    if (n.name() == "Dimension" && n.namespace_().empty()) {
+      ::std::unique_ptr<Dimension_type> r(Dimension_traits::create(i, f, this));
+
+      if (!Dimension_.present()) {
+        this->Dimension_.set(::std::move(r));
+        continue;
+      }
+    }
+
     break;
   }
 
   if (!Position_.present()) {
     throw ::xsd::cxx::tree::expected_element<char>("Position", "");
+  }
+
+  if (!Velocity_.present()) {
+    throw ::xsd::cxx::tree::expected_element<char>("Velocity", "");
+  }
+
+  if (!Dimension_.present()) {
+    throw ::xsd::cxx::tree::expected_element<char>("Dimension", "");
   }
 
   while (p.more_attributes()) {
@@ -335,6 +499,8 @@ cuboid_t &cuboid_t::operator=(const cuboid_t &x) {
   if (this != &x) {
     static_cast< ::xml_schema::type & > (*this) = x;
     this->Position_ = x.Position_;
+    this->Velocity_ = x.Velocity_;
+    this->Dimension_ = x.Dimension_;
     this->distance_ = x.distance_;
     this->mass_ = x.mass_;
     this->meanValue_ = x.meanValue_;
@@ -419,6 +585,79 @@ vector_t &vector_t::operator=(const vector_t &x) {
 vector_t::~vector_t() {
 }
 
+// vector_i
+//
+
+vector_i::vector_i(const x_type &x, const y_type &y, const z_type &z)
+    : ::xml_schema::type(), x_(x, this), y_(y, this), z_(z, this) {
+}
+
+vector_i::vector_i(const vector_i &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
+                                                                                           x_(x.x_, f, this),
+                                                                                           y_(x.y_, f, this),
+                                                                                           z_(x.z_, f, this) {
+}
+
+vector_i::vector_i(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), x_(this), y_(this), z_(this) {
+  if ((f & ::xml_schema::flags::base) == 0) {
+    ::xsd::cxx::xml::dom::parser<char> p(e, false, false, true);
+    this->parse(p, f);
+  }
+}
+
+void vector_i::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags f) {
+  while (p.more_attributes()) {
+    const ::xercesc::DOMAttr &i(p.next_attribute());
+    const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    if (n.name() == "x" && n.namespace_().empty()) {
+      this->x_.set(x_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "y" && n.namespace_().empty()) {
+      this->y_.set(y_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "z" && n.namespace_().empty()) {
+      this->z_.set(z_traits::create(i, f, this));
+      continue;
+    }
+  }
+
+  if (!x_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("x", "");
+  }
+
+  if (!y_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("y", "");
+  }
+
+  if (!z_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("z", "");
+  }
+}
+
+vector_i *vector_i::_clone(::xml_schema::flags f, ::xml_schema::container *c) const {
+  return new class vector_i(*this, f, c);
+}
+
+vector_i &vector_i::operator=(const vector_i &x) {
+  if (this != &x) {
+    static_cast< ::xml_schema::type & > (*this) = x;
+    this->x_ = x.x_;
+    this->y_ = x.y_;
+    this->z_ = x.z_;
+  }
+
+  return *this;
+}
+
+vector_i::~vector_i() {
+}
+
 // input_t
 //
 
@@ -474,17 +713,19 @@ input_t::~input_t() {
 //
 
 simulation_t::simulation_t()
-    : ::xml_schema::type(), Cuboid_(this), Source_(this), endTime_(this), deltaT_(this), name_(this) {
+    : ::xml_schema::type(), Cuboid_(this), Source_(this), Physics_(this), Writer_(this), endTime_(this), deltaT_(this),
+      name_(this), iteration_(this) {
 }
 
 simulation_t::simulation_t(const simulation_t &x, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(x, f, c), Cuboid_(x.Cuboid_, f, this), Source_(x.Source_, f, this),
-      endTime_(x.endTime_, f, this), deltaT_(x.deltaT_, f, this), name_(x.name_, f, this) {
+      Physics_(x.Physics_, f, this), Writer_(x.Writer_, f, this), endTime_(x.endTime_, f, this),
+      deltaT_(x.deltaT_, f, this), name_(x.name_, f, this), iteration_(x.iteration_, f, this) {
 }
 
 simulation_t::simulation_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Cuboid_(this), Source_(this), endTime_(this),
-      deltaT_(this), name_(this) {
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Cuboid_(this), Source_(this), Physics_(this),
+      Writer_(this), endTime_(this), deltaT_(this), name_(this), iteration_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -514,6 +755,28 @@ void simulation_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
       continue;
     }
 
+    // Physics
+    //
+    if (n.name() == "Physics" && n.namespace_().empty()) {
+      ::std::unique_ptr<Physics_type> r(Physics_traits::create(i, f, this));
+
+      if (!this->Physics_) {
+        this->Physics_.set(::std::move(r));
+        continue;
+      }
+    }
+
+    // Writer
+    //
+    if (n.name() == "Writer" && n.namespace_().empty()) {
+      ::std::unique_ptr<Writer_type> r(Writer_traits::create(i, f, this));
+
+      if (!this->Writer_) {
+        this->Writer_.set(::std::move(r));
+        continue;
+      }
+    }
+
     break;
   }
 
@@ -535,6 +798,11 @@ void simulation_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
       this->name_.set(name_traits::create(i, f, this));
       continue;
     }
+
+    if (n.name() == "iteration" && n.namespace_().empty()) {
+      this->iteration_.set(iteration_traits::create(i, f, this));
+      continue;
+    }
   }
 }
 
@@ -547,9 +815,12 @@ simulation_t &simulation_t::operator=(const simulation_t &x) {
     static_cast< ::xml_schema::type & > (*this) = x;
     this->Cuboid_ = x.Cuboid_;
     this->Source_ = x.Source_;
+    this->Physics_ = x.Physics_;
+    this->Writer_ = x.Writer_;
     this->endTime_ = x.endTime_;
     this->deltaT_ = x.deltaT_;
     this->name_ = x.name_;
+    this->iteration_ = x.iteration_;
   }
 
   return *this;
@@ -737,6 +1008,22 @@ void operator<<(::xercesc::DOMElement &e, const cuboid_t &i) {
     s << i.Position();
   }
 
+  // Velocity
+  //
+  {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Velocity", e));
+
+    s << i.Velocity();
+  }
+
+  // Dimension
+  //
+  {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Dimension", e));
+
+    s << i.Dimension();
+  }
+
   // distance
   //
   {
@@ -790,6 +1077,34 @@ void operator<<(::xercesc::DOMElement &e, const vector_t &i) {
   }
 }
 
+void operator<<(::xercesc::DOMElement &e, const vector_i &i) {
+  e << static_cast< const ::xml_schema::type & > (i);
+
+  // x
+  //
+  {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("x", e));
+
+    a << i.x();
+  }
+
+  // y
+  //
+  {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("y", e));
+
+    a << i.y();
+  }
+
+  // z
+  //
+  {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("z", e));
+
+    a << i.z();
+  }
+}
+
 void operator<<(::xercesc::DOMElement &e, const input_t &i) {
   e << static_cast< const ::xml_schema::type & > (i);
 
@@ -821,6 +1136,22 @@ void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
     s << *b;
   }
 
+  // Physics
+  //
+  if (i.Physics()) {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Physics", e));
+
+    s << *i.Physics();
+  }
+
+  // Writer
+  //
+  if (i.Writer()) {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Writer", e));
+
+    s << *i.Writer();
+  }
+
   // endTime
   //
   if (i.endTime()) {
@@ -843,6 +1174,14 @@ void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("name", e));
 
     a << *i.name();
+  }
+
+  // iteration
+  //
+  if (i.iteration()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("iteration", e));
+
+    a << *i.iteration();
   }
 }
 

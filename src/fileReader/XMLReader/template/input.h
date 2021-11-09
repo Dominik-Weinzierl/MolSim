@@ -605,7 +605,7 @@ using ::xsd::cxx::xml::dom::unique_ptr;
 /**
  * @brief DOM user data key for back pointers to tree nodes.
  */
-const XMLCh *const tree_node_key = ::xsd::cxx::tree::user_data_keys::node;
+const XMLCh* const tree_node_key = ::xsd::cxx::tree::user_data_keys::node;
 #endif
 }
 }
@@ -614,6 +614,7 @@ const XMLCh *const tree_node_key = ::xsd::cxx::tree::user_data_keys::node;
 //
 class cuboid_t;
 class vector_t;
+class vector_i;
 class input_t;
 class simulation_t;
 
@@ -689,6 +690,114 @@ class cuboid_t : public ::xml_schema::type {
    * instead of making a copy.
    */
   void Position(::std::unique_ptr<Position_type> p);
+
+  //@}
+
+  /**
+   * @name Velocity
+   *
+   * @brief Accessor and modifier functions for the %Velocity
+   * required element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::vector_t Velocity_type;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<Velocity_type, char> Velocity_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element.
+   *
+   * @return A constant reference to the element.
+   */
+  const Velocity_type &Velocity() const;
+
+  /**
+   * @brief Return a read-write reference to the element.
+   *
+   * @return A reference to the element.
+   */
+  Velocity_type &Velocity();
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the element.
+   */
+  void Velocity(const Velocity_type &x);
+
+  /**
+   * @brief Set the element value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly
+   * instead of making a copy.
+   */
+  void Velocity(::std::unique_ptr<Velocity_type> p);
+
+  //@}
+
+  /**
+   * @name Dimension
+   *
+   * @brief Accessor and modifier functions for the %Dimension
+   * required element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::vector_i Dimension_type;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<Dimension_type, char> Dimension_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element.
+   *
+   * @return A constant reference to the element.
+   */
+  const Dimension_type &Dimension() const;
+
+  /**
+   * @brief Return a read-write reference to the element.
+   *
+   * @return A reference to the element.
+   */
+  Dimension_type &Dimension();
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the element.
+   */
+  void Dimension(const Dimension_type &x);
+
+  /**
+   * @brief Set the element value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly
+   * instead of making a copy.
+   */
+  void Dimension(::std::unique_ptr<Dimension_type> p);
 
   //@}
 
@@ -833,7 +942,8 @@ class cuboid_t : public ::xml_schema::type {
    * @brief Create an instance from the ultimate base and
    * initializers for required elements and attributes.
    */
-  cuboid_t(const Position_type &, const distance_type &, const mass_type &, const meanValue_type &);
+  cuboid_t(const Position_type &, const Velocity_type &, const Dimension_type &, const distance_type &,
+           const mass_type &, const meanValue_type &);
 
   /**
    * @brief Create an instance from the ultimate base and
@@ -843,7 +953,8 @@ class cuboid_t : public ::xml_schema::type {
    * This constructor will try to use the passed values directly
    * instead of making copies.
    */
-  cuboid_t(::std::unique_ptr<Position_type>, const distance_type &, const mass_type &, const meanValue_type &);
+  cuboid_t(::std::unique_ptr<Position_type>, ::std::unique_ptr<Velocity_type>, ::std::unique_ptr<Dimension_type>,
+           const distance_type &, const mass_type &, const meanValue_type &);
 
   /**
    * @brief Create an instance from a DOM element.
@@ -907,6 +1018,8 @@ class cuboid_t : public ::xml_schema::type {
 
  protected:
   ::xsd::cxx::tree::one<Position_type> Position_;
+  ::xsd::cxx::tree::one<Velocity_type> Velocity_;
+  ::xsd::cxx::tree::one<Dimension_type> Dimension_;
   ::xsd::cxx::tree::one<distance_type> distance_;
   ::xsd::cxx::tree::one<mass_type> mass_;
   ::xsd::cxx::tree::one<meanValue_type> meanValue_;
@@ -1115,6 +1228,224 @@ class vector_t : public ::xml_schema::type {
    */
   virtual
   ~vector_t();
+
+  // Implementation.
+  //
+
+  //@cond
+
+ protected:
+  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::flags);
+
+ protected:
+  ::xsd::cxx::tree::one<x_type> x_;
+  ::xsd::cxx::tree::one<y_type> y_;
+  ::xsd::cxx::tree::one<z_type> z_;
+
+  //@endcond
+};
+
+/**
+ * @brief Class corresponding to the %vector_i schema type.
+ *
+ * @nosubgrouping
+ */
+class vector_i : public ::xml_schema::type {
+ public:
+  /**
+   * @name x
+   *
+   * @brief Accessor and modifier functions for the %x
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::non_negative_integer x_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<x_type, char> x_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const x_type &x() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  x_type &x();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void x(const x_type &x);
+
+  //@}
+
+  /**
+   * @name y
+   *
+   * @brief Accessor and modifier functions for the %y
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::non_negative_integer y_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<y_type, char> y_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const y_type &y() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  y_type &y();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void y(const y_type &x);
+
+  //@}
+
+  /**
+   * @name z
+   *
+   * @brief Accessor and modifier functions for the %z
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::non_negative_integer z_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<z_type, char> z_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const z_type &z() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  z_type &z();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void z(const z_type &x);
+
+  //@}
+
+  /**
+   * @name Constructors
+   */
+  //@{
+
+  /**
+   * @brief Create an instance from the ultimate base and
+   * initializers for required elements and attributes.
+   */
+  vector_i(const x_type &, const y_type &, const z_type &);
+
+  /**
+   * @brief Create an instance from a DOM element.
+   *
+   * @param e A DOM element to extract the data from.
+   * @param f Flags to create the new instance with.
+   * @param c A pointer to the object that will contain the new
+   * instance.
+   */
+  vector_i(const ::xercesc::DOMElement &e, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
+
+  /**
+   * @brief Copy constructor.
+   *
+   * @param x An instance to make a copy of.
+   * @param f Flags to create the copy with.
+   * @param c A pointer to the object that will contain the copy.
+   *
+   * For polymorphic object models use the @c _clone function instead.
+   */
+  vector_i(const vector_i &x, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
+
+  /**
+   * @brief Copy the instance polymorphically.
+   *
+   * @param f Flags to create the copy with.
+   * @param c A pointer to the object that will contain the copy.
+   * @return A pointer to the dynamically allocated copy.
+   *
+   * This function ensures that the dynamic type of the instance is
+   * used for copying and should be used for polymorphic object
+   * models instead of the copy constructor.
+   */
+  virtual vector_i *_clone(::xml_schema::flags f = 0, ::xml_schema::container *c = 0) const;
+
+  /**
+   * @brief Copy assignment operator.
+   *
+   * @param x An instance to make a copy of.
+   * @return A reference to itself.
+   *
+   * For polymorphic object models use the @c _clone function instead.
+   */
+  vector_i &operator=(const vector_i &x);
+
+  //@}
+
+  /**
+   * @brief Destructor.
+   */
+  virtual
+  ~vector_i();
 
   // Implementation.
   //
@@ -1400,6 +1731,148 @@ class simulation_t : public ::xml_schema::type {
   //@}
 
   /**
+   * @name Physics
+   *
+   * @brief Accessor and modifier functions for the %Physics
+   * optional element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::xml_schema::string Physics_type;
+
+  /**
+   * @brief Element optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<Physics_type> Physics_optional;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<Physics_type, char> Physics_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const Physics_optional &Physics() const;
+
+  /**
+   * @brief Return a read-write reference to the element container.
+   *
+   * @return A reference to the optional container.
+   */
+  Physics_optional &Physics();
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the element.
+   */
+  void Physics(const Physics_type &x);
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the element.
+   * Otherwise the element container is set the 'not present' state.
+   */
+  void Physics(const Physics_optional &x);
+
+  /**
+   * @brief Set the element value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly instead
+   * of making a copy.
+   */
+  void Physics(::std::unique_ptr<Physics_type> p);
+
+  //@}
+
+  /**
+   * @name Writer
+   *
+   * @brief Accessor and modifier functions for the %Writer
+   * optional element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::xml_schema::string Writer_type;
+
+  /**
+   * @brief Element optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<Writer_type> Writer_optional;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<Writer_type, char> Writer_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const Writer_optional &Writer() const;
+
+  /**
+   * @brief Return a read-write reference to the element container.
+   *
+   * @return A reference to the optional container.
+   */
+  Writer_optional &Writer();
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the element.
+   */
+  void Writer(const Writer_type &x);
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the element.
+   * Otherwise the element container is set the 'not present' state.
+   */
+  void Writer(const Writer_optional &x);
+
+  /**
+   * @brief Set the element value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly instead
+   * of making a copy.
+   */
+  void Writer(::std::unique_ptr<Writer_type> p);
+
+  //@}
+
+  /**
    * @name endTime
    *
    * @brief Accessor and modifier functions for the %endTime
@@ -1593,6 +2066,67 @@ class simulation_t : public ::xml_schema::type {
   //@}
 
   /**
+   * @name iteration
+   *
+   * @brief Accessor and modifier functions for the %iteration
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::non_negative_integer iteration_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<iteration_type> iteration_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<iteration_type, char> iteration_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const iteration_optional &iteration() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  iteration_optional &iteration();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void iteration(const iteration_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void iteration(const iteration_optional &x);
+
+  //@}
+
+  /**
    * @name Constructors
    */
   //@{
@@ -1666,9 +2200,12 @@ class simulation_t : public ::xml_schema::type {
  protected:
   Cuboid_sequence Cuboid_;
   Source_sequence Source_;
+  Physics_optional Physics_;
+  Writer_optional Writer_;
   endTime_optional endTime_;
   deltaT_optional deltaT_;
   name_optional name_;
+  iteration_optional iteration_;
 
   //@endcond
 };
@@ -1913,6 +2450,8 @@ class simulation_t : public ::xml_schema::type {
 void operator<<(::xercesc::DOMElement &, const cuboid_t &);
 
 void operator<<(::xercesc::DOMElement &, const vector_t &);
+
+void operator<<(::xercesc::DOMElement &, const vector_i &);
 
 void operator<<(::xercesc::DOMElement &, const input_t &);
 
