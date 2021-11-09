@@ -4,7 +4,7 @@
 #include <iomanip>
 
 XYZWriter::XYZWriter(const std::string &file_name, const std::string &path, ParticleContainer &container)
-    : OutputWriter(file_name, path, container) {};
+    : OutputWriter(file_name, path, container) {}
 
 void XYZWriter::plotParticles() {
   auto particles = container.getParticles();
