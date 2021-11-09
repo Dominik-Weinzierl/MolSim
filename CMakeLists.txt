@@ -1,5 +1,4 @@
-# Works with 3.11 and tested through 3.21
-cmake_minimum_required(VERSION 3.11...3.21)
+cmake_minimum_required(VERSION 3.11)
 
 # Set cxx standard.
 set(CMAKE_CXX_STANDARD 20)
