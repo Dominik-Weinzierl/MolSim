@@ -7,8 +7,16 @@ ArgumentStatus::ArgumentStatus() {
   flags.insert({"filename", {false, "", ""}});
 }
 
+ArgumentParser::ArgumentParser(int argc, char **arguments) {
+  for (int i = 1; i < argc; ++i) {
+    tokens.emplace_back(arguments[i]);
+  }
+}
+
 bool ArgumentStatus::validStatus() {
-  return std::get<0>(flags["filename"]);
+  return std::all_of(flags.begin(), flags.end(), [](auto v) {
+    return std::get<0>(std::get<1>(v));
+  });
 }
 
 void ArgumentStatus::updateFlag(const std::string &name, const std::string &flag,
@@ -23,21 +31,16 @@ std::variant<std::string, int, double> ArgumentStatus::getValue(const std::strin
 }
 
 void ArgumentParser::handleFlag(ArgumentStatus &status, const std::string &name, const std::string &flag,
-                                const std::string &possibleValue, std::array<std::string, 2> flags) {
-  if (flag == flags[0] || flag == flags[1]) {
-    status.updateFlag(name, flag, possibleValue);
-  }
+                                const std::string &possibleValue) {
+  status.updateFlag(name, flag, possibleValue);
 }
 
 void ArgumentParser::handleFlag(ArgumentStatus &status, const std::string &name, const std::string &flag,
-                                const std::string &possibleValue, std::array<std::string, 2> flags,
-                                std::vector<std::string> possibleValues) {
-  if (flag == flags[0] || flag == flags[1]) {
-    if (std::find(possibleValues.begin(), possibleValues.end(), possibleValue) == possibleValues.end()) {
-      throw std::invalid_argument("Expected: " + ArrayUtils::to_string(possibleValues) + " | Got: " + possibleValue);
-    }
-    status.updateFlag(name, flag, possibleValue);
+                                const std::string &possibleValue, std::vector<std::string> possibleValues) {
+  if (std::find(possibleValues.begin(), possibleValues.end(), possibleValue) == possibleValues.end()) {
+    throw std::invalid_argument("Expected: " + ArrayUtils::to_string(possibleValues) + " | Got: " + possibleValue);
   }
+  status.updateFlag(name, flag, possibleValue);
 }
 
 template<>
@@ -62,24 +65,18 @@ void ArgumentParser::performCheck<double>(ArgumentStatus &status, const std::str
 
 template<typename T>
 void ArgumentParser::handleFlag(ArgumentStatus &status, const std::string &name, const std::string &flag,
-                                const std::string &possibleValue, std::array<std::string, 2> flags) {
-  if (flag == flags[0] || flag == flags[1]) {
-    performCheck<T>(status, name, flag, possibleValue);
-  }
+                                const std::string &possibleValue) {
+  performCheck<T>(status, name, flag, possibleValue);
 }
 
 template<>
 void ArgumentParser::handleFlag<int>(ArgumentStatus &status, const std::string &name, const std::string &flag,
-                                     const std::string &possibleValue, std::array<std::string, 2> flags) {
-  if (flag == flags[0] || flag == flags[1]) {
-    performCheck<int>(status, name, flag, possibleValue);
-  }
+                                     const std::string &possibleValue) {
+  performCheck<int>(status, name, flag, possibleValue);
 }
 
 template<>
 void ArgumentParser::handleFlag<double>(ArgumentStatus &status, const std::string &name, const std::string &flag,
-                                        const std::string &possibleValue, std::array<std::string, 2> flags) {
-  if (flag == flags[0] || flag == flags[1]) {
-    performCheck<double>(status, name, flag, possibleValue);
-  }
+                                        const std::string &possibleValue) {
+  performCheck<double>(status, name, flag, possibleValue);
 }

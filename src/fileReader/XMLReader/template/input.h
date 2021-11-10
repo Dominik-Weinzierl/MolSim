@@ -605,7 +605,7 @@ using ::xsd::cxx::xml::dom::unique_ptr;
 /**
  * @brief DOM user data key for back pointers to tree nodes.
  */
-const XMLCh* const tree_node_key = ::xsd::cxx::tree::user_data_keys::node;
+const XMLCh *const tree_node_key = ::xsd::cxx::tree::user_data_keys::node;
 #endif
 }
 }
@@ -1731,148 +1731,6 @@ class simulation_t : public ::xml_schema::type {
   //@}
 
   /**
-   * @name Physics
-   *
-   * @brief Accessor and modifier functions for the %Physics
-   * optional element.
-   */
-  //@{
-
-  /**
-   * @brief Element type.
-   */
-  typedef ::xml_schema::string Physics_type;
-
-  /**
-   * @brief Element optional container type.
-   */
-  typedef ::xsd::cxx::tree::optional<Physics_type> Physics_optional;
-
-  /**
-   * @brief Element traits type.
-   */
-  typedef ::xsd::cxx::tree::traits<Physics_type, char> Physics_traits;
-
-  /**
-   * @brief Return a read-only (constant) reference to the element
-   * container.
-   *
-   * @return A constant reference to the optional container.
-   */
-  const Physics_optional &Physics() const;
-
-  /**
-   * @brief Return a read-write reference to the element container.
-   *
-   * @return A reference to the optional container.
-   */
-  Physics_optional &Physics();
-
-  /**
-   * @brief Set the element value.
-   *
-   * @param x A new value to set.
-   *
-   * This function makes a copy of its argument and sets it as
-   * the new value of the element.
-   */
-  void Physics(const Physics_type &x);
-
-  /**
-   * @brief Set the element value.
-   *
-   * @param x An optional container with the new value to set.
-   *
-   * If the value is present in @a x then this function makes a copy 
-   * of this value and sets it as the new value of the element.
-   * Otherwise the element container is set the 'not present' state.
-   */
-  void Physics(const Physics_optional &x);
-
-  /**
-   * @brief Set the element value without copying.
-   *
-   * @param p A new value to use.
-   *
-   * This function will try to use the passed value directly instead
-   * of making a copy.
-   */
-  void Physics(::std::unique_ptr<Physics_type> p);
-
-  //@}
-
-  /**
-   * @name Writer
-   *
-   * @brief Accessor and modifier functions for the %Writer
-   * optional element.
-   */
-  //@{
-
-  /**
-   * @brief Element type.
-   */
-  typedef ::xml_schema::string Writer_type;
-
-  /**
-   * @brief Element optional container type.
-   */
-  typedef ::xsd::cxx::tree::optional<Writer_type> Writer_optional;
-
-  /**
-   * @brief Element traits type.
-   */
-  typedef ::xsd::cxx::tree::traits<Writer_type, char> Writer_traits;
-
-  /**
-   * @brief Return a read-only (constant) reference to the element
-   * container.
-   *
-   * @return A constant reference to the optional container.
-   */
-  const Writer_optional &Writer() const;
-
-  /**
-   * @brief Return a read-write reference to the element container.
-   *
-   * @return A reference to the optional container.
-   */
-  Writer_optional &Writer();
-
-  /**
-   * @brief Set the element value.
-   *
-   * @param x A new value to set.
-   *
-   * This function makes a copy of its argument and sets it as
-   * the new value of the element.
-   */
-  void Writer(const Writer_type &x);
-
-  /**
-   * @brief Set the element value.
-   *
-   * @param x An optional container with the new value to set.
-   *
-   * If the value is present in @a x then this function makes a copy 
-   * of this value and sets it as the new value of the element.
-   * Otherwise the element container is set the 'not present' state.
-   */
-  void Writer(const Writer_optional &x);
-
-  /**
-   * @brief Set the element value without copying.
-   *
-   * @param p A new value to use.
-   *
-   * This function will try to use the passed value directly instead
-   * of making a copy.
-   */
-  void Writer(::std::unique_ptr<Writer_type> p);
-
-  //@}
-
-  /**
    * @name endTime
    *
    * @brief Accessor and modifier functions for the %endTime
@@ -1995,9 +1853,9 @@ class simulation_t : public ::xml_schema::type {
   //@}
 
   /**
-   * @name name
+   * @name output
    *
-   * @brief Accessor and modifier functions for the %name
+   * @brief Accessor and modifier functions for the %output
    * optional attribute.
    */
   //@{
@@ -2005,17 +1863,17 @@ class simulation_t : public ::xml_schema::type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::string name_type;
+  typedef ::xml_schema::string output_type;
 
   /**
    * @brief Attribute optional container type.
    */
-  typedef ::xsd::cxx::tree::optional<name_type> name_optional;
+  typedef ::xsd::cxx::tree::optional<output_type> output_optional;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<name_type, char> name_traits;
+  typedef ::xsd::cxx::tree::traits<output_type, char> output_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute
@@ -2023,14 +1881,14 @@ class simulation_t : public ::xml_schema::type {
    *
    * @return A constant reference to the optional container.
    */
-  const name_optional &name() const;
+  const output_optional &output() const;
 
   /**
    * @brief Return a read-write reference to the attribute container.
    *
    * @return A reference to the optional container.
    */
-  name_optional &name();
+  output_optional &output();
 
   /**
    * @brief Set the attribute value.
@@ -2040,7 +1898,7 @@ class simulation_t : public ::xml_schema::type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void name(const name_type &x);
+  void output(const output_type &x);
 
   /**
    * @brief Set the attribute value.
@@ -2051,7 +1909,7 @@ class simulation_t : public ::xml_schema::type {
    * of this value and sets it as the new value of the attribute.
    * Otherwise the attribute container is set the 'not present' state.
    */
-  void name(const name_optional &x);
+  void output(const output_optional &x);
 
   /**
    * @brief Set the attribute value without copying.
@@ -2061,7 +1919,7 @@ class simulation_t : public ::xml_schema::type {
    * This function will try to use the passed value directly instead
    * of making a copy.
    */
-  void name(::std::unique_ptr<name_type> p);
+  void output(::std::unique_ptr<output_type> p);
 
   //@}
 
@@ -2123,6 +1981,148 @@ class simulation_t : public ::xml_schema::type {
    * Otherwise the attribute container is set the 'not present' state.
    */
   void iteration(const iteration_optional &x);
+
+  //@}
+
+  /**
+   * @name physics
+   *
+   * @brief Accessor and modifier functions for the %physics
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::string physics_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<physics_type> physics_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<physics_type, char> physics_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const physics_optional &physics() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  physics_optional &physics();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void physics(const physics_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void physics(const physics_optional &x);
+
+  /**
+   * @brief Set the attribute value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly instead
+   * of making a copy.
+   */
+  void physics(::std::unique_ptr<physics_type> p);
+
+  //@}
+
+  /**
+   * @name writer
+   *
+   * @brief Accessor and modifier functions for the %writer
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::string writer_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<writer_type> writer_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<writer_type, char> writer_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const writer_optional &writer() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  writer_optional &writer();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void writer(const writer_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void writer(const writer_optional &x);
+
+  /**
+   * @brief Set the attribute value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly instead
+   * of making a copy.
+   */
+  void writer(::std::unique_ptr<writer_type> p);
 
   //@}
 
@@ -2200,12 +2200,12 @@ class simulation_t : public ::xml_schema::type {
  protected:
   Cuboid_sequence Cuboid_;
   Source_sequence Source_;
-  Physics_optional Physics_;
-  Writer_optional Writer_;
   endTime_optional endTime_;
   deltaT_optional deltaT_;
-  name_optional name_;
+  output_optional output_;
   iteration_optional iteration_;
+  physics_optional physics_;
+  writer_optional writer_;
 
   //@endcond
 };

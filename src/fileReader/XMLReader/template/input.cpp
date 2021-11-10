@@ -255,46 +255,6 @@ void simulation_t::Source(const Source_sequence &s) {
   this->Source_ = s;
 }
 
-const simulation_t::Physics_optional &simulation_t::Physics() const {
-  return this->Physics_;
-}
-
-simulation_t::Physics_optional &simulation_t::Physics() {
-  return this->Physics_;
-}
-
-void simulation_t::Physics(const Physics_type &x) {
-  this->Physics_.set(x);
-}
-
-void simulation_t::Physics(const Physics_optional &x) {
-  this->Physics_ = x;
-}
-
-void simulation_t::Physics(::std::unique_ptr<Physics_type> x) {
-  this->Physics_.set(std::move(x));
-}
-
-const simulation_t::Writer_optional &simulation_t::Writer() const {
-  return this->Writer_;
-}
-
-simulation_t::Writer_optional &simulation_t::Writer() {
-  return this->Writer_;
-}
-
-void simulation_t::Writer(const Writer_type &x) {
-  this->Writer_.set(x);
-}
-
-void simulation_t::Writer(const Writer_optional &x) {
-  this->Writer_ = x;
-}
-
-void simulation_t::Writer(::std::unique_ptr<Writer_type> x) {
-  this->Writer_.set(std::move(x));
-}
-
 const simulation_t::endTime_optional &simulation_t::endTime() const {
   return this->endTime_;
 }
@@ -327,24 +287,24 @@ void simulation_t::deltaT(const deltaT_optional &x) {
   this->deltaT_ = x;
 }
 
-const simulation_t::name_optional &simulation_t::name() const {
-  return this->name_;
+const simulation_t::output_optional &simulation_t::output() const {
+  return this->output_;
 }
 
-simulation_t::name_optional &simulation_t::name() {
-  return this->name_;
+simulation_t::output_optional &simulation_t::output() {
+  return this->output_;
 }
 
-void simulation_t::name(const name_type &x) {
-  this->name_.set(x);
+void simulation_t::output(const output_type &x) {
+  this->output_.set(x);
 }
 
-void simulation_t::name(const name_optional &x) {
-  this->name_ = x;
+void simulation_t::output(const output_optional &x) {
+  this->output_ = x;
 }
 
-void simulation_t::name(::std::unique_ptr<name_type> x) {
-  this->name_.set(std::move(x));
+void simulation_t::output(::std::unique_ptr<output_type> x) {
+  this->output_.set(std::move(x));
 }
 
 const simulation_t::iteration_optional &simulation_t::iteration() const {
@@ -361,6 +321,46 @@ void simulation_t::iteration(const iteration_type &x) {
 
 void simulation_t::iteration(const iteration_optional &x) {
   this->iteration_ = x;
+}
+
+const simulation_t::physics_optional &simulation_t::physics() const {
+  return this->physics_;
+}
+
+simulation_t::physics_optional &simulation_t::physics() {
+  return this->physics_;
+}
+
+void simulation_t::physics(const physics_type &x) {
+  this->physics_.set(x);
+}
+
+void simulation_t::physics(const physics_optional &x) {
+  this->physics_ = x;
+}
+
+void simulation_t::physics(::std::unique_ptr<physics_type> x) {
+  this->physics_.set(std::move(x));
+}
+
+const simulation_t::writer_optional &simulation_t::writer() const {
+  return this->writer_;
+}
+
+simulation_t::writer_optional &simulation_t::writer() {
+  return this->writer_;
+}
+
+void simulation_t::writer(const writer_type &x) {
+  this->writer_.set(x);
+}
+
+void simulation_t::writer(const writer_optional &x) {
+  this->writer_ = x;
+}
+
+void simulation_t::writer(::std::unique_ptr<writer_type> x) {
+  this->writer_.set(std::move(x));
 }
 
 #include <xsd/cxx/xml/dom/parsing-source.hxx>
@@ -713,19 +713,19 @@ input_t::~input_t() {
 //
 
 simulation_t::simulation_t()
-    : ::xml_schema::type(), Cuboid_(this), Source_(this), Physics_(this), Writer_(this), endTime_(this), deltaT_(this),
-      name_(this), iteration_(this) {
+    : ::xml_schema::type(), Cuboid_(this), Source_(this), endTime_(this), deltaT_(this), output_(this),
+      iteration_(this), physics_(this), writer_(this) {
 }
 
 simulation_t::simulation_t(const simulation_t &x, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(x, f, c), Cuboid_(x.Cuboid_, f, this), Source_(x.Source_, f, this),
-      Physics_(x.Physics_, f, this), Writer_(x.Writer_, f, this), endTime_(x.endTime_, f, this),
-      deltaT_(x.deltaT_, f, this), name_(x.name_, f, this), iteration_(x.iteration_, f, this) {
+      endTime_(x.endTime_, f, this), deltaT_(x.deltaT_, f, this), output_(x.output_, f, this),
+      iteration_(x.iteration_, f, this), physics_(x.physics_, f, this), writer_(x.writer_, f, this) {
 }
 
 simulation_t::simulation_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Cuboid_(this), Source_(this), Physics_(this),
-      Writer_(this), endTime_(this), deltaT_(this), name_(this), iteration_(this) {
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Cuboid_(this), Source_(this), endTime_(this),
+      deltaT_(this), output_(this), iteration_(this), physics_(this), writer_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -755,28 +755,6 @@ void simulation_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
       continue;
     }
 
-    // Physics
-    //
-    if (n.name() == "Physics" && n.namespace_().empty()) {
-      ::std::unique_ptr<Physics_type> r(Physics_traits::create(i, f, this));
-
-      if (!this->Physics_) {
-        this->Physics_.set(::std::move(r));
-        continue;
-      }
-    }
-
-    // Writer
-    //
-    if (n.name() == "Writer" && n.namespace_().empty()) {
-      ::std::unique_ptr<Writer_type> r(Writer_traits::create(i, f, this));
-
-      if (!this->Writer_) {
-        this->Writer_.set(::std::move(r));
-        continue;
-      }
-    }
-
     break;
   }
 
@@ -794,13 +772,23 @@ void simulation_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
       continue;
     }
 
-    if (n.name() == "name" && n.namespace_().empty()) {
-      this->name_.set(name_traits::create(i, f, this));
+    if (n.name() == "output" && n.namespace_().empty()) {
+      this->output_.set(output_traits::create(i, f, this));
       continue;
     }
 
     if (n.name() == "iteration" && n.namespace_().empty()) {
       this->iteration_.set(iteration_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "physics" && n.namespace_().empty()) {
+      this->physics_.set(physics_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "writer" && n.namespace_().empty()) {
+      this->writer_.set(writer_traits::create(i, f, this));
       continue;
     }
   }
@@ -815,12 +803,12 @@ simulation_t &simulation_t::operator=(const simulation_t &x) {
     static_cast< ::xml_schema::type & > (*this) = x;
     this->Cuboid_ = x.Cuboid_;
     this->Source_ = x.Source_;
-    this->Physics_ = x.Physics_;
-    this->Writer_ = x.Writer_;
     this->endTime_ = x.endTime_;
     this->deltaT_ = x.deltaT_;
-    this->name_ = x.name_;
+    this->output_ = x.output_;
     this->iteration_ = x.iteration_;
+    this->physics_ = x.physics_;
+    this->writer_ = x.writer_;
   }
 
   return *this;
@@ -1136,22 +1124,6 @@ void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
     s << *b;
   }
 
-  // Physics
-  //
-  if (i.Physics()) {
-    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Physics", e));
-
-    s << *i.Physics();
-  }
-
-  // Writer
-  //
-  if (i.Writer()) {
-    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Writer", e));
-
-    s << *i.Writer();
-  }
-
   // endTime
   //
   if (i.endTime()) {
@@ -1168,12 +1140,12 @@ void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
     a << ::xml_schema::as_decimal(*i.deltaT());
   }
 
-  // name
+  // output
   //
-  if (i.name()) {
-    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("name", e));
+  if (i.output()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("output", e));
 
-    a << *i.name();
+    a << *i.output();
   }
 
   // iteration
@@ -1182,6 +1154,22 @@ void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("iteration", e));
 
     a << *i.iteration();
+  }
+
+  // physics
+  //
+  if (i.physics()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("physics", e));
+
+    a << *i.physics();
+  }
+
+  // writer
+  //
+  if (i.writer()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("writer", e));
+
+    a << *i.writer();
   }
 }
 

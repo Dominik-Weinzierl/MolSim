@@ -20,7 +20,8 @@ std::unique_ptr<XMLArgument> XMLReader::readXML() const {
   std::string fileName = "default";
 
   for (auto &it: simulation->Source()) {
-    files.emplace_back(it.location().text_content());
+    std::string path = it.location();
+    files.push_back(path);
   }
 
   for (auto &it: simulation->Cuboid()) {
@@ -36,11 +37,11 @@ std::unique_ptr<XMLArgument> XMLReader::readXML() const {
     cuboidArguments.emplace_back(position, dimension, velocity, dis, mass, mean);
   }
 
-  if (simulation->Physics().present()) {
-    physics = simulation->Physics()->text_content();
+  if (simulation->physics().present()) {
+    physics = simulation->physics().get();
   }
-  if (simulation->Writer().present()) {
-    writer = simulation->Writer()->text_content();
+  if (simulation->writer().present()) {
+    writer = simulation->writer().get();
   }
   if (simulation->endTime().present()) {
     endTime = simulation->endTime().get();
@@ -48,8 +49,8 @@ std::unique_ptr<XMLArgument> XMLReader::readXML() const {
   if (simulation->deltaT().present()) {
     deltaT = simulation->deltaT().get();
   }
-  if (simulation->name().present()) {
-    fileName = simulation->name()->text_content();
+  if (simulation->output().present()) {
+    fileName = simulation->output().get();
   }
   if (simulation->iteration().present()) {
     iteration = static_cast<int>(simulation->iteration().get());

@@ -31,13 +31,13 @@
         <xsd:sequence>
             <xsd:element name="Cuboid" type="cuboid_t" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="Source" type="input_t" minOccurs="0" maxOccurs="unbounded"/>
-            <xsd:element name="Physics" type="xsd:string" minOccurs="0"/>
-            <xsd:element name="Writer" type="xsd:string" minOccurs="0"/>
         </xsd:sequence>
         <xsd:attribute name="endTime" type="xsd:decimal"/>
         <xsd:attribute name="deltaT" type="xsd:decimal"/>
-        <xsd:attribute name="name" type="xsd:string"/>
+        <xsd:attribute name="output" type="xsd:string"/>
         <xsd:attribute name="iteration" type="xsd:nonNegativeInteger"/>
+        <xsd:attribute name="physics" type="xsd:string"/>
+        <xsd:attribute name="writer" type="xsd:string"/>
     </xsd:complexType>
     <xsd:element name="Simulation" type="simulation_t"/>
 </xsd:schema>
