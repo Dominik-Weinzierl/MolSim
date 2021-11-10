@@ -1,11 +1,12 @@
 #pragma once
 
 #include "physics/Vector/Vector.h"
+#include "particles/ParticleContainer.h"
+#include "physics/Physics.h"
 
-class LennardJones {
+class LennardJones : public Physics {
  private:
-  double l2Norm;
-
+  [[nodiscard]] static Vector getF(const Vector& position1, const Vector& position2, double zeroCrossing, double potentialWellDepth);
  public:
-  Vector getForce(const Vector& position1, const Vector& position2, double zeroCrossing, double potentialWellDepth);
+  void calculateF(ParticleContainer &particleContainer) const override;
 };
