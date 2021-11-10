@@ -14,7 +14,7 @@ Vector LennardJones::getF(const Vector &difference, double zeroCrossing, double 
   force *= firstFactor;
   force *= secondFactor;
 
-  return -force;
+  return force;
 }
 
 void LennardJones::calculateF(ParticleContainer &particleContainer) const {

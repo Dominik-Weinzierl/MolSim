@@ -14,6 +14,6 @@ class BasicArgument : public Argument {
    * @param iteration
    * @param physics
    */
-  BasicArgument(std::vector<std::string> files, double end_time, double delta_t, std::string output,
-                std::string writer, int iteration, std::string physics);
+  BasicArgument(std::vector<std::string> files, double end_time, double delta_t, std::string output, std::string writer,
+                int iteration, std::string physics);
 };

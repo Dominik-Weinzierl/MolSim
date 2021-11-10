@@ -38,13 +38,13 @@ TEST_F(LennardJonesFixture, calculateForceBetweenTwoParticles) { // NOLINT(cert-
 
   // Check value of new force
   auto eps = std::numeric_limits<double>::epsilon() * 100;
-  EXPECT_NEAR(container[0].getF()[0], 1.37174211248285, eps);
-  EXPECT_NEAR(container[0].getF()[1], 1.37174211248285, eps);
-  EXPECT_NEAR(container[0].getF()[2], 1.37174211248285, eps);
+  EXPECT_NEAR(container[0].getF()[0], -1.37174211248285, eps);
+  EXPECT_NEAR(container[0].getF()[1], -1.37174211248285, eps);
+  EXPECT_NEAR(container[0].getF()[2], -1.37174211248285, eps);
 
   // Check value of new force
-  EXPECT_NEAR(container[1].getF()[0], -1.37174211248285, eps);
-  EXPECT_NEAR(container[1].getF()[1], -1.37174211248285, eps);
-  EXPECT_NEAR(container[1].getF()[2], -1.37174211248285, eps);
+  EXPECT_NEAR(container[1].getF()[0], 1.37174211248285, eps);
+  EXPECT_NEAR(container[1].getF()[1], 1.37174211248285, eps);
+  EXPECT_NEAR(container[1].getF()[2], 1.37174211248285, eps);
 }
 

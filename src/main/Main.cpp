@@ -50,16 +50,18 @@ int main(int argc, char *argv[]) {
     InputReader::readFile(particleContainer, file);
   }
 
-  auto *xmlArgument = dynamic_cast<XMLArgument*>(arg.get());
-  CuboidGenerator cuboidGenerator;
+  if (dynamic_cast<XMLArgument *>(arg.get()) != nullptr) {
+    auto *xmlArgument = dynamic_cast<XMLArgument *>(arg.get());
+    CuboidGenerator cuboidGenerator;
 
-  for(auto &cuboidArgument : xmlArgument->getCuboidArguments()){
-    cuboidGenerator.generate(cuboidArgument, particleContainer);
+    for (auto &cuboidArgument: xmlArgument->getCuboidArguments()) {
+      cuboidGenerator.generate(cuboidArgument, particleContainer);
+    }
   }
 
   if (arg->getPhysics() == "gravitation") {
     GravitationSimulation::performSimulation(*arg, *writer, particleContainer);
-  } else if(arg->getPhysics() == "lennard") {
+  } else if (arg->getPhysics() == "lennard") {
     LennardSimulation::performSimulation(*arg, *writer, particleContainer);
   }
 }
