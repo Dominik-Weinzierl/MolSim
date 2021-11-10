@@ -4,7 +4,10 @@
 #include <spdlog/spdlog.h>
 #include <outputWriter/XYZWriter/XYZWriter.h>
 #include <arguments/argumentParser/ParserStrategy.h>
+#include <arguments/argument/XMLArgument/XMLArgument.h>
+#include <generator/variants/CuboidGenerator.h>
 #include "fileReader/InputFile/InputReader.h"
+#include "simulation/variants/LennardSimulation.h"
 
 /**
  * Creates a parser which parses information based on the selected parser
@@ -47,8 +50,17 @@ int main(int argc, char *argv[]) {
     InputReader::readFile(particleContainer, file);
   }
 
+  auto *xmlArgument = dynamic_cast<XMLArgument*>(arg.get());
+  CuboidGenerator cuboidGenerator;
+
+  for(auto &cuboidArgument : xmlArgument->getCuboidArguments()){
+    cuboidGenerator.generate(cuboidArgument, particleContainer);
+  }
+
   if (arg->getPhysics() == "gravitation") {
     GravitationSimulation::performSimulation(*arg, *writer, particleContainer);
+  } else if(arg->getPhysics() == "lennard") {
+    LennardSimulation::performSimulation(*arg, *writer, particleContainer);
   }
 }
 

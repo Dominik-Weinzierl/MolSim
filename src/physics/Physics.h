@@ -16,7 +16,7 @@ class Physics {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT
    */
-  virtual void calculateX(ParticleContainer &particleContainer, double deltaT) const = 0;
+  void calculateX(ParticleContainer &particleContainer, double deltaT) const;
 
   /**
    * Calculates and updates the force for all particles in the specified container
@@ -29,7 +29,7 @@ class Physics {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT
    */
-  virtual void calculateV(ParticleContainer &particleContainer, double deltaT) const = 0;
+  void calculateV(ParticleContainer &particleContainer, double deltaT) const;
 
  public:
 
@@ -38,5 +38,5 @@ class Physics {
    * @param particleContainer
    * @param deltaT
    */
-  virtual void calculateNextStep(ParticleContainer &particleContainer, double deltaT) const = 0;
+  void calculateNextStep(ParticleContainer &particleContainer, double deltaT) const;
 };

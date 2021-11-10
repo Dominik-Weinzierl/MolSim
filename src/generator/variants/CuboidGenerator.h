@@ -3,11 +3,8 @@
 #include "generator/Generator.h"
 
 class CuboidGenerator : public Generator {
-
- private:
-  CuboidGenerator() = default;
-
  public:
+  CuboidGenerator() = default;
   void generate(GeneratorArguments &g, ParticleContainer &p) override;
   void applyMotion(double meanValue, Particle &p) override;
 };

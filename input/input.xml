@@ -1,13 +1,12 @@
-<Simulation endTime="1000" deltaT="0.014" iteration="60" physics="gravitation" writer="vtk" output="test">
-    <Cuboid mass="5.0" distance="5.0" meanValue="5.0">
-        <Position x="1.0" y="2.0" z="3.0"/>
-        <Velocity x="2.0" y="2.0" z="3.0"/>
-        <Dimension x="2" y="2" z="3"/>
+<Simulation endTime="1.8" deltaT="0.0002" iteration="30" physics="gravitation" writer="vtk" output="test">
+    <Cuboid mass="1.0" distance="1.1225" meanValue="0.1">
+        <Position x="0.0" y="0.0" z="0.0"/>
+        <Velocity x="0.0" y="0.0" z="0.0"/>
+        <Dimension x="40" y="8" z="1"/>
     </Cuboid>
-    <Cuboid mass="5.0" distance="5.0" meanValue="5.0">
-        <Position x="1.0" y="2.0" z="3.0"/>
-        <Velocity x="2.0" y="2.0" z="3.0"/>
-        <Dimension x="2" y="2" z="3"/>
+    <Cuboid mass="1.0" distance="1.1225" meanValue="0.1">
+        <Position x="15.0" y="15.0" z="0.0"/>
+        <Velocity x="0.0" y="-10.0" z="0.0"/>
+        <Dimension x="8" y="8" z="1"/>
     </Cuboid>
-    <Source location="../../input/eingabe-sonne.txt"/>
 </Simulation>

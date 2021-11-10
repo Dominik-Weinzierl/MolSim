@@ -10,12 +10,12 @@ void Simulation::performSimulation(OutputWriter &writer, const Physics &physics,
   while (current_time < arg.getEndTime()) {
     physics.calculateNextStep(particleContainer, arg.getDeltaT());
 
-    iteration++;
-
     if (iteration % arg.getIteration() == 0) {
       writer.writeFile(iteration);
     }
+
     SPDLOG_INFO("Iteration {} finished", iteration);
+    iteration++;
     current_time += arg.getDeltaT();
   }
 }

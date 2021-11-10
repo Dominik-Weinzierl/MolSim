@@ -6,3 +6,6 @@ XMLArgument::XMLArgument(std::vector<CuboidArgument> cuboidArguments, std::vecto
                std::move(physics)), cuboidArguments{std::move(cuboidArguments)} {
 
 }
+std::vector<CuboidArgument> XMLArgument::getCuboidArguments() {
+  return cuboidArguments;
+}

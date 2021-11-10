@@ -11,4 +11,5 @@ class XMLArgument : public Argument {
   XMLArgument(std::vector<CuboidArgument> cuboidArguments, std::vector<std::string> files, double end_time,
               double delta_t, std::string output, std::string writer, int iteration, std::string physics);
 
+  std::vector<CuboidArgument> getCuboidArguments();
 };
