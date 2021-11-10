@@ -47,3 +47,4 @@ TEST_F(LennardJonesFixture, calculateForceBetweenTwoParticles) { // NOLINT(cert-
   EXPECT_NEAR(container[1].getF()[1], -1.37174211248285, eps);
   EXPECT_NEAR(container[1].getF()[2], -1.37174211248285, eps);
 }
+
