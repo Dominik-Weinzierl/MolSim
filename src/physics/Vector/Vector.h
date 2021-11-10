@@ -19,11 +19,11 @@ class Vector {
 
   Vector(const Vector &other) = default;
 
-  Vector();
+  Vector() = default;
 
   explicit Vector(std::array<double, 3> &vector);
 
-  virtual ~Vector();
+  virtual ~Vector() = default;
 
   Vector &operator=(const Vector &other) = default;
 

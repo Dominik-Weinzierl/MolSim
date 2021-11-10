@@ -9,5 +9,5 @@ void LennardSimulation::performSimulation(const Argument &arg, OutputWriter &wri
                                           ParticleContainer &particleContainer) {
   LennardJones lennardJones;
   Simulation::performSimulation(writer, lennardJones, particleContainer, arg);
-  SPDLOG_INFO("Output written, terminating");
+  // SPDLOG_INFO("Output written, terminating");
 }
