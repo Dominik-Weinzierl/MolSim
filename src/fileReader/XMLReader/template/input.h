@@ -812,12 +812,12 @@ class cuboid_t : public ::xml_schema::type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::decimal distance_type;
+  typedef ::xml_schema::double_ distance_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<distance_type, char, ::xsd::cxx::tree::schema_type::decimal> distance_traits;
+  typedef ::xsd::cxx::tree::traits<distance_type, char, ::xsd::cxx::tree::schema_type::double_> distance_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
@@ -856,12 +856,12 @@ class cuboid_t : public ::xml_schema::type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::decimal mass_type;
+  typedef ::xml_schema::double_ mass_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<mass_type, char, ::xsd::cxx::tree::schema_type::decimal> mass_traits;
+  typedef ::xsd::cxx::tree::traits<mass_type, char, ::xsd::cxx::tree::schema_type::double_> mass_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
@@ -900,12 +900,12 @@ class cuboid_t : public ::xml_schema::type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::decimal meanValue_type;
+  typedef ::xml_schema::double_ meanValue_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<meanValue_type, char, ::xsd::cxx::tree::schema_type::decimal> meanValue_traits;
+  typedef ::xsd::cxx::tree::traits<meanValue_type, char, ::xsd::cxx::tree::schema_type::double_> meanValue_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
@@ -1045,12 +1045,12 @@ class vector_t : public ::xml_schema::type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::decimal x_type;
+  typedef ::xml_schema::double_ x_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<x_type, char, ::xsd::cxx::tree::schema_type::decimal> x_traits;
+  typedef ::xsd::cxx::tree::traits<x_type, char, ::xsd::cxx::tree::schema_type::double_> x_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
@@ -1089,12 +1089,12 @@ class vector_t : public ::xml_schema::type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::decimal y_type;
+  typedef ::xml_schema::double_ y_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<y_type, char, ::xsd::cxx::tree::schema_type::decimal> y_traits;
+  typedef ::xsd::cxx::tree::traits<y_type, char, ::xsd::cxx::tree::schema_type::double_> y_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
@@ -1133,12 +1133,12 @@ class vector_t : public ::xml_schema::type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::decimal z_type;
+  typedef ::xml_schema::double_ z_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<z_type, char, ::xsd::cxx::tree::schema_type::decimal> z_traits;
+  typedef ::xsd::cxx::tree::traits<z_type, char, ::xsd::cxx::tree::schema_type::double_> z_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.
@@ -1741,7 +1741,7 @@ class simulation_t : public ::xml_schema::type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::decimal endTime_type;
+  typedef ::xml_schema::double_ endTime_type;
 
   /**
    * @brief Attribute optional container type.
@@ -1751,7 +1751,7 @@ class simulation_t : public ::xml_schema::type {
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<endTime_type, char, ::xsd::cxx::tree::schema_type::decimal> endTime_traits;
+  typedef ::xsd::cxx::tree::traits<endTime_type, char, ::xsd::cxx::tree::schema_type::double_> endTime_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute
@@ -1802,7 +1802,7 @@ class simulation_t : public ::xml_schema::type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::decimal deltaT_type;
+  typedef ::xml_schema::double_ deltaT_type;
 
   /**
    * @brief Attribute optional container type.
@@ -1812,7 +1812,7 @@ class simulation_t : public ::xml_schema::type {
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<deltaT_type, char, ::xsd::cxx::tree::schema_type::decimal> deltaT_traits;
+  typedef ::xsd::cxx::tree::traits<deltaT_type, char, ::xsd::cxx::tree::schema_type::double_> deltaT_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute

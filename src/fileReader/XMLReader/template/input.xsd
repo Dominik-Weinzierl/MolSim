@@ -6,15 +6,15 @@
             <xsd:element name="Velocity" type="vector_t"/>
             <xsd:element name="Dimension" type="vector_i"/>
         </xsd:sequence>
-        <xsd:attribute name="distance" type="xsd:decimal" use="required"/>
-        <xsd:attribute name="mass" type="xsd:decimal" use="required"/>
-        <xsd:attribute name="meanValue" type="xsd:decimal" use="required"/>
+        <xsd:attribute name="distance" type="xsd:double" use="required"/>
+        <xsd:attribute name="mass" type="xsd:double" use="required"/>
+        <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
     </xsd:complexType>
 
     <xsd:complexType name="vector_t">
-        <xsd:attribute name="x" type="xsd:decimal" use="required"/>
-        <xsd:attribute name="y" type="xsd:decimal" use="required"/>
-        <xsd:attribute name="z" type="xsd:decimal" use="required"/>
+        <xsd:attribute name="x" type="xsd:double" use="required"/>
+        <xsd:attribute name="y" type="xsd:double" use="required"/>
+        <xsd:attribute name="z" type="xsd:double" use="required"/>
     </xsd:complexType>
 
     <xsd:complexType name="vector_i">
@@ -32,8 +32,8 @@
             <xsd:element name="Cuboid" type="cuboid_t" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="Source" type="input_t" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
-        <xsd:attribute name="endTime" type="xsd:decimal"/>
-        <xsd:attribute name="deltaT" type="xsd:decimal"/>
+        <xsd:attribute name="endTime" type="xsd:double"/>
+        <xsd:attribute name="deltaT" type="xsd:double"/>
         <xsd:attribute name="output" type="xsd:string"/>
         <xsd:attribute name="iteration" type="xsd:nonNegativeInteger"/>
         <xsd:attribute name="physics" type="xsd:string"/>
