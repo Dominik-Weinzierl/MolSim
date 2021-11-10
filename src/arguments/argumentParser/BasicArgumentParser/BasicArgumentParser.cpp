@@ -41,7 +41,7 @@ bool BasicArgumentParser::validateInput() {
       handleFlag<int>(status, "iteration", flag, possibleValue);
       it++;
     } else if (flag == "-p" || flag == "--physics") {
-      handleFlag(status, "physics", flag, possibleValue, {"gravitation"});
+      handleFlag(status, "physics", flag, possibleValue, {"gravitation", "lennard"});
       it++;
     } else if (flag == "-w" || flag == "--writer") {
       handleFlag(status, "writer", flag, possibleValue, {"vtk", "xyz"});
