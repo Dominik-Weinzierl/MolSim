@@ -6,11 +6,11 @@
 #include <string>
 
 VTKWriter::VTKWriter(const std::string &file_name, const std::string &path, ParticleContainer &container)
-    : OutputWriter(file_name, path, container) {};
+    : OutputWriter(file_name, path, container) {}
 
 void VTKWriter::initializeOutput(int numParticles) {
 
-  vtkFile = new VTKFile_t("UnstructuredGrid");
+  vtkFile = std::make_unique<VTKFile_t>("UnstructuredGrid");
 
   // per point, we add type, position, velocity and force
   PointData pointData;
@@ -80,5 +80,4 @@ void VTKWriter::writeFile(int iteration) {
   }
 
   VTKFile(file, *vtkFile);
-  delete vtkFile;
 }

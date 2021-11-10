@@ -6,7 +6,7 @@
 /**
  * FileReader class reads a file line and prints the read line to the terminal.
  */
-class FileReader {
+class InputReader {
  public:
 
   /**

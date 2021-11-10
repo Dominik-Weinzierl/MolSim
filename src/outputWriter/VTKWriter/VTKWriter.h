@@ -1,7 +1,7 @@
 #pragma once
 
 #include "particles/Particle.h"
-#include "vtk-unstructured.h"
+#include "outputWriter/VTKWriter/template/vtk-unstructured.h"
 #include "outputWriter/OutputWriter.h"
 
 #include <list>
@@ -40,5 +40,5 @@ class VTKWriter : public OutputWriter {
    */
   void plotParticle(const Particle &p);
  private:
-  VTKFile_t *vtkFile{};
+  std::unique_ptr<VTKFile_t> vtkFile;
 };
