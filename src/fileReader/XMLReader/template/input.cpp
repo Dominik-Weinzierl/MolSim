@@ -1017,7 +1017,7 @@ void operator<<(::xercesc::DOMElement &e, const cuboid_t &i) {
   {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("distance", e));
 
-    a << ::xml_schema::as_decimal(i.distance());
+    a << ::xml_schema::as_double(i.distance());
   }
 
   // mass
@@ -1025,7 +1025,7 @@ void operator<<(::xercesc::DOMElement &e, const cuboid_t &i) {
   {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("mass", e));
 
-    a << ::xml_schema::as_decimal(i.mass());
+    a << ::xml_schema::as_double(i.mass());
   }
 
   // meanValue
@@ -1033,7 +1033,7 @@ void operator<<(::xercesc::DOMElement &e, const cuboid_t &i) {
   {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("meanValue", e));
 
-    a << ::xml_schema::as_decimal(i.meanValue());
+    a << ::xml_schema::as_double(i.meanValue());
   }
 }
 
@@ -1045,7 +1045,7 @@ void operator<<(::xercesc::DOMElement &e, const vector_t &i) {
   {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("x", e));
 
-    a << ::xml_schema::as_decimal(i.x());
+    a << ::xml_schema::as_double(i.x());
   }
 
   // y
@@ -1053,7 +1053,7 @@ void operator<<(::xercesc::DOMElement &e, const vector_t &i) {
   {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("y", e));
 
-    a << ::xml_schema::as_decimal(i.y());
+    a << ::xml_schema::as_double(i.y());
   }
 
   // z
@@ -1061,7 +1061,7 @@ void operator<<(::xercesc::DOMElement &e, const vector_t &i) {
   {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("z", e));
 
-    a << ::xml_schema::as_decimal(i.z());
+    a << ::xml_schema::as_double(i.z());
   }
 }
 
@@ -1129,7 +1129,7 @@ void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
   if (i.endTime()) {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("endTime", e));
 
-    a << ::xml_schema::as_decimal(*i.endTime());
+    a << ::xml_schema::as_double(*i.endTime());
   }
 
   // deltaT
@@ -1137,7 +1137,7 @@ void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
   if (i.deltaT()) {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("deltaT", e));
 
-    a << ::xml_schema::as_decimal(*i.deltaT());
+    a << ::xml_schema::as_double(*i.deltaT());
   }
 
   // output
