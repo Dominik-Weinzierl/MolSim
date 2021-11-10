@@ -512,7 +512,7 @@ type (const type& v,
 type& type::
 operator= (value v)
 {
-  static_cast< ::xml_schema::string& > (*this) = 
+  static_cast< ::xml_schema::string& > (*this) =
   ::xml_schema::string (_xsd_type_literals_[v]);
 
   return *this;

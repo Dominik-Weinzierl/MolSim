@@ -1,18 +1,11 @@
 #include <algorithm>
 #include <iostream>
-#include <arguments/BasicArgument/BasicArgument.h>
+#include <arguments/argument/BasicArgument/BasicArgument.h>
 #include <spdlog/spdlog.h>
 #include <outputWriter/XYZWriter/XYZWriter.h>
 #include "BasicArgumentParser.h"
 
 //---------------------------Constructor---------------------------
-BasicArgumentParser::BasicArgumentParser(int argc, char *arguments[]) : ArgumentParser() {
-  for (int i = 1; i < argc; ++i) {
-    tokens.emplace_back(arguments[i]);
-  }
-  SPDLOG_INFO("BasicArgumentParser generated");
-}
-
 BasicArgumentStatus::BasicArgumentStatus() : ArgumentStatus() {
   flags.insert({"endTime", {false, "", ""}});
   flags.insert({"deltaT", {false, "", ""}});
@@ -22,18 +15,40 @@ BasicArgumentStatus::BasicArgumentStatus() : ArgumentStatus() {
   flags.insert({"iteration", {true, "default", 60}});
 }
 
+BasicArgumentParser::BasicArgumentParser(int argc, char **arguments) : ArgumentParser(argc, arguments) {
+
+}
+
 //---------------------------Methods---------------------------
 bool BasicArgumentParser::validateInput() {
   for (auto it = tokens.begin(); it != tokens.end() && it + 1 != tokens.end(); ++it) {
     const auto &flag = *it;
     const auto &possibleValue = *(it + 1);
-    handleFlag(status, "filename", flag, possibleValue, {"-f", "--filename"});
-    handleFlag(status, "output", flag, possibleValue, {"-o", "--output"});
-    handleFlag<double>(status, "endTime", flag, possibleValue, {"-t", "--t_end"});
-    handleFlag<double>(status, "deltaT", flag, possibleValue, {"-d", "--delta_t"});
-    handleFlag<int>(status, "iteration", flag, possibleValue, {"-i", "--iteration"});
-    handleFlag(status, "physics", flag, possibleValue, {"-p", "--physics"}, {"gravitation"});
-    handleFlag(status, "writer", flag, possibleValue, {"-w", "--writer"}, {"vtk", "xyz"});
+
+    if (flag == "-f" || flag == "--filename") {
+      handleFlag(status, "filename", flag, possibleValue);
+      it++;
+    } else if (flag == "-o" || flag == "--output") {
+      handleFlag(status, "output", flag, possibleValue);
+      it++;
+    } else if (flag == "-t" || flag == "--t_end") {
+      handleFlag<double>(status, "endTime", flag, possibleValue);
+      it++;
+    } else if (flag == "-d" || flag == "--delta_t") {
+      handleFlag<double>(status, "deltaT", flag, possibleValue);
+      it++;
+    } else if (flag == "-i" || flag == "--iteration") {
+      handleFlag<int>(status, "iteration", flag, possibleValue);
+      it++;
+    } else if (flag == "-p" || flag == "--physics") {
+      handleFlag(status, "physics", flag, possibleValue, {"gravitation"});
+      it++;
+    } else if (flag == "-w" || flag == "--writer") {
+      handleFlag(status, "writer", flag, possibleValue, {"vtk", "xyz"});
+      it++;
+    } else {
+      throw std::invalid_argument("Invalid argument: " + flag);
+    }
   }
   if (!status.validStatus()) {
     throw std::invalid_argument("Missing required argument. Please check your arguments!");
@@ -50,7 +65,8 @@ std::unique_ptr<Argument> BasicArgumentParser::createArgument() {
   auto iteration = std::get<int>(status.getValue("iteration"));
   auto physics = std::get<std::string>(status.getValue("physics"));
 
-  return std::make_unique<BasicArgument>(filename, endTime, deltaT, output, writer, iteration, physics);
+  return std::make_unique<BasicArgument>(std::vector<std::string>{filename}, endTime, deltaT, output, writer, iteration,
+                                         physics);
 }
 
 void BasicArgumentParser::showUsage() {
@@ -66,10 +82,4 @@ void BasicArgumentParser::showUsage() {
   usage << "\t-w,--writer\t\tSpecify the writer used for the output files" << std::endl;
   usage << "\t-p,--physics\t\tSpecify the physics used for the simulation" << std::endl;
   std::cout << usage.str();
-}
-
-bool BasicArgumentStatus::validStatus() {
-  return ArgumentStatus::validStatus() && std::all_of(flags.begin(), flags.end(), [](auto v) {
-    return std::get<0>(std::get<1>(v));
-  });
 }

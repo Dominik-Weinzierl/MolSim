@@ -1,4 +1,4 @@
-#include "FileReader.h"
+#include "InputReader.h"
 
 #include "physics/Vector/Vector.h"
 #include <cstdlib>
@@ -7,7 +7,7 @@
 #include <sstream>
 #include <spdlog/spdlog.h>
 
-void FileReader::readFile(ParticleContainer &particleContainer, const std::string &filename) {
+void InputReader::readFile(ParticleContainer &particleContainer, const std::string &filename) {
   std::ifstream inputFile(filename);
   std::string tmpString;
 
