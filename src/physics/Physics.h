@@ -8,7 +8,6 @@
  */
 class Physics {
  protected:
-  const Vector ZERO{};
   virtual ~Physics() = default;
 
   /**

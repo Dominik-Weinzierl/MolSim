@@ -9,7 +9,7 @@ Particle::Particle(int type_arg) : x{}, v{}, f{}, old_f{}, m{}, type{type_arg} {
   // SPDLOG_INFO("Particle generated");
 }
 
-Particle::Particle(const Vector &x_arg, const Vector &v_arg, double m_arg, int type_arg) : x{x_arg}, v{v_arg}, f{},
+Particle::Particle(const Vector<> &x_arg, const Vector<> &v_arg, double m_arg, int type_arg) : x{x_arg}, v{v_arg}, f{},
                                                                                            old_f{}, m{m_arg},
                                                                                            type{type_arg} {
   // SPDLOG_INFO("Particle generated");
@@ -18,25 +18,25 @@ Particle::Particle(const Vector &x_arg, const Vector &v_arg, double m_arg, int t
 
 //---------------------------Getter and Setter---------------------------
 
-const Vector &Particle::getX() const { return x; }
+const Vector<> &Particle::getX() const { return x; }
 
-const Vector &Particle::getV() const { return v; }
+const Vector<> &Particle::getV() const { return v; }
 
-const Vector &Particle::getF() const { return f; }
+const Vector<> &Particle::getF() const { return f; }
 
-const Vector &Particle::getOldF() const { return old_f; }
+const Vector<> &Particle::getOldF() const { return old_f; }
 
 const double &Particle::getM() const { return m; }
 
 int Particle::getType() const { return type; }
 
-void Particle::setX(const Vector &position) { x = position; }
+void Particle::setX(const Vector<> &position) { x = position; }
 
-void Particle::setV(const Vector &velocity) { v = velocity; }
+void Particle::setV(const Vector<> &velocity) { v = velocity; }
 
-void Particle::setF(const Vector &force) { f = force; }
+void Particle::setF(const Vector<> &force) { f = force; }
 
-void Particle::setOldF(const Vector &oldForce) { old_f = oldForce; }
+void Particle::setOldF(const Vector<> &oldForce) { old_f = oldForce; }
 
 //---------------------------Methods---------------------------
 

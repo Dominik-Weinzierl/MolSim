@@ -6,7 +6,7 @@
 
 class LennardJones : public Physics {
  private:
-  static void updateF(Vector &diff, double zeroCrossing, double potentialWellDepth) ;
+  static void updateF(Vector<> &diff, double zeroCrossing, double potentialWellDepth) ;
  public:
   void calculateF(ParticleContainer &particleContainer) const override;
 };

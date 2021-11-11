@@ -2,7 +2,7 @@
 #include <utils/ArrayUtils.h>
 #include "spdlog/spdlog.h"
 
-void LennardJones::updateF(Vector &diff, double zeroCrossing, double potentialWellDepth) {
+void LennardJones::updateF(Vector<> &diff, double zeroCrossing, double potentialWellDepth) {
   double l2Norm = ArrayUtils::L2Norm(diff);
   double fracture = zeroCrossing / l2Norm;
 
@@ -27,7 +27,7 @@ void LennardJones::calculateF(ParticleContainer &particleContainer) const {
       // SPDLOG_DEBUG("Calculating force for {} and {}", i, j);
 
       //TODO: Outsource zeroCrossing and potentialWellDepth to Particles
-      Vector force{i->getX() - j->getX()};
+      Vector<> force{i->getX() - j->getX()};
       updateF(force, 1, 5);
 
       i->updateForce(force[0], force[1], force[2]);

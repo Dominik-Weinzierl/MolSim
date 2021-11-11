@@ -17,4 +17,4 @@
  * @param dimensions Number of dimensions for which the velocity vector shall be generated. Set this to 2 or 3.
  * @return Vector containing the generated velocity vector.
  */
-Vector maxwellBoltzmannDistributedVelocity(double averageVelocity, size_t dimensions);
+Vector<> maxwellBoltzmannDistributedVelocity(double averageVelocity, size_t dimensions);
