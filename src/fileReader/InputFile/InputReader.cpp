@@ -15,8 +15,8 @@ void InputReader::readFile(ParticleContainer &particleContainer, const std::stri
     SPDLOG_INFO("Opened file {}", filename);
     double m;
     int numParticles = 0;
-    Vector x;
-    Vector v;
+    Vector<> x;
+    Vector<> v;
 
     getline(inputFile, tmpString);
     // std::cout << "Read line: " << tmpString << std::endl;
