@@ -52,7 +52,7 @@ class Particle {
    * Copy constructor.
    * @param other Particle to copy.
    */
-  Particle(const Particle &other);
+  Particle(const Particle &other) = default;
 
   /**
    * Constructor which generates a particle with the given parameters.
@@ -66,7 +66,7 @@ class Particle {
   /**
    * Default destructor.
    */
-  virtual ~Particle();
+  virtual ~Particle() = default;
 
   [[nodiscard]] const Vector &getX() const;
 
@@ -76,23 +76,33 @@ class Particle {
 
   [[nodiscard]] const Vector &getOldF() const;
 
-  [[nodiscard]] double getM() const;
+  [[nodiscard]] const double& getM() const;
 
   [[nodiscard]] int getType() const;
 
   void setX(const Vector &position);
 
+  void setX(double x_arg, double y_arg, double z_arg);
+
   void setV(const Vector &velocity);
+
+  void setV(double x_arg, double y_arg, double z_arg);
 
   void setF(const Vector &force);
 
+  void setF(double x_arg, double y_arg, double z_arg);
+
   void setOldF(const Vector &oldForce);
+
+  void setOldF(double x_arg, double y_arg, double z_arg);
 
   /**
    * Adds given force to current force of the Particle.
    * @param force
    */
   void updateForce(const Vector &force);
+
+  void updateForce(double x_arg, double y_arg, double z_arg);
 
   /**
    * Operator which allows the comparison of the particle to a given particle.

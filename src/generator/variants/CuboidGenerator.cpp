@@ -22,6 +22,6 @@ void CuboidGenerator::generate(GeneratorArguments &g, ParticleContainer &contain
 //TODO: decide whether dimensions should be 3 or set to 3
 void CuboidGenerator::applyMotion(double meanValue, Particle &p) {
   Vector t = p.getV();
-  t += maxwellBoltzmannDistributedVelocity(meanValue, 2);
-  p.setV(t);
+  auto max = maxwellBoltzmannDistributedVelocity(meanValue, 2);
+  p.setV(t + max);
 }
