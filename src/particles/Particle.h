@@ -76,7 +76,7 @@ class Particle {
 
   [[nodiscard]] const Vector<> &getOldF() const;
 
-  [[nodiscard]] const double& getM() const;
+  [[nodiscard]] const double &getM() const;
 
   [[nodiscard]] int getType() const;
 
@@ -95,12 +95,6 @@ class Particle {
   void setOldF(const Vector<> &oldForce);
 
   void setOldF(double x_arg, double y_arg, double z_arg);
-
-  /**
-   * Adds given force to current force of the Particle.
-   * @param force
-   */
-  void updateForce(const Vector<> &force);
 
   void updateForce(double x_arg, double y_arg, double z_arg);
 
