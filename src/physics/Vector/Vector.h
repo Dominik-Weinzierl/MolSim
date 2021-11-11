@@ -51,6 +51,17 @@ Vector<dim> operator*(Vector<dim> lhs, const double &d) {
   return lhs;
 }
 
+/**
+ * Operator that allows scalar multiplication on a given Vector.
+ * @param rhs Double to scale the vector.
+ * @param lhs Vector.
+ * @return
+ */
+template<size_t dim>
+Vector<dim> operator*(const double &d, Vector<dim> lhs) {
+  return lhs * d;
+}
+
 template<size_t dim>
 Vector<dim> operator/(Vector<dim> lhs, const double &d) {
   // SPDLOG_DEBUG("Calculating {0} / {1}", lhs, rhs);

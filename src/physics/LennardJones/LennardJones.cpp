@@ -11,9 +11,9 @@ void LennardJones::updateF(Vector<> &diff, double zeroCrossing, double potential
   double secondFactor = pow - 2 * pow * pow;
   double factor = firstFactor * secondFactor;
 
-  diff[0] *= factor;
-  diff[1] *= factor;
-  diff[2] *= factor;
+  diff[0] *= -factor;
+  diff[1] *= -factor;
+  diff[2] *= -factor;
 }
 
 void LennardJones::calculateF(ParticleContainer &particleContainer) const {
