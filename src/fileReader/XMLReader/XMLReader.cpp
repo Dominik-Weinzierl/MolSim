@@ -31,9 +31,9 @@ std::unique_ptr<XMLArgument> XMLReader::readXML() const {
     auto &dis = it.distance();
     auto &mass = it.mass();
     auto &mean = it.meanValue();
-    Vector position{pos.x(), pos.y(), pos.z()};
+    Vector<> position{pos.x(), pos.y(), pos.z()};
     std::vector<int> dimension{static_cast<int>(dim.x()), static_cast<int>(dim.y()), static_cast<int>(dim.z())};
-    Vector velocity{vel.x(), vel.y(), vel.z()};
+    Vector<> velocity{vel.x(), vel.y(), vel.z()};
     cuboidArguments.emplace_back(position, dimension, velocity, dis, mass, mean);
   }
 
