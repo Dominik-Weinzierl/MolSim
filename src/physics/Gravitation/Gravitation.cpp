@@ -4,14 +4,14 @@
 #include "spdlog/spdlog.h"
 
 void Gravitation::calculateF(ParticleContainer &particleContainer) const {
-  // SPDLOG_INFO("started calculating forces");
+  SPDLOG_INFO("started calculating forces");
   for (auto &p: particleContainer) {
     p.setOldF(p.getF());
     p.setF(0, 0, 0);
   }
   for (auto i = particleContainer.begin(); i != particleContainer.end(); ++i) {
     for (auto j = i + 1; j != particleContainer.end(); ++j) {
-      // SPDLOG_DEBUG("Calculating force for {} and {}", i, j);
+      SPDLOG_DEBUG("Calculating force for {} and {}", i, j);
       double x;
       double y;
       double z;
@@ -30,5 +30,5 @@ void Gravitation::calculateF(ParticleContainer &particleContainer) const {
       j->updateForce(-x, -y, -z);
     }
   }
-  // SPDLOG_INFO("ended calculating forces");
+  SPDLOG_INFO("ended calculating forces");
 }

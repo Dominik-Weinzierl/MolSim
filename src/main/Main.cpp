@@ -1,11 +1,13 @@
 #include <arguments/argument/Argument.h>
 #include <iostream>
 #include <simulation/variants/GravitationSimulation.h>
+#include <spdlog/async.h>
 #include <spdlog/spdlog.h>
 #include <outputWriter/XYZWriter/XYZWriter.h>
 #include <arguments/argumentParser/ParserStrategy.h>
 #include <arguments/argument/XMLArgument/XMLArgument.h>
 #include <generator/variants/CuboidGenerator.h>
+#include <spdlog/sinks/basic_file_sink.h>
 #include "fileReader/InputFile/InputReader.h"
 #include "simulation/variants/LennardSimulation.h"
 
@@ -26,6 +28,10 @@
  * @return Program exit.
  */
 int main(int argc, char *argv[]) {
+
+  auto async_file = spdlog::basic_logger_mt<spdlog::async_factory>("Logger", "log.txt");
+  spdlog::set_default_logger(async_file);
+
   ParserStrategy strategy{argc, argv};
 
   if (argc == 1) {
