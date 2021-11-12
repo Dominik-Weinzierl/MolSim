@@ -26,7 +26,7 @@ TEST_F(GravitationFixture, calculateForceBetweenSunAndEarth) { // NOLINT(cert-er
   Gravitation::calculateF(container);
 
   // OldF should be zero
-  EXPECT_TRUE(container[0].getOldF() == container[1].getOldF() && container[1].getOldF() == Vector{});
+  EXPECT_TRUE(container[0].getOldF() == container[1].getOldF() && container[1].getOldF() == Vector<>{});
   // Mass should be unchanged
   EXPECT_TRUE(container[0].getM() == planet_0.getM() && container[1].getM() == planet_1.getM());
   // Velocity should be unchanged

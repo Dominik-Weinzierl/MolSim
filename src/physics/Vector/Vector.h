@@ -34,7 +34,7 @@ Vector<dim> operator-(Vector<dim> lhs, const Vector<dim> &rhs) {
 template<size_t dim>
 double operator*(const Vector<dim> &lhs, const Vector<dim> &rhs) {
   // SPDLOG_DEBUG("Calculating {0} * {1}", this, other);
-  return std::inner_product(lhs.begin(), lhs.begin(), rhs.begin(), 0.0);
+  return std::inner_product(lhs.begin(), lhs.end(), rhs.begin(), 0.0);
 }
 
 /**

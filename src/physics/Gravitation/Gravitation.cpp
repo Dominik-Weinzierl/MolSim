@@ -20,7 +20,7 @@ void Gravitation::calculateF(ParticleContainer &particleContainer) const {
       Vector<> difference = j->getX() - i->getX();
       double l2Norm = ArrayUtils::L2Norm(difference);
 
-      double factor = m / l2Norm;
+      double factor = m / (l2Norm * l2Norm * l2Norm);
 
       x = factor * difference[0];
       y = factor * difference[1];

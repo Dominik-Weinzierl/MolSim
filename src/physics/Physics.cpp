@@ -27,9 +27,9 @@ void Physics::calculateX(ParticleContainer &particleContainer, const double delt
     double y = 0;
     double z = 0;
 
-    x = p.getX()[0] + deltaT * p.getV()[0] + deltaTPow * (p.getF()[0] / 2 * p.getM());
-    y = p.getX()[1] + deltaT * p.getV()[1] + deltaTPow * (p.getF()[1] / 2 * p.getM());
-    z = p.getX()[2] + deltaT * p.getV()[2] + deltaTPow * (p.getF()[2] / 2 * p.getM());
+    x = p.getX()[0] + deltaT * p.getV()[0] + deltaTPow * (p.getF()[0] / (2 * p.getM()));
+    y = p.getX()[1] + deltaT * p.getV()[1] + deltaTPow * (p.getF()[1] / (2 * p.getM()));
+    z = p.getX()[2] + deltaT * p.getV()[2] + deltaTPow * (p.getF()[2] / (2 * p.getM()));
 
     p.setX(x, y, z);
   }
