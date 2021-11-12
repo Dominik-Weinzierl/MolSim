@@ -6,13 +6,13 @@
 
 //---------------------------Constructor---------------------------
 Particle::Particle(int type_arg) : x{}, v{}, f{}, old_f{}, m{}, type{type_arg} {
-  SPDLOG_DEBUG("Particle generated");
+  spdlog::debug("Particle generated");
 }
 
 Particle::Particle(const Vector<> &x_arg, const Vector<> &v_arg, double m_arg, int type_arg) : x{x_arg}, v{v_arg}, f{},
                                                                                            old_f{}, m{m_arg},
                                                                                            type{type_arg} {
-  SPDLOG_DEBUG("Particle generated");
+  spdlog::debug("Particle generated");
 }
 
 

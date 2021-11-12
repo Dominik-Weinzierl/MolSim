@@ -6,15 +6,15 @@
 
 //---------------------------Constructor---------------------------
 ParticleContainer::ParticleContainer(std::vector<Particle> particles) : particles{std::move(particles)} {
-  SPDLOG_DEBUG("ParticleContainer generated");
+  spdlog::debug("ParticleContainer generated");
 }
 
 ParticleContainer::ParticleContainer() : particles{} {
-  SPDLOG_DEBUG("ParticleContainer generated");
+  spdlog::debug("ParticleContainer generated");
 }
 
 ParticleContainer::~ParticleContainer() {
-  SPDLOG_DEBUG("ParticleContainer destructed");
+  spdlog::debug("ParticleContainer destructed");
 }
 
 //---------------------------Methods---------------------------

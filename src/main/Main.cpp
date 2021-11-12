@@ -8,6 +8,7 @@
 #include <arguments/argument/XMLArgument/XMLArgument.h>
 #include <generator/variants/CuboidGenerator.h>
 #include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 #include "fileReader/InputFile/InputReader.h"
 #include "simulation/variants/LennardSimulation.h"
 
@@ -29,8 +30,22 @@
  */
 int main(int argc, char *argv[]) {
 
-  auto async_file = spdlog::basic_logger_mt<spdlog::async_factory>("Logger", "log.txt");
-  spdlog::set_default_logger(async_file);
+  try {
+    auto stdoutsink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    auto stderrsink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
+    auto filesink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("log.txt", true);
+
+    stdoutsink->set_level(spdlog::level::warn);
+    stderrsink->set_level(spdlog::level::err);
+    filesink->set_level(spdlog::level::debug);
+
+    spdlog::sinks_init_list sinks = {stdoutsink, stderrsink, filesink};
+    spdlog::logger logger("logger", sinks.begin(), sinks.end());
+    logger.set_level(spdlog::level::debug);
+    spdlog::set_default_logger(std::make_shared<spdlog::logger>(logger));
+  } catch (const spdlog::spdlog_ex &ex) {
+    std::cout << "Log setup failed" << ex.what() << std::endl;
+  }
 
   ParserStrategy strategy{argc, argv};
 
@@ -45,7 +60,7 @@ int main(int argc, char *argv[]) {
     parser->validateInput();
   } catch (std::invalid_argument &exception) {
     std::cout << "[ERROR] " << exception.what() << std::endl;
-    SPDLOG_ERROR(exception.what());
+    spdlog::error(exception.what());
     parser->showUsage();
     return -1;
   }

@@ -12,7 +12,7 @@ void InputReader::readFile(ParticleContainer &particleContainer, const std::stri
   std::string tmpString;
 
   if (inputFile.is_open()) {
-    SPDLOG_INFO("Opened file {}", filename);
+    spdlog::info("Opened file {}", filename);
     double m;
     int numParticles = 0;
     Vector<> x;
@@ -42,7 +42,7 @@ void InputReader::readFile(ParticleContainer &particleContainer, const std::stri
         dataStream >> vj;
       }
       if (dataStream.eof()) {
-        SPDLOG_ERROR("Reached end of file {0} unexpectedly after {1} lines of data", filename, i);
+        spdlog::error("Reached end of file {0} unexpectedly after {1} lines of data", filename, i);
         exit(-1);
       }
       dataStream >> m;
@@ -52,7 +52,7 @@ void InputReader::readFile(ParticleContainer &particleContainer, const std::stri
       // std::cout << "Read line: " << tmpString << std::endl;
     }
   } else {
-    SPDLOG_ERROR("Could not open file {}", filename);
+    spdlog::error("Could not open file {}", filename);
     exit(-1);
   }
 }

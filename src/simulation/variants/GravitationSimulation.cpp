@@ -5,5 +5,5 @@ void GravitationSimulation::performSimulation(const Argument &arg, OutputWriter 
                                               ParticleContainer &particleContainer) {
   Gravitation gravitation;
   Simulation::performSimulation(writer, gravitation, particleContainer, arg);
-  SPDLOG_INFO("Output written, terminating");
+  spdlog::info("Output written, terminating");
 }

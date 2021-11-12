@@ -15,7 +15,7 @@ void Simulation::performSimulation(__attribute__((unused))OutputWriter &writer, 
       writer.writeFile(iteration);
     }
 
-    SPDLOG_INFO("Iteration {} finished", iteration);
+    spdlog::info("Iteration {} finished", iteration);
     iteration++;
     current_time += deltaT;
   }

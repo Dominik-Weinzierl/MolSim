@@ -2,9 +2,9 @@
 #include "spdlog/spdlog.h"
 
 void Physics::calculateV(ParticleContainer &particleContainer, const double deltaT) {
-  SPDLOG_INFO("started calculating velocities");
+  spdlog::info("started calculating velocities");
   for (auto &p: particleContainer) {
-    SPDLOG_DEBUG("Calculating velocity for {}", p);
+    spdlog::debug("Calculating velocity for {}", p.toString());
     double x = 0;
     double y = 0;
     double z = 0;
@@ -15,14 +15,14 @@ void Physics::calculateV(ParticleContainer &particleContainer, const double delt
 
     p.setV(x, y, z);
   }
-  SPDLOG_INFO("ended calculating velocities");
+  spdlog::info("ended calculating velocities");
 }
 void Physics::calculateX(ParticleContainer &particleContainer, const double deltaT) {
-  SPDLOG_INFO("started calculating positions");
+  spdlog::info("started calculating positions");
   const auto deltaTPow = deltaT * deltaT;
 
   for (auto &p: particleContainer) {
-    SPDLOG_DEBUG("Calculating position for {}", p);
+    spdlog::debug("Calculating position for {}", p.toString());
     double x = 0;
     double y = 0;
     double z = 0;
@@ -33,7 +33,7 @@ void Physics::calculateX(ParticleContainer &particleContainer, const double delt
 
     p.setX(x, y, z);
   }
-  SPDLOG_INFO("ended calculating positions");
+  spdlog::info("ended calculating positions");
 
 }
 
