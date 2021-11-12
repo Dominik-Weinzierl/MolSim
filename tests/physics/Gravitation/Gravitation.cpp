@@ -26,7 +26,7 @@ TEST_F(GravitationFixture, calculateForceBetweenSunAndEarth) { // NOLINT(cert-er
   Gravitation::calculateF(container);
 
   // OldF should be zero
-  EXPECT_TRUE(container[0].getOldF() == container[1].getOldF() && container[1].getOldF() == Vector{});
+  EXPECT_TRUE(container[0].getOldF() == container[1].getOldF() && container[1].getOldF() == Vector<>{});
   // Mass should be unchanged
   EXPECT_TRUE(container[0].getM() == planet_0.getM() && container[1].getM() == planet_1.getM());
   // Velocity should be unchanged
@@ -37,8 +37,8 @@ TEST_F(GravitationFixture, calculateForceBetweenSunAndEarth) { // NOLINT(cert-er
   EXPECT_TRUE(container[0].getType() == planet_0.getType() && container[1].getType() == planet_1.getType());
 
   // Check value of new force
-  EXPECT_EQ(container[0].getF(), (Vector{0, 8.0, 0.0}));
-  EXPECT_EQ(container[1].getF(), (Vector{0.0, -8.0, 0.0}));
+  EXPECT_EQ(container[0].getF(), (Vector<>{0, 8.0, 0.0}));
+  EXPECT_EQ(container[1].getF(), (Vector<>{0.0, -8.0, 0.0}));
 }
 
 /**
@@ -72,8 +72,8 @@ TEST_F(GravitationFixture, calculateVelocityOfSunAndEarth) { // NOLINT(cert-err5
   EXPECT_TRUE(container[0].getType() == planet_0.getType() && container[1].getType() == planet_1.getType());
 
   // Check value of new velocity
-  EXPECT_EQ(container[0].getV(), (Vector{0.0, 2, 0.0}));
-  EXPECT_EQ(container[1].getV(), (Vector{-1.0, -1.0, 0.0}));
+  EXPECT_EQ(container[0].getV(), (Vector<>{0.0, 2, 0.0}));
+  EXPECT_EQ(container[1].getV(), (Vector<>{-1.0, -1.0, 0.0}));
 }
 
 /**
@@ -107,8 +107,8 @@ TEST_F(GravitationFixture, calculatePositionOfSunAndEarth) { // NOLINT(cert-err5
   EXPECT_TRUE(container[0].getType() == planet_0.getType() && container[1].getType() == planet_1.getType());
 
   // Check value of new velocity
-  EXPECT_EQ(container[0].getX(), (Vector{0.0, 2, 0.0}));
-  EXPECT_EQ(container[1].getX(), (Vector{-1.0, -0.0, 0.0}));
+  EXPECT_EQ(container[0].getX(), (Vector<>{0.0, 2, 0.0}));
+  EXPECT_EQ(container[1].getX(), (Vector<>{-1.0, -0.0, 0.0}));
 }
 
 /**

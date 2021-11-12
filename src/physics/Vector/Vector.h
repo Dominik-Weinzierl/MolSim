@@ -2,124 +2,78 @@
 
 #include <array>
 #include <ostream>
+#include <numeric>
+#include <utils/ArrayUtils.h>
+
+template<size_t dim = 3> using Vector = std::array<double, dim>;
+
+template<size_t dim>
+Vector<dim> operator+(Vector<dim> lhs, const Vector<dim> &rhs) {
+  // SPDLOG_DEBUG("Calculating {0} + {1}", lhs, rhs);
+  std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), [](auto l, auto r) {
+    return l + r;
+  });
+  return lhs;
+}
+
+template<size_t dim>
+Vector<dim> operator-(Vector<dim> lhs, const Vector<dim> &rhs) {
+  // SPDLOG_DEBUG("Calculating {0} - {1}", lhs, rhs);
+  std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), [](auto l, auto r) {
+    return l - r;
+  });
+  return lhs;
+}
 
 /**
- * The Vector class renames a double-array of length 3 and rewrites operators to fit the datastructure.
+ * Operator that allows scalar multiplication on a given Vector.
+ * @param lhs Vector.
+ * @param rhs Double to scale the vector.
+ * @return
  */
-class Vector {
- private:
+template<size_t dim>
+double operator*(const Vector<dim> &lhs, const Vector<dim> &rhs) {
+  // SPDLOG_DEBUG("Calculating {0} * {1}", this, other);
+  return std::inner_product(lhs.begin(), lhs.end(), rhs.begin(), 0.0);
+}
 
-  /**
-   * Defines a double-array of length 3 called vector.
-   */
-  std::array<double, 3> vector{};
+/**
+ * Operator that allows scalar multiplication on a given Vector.
+ * @param rhs Double to scale the vector.
+ * @param lhs Vector.
+ * @return
+ */
+template<size_t dim>
+Vector<dim> operator*(Vector<dim> lhs, const double &d) {
+  std::transform(lhs.begin(), lhs.end(), lhs.begin(), [&](auto v) {
+    return v * d;
+  });
+  return lhs;
+}
 
- public:
-  Vector(double x, double y, double z);
+/**
+ * Operator that allows scalar multiplication on a given Vector.
+ * @param rhs Double to scale the vector.
+ * @param lhs Vector.
+ * @return
+ */
+template<size_t dim>
+Vector<dim> operator*(const double &d, Vector<dim> lhs) {
+  return lhs * d;
+}
 
-  Vector(const Vector &other) = default;
+template<size_t dim>
+Vector<dim> operator/(Vector<dim> lhs, const double &d) {
+  // SPDLOG_DEBUG("Calculating {0} / {1}", lhs, rhs);
+  std::transform(lhs.begin(), lhs.end(), lhs.begin(), [&](auto v) {
+    return v / d;
+  });
+  return lhs;
+}
 
-  Vector();
+template<size_t dim>
+std::ostream &operator<<(std::ostream &stream, const Vector<dim> &v) {
+  stream << ArrayUtils::to_string(v);
+  return stream;
+}
 
-  explicit Vector(std::array<double, 3> &vector);
-
-  virtual ~Vector();
-
-  Vector &operator=(const Vector &other) = default;
-
-  Vector &operator+=(const Vector &other);
-
-  Vector &operator-=(const Vector &other);
-
-  Vector &operator-();
-
-  /**
-   * Operator that allows scalar multiplication on vectors.
-   * @param d Double to scale the vector.
-   * @return
-   */
-  Vector &operator*=(double d);
-
-  Vector &operator/=(double d);
-
-  /**
-   * Operator that allows the scalar product on vectors.
-   * @param other Second Vector for the scalar product.
-   * @return
-   */
-  double operator*(const Vector &other) const;
-
-  /**
-   * Operator that allows mutable member access.
-   * @param i Index for member access.
-   * @return
-   */
-  double &operator[](unsigned long i);
-
-  /**
-   * Operator that allows immutable member access.
-   * @param i Index for member access.
-   * @return
-   */
-  double operator[](unsigned long i) const;
-
-  /**
-   * Operator that allows the comparison.
-   * @param other Vector for comparison.
-   * @return
-   */
-  bool operator==(const Vector &other) const;
-
-  friend Vector operator+(Vector lhs, const Vector &rhs);
-
-  friend Vector operator-(Vector lhs, const Vector &rhs);
-
-  /**
-   * Operator that allows scalar multiplication on a given Vector.
-   * @param lhs Vector.
-   * @param rhs Double to scale the vector.
-   * @return
-   */
-  friend Vector operator*(Vector lhs, const double &rhs);
-
-  /**
-   * Operator that allows scalar multiplication on a given Vector.
-   * @param rhs Double to scale the vector.
-   * @param lhs Vector.
-   * @return
-   */
-  friend Vector operator*(const double &rhs, Vector lhs);
-
-  friend Vector operator/(Vector lhs, const double &rhs);
-
-  friend std::ostream &operator<<(std::ostream &stream, const Vector &v);
-
-  [[nodiscard]] const std::array<double, 3> &get() const;
-
-  [[nodiscard]] std::string toString() const;
-
-  /**
-   * @return Mutable Iterator to the beginning of the particles-Vector.
-   */
-  [[nodiscard]] auto begin() { return vector.begin(); }
-
-  /**
-   * @return Imutable Iterator to the end of the particles-Vector.
-   */
-  [[nodiscard]] auto end() { return vector.end(); }
-
-  /**
-   * @return Immutable Iterator to the beginning of the particles-Vector.
-   */
-  [[nodiscard]] auto begin() const { return vector.begin(); }
-
-  /**
-   * @return Immutable Iterator to the end of the particles-Vector.
-   */
-  [[nodiscard]] auto end() const { return vector.end(); }
-
-  /**
-   * @return Size of the Vector.
-   */
-  [[nodiscard]] static unsigned long size();
-};

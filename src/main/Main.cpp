@@ -9,6 +9,14 @@
 #include "fileReader/InputFile/InputReader.h"
 #include "simulation/variants/LennardSimulation.h"
 
+/*static void measureTime(const Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer) {
+  auto start = std::chrono::high_resolution_clock::now();
+  LennardSimulation::performSimulation(arg, writer, particleContainer);
+  auto end = std::chrono::high_resolution_clock::now();
+  std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms";
+}
+*/
+
 /**
  * Creates a parser which parses information based on the selected parser
  * (e.g. BasicArgumentParser parses arguments from the command line),
@@ -64,5 +72,6 @@ int main(int argc, char *argv[]) {
   } else if (arg->getPhysics() == "lennard") {
     LennardSimulation::performSimulation(*arg, *writer, particleContainer);
   }
+  //measureTime(*arg, *writer, particleContainer);
 }
 

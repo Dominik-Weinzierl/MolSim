@@ -12,22 +12,22 @@ class Particle {
   /**
    * Position of the particle.
    */
-  Vector x;
+  Vector<> x;
 
   /**
    * Velocity of the particle.
    */
-  Vector v;
+  Vector<> v;
 
   /**
    * Force effective on this particle.
    */
-  Vector f;
+  Vector<> f;
 
   /**
    * Force which was effective on this particle.
    */
-  Vector old_f;
+  Vector<> old_f;
 
   /**
    * Mass of this particle.
@@ -52,7 +52,7 @@ class Particle {
    * Copy constructor.
    * @param other Particle to copy.
    */
-  Particle(const Particle &other);
+  Particle(const Particle &other) = default;
 
   /**
    * Constructor which generates a particle with the given parameters.
@@ -61,38 +61,42 @@ class Particle {
    * @param m_arg Mass.
    * @param type
    */
-  Particle(const Vector &x_arg, const Vector &v_arg, double m_arg, int type = 0);
+  Particle(const Vector<> &x_arg, const Vector<> &v_arg, double m_arg, int type = 0);
 
   /**
    * Default destructor.
    */
-  virtual ~Particle();
+  virtual ~Particle() = default;
 
-  [[nodiscard]] const Vector &getX() const;
+  [[nodiscard]] const Vector<> &getX() const;
 
-  [[nodiscard]] const Vector &getV() const;
+  [[nodiscard]] const Vector<> &getV() const;
 
-  [[nodiscard]] const Vector &getF() const;
+  [[nodiscard]] const Vector<> &getF() const;
 
-  [[nodiscard]] const Vector &getOldF() const;
+  [[nodiscard]] const Vector<> &getOldF() const;
 
-  [[nodiscard]] double getM() const;
+  [[nodiscard]] const double &getM() const;
 
   [[nodiscard]] int getType() const;
 
-  void setX(const Vector &position);
+  void setX(const Vector<> &position);
 
-  void setV(const Vector &velocity);
+  void setX(double x_arg, double y_arg, double z_arg);
 
-  void setF(const Vector &force);
+  void setV(const Vector<> &velocity);
 
-  void setOldF(const Vector &oldForce);
+  void setV(double x_arg, double y_arg, double z_arg);
 
-  /**
-   * Adds given force to current force of the Particle.
-   * @param force
-   */
-  void updateForce(const Vector &force);
+  void setF(const Vector<> &force);
+
+  void setF(double x_arg, double y_arg, double z_arg);
+
+  void setOldF(const Vector<> &oldForce);
+
+  void setOldF(double x_arg, double y_arg, double z_arg);
+
+  void updateForce(double x_arg, double y_arg, double z_arg);
 
   /**
    * Operator which allows the comparison of the particle to a given particle.

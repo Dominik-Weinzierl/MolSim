@@ -8,7 +8,6 @@
  */
 class Physics {
  protected:
-  const Vector ZERO{};
   virtual ~Physics() = default;
 
   /**
@@ -16,7 +15,7 @@ class Physics {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT
    */
-  void calculateX(ParticleContainer &particleContainer, double deltaT) const;
+  static void calculateX(ParticleContainer &particleContainer, double deltaT) ;
 
   /**
    * Calculates and updates the force for all particles in the specified container
@@ -29,7 +28,7 @@ class Physics {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT
    */
-  void calculateV(ParticleContainer &particleContainer, double deltaT) const;
+  static void calculateV(ParticleContainer &particleContainer, double deltaT) ;
 
  public:
 

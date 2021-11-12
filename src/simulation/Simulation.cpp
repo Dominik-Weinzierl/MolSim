@@ -1,14 +1,15 @@
 #include <spdlog/spdlog.h>
 #include "Simulation.h"
 
-void Simulation::performSimulation(OutputWriter &writer, const Physics &physics, ParticleContainer &particleContainer,
-                                   const Argument &arg) {
+void Simulation::performSimulation(__attribute__((unused))OutputWriter &writer, const Physics &physics,
+                                   ParticleContainer &particleContainer, const Argument &arg) {
   double current_time = start_time;
   int iteration = 0;
+  auto deltaT = arg.getDeltaT();
 
   // for this loop, we assume: current x, current f and current v are known
   while (current_time < arg.getEndTime()) {
-    physics.calculateNextStep(particleContainer, arg.getDeltaT());
+    physics.calculateNextStep(particleContainer, deltaT);
 
     if (iteration % arg.getIteration() == 0) {
       writer.writeFile(iteration);
@@ -16,6 +17,6 @@ void Simulation::performSimulation(OutputWriter &writer, const Physics &physics,
 
     SPDLOG_INFO("Iteration {} finished", iteration);
     iteration++;
-    current_time += arg.getDeltaT();
+    current_time += deltaT;
   }
 }

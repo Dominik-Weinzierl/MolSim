@@ -5,13 +5,13 @@
 
 class CuboidArgument : public GeneratorArguments {
  public:
-  Vector startingCoordinates;
+  Vector<> startingCoordinates;
   std::vector<int> dimensions;
-  Vector initialVelocity;
+  Vector<> initialVelocity;
   double distance;
   double mass;
   double meanValue;
 
-  CuboidArgument(Vector startingCoordinates, std::vector<int> dimensions, Vector initialVelocity, double distance, double mass,
+  CuboidArgument(Vector<> startingCoordinates, std::vector<int> dimensions, Vector<> initialVelocity, double distance, double mass,
                  double meanValue = 0.1);
 };
