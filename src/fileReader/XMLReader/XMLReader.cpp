@@ -24,17 +24,19 @@ std::unique_ptr<XMLArgument> XMLReader::readXML() const {
     files.push_back(path);
   }
 
-  for (auto &it: simulation->Cuboid()) {
-    auto &pos = it.Position();
-    auto &dim = it.Dimension();
-    auto &vel = it.Velocity();
-    auto &dis = it.distance();
-    auto &mass = it.mass();
-    auto &mean = it.meanValue();
-    Vector<> position{pos.x(), pos.y(), pos.z()};
-    std::vector<int> dimension{static_cast<int>(dim.x()), static_cast<int>(dim.y()), static_cast<int>(dim.z())};
-    Vector<> velocity{vel.x(), vel.y(), vel.z()};
-    cuboidArguments.emplace_back(position, dimension, velocity, dis, mass, mean);
+  for (auto &it: simulation->Shapes()) {
+    for (auto &cuboid: it.Cuboid()) {
+      auto &pos = cuboid.Position();
+      auto &dim = cuboid.Dimension();
+      auto &vel = cuboid.Velocity();
+      auto &dis = cuboid.distance();
+      auto &mass = cuboid.mass();
+      auto &mean = cuboid.meanValue();
+      Vector<> position{pos.x(), pos.y(), pos.z()};
+      std::vector<int> dimension{static_cast<int>(dim.x()), static_cast<int>(dim.y()), static_cast<int>(dim.z())};
+      Vector<> velocity{vel.x(), vel.y(), vel.z()};
+      cuboidArguments.emplace_back(position, dimension, velocity, dis, mass, mean);
+    }
   }
 
   if (simulation->physics().present()) {
