@@ -33,7 +33,9 @@ int main(int argc, char *argv[]) {
   try {
     auto stdoutsink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
     auto stderrsink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
-    auto filesink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("log.txt", true);
+    std::string logname = "logs/";
+    logname.append(std::chrono::toString(std::chrono::system_clock::now()));
+    auto filesink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logname, true);
 
     stdoutsink->set_level(spdlog::level::warn);
     stderrsink->set_level(spdlog::level::err);
