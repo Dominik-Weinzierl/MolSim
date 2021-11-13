@@ -6,14 +6,14 @@ class BasicArgument : public Argument {
  public:
   /**
    * BasicArgument constructor to construct Arguments provided by the ArgumentParser.
-   * @param files
-   * @param end_time
-   * @param delta_t
-   * @param output
-   * @param writer
-   * @param iteration
-   * @param physics
+   * @param pFiles
+   * @param pEndTime
+   * @param pDeltaT
+   * @param pOutput
+   * @param pWriter
+   * @param pIteration
+   * @param pPhysics
    */
-  BasicArgument(std::vector<std::string> files, double end_time, double delta_t, std::string output, std::string writer,
-                int iteration, std::string physics);
+  BasicArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
+                std::string pWriter, int pIteration, std::string pPhysics);
 };
