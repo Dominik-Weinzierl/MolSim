@@ -228,19 +228,35 @@ void input_t::location(::std::unique_ptr<location_type> x) {
 }
 
 
+// shape_t
+// 
+
+const shape_t::Cuboid_sequence &shape_t::Cuboid() const {
+  return this->Cuboid_;
+}
+
+shape_t::Cuboid_sequence &shape_t::Cuboid() {
+  return this->Cuboid_;
+}
+
+void shape_t::Cuboid(const Cuboid_sequence &s) {
+  this->Cuboid_ = s;
+}
+
+
 // simulation_t
 // 
 
-const simulation_t::Cuboid_sequence &simulation_t::Cuboid() const {
-  return this->Cuboid_;
+const simulation_t::Shapes_sequence &simulation_t::Shapes() const {
+  return this->Shapes_;
 }
 
-simulation_t::Cuboid_sequence &simulation_t::Cuboid() {
-  return this->Cuboid_;
+simulation_t::Shapes_sequence &simulation_t::Shapes() {
+  return this->Shapes_;
 }
 
-void simulation_t::Cuboid(const Cuboid_sequence &s) {
-  this->Cuboid_ = s;
+void simulation_t::Shapes(const Shapes_sequence &s) {
+  this->Shapes_ = s;
 }
 
 const simulation_t::Source_sequence &simulation_t::Source() const {
@@ -709,22 +725,74 @@ input_t &input_t::operator=(const input_t &x) {
 input_t::~input_t() {
 }
 
+// shape_t
+//
+
+shape_t::shape_t() : ::xml_schema::type(), Cuboid_(this) {
+}
+
+shape_t::shape_t(const shape_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
+                                                                                        Cuboid_(x.Cuboid_, f, this) {
+}
+
+shape_t::shape_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Cuboid_(this) {
+  if ((f & ::xml_schema::flags::base) == 0) {
+    ::xsd::cxx::xml::dom::parser<char> p(e, true, false, false);
+    this->parse(p, f);
+  }
+}
+
+void shape_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags f) {
+  for (; p.more_content(); p.next_content(false)) {
+    const ::xercesc::DOMElement &i(p.cur_element());
+    const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    // Cuboid
+    //
+    if (n.name() == "Cuboid" && n.namespace_().empty()) {
+      ::std::unique_ptr<Cuboid_type> r(Cuboid_traits::create(i, f, this));
+
+      this->Cuboid_.push_back(::std::move(r));
+      continue;
+    }
+
+    break;
+  }
+}
+
+shape_t *shape_t::_clone(::xml_schema::flags f, ::xml_schema::container *c) const {
+  return new class shape_t(*this, f, c);
+}
+
+shape_t &shape_t::operator=(const shape_t &x) {
+  if (this != &x) {
+    static_cast< ::xml_schema::type & > (*this) = x;
+    this->Cuboid_ = x.Cuboid_;
+  }
+
+  return *this;
+}
+
+shape_t::~shape_t() {
+}
+
 // simulation_t
 //
 
 simulation_t::simulation_t()
-    : ::xml_schema::type(), Cuboid_(this), Source_(this), endTime_(this), deltaT_(this), output_(this),
+    : ::xml_schema::type(), Shapes_(this), Source_(this), endTime_(this), deltaT_(this), output_(this),
       iteration_(this), physics_(this), writer_(this) {
 }
 
 simulation_t::simulation_t(const simulation_t &x, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(x, f, c), Cuboid_(x.Cuboid_, f, this), Source_(x.Source_, f, this),
+    : ::xml_schema::type(x, f, c), Shapes_(x.Shapes_, f, this), Source_(x.Source_, f, this),
       endTime_(x.endTime_, f, this), deltaT_(x.deltaT_, f, this), output_(x.output_, f, this),
       iteration_(x.iteration_, f, this), physics_(x.physics_, f, this), writer_(x.writer_, f, this) {
 }
 
 simulation_t::simulation_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Cuboid_(this), Source_(this), endTime_(this),
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Shapes_(this), Source_(this), endTime_(this),
       deltaT_(this), output_(this), iteration_(this), physics_(this), writer_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
@@ -737,12 +805,12 @@ void simulation_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
     const ::xercesc::DOMElement &i(p.cur_element());
     const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
 
-    // Cuboid
+    // Shapes
     //
-    if (n.name() == "Cuboid" && n.namespace_().empty()) {
-      ::std::unique_ptr<Cuboid_type> r(Cuboid_traits::create(i, f, this));
+    if (n.name() == "Shapes" && n.namespace_().empty()) {
+      ::std::unique_ptr<Shapes_type> r(Shapes_traits::create(i, f, this));
 
-      this->Cuboid_.push_back(::std::move(r));
+      this->Shapes_.push_back(::std::move(r));
       continue;
     }
 
@@ -801,7 +869,7 @@ simulation_t *simulation_t::_clone(::xml_schema::flags f, ::xml_schema::containe
 simulation_t &simulation_t::operator=(const simulation_t &x) {
   if (this != &x) {
     static_cast< ::xml_schema::type & > (*this) = x;
-    this->Cuboid_ = x.Cuboid_;
+    this->Shapes_ = x.Shapes_;
     this->Source_ = x.Source_;
     this->endTime_ = x.endTime_;
     this->deltaT_ = x.deltaT_;
@@ -1105,13 +1173,25 @@ void operator<<(::xercesc::DOMElement &e, const input_t &i) {
   }
 }
 
-void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
+void operator<<(::xercesc::DOMElement &e, const shape_t &i) {
   e << static_cast< const ::xml_schema::type & > (i);
 
   // Cuboid
   //
-  for (simulation_t::Cuboid_const_iterator b(i.Cuboid().begin()), n(i.Cuboid().end()); b != n; ++b) {
+  for (shape_t::Cuboid_const_iterator b(i.Cuboid().begin()), n(i.Cuboid().end()); b != n; ++b) {
     ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Cuboid", e));
+
+    s << *b;
+  }
+}
+
+void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
+  e << static_cast< const ::xml_schema::type & > (i);
+
+  // Shapes
+  //
+  for (simulation_t::Shapes_const_iterator b(i.Shapes().begin()), n(i.Shapes().end()); b != n; ++b) {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Shapes", e));
 
     s << *b;
   }

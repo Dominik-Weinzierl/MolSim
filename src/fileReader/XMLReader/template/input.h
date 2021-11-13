@@ -616,6 +616,7 @@ class cuboid_t;
 class vector_t;
 class vector_i;
 class input_t;
+class shape_t;
 class simulation_t;
 
 #include <memory>    // ::std::unique_ptr
@@ -1602,11 +1603,11 @@ class input_t : public ::xml_schema::type {
 };
 
 /**
- * @brief Class corresponding to the %simulation_t schema type.
+ * @brief Class corresponding to the %shape_t schema type.
  *
  * @nosubgrouping
  */
-class simulation_t : public ::xml_schema::type {
+class shape_t : public ::xml_schema::type {
  public:
   /**
    * @name Cuboid
@@ -1666,6 +1667,151 @@ class simulation_t : public ::xml_schema::type {
    * sequence and all old elements will be lost.
    */
   void Cuboid(const Cuboid_sequence &s);
+
+  //@}
+
+  /**
+   * @name Constructors
+   */
+  //@{
+
+  /**
+   * @brief Create an instance from the ultimate base and
+   * initializers for required elements and attributes.
+   */
+  shape_t();
+
+  /**
+   * @brief Create an instance from a DOM element.
+   *
+   * @param e A DOM element to extract the data from.
+   * @param f Flags to create the new instance with.
+   * @param c A pointer to the object that will contain the new
+   * instance.
+   */
+  shape_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
+
+  /**
+   * @brief Copy constructor.
+   *
+   * @param x An instance to make a copy of.
+   * @param f Flags to create the copy with.
+   * @param c A pointer to the object that will contain the copy.
+   *
+   * For polymorphic object models use the @c _clone function instead.
+   */
+  shape_t(const shape_t &x, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
+
+  /**
+   * @brief Copy the instance polymorphically.
+   *
+   * @param f Flags to create the copy with.
+   * @param c A pointer to the object that will contain the copy.
+   * @return A pointer to the dynamically allocated copy.
+   *
+   * This function ensures that the dynamic type of the instance is
+   * used for copying and should be used for polymorphic object
+   * models instead of the copy constructor.
+   */
+  virtual shape_t *_clone(::xml_schema::flags f = 0, ::xml_schema::container *c = 0) const;
+
+  /**
+   * @brief Copy assignment operator.
+   *
+   * @param x An instance to make a copy of.
+   * @return A reference to itself.
+   *
+   * For polymorphic object models use the @c _clone function instead.
+   */
+  shape_t &operator=(const shape_t &x);
+
+  //@}
+
+  /**
+   * @brief Destructor.
+   */
+  virtual
+  ~shape_t();
+
+  // Implementation.
+  //
+
+  //@cond
+
+ protected:
+  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::flags);
+
+ protected:
+  Cuboid_sequence Cuboid_;
+
+  //@endcond
+};
+
+/**
+ * @brief Class corresponding to the %simulation_t schema type.
+ *
+ * @nosubgrouping
+ */
+class simulation_t : public ::xml_schema::type {
+ public:
+  /**
+   * @name Shapes
+   *
+   * @brief Accessor and modifier functions for the %Shapes
+   * sequence element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::shape_t Shapes_type;
+
+  /**
+   * @brief Element sequence container type.
+   */
+  typedef ::xsd::cxx::tree::sequence<Shapes_type> Shapes_sequence;
+
+  /**
+   * @brief Element iterator type.
+   */
+  typedef Shapes_sequence::iterator Shapes_iterator;
+
+  /**
+   * @brief Element constant iterator type.
+   */
+  typedef Shapes_sequence::const_iterator Shapes_const_iterator;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<Shapes_type, char> Shapes_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element
+   * sequence.
+   *
+   * @return A constant reference to the sequence container.
+   */
+  const Shapes_sequence &Shapes() const;
+
+  /**
+   * @brief Return a read-write reference to the element sequence.
+   *
+   * @return A reference to the sequence container.
+   */
+  Shapes_sequence &Shapes();
+
+  /**
+   * @brief Copy elements from a given sequence.
+   *
+   * @param s A sequence to copy elements from.
+   *
+   * For each element in @a s this function makes a copy and adds it 
+   * to the sequence. Note that this operation completely changes the 
+   * sequence and all old elements will be lost.
+   */
+  void Shapes(const Shapes_sequence &s);
 
   //@}
 
@@ -2198,7 +2344,7 @@ class simulation_t : public ::xml_schema::type {
   void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::flags);
 
  protected:
-  Cuboid_sequence Cuboid_;
+  Shapes_sequence Shapes_;
   Source_sequence Source_;
   endTime_optional endTime_;
   deltaT_optional deltaT_;
@@ -2454,6 +2600,8 @@ void operator<<(::xercesc::DOMElement &, const vector_t &);
 void operator<<(::xercesc::DOMElement &, const vector_i &);
 
 void operator<<(::xercesc::DOMElement &, const input_t &);
+
+void operator<<(::xercesc::DOMElement &, const shape_t &);
 
 void operator<<(::xercesc::DOMElement &, const simulation_t &);
 
