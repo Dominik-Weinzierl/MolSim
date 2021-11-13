@@ -2,13 +2,14 @@
 
 #include <utility>
 
-Argument::Argument(std::vector<std::string> files, double end_time, double delta_t, std::string output,
-                   std::string writer, int iteration, std::string physics) : files{std::move(files)},
-                                                                             end_time{end_time}, delta_t{delta_t},
-                                                                             output{std::move(output)},
-                                                                             writer{std::move(writer)},
-                                                                             physics{std::move(physics)},
-                                                                             iteration{iteration} {
+Argument::Argument(std::vector<std::string> filesIn, double end_timeIn, double delta_tIn, std::string outputIn,
+                   std::string writerIn, int iterationIn, std::string physicsIn) : files{std::move(filesIn)},
+                                                                                   end_time{end_timeIn},
+                                                                                   delta_t{delta_tIn},
+                                                                                   output{std::move(outputIn)},
+                                                                                   writer{std::move(writerIn)},
+                                                                                   physics{std::move(physicsIn)},
+                                                                                   iteration{iterationIn} {
 
 }
 

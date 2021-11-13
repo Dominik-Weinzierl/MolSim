@@ -2,12 +2,17 @@
 
 #include <utility>
 
-BasicArgument::BasicArgument(std::vector<std::string> files, double end_time, double delta_t, std::string output,
-                             std::string writer, int iteration, std::string physics) : Argument(std::move(files),
-                                                                                                end_time, delta_t,
-                                                                                                std::move(output),
-                                                                                                std::move(writer),
-                                                                                                iteration,
-                                                                                                std::move(physics)) {
+BasicArgument::BasicArgument(std::vector<std::string> filesIn,
+                             double end_timeIn,
+                             double delta_tIn,
+                             std::string outputIn,
+                             std::string writerIn,
+                             int iterationIn,
+                             std::string physicsIn) : Argument(std::move(filesIn),
+                                                               end_timeIn, delta_tIn,
+                                                               std::move(outputIn),
+                                                               std::move(writerIn),
+                                                               iterationIn,
+                                                               std::move(physicsIn)) {
 
 }

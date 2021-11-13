@@ -21,16 +21,21 @@ class Argument {
 
   /**
    * Argument constructor to construct Arguments provided by the ArgumentParser.
-   * @param files
-   * @param end_time
-   * @param delta_t
-   * @param output
-   * @param writer
-   * @param iteration
-   * @param physics
+   * @param filesIn
+   * @param end_timeIn
+   * @param delta_tIn
+   * @param outputIn
+   * @param writerIn
+   * @param iterationIn
+   * @param physicsIn
    */
-  Argument(std::vector<std::string> files, double end_time, double delta_t, std::string output, std::string writer,
-           int iteration, std::string physics);
+  Argument(std::vector<std::string> filesIn,
+           double end_timeIn,
+           double delta_tIn,
+           std::string outputIn,
+           std::string writerIn,
+           int iterationIn,
+           std::string physicsIn);
 
   [[nodiscard]] double getEndTime() const;
 

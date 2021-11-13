@@ -3,8 +3,8 @@
 #include "particles/ParticleContainer.h"
 #include <iomanip>
 
-XYZWriter::XYZWriter(const std::string &file_name, const std::string &path, ParticleContainer &container)
-    : OutputWriter(file_name, path, container) {}
+XYZWriter::XYZWriter(const std::string &fileNameIn, const std::string &pathIn, ParticleContainer &containerIn)
+    : OutputWriter(fileNameIn, pathIn, containerIn) {}
 
 void XYZWriter::plotParticles() {
   auto particles = container.getParticles();

@@ -5,8 +5,8 @@
 #include <iostream>
 #include <string>
 
-VTKWriter::VTKWriter(const std::string &file_name, const std::string &path, ParticleContainer &container)
-    : OutputWriter(file_name, path, container) {}
+VTKWriter::VTKWriter(const std::string &file_nameIn, const std::string &pathIn, ParticleContainer &containerIn)
+    : OutputWriter(file_nameIn, pathIn, containerIn) {}
 
 void VTKWriter::initializeOutput(int numParticles) {
 

@@ -8,8 +8,8 @@ class XMLArgument : public Argument {
   std::vector<CuboidArgument> cuboidArguments;
 
  public:
-  XMLArgument(std::vector<CuboidArgument> cuboidArguments, std::vector<std::string> files, double end_time,
-              double delta_t, std::string output, std::string writer, int iteration, std::string physics);
+  XMLArgument(std::vector<CuboidArgument> cuboidArguments, std::vector<std::string> filesIn, double end_timeIn,
+              double delta_tIn, std::string outputIn, std::string writerIn, int iterationIn, std::string physicsIn);
 
   std::vector<CuboidArgument> getCuboidArguments();
 };

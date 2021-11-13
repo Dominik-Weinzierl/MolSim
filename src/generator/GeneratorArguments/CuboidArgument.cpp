@@ -2,9 +2,13 @@
 
 #include <utility>
 
-CuboidArgument::CuboidArgument(Vector<> startingCoordinates, std::vector<int> dimensions,
-                               Vector<> initialVelocity, double distance, double mass, double meanValue)
-    : startingCoordinates{startingCoordinates}, dimensions{std::move(dimensions)}, initialVelocity{initialVelocity},
-      distance{distance}, mass{mass}, meanValue{meanValue} {
+CuboidArgument::CuboidArgument(Vector<> startingCoordinatesIn, std::vector<int> dimensionsIn,
+                               Vector<> initialVelocityIn, double distanceIn, double massIn, double meanValueIn)
+    : startingCoordinates{startingCoordinatesIn},
+      dimensions{std::move(dimensionsIn)},
+      initialVelocity{initialVelocityIn},
+      distance{distanceIn},
+      mass{massIn},
+      meanValue{meanValueIn} {
 
 }
