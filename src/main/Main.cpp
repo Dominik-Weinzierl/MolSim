@@ -1,4 +1,4 @@
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
 
 #include <arguments/argument/Argument.h>
 #include <iostream>
@@ -52,7 +52,10 @@ int main(int argc, char *argv[]) {
     spdlog::logger logger("logger", sinks.begin(), sinks.end());
     spdlog::set_default_logger(std::make_shared<spdlog::logger>(logger));
 
-    spdlog::set_level(spdlog::level::debug);
+    /**
+     * Set level here, and update SPDLOG_ACTIVE_LEVEL in all used files.
+     */
+    spdlog::set_level(spdlog::level::off);
   } catch (const spdlog::spdlog_ex &ex) {
     std::cout << "Log setup failed" << ex.what() << std::endl;
   }

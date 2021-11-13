@@ -1,4 +1,4 @@
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
 
 #include "spdlog/spdlog.h"
 #include "GravitationSimulation.h"
