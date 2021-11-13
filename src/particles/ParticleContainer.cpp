@@ -1,24 +1,26 @@
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
+
 #include "ParticleContainer.h"
 
 #include <utility>
 #include <iostream>
-#include <spdlog/spdlog.h>
+#include "spdlog/spdlog.h"
 
 //---------------------------Constructor---------------------------
 
- 
+
 
 ParticleContainer::ParticleContainer(std::vector<Particle> pParticles) : particles{std::move(pParticles)} {
-  spdlog::debug("ParticleContainer generated");
+  SPDLOG_TRACE("ParticleContainer generated");
 
 }
 
 ParticleContainer::ParticleContainer() : particles{} {
-  spdlog::debug("ParticleContainer generated");
+  SPDLOG_TRACE("ParticleContainer generated");
 }
 
 ParticleContainer::~ParticleContainer() {
-  spdlog::debug("ParticleContainer destructed");
+  SPDLOG_TRACE("ParticleContainer destructed");
 }
 
 //---------------------------Methods---------------------------

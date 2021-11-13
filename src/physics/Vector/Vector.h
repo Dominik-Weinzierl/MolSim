@@ -1,5 +1,7 @@
 #pragma once
 
+#include "spdlog/spdlog.h"
+
 #include <array>
 #include <ostream>
 #include <numeric>
@@ -9,7 +11,7 @@ template<size_t dim = 3> using Vector = std::array<double, dim>;
 
 template<size_t dim>
 Vector<dim> operator+(Vector<dim> lhs, const Vector<dim> &rhs) {
-  // SPDLOG_DEBUG("Calculating {0} + {1}", lhs, rhs);
+  SPDLOG_TRACE("Calculating {0} + {1}", lhs, rhs);
   std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), [](auto l, auto r) {
     return l + r;
   });
@@ -18,7 +20,7 @@ Vector<dim> operator+(Vector<dim> lhs, const Vector<dim> &rhs) {
 
 template<size_t dim>
 Vector<dim> operator-(Vector<dim> lhs, const Vector<dim> &rhs) {
-  // SPDLOG_DEBUG("Calculating {0} - {1}", lhs, rhs);
+  SPDLOG_TRACE("Calculating {0} - {1}", lhs, rhs);
   std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), [](auto l, auto r) {
     return l - r;
   });
@@ -33,7 +35,7 @@ Vector<dim> operator-(Vector<dim> lhs, const Vector<dim> &rhs) {
  */
 template<size_t dim>
 double operator*(const Vector<dim> &lhs, const Vector<dim> &rhs) {
-  // SPDLOG_DEBUG("Calculating {0} * {1}", this, other);
+  SPDLOG_TRACE("Calculating {0} * {1}", lhs, rhs);
   return std::inner_product(lhs.begin(), lhs.end(), rhs.begin(), 0.0);
 }
 
@@ -45,6 +47,7 @@ double operator*(const Vector<dim> &lhs, const Vector<dim> &rhs) {
  */
 template<size_t dim>
 Vector<dim> operator*(Vector<dim> lhs, const double &d) {
+  SPDLOG_TRACE("Calculating {0} * {1}", lhs, d);
   std::transform(lhs.begin(), lhs.end(), lhs.begin(), [&](auto v) {
     return v * d;
   });
@@ -59,12 +62,13 @@ Vector<dim> operator*(Vector<dim> lhs, const double &d) {
  */
 template<size_t dim>
 Vector<dim> operator*(const double &d, Vector<dim> lhs) {
+  SPDLOG_TRACE("Calculating {0} * {1}", lhs, d);
   return lhs * d;
 }
 
 template<size_t dim>
 Vector<dim> operator/(Vector<dim> lhs, const double &d) {
-  // SPDLOG_DEBUG("Calculating {0} / {1}", lhs, rhs);
+  SPDLOG_TRACE("Calculating {0} / {1}", lhs, d);
   std::transform(lhs.begin(), lhs.end(), lhs.begin(), [&](auto v) {
     return v / d;
   });

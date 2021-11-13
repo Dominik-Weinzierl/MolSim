@@ -1,26 +1,26 @@
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
+
 #include <arguments/argument/Argument.h>
 #include <iostream>
 #include <simulation/variants/GravitationSimulation.h>
-#include <spdlog/async.h>
-#include <spdlog/spdlog.h>
+#include "spdlog/spdlog.h"
 #include <outputWriter/XYZWriter/XYZWriter.h>
 #include <arguments/argumentParser/ParserStrategy.h>
 #include <arguments/argument/XMLArgument/XMLArgument.h>
 #include <generator/variants/CuboidGenerator.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
+#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 #include "fileReader/InputFile/InputReader.h"
 #include "simulation/variants/LennardSimulation.h"
 #include <chrono>
 #include <iomanip>
 
-/*static void measureTime(const Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer) {
+static void measureTime(const Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer) {
   auto start = std::chrono::high_resolution_clock::now();
   LennardSimulation::performSimulation(arg, writer, particleContainer);
   auto end = std::chrono::high_resolution_clock::now();
   std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms";
 }
-*/
 
 /**
  * Creates a parser which parses information based on the selected parser
@@ -44,14 +44,15 @@ int main(int argc, char *argv[]) {
 
     auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logName, true);
 
-    stdoutSink->set_level(spdlog::level::warn);
-    stderrSink->set_level(spdlog::level::err);
+    stdoutSink->set_level(spdlog::level::info);
+    stderrSink->set_level(spdlog::level::warn);
     fileSink->set_level(spdlog::level::debug);
 
     spdlog::sinks_init_list sinks = {stdoutSink, stderrSink, fileSink};
     spdlog::logger logger("logger", sinks.begin(), sinks.end());
-    logger.set_level(spdlog::level::debug);
     spdlog::set_default_logger(std::make_shared<spdlog::logger>(logger));
+
+    spdlog::set_level(spdlog::level::debug);
   } catch (const spdlog::spdlog_ex &ex) {
     std::cout << "Log setup failed" << ex.what() << std::endl;
   }
@@ -69,7 +70,7 @@ int main(int argc, char *argv[]) {
     parser->validateInput();
   } catch (std::invalid_argument &exception) {
     std::cout << "[ERROR] " << exception.what() << std::endl;
-    spdlog::error(exception.what());
+    SPDLOG_ERROR(exception.what());
     parser->showUsage();
     return -1;
   }
@@ -97,11 +98,11 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  if (arg->getPhysics() == "gravitation") {
+  /*if (arg->getPhysics() == "gravitation") {
     GravitationSimulation::performSimulation(*arg, *writer, particleContainer);
   } else if (arg->getPhysics() == "lennard") {
     LennardSimulation::performSimulation(*arg, *writer, particleContainer);
-  }
-  //measureTime(*arg, *writer, particleContainer);
+  }*/
+  measureTime(*arg, *writer, particleContainer);
 }
 

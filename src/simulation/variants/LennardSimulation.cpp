@@ -1,3 +1,5 @@
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
+
 #include <arguments/argument/Argument.h>
 #include <simulation/Simulation.h>
 #include "LennardSimulation.h"
@@ -9,5 +11,5 @@ void LennardSimulation::performSimulation(const Argument &arg, OutputWriter &wri
                                           ParticleContainer &particleContainer) {
   LennardJones lennardJones;
   Simulation::performSimulation(writer, lennardJones, particleContainer, arg);
-  spdlog::info("Output written, terminating");
+  SPDLOG_INFO("Output written, terminating");
 }

@@ -1,3 +1,6 @@
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_INFO
+
+
 #include "InputReader.h"
 
 #include "physics/Vector/Vector.h"
@@ -5,14 +8,14 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <spdlog/spdlog.h>
+#include "spdlog/spdlog.h"
 
 void InputReader::readFile(ParticleContainer &particleContainer, const std::string &filename) {
   std::ifstream inputFile(filename);
   std::string tmpString;
 
   if (inputFile.is_open()) {
-    spdlog::info("Opened file {}", filename);
+    SPDLOG_INFO("Opened file {}", filename);
     double m;
     int numParticles = 0;
     Vector<> x;
@@ -42,7 +45,7 @@ void InputReader::readFile(ParticleContainer &particleContainer, const std::stri
         dataStream >> vj;
       }
       if (dataStream.eof()) {
-        spdlog::error("Reached end of file {0} unexpectedly after {1} lines of data", filename, i);
+        SPDLOG_ERROR("Reached end of file {0} unexpectedly after {1} lines of data", filename, i);
         exit(-1);
       }
       dataStream >> m;
@@ -52,7 +55,7 @@ void InputReader::readFile(ParticleContainer &particleContainer, const std::stri
       // std::cout << "Read line: " << tmpString << std::endl;
     }
   } else {
-    spdlog::error("Could not open file {}", filename);
+    SPDLOG_ERROR("Could not open file {}", filename);
     exit(-1);
   }
 }
