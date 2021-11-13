@@ -15,11 +15,11 @@ class XYZWriter : public OutputWriter {
 
   /**
    * Constructs a XYZWriter to create files based on the XYZ file format.
-   * @param fileNameIn
-   * @param pathIn
-   * @param containerIn ParticleContainer with a Vector that contains all particles.
+   * @param pFileName
+   * @param pPath
+   * @param pContainer ParticleContainer with a Vector that contains all particles.
    */
-  explicit XYZWriter(const std::string &fileNameIn, const std::string &pathIn, ParticleContainer &containerIn);
+  explicit XYZWriter(std::string pFileName, std::string pPath, ParticleContainer &pContainer);
 
   /**
    * Writes the information about the given iteration into the file.

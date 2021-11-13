@@ -116,11 +116,11 @@ Using CMake
       -h,--help               Show this help message
       -f,--filename           Specify the input filename
       -t,--t_end              Specify the end time of this simulation
-      -d,--delta_t            Specify the time steps per calculation
+      -d,--deltaT            Specify the time steps per calculation
    ```
 - Run example simulation from Worksheet 1.
    ```bash
-   $ ./MolSim --filename ../eingabe-sonne.txt --t_end 1000 --delta_t 0.014
+   $ ./MolSim --filename ../eingabe-sonne.txt --t_end 1000 --deltaT 0.014
    ```
 - _(optional)_ Run example simulation from Worksheet 1.
    ```bash

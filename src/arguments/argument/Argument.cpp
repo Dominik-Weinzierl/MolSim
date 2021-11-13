@@ -2,23 +2,22 @@
 
 #include <utility>
 
-Argument::Argument(std::vector<std::string> filesIn, double end_timeIn, double delta_tIn, std::string outputIn,
-                   std::string writerIn, int iterationIn, std::string physicsIn) : files{std::move(filesIn)},
-                                                                                   end_time{end_timeIn},
-                                                                                   delta_t{delta_tIn},
-                                                                                   output{std::move(outputIn)},
-                                                                                   writer{std::move(writerIn)},
-                                                                                   physics{std::move(physicsIn)},
-                                                                                   iteration{iterationIn} {
+Argument::Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
+                   std::string pWriter, int pIteration, std::string pPhysics) : files{std::move(pFiles)},
+                                                                                endTime{pEndTime}, deltaT{pDeltaT},
+                                                                                output{std::move(pOutput)},
+                                                                                writer{std::move(pWriter)},
+                                                                                physics{std::move(pPhysics)},
+                                                                                iteration{pIteration} {
 
 }
 
 double Argument::getEndTime() const {
-  return end_time;
+  return endTime;
 }
 
 double Argument::getDeltaT() const {
-  return delta_t;
+  return deltaT;
 }
 
 std::vector<std::string> Argument::getFiles() const {

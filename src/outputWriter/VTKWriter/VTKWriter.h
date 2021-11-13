@@ -15,11 +15,11 @@ class VTKWriter : public OutputWriter {
 
   /**
    * Constructs a VTKWriter to create files based on the VTK file format.
-   * @param file_nameIn
-   * @param pathIn
-   * @param containerIn ParticleContainer with a Vector that contains all particles.
+   * @param pFileName
+   * @param pPath
+   * @param pContainer ParticleContainer with a Vector that contains all particles.
    */
-  explicit VTKWriter(const std::string &file_nameIn, const std::string &pathIn, ParticleContainer &containerIn);
+  explicit VTKWriter(std::string pFileName, std::string pPath, ParticleContainer &pContainer);
 
   /**
    * Writes the information about the given iteration into the file.

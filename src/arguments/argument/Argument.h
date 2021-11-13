@@ -9,8 +9,8 @@ class Argument {
 
  private:
   std::vector<std::string> files;
-  double end_time;
-  double delta_t;
+  double endTime;
+  double deltaT;
   std::string output;
   std::string writer;
   std::string physics;
@@ -21,21 +21,16 @@ class Argument {
 
   /**
    * Argument constructor to construct Arguments provided by the ArgumentParser.
-   * @param filesIn
-   * @param end_timeIn
-   * @param delta_tIn
-   * @param outputIn
-   * @param writerIn
-   * @param iterationIn
-   * @param physicsIn
+   * @param pFiles
+   * @param pEndTime
+   * @param pDeltaT
+   * @param pOutput
+   * @param pWriter
+   * @param pIteration
+   * @param pPhysics
    */
-  Argument(std::vector<std::string> filesIn,
-           double end_timeIn,
-           double delta_tIn,
-           std::string outputIn,
-           std::string writerIn,
-           int iterationIn,
-           std::string physicsIn);
+  Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
+           int pIteration, std::string pPhysics);
 
   [[nodiscard]] double getEndTime() const;
 

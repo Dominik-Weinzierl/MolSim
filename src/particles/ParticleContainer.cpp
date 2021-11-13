@@ -5,7 +5,7 @@
 #include <spdlog/spdlog.h>
 
 //---------------------------Constructor---------------------------
-ParticleContainer::ParticleContainer(std::vector<Particle> particlesIn) : particles{std::move(particlesIn)} {
+ParticleContainer::ParticleContainer(std::vector<Particle> pParticles) : particles{std::move(pParticles)} {
   // SPDLOG_INFO("ParticleContainer generated");
 }
 

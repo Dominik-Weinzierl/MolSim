@@ -3,8 +3,8 @@
 #include <utility>
 #include <filesystem>
 
-OutputWriter::OutputWriter(std::string fileNameIn, std::string pathIn, ParticleContainer &containerIn) : fileName{
-    std::move(fileNameIn)}, path{std::move(pathIn)}, container{containerIn} {
+OutputWriter::OutputWriter(std::string pFileName, std::string pPath, ParticleContainer &pContainer) : fileName{
+    std::move(pFileName)}, path{std::move(pPath)}, container{pContainer} {
   if (!std::filesystem::exists(this->path)) {
     std::filesystem::create_directory(this->path);
   }

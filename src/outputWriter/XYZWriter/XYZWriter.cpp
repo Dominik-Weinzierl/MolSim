@@ -2,9 +2,10 @@
 #include <sstream>
 #include "particles/ParticleContainer.h"
 #include <iomanip>
+#include <utility>
 
-XYZWriter::XYZWriter(const std::string &fileNameIn, const std::string &pathIn, ParticleContainer &containerIn)
-    : OutputWriter(fileNameIn, pathIn, containerIn) {}
+XYZWriter::XYZWriter(std::string pFileName, std::string pPath, ParticleContainer &pContainer) : OutputWriter(
+    std::move(pFileName), std::move(pPath), pContainer) {}
 
 void XYZWriter::plotParticles() {
   auto particles = container.getParticles();
