@@ -56,12 +56,12 @@ class Particle {
 
   /**
    * Constructor which generates a particle with the given parameters.
-   * @param x_arg Position-Vector.
-   * @param v_arg Velocity-Vector.
-   * @param m_arg Mass.
+   * @param pX Position-Vector.
+   * @param pV Velocity-Vector.
+   * @param pM Mass.
    * @param type
    */
-  Particle(const Vector<> &x_arg, const Vector<> &v_arg, double m_arg, int type = 0);
+  Particle(const Vector<> &pX, const Vector<> &pV, double pM, int pType = 0);
 
   /**
    * Default destructor.

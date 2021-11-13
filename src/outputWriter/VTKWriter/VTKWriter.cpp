@@ -4,9 +4,10 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#include <utility>
 
-VTKWriter::VTKWriter(const std::string &file_name, const std::string &path, ParticleContainer &container)
-    : OutputWriter(file_name, path, container) {}
+VTKWriter::VTKWriter(std::string pFileName, std::string pPath, ParticleContainer &pContainer) : OutputWriter(
+    std::move(pFileName), std::move(pPath), pContainer) {}
 
 void VTKWriter::initializeOutput(int numParticles) {
 
