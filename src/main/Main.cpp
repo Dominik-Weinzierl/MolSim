@@ -1,13 +1,18 @@
 #include <arguments/argument/Argument.h>
 #include <iostream>
 #include <simulation/variants/GravitationSimulation.h>
+#include <spdlog/async.h>
 #include <spdlog/spdlog.h>
 #include <outputWriter/XYZWriter/XYZWriter.h>
 #include <arguments/argumentParser/ParserStrategy.h>
 #include <arguments/argument/XMLArgument/XMLArgument.h>
 #include <generator/variants/CuboidGenerator.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 #include "fileReader/InputFile/InputReader.h"
 #include "simulation/variants/LennardSimulation.h"
+#include <chrono>
+#include <iomanip>
 
 /*static void measureTime(const Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer) {
   auto start = std::chrono::high_resolution_clock::now();
@@ -26,6 +31,31 @@
  * @return Program exit.
  */
 int main(int argc, char *argv[]) {
+
+  try {
+    auto stdoutSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    auto stderrSink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
+
+    std::stringstream ss;
+    auto now = std::chrono::system_clock::now();
+    auto in_time_t = std::chrono::system_clock::to_time_t(now);
+    ss << "logs/" << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d_%X");
+    std::string logName{ss.str()};
+
+    auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logName, true);
+
+    stdoutSink->set_level(spdlog::level::warn);
+    stderrSink->set_level(spdlog::level::err);
+    fileSink->set_level(spdlog::level::debug);
+
+    spdlog::sinks_init_list sinks = {stdoutSink, stderrSink, fileSink};
+    spdlog::logger logger("logger", sinks.begin(), sinks.end());
+    logger.set_level(spdlog::level::debug);
+    spdlog::set_default_logger(std::make_shared<spdlog::logger>(logger));
+  } catch (const spdlog::spdlog_ex &ex) {
+    std::cout << "Log setup failed" << ex.what() << std::endl;
+  }
+
   ParserStrategy strategy{argc, argv};
 
   if (argc == 1) {
@@ -39,7 +69,7 @@ int main(int argc, char *argv[]) {
     parser->validateInput();
   } catch (std::invalid_argument &exception) {
     std::cout << "[ERROR] " << exception.what() << std::endl;
-    SPDLOG_ERROR(exception.what());
+    spdlog::error(exception.what());
     parser->showUsage();
     return -1;
   }

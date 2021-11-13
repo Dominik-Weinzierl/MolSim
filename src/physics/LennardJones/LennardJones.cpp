@@ -17,14 +17,14 @@ void LennardJones::updateF(Vector<> &diff, double zeroCrossing, double potential
 }
 
 void LennardJones::calculateF(ParticleContainer &particleContainer) const {
-  //SPDLOG_INFO("started calculating forces");
+  SPDLOG_INFO("started calculating forces");
   for (auto &p: particleContainer) {
     p.setOldF(p.getF());
     p.setF(0, 0, 0);
   }
   for (auto i = particleContainer.begin(); i != particleContainer.end(); ++i) {
     for (auto j = i + 1; j != particleContainer.end(); ++j) {
-      // SPDLOG_DEBUG("Calculating force for {} and {}", i, j);
+      spdlog::debug("Calculating force for {} and {}", i->toString(), j->toString());
 
       //TODO: Outsource zeroCrossing and potentialWellDepth to Particles
       Vector<> force{i->getX() - j->getX()};
@@ -34,5 +34,5 @@ void LennardJones::calculateF(ParticleContainer &particleContainer) const {
       j->updateForce(-force[0], -force[1], -force[2]);
     }
   }
-  //SPDLOG_INFO("ended calculating forces");
+  spdlog::info("ended calculating forces");
 }

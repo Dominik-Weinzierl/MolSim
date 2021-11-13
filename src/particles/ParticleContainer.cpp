@@ -5,16 +5,20 @@
 #include <spdlog/spdlog.h>
 
 //---------------------------Constructor---------------------------
+
+ 
+
 ParticleContainer::ParticleContainer(std::vector<Particle> pParticles) : particles{std::move(pParticles)} {
-  // SPDLOG_INFO("ParticleContainer generated");
+  spdlog::debug("ParticleContainer generated");
+
 }
 
 ParticleContainer::ParticleContainer() : particles{} {
-  // SPDLOG_INFO("ParticleContainer generated");
+  spdlog::debug("ParticleContainer generated");
 }
 
 ParticleContainer::~ParticleContainer() {
-  // SPDLOG_INFO("ParticleContainer destructed");
+  spdlog::debug("ParticleContainer destructed");
 }
 
 //---------------------------Methods---------------------------
