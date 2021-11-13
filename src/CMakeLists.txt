@@ -1,5 +1,8 @@
 set(LIBRARY_NAME Sim)
 
+# Set cxx standard.
+set(CMAKE_CXX_STANDARD 20)
+
 # Collect all cpp files
 file(GLOB_RECURSE SRC
     "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"

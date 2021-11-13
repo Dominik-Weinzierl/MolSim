@@ -11,6 +11,8 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include "fileReader/InputFile/InputReader.h"
 #include "simulation/variants/LennardSimulation.h"
+#include <chrono>
+#include <iomanip>
 
 /*static void measureTime(const Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer) {
   auto start = std::chrono::high_resolution_clock::now();
@@ -31,17 +33,22 @@
 int main(int argc, char *argv[]) {
 
   try {
-    auto stdoutsink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-    auto stderrsink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
-    std::string logname = "logs/";
-    logname.append(std::chrono::toString(std::chrono::system_clock::now()));
-    auto filesink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logname, true);
+    auto stdoutSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    auto stderrSink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
 
-    stdoutsink->set_level(spdlog::level::warn);
-    stderrsink->set_level(spdlog::level::err);
-    filesink->set_level(spdlog::level::debug);
+    std::stringstream ss;
+    auto now = std::chrono::system_clock::now();
+    auto in_time_t = std::chrono::system_clock::to_time_t(now);
+    ss << "logs/" << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d_%X");
+    std::string logName{ss.str()};
 
-    spdlog::sinks_init_list sinks = {stdoutsink, stderrsink, filesink};
+    auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logName, true);
+
+    stdoutSink->set_level(spdlog::level::warn);
+    stderrSink->set_level(spdlog::level::err);
+    fileSink->set_level(spdlog::level::debug);
+
+    spdlog::sinks_init_list sinks = {stdoutSink, stderrSink, fileSink};
     spdlog::logger logger("logger", sinks.begin(), sinks.end());
     logger.set_level(spdlog::level::debug);
     spdlog::set_default_logger(std::make_shared<spdlog::logger>(logger));
