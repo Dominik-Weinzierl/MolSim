@@ -45,4 +45,6 @@ class Argument {
   [[nodiscard]] std::basic_string<char> getWriter() const;
 
   [[nodiscard]] std::basic_string<char> getPhysics() const;
+
+  virtual void createAdditionalParticle(ParticleContainer& container) const = 0;
 };

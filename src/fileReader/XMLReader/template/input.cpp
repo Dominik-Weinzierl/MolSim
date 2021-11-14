@@ -475,7 +475,6 @@ void simulation_t::writer(::std::unique_ptr<writer_type> x) {
   this->writer_.set(std::move(x));
 }
 
-
 #include <xsd/cxx/xml/dom/parsing-source.hxx>
 
 // cuboid_t

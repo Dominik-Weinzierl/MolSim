@@ -1,9 +1,8 @@
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
+#include "logger/Logger.h"
 
 #include "Gravitation.h"
 #include <utils/ArrayUtils.h>
 #include "physics/Vector/Vector.h"
-#include "spdlog/spdlog.h"
 
 void Gravitation::calculateF(ParticleContainer &particleContainer) const {
   SPDLOG_DEBUG("started calculating forces");

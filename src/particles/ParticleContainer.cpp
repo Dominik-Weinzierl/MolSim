@@ -1,10 +1,9 @@
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
+#include "logger/Logger.h"
 
 #include "ParticleContainer.h"
 
 #include <utility>
 #include <iostream>
-#include "spdlog/spdlog.h"
 
 //---------------------------Constructor---------------------------
 

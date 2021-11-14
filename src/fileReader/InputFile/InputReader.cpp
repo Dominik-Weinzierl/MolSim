@@ -1,4 +1,4 @@
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
+#include "logger/Logger.h"
 
 
 #include "InputReader.h"
@@ -7,8 +7,6 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <sstream>
-#include "spdlog/spdlog.h"
 
 void InputReader::readFile(ParticleContainer &particleContainer, const std::string &filename) {
   std::ifstream inputFile(filename);

@@ -1,7 +1,6 @@
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
+#include "logger/Logger.h"
 
 #include "Physics.h"
-#include "spdlog/spdlog.h"
 
 void Physics::calculateV(ParticleContainer &particleContainer, const double deltaT) {
   SPDLOG_DEBUG("started calculating velocities");
