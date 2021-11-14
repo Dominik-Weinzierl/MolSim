@@ -8,22 +8,19 @@ void SphereGenerator::generate(GeneratorArguments &g, ParticleContainer &pc) {
   double rad = c.radius * c.distance;
   std::array<double, 3>
       corner{c.centerCoordinates[0] - rad, c.centerCoordinates[1] - rad, c.centerCoordinates[2] - rad};
-  std::vector<Particle> temp;
-  for (auto x = 0; x < 2 * c.radius; ++x) {
-    for (auto y = 0; y < 2 * c.radius; ++y) {
-      for (auto z = 0; z < 2 * c.radius; ++z) {
+  for (auto x = 0; x <= 2 * c.radius; ++x) {
+    for (auto y = 0; y <= 2 * c.radius; ++y) {
+      for (auto z = 0; z <= 2 * c.radius; ++z) {
         Vector<> pos{x * c.distance + corner[0], y * c.distance + corner[1], z * c.distance + corner[2]};
+
+        if (ArrayUtils::L2Norm(pos - c.centerCoordinates) > rad)
+          continue;
+
         Particle p{pos, c.initialVelocity, c.mass};
         applyMotion(c.meanValue, p);
-        temp.push_back(p);
+        pc.addParticle(p);
       }
     }
-  }
-
-  for (Particle &p: temp) {
-    if (ArrayUtils::L2Norm(p.getX() - c.centerCoordinates) > rad)
-      continue;
-    pc.addParticle(p);
   }
 }
 
