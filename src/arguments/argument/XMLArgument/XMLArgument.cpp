@@ -14,10 +14,20 @@ XMLArgument::XMLArgument(std::vector<CuboidArgument> pCuboidArgumentsIn, std::ve
                                                                                           std::move(pSphereArguments)} {
 
 }
-std::vector<CuboidArgument> XMLArgument::getCuboidArguments() {
+const std::vector<CuboidArgument> &XMLArgument::getCuboidArguments() const {
   return cuboidArguments;
 }
 
-std::vector<SphereArgument> XMLArgument::getSphereArguments() {
+const std::vector<SphereArgument> &XMLArgument::getSphereArguments() const {
   return sphereArguments;
+}
+
+void XMLArgument::createAdditionalParticle(ParticleContainer &container) const {
+  for (const auto &cuboidArgument: getCuboidArguments()) {
+    Generator<CuboidArgument>::generate(cuboidArgument, container);
+  }
+
+  for (const auto &sphereArgument: getSphereArguments()) {
+    Generator<SphereArgument>::generate(sphereArgument, container);
+  }
 }

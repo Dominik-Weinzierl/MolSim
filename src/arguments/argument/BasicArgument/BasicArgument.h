@@ -16,4 +16,6 @@ class BasicArgument : public Argument {
    */
   BasicArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
                 std::string pWriter, int pIteration, std::string pPhysics);
+
+  void createAdditionalParticle(ParticleContainer& container) const override;
 };

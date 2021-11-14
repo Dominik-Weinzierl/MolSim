@@ -10,7 +10,7 @@ struct GeneratorArguments {
 template<typename T, typename std::enable_if<std::is_base_of<GeneratorArguments, T>::value, bool>::type = true>
 class Generator {
  public:
-  static void generate(T &g, ParticleContainer &container);
+  static void generate(const T &g, ParticleContainer &container);
 
  private:
   static void applyMotion(double meanValue, Particle &p) {

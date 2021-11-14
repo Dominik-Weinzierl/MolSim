@@ -12,3 +12,7 @@ BasicArgument::BasicArgument(std::vector<std::string> pFiles, double pEndTime, d
                                                                                                        pPhysics)) {
 
 }
+
+void BasicArgument::createAdditionalParticle(ParticleContainer &container) const {
+  (void) container;
+}

@@ -14,6 +14,8 @@ class XMLArgument : public Argument {
               std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
               std::string pWriter, int pIteration, std::string pPhysics);
 
-  std::vector<CuboidArgument> getCuboidArguments();
-  std::vector<SphereArgument> getSphereArguments();
+  [[nodiscard]] const std::vector<CuboidArgument>& getCuboidArguments() const;
+  [[nodiscard]] const std::vector<SphereArgument>& getSphereArguments() const;
+
+  void createAdditionalParticle(ParticleContainer& container) const override;
 };

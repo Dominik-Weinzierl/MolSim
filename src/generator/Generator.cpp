@@ -3,7 +3,7 @@
 #include "Generator.h"
 
 template<>
-void Generator<CuboidArgument>::generate(CuboidArgument &c, ParticleContainer &container) {
+void Generator<CuboidArgument>::generate(const CuboidArgument &c, ParticleContainer &container) {
   for (auto x = 0; x < c.dimensions[0]; ++x) {
     for (auto y = 0; y < c.dimensions[1]; ++y) {
       for (auto z = 0; z < c.dimensions[2]; ++z) {
@@ -15,10 +15,10 @@ void Generator<CuboidArgument>::generate(CuboidArgument &c, ParticleContainer &c
       }
     }
   }
-};
+}
 
 template<>
-void Generator<SphereArgument>::generate(SphereArgument &c, ParticleContainer &container) {
+void Generator<SphereArgument>::generate(const SphereArgument &c, ParticleContainer &container) {
   double rad = c.radius * c.distance;
   std::array<double, 3>
       corner{c.centerCoordinates[0] - rad, c.centerCoordinates[1] - rad, c.centerCoordinates[2] - rad};
@@ -36,5 +36,5 @@ void Generator<SphereArgument>::generate(SphereArgument &c, ParticleContainer &c
       }
     }
   }
-};
+}
 
