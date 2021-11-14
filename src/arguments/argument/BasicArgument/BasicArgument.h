@@ -2,7 +2,8 @@
 #include <string>
 #include <arguments/argument/Argument.h>
 
-class BasicArgument : public Argument {
+template<size_t dim>
+class BasicArgument : public Argument<dim> {
  public:
   /**
    * BasicArgument constructor to construct Arguments provided by the ArgumentParser.
@@ -15,7 +16,15 @@ class BasicArgument : public Argument {
    * @param pPhysics
    */
   BasicArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
-                std::string pWriter, int pIteration, std::string pPhysics);
+                std::string pWriter, int pIteration, std::string pPhysics) : Argument<dim>(std::move(pFiles), pEndTime,
+                                                                                           pDeltaT, std::move(pOutput),
+                                                                                           std::move(pWriter),
+                                                                                           pIteration,
+                                                                                           std::move(pPhysics)) {
 
-  void createAdditionalParticle(ParticleContainer& container) const override;
+  }
+
+  void createAdditionalParticle(ParticleContainer<dim> &container) const override {
+    (void) container;
+  }
 };

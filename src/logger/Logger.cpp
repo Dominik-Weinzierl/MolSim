@@ -26,7 +26,7 @@ void Logger::setupLogger() {
     /**
      * Set level here, and update SPDLOG_ACTIVE_LEVEL in logger/Logger.h
      */
-    spdlog::set_level(spdlog::level::info);
+    spdlog::set_level(spdlog::level::off);
   } catch (const spdlog::spdlog_ex &ex) {
     std::cout << "Log setup failed" << ex.what() << std::endl;
   }

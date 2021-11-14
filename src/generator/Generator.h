@@ -7,15 +7,16 @@
 struct GeneratorArguments {
 };
 
-template<typename T, typename std::enable_if<std::is_base_of<GeneratorArguments, T>::value, bool>::type = true>
+template<typename T, size_t dim, typename std::enable_if<std::is_base_of<GeneratorArguments, T>::value,
+                                                         bool>::type = true>
 class Generator {
  public:
-  static void generate(const T &g, ParticleContainer &container);
+  static void generate(const T &g, ParticleContainer<dim> &container);
 
  private:
-  static void applyMotion(double meanValue, Particle &p) {
-    Vector<> t = p.getV();
-    auto max = maxwellBoltzmannDistributedVelocity(meanValue, 2);
+  static void applyMotion(double meanValue, Particle<dim> &p) {
+    Vector<dim> t = p.getV();
+    auto max = maxwellBoltzmannDistributedVelocity<dim>(meanValue);
     p.setV(t + max);
   }
 };

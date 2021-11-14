@@ -3,9 +3,9 @@
 #include <gtest/gtest.h>
 #include <physics/Gravitation/Gravitation.h>
 
-class GravitationFixture : public ::testing::Test, public Gravitation {
+class GravitationFixture : public ::testing::Test, public Gravitation<3> {
  protected:
-  ParticleContainer container{};
+  ParticleContainer<3> container{};
  public:
   GravitationFixture() = default;
 };
