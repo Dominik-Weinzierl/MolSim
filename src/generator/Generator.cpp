@@ -1,3 +1,4 @@
+#include "generator/GeneratorArguments/SphereArgument.h"
 #include "generator/GeneratorArguments/CuboidArgument.h"
 #include "Generator.h"
 
@@ -14,5 +15,26 @@ void Generator<CuboidArgument>::generate(CuboidArgument &c, ParticleContainer &c
       }
     }
   }
-}
+};
+
+template<>
+void Generator<SphereArgument>::generate(SphereArgument &c, ParticleContainer &container) {
+  double rad = c.radius * c.distance;
+  std::array<double, 3>
+      corner{c.centerCoordinates[0] - rad, c.centerCoordinates[1] - rad, c.centerCoordinates[2] - rad};
+  for (auto x = 0; x <= 2 * c.radius; ++x) {
+    for (auto y = 0; y <= 2 * c.radius; ++y) {
+      for (auto z = 0; z <= 2 * c.radius; ++z) {
+        Vector<> pos{x * c.distance + corner[0], y * c.distance + corner[1], z * c.distance + corner[2]};
+
+        if (ArrayUtils::L2Norm(pos - c.centerCoordinates) > rad)
+          continue;
+
+        Particle p{pos, c.initialVelocity, c.mass};
+        applyMotion(c.meanValue, p);
+        container.addParticle(p);
+      }
+    }
+  }
+};
 

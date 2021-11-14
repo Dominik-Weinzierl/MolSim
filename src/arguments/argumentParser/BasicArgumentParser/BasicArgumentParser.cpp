@@ -1,9 +1,8 @@
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
+#include "logger/Logger.h"
 
 #include <algorithm>
 #include <iostream>
 #include <arguments/argument/BasicArgument/BasicArgument.h>
-#include "spdlog/spdlog.h"
 #include <outputWriter/XYZWriter/XYZWriter.h>
 #include "BasicArgumentParser.h"
 

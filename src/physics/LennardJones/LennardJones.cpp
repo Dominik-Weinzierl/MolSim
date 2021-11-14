@@ -1,8 +1,7 @@
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
+#include "logger/Logger.h"
 
 #include "LennardJones.h"
 #include <utils/ArrayUtils.h>
-#include "spdlog/spdlog.h"
 
 void LennardJones::updateF(Vector<> &diff, double zeroCrossing, double potentialWellDepth) {
   double l2Norm = ArrayUtils::L2Norm(diff);

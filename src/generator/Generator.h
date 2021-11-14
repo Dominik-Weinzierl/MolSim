@@ -1,6 +1,5 @@
 #pragma once
 
-#include <generator/GeneratorArguments/CuboidArgument.h>
 #include "particles/ParticleContainer.h"
 #include "particles/Particle.h"
 #include "utils/MaxwellBoltzmannDistribution.h"

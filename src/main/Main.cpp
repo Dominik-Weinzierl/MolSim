@@ -1,17 +1,11 @@
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
+#include "logger/Logger.h"
 
 #include <arguments/argument/Argument.h>
 #include <iostream>
-#include <simulation/variants/GravitationSimulation.h>
-#include "spdlog/spdlog.h"
 #include <outputWriter/XYZWriter/XYZWriter.h>
 #include <arguments/argumentParser/ParserStrategy.h>
 #include <arguments/argument/XMLArgument/XMLArgument.h>
-#include <generator/variants/CuboidGenerator.h>
-#include "spdlog/sinks/basic_file_sink.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
 #include "fileReader/InputFile/InputReader.h"
-#include "simulation/variants/LennardSimulation.h"
 #include <chrono>
 #include <iomanip>
 #include "physics/Gravitation/Gravitation.h"
@@ -57,9 +51,9 @@ int main(int argc, char *argv[]) {
     spdlog::set_default_logger(std::make_shared<spdlog::logger>(logger));
 
     /**
-     * Set level here, and update SPDLOG_ACTIVE_LEVEL in all used files.
+     * Set level here, and update SPDLOG_ACTIVE_LEVEL in logger/Logger.h
      */
-    spdlog::set_level(spdlog::level::off);
+    spdlog::set_level(spdlog::level::info);
   } catch (const spdlog::spdlog_ex &ex) {
     std::cout << "Log setup failed" << ex.what() << std::endl;
   }
@@ -101,6 +95,10 @@ int main(int argc, char *argv[]) {
 
     for (auto &cuboidArgument: xmlArgument->getCuboidArguments()) {
       Generator<CuboidArgument>::generate(cuboidArgument, particleContainer);
+    }
+
+    for (auto &sphereArguments: xmlArgument->getSphereArguments()) {
+      Generator<SphereArgument>::generate(sphereArguments, particleContainer);
     }
   }
 

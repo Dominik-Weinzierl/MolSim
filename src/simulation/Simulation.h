@@ -1,8 +1,7 @@
 #pragma once
 
-#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
+#include "logger/Logger.h"
 
-#include "spdlog/spdlog.h"
 #include "outputWriter/VTKWriter/VTKWriter.h"
 #include <iostream>
 #include <physics/Gravitation/Gravitation.h>
