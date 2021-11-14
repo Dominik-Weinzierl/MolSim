@@ -1,4 +1,3 @@
-#include <sstream>
 #include <iomanip>
 #include <iostream>
 #include "Logger.h"
@@ -31,4 +30,4 @@ void Logger::setupLogger() {
   } catch (const spdlog::spdlog_ex &ex) {
     std::cout << "Log setup failed" << ex.what() << std::endl;
   }
-};
+}
