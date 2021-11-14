@@ -1,14 +1,17 @@
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
 
-#include "arguments/argument/Argument.h"
+#include <arguments/argument/Argument.h>
 #include <iostream>
+#include <simulation/variants/GravitationSimulation.h>
 #include "spdlog/spdlog.h"
-#include "outputWriter/XYZWriter/XYZWriter.h"
-#include "arguments/argumentParser/ParserStrategy.h"
-#include "arguments/argument/XMLArgument/XMLArgument.h"
+#include <outputWriter/XYZWriter/XYZWriter.h>
+#include <arguments/argumentParser/ParserStrategy.h>
+#include <arguments/argument/XMLArgument/XMLArgument.h>
+#include <generator/variants/CuboidGenerator.h>
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "fileReader/InputFile/InputReader.h"
+#include "simulation/variants/LennardSimulation.h"
 #include <chrono>
 #include <iomanip>
 #include "physics/Gravitation/Gravitation.h"
