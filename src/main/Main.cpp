@@ -14,13 +14,14 @@
 #include "simulation/variants/LennardSimulation.h"
 #include <chrono>
 #include <iomanip>
+#include <generator/variants/SphereGenerator.h>
 
-static void measureTime(const Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer) {
+/*static void measureTime(const Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer) {
   auto start = std::chrono::high_resolution_clock::now();
   LennardSimulation::performSimulation(arg, writer, particleContainer);
   auto end = std::chrono::high_resolution_clock::now();
   std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms";
-}
+}*/
 
 /**
  * Creates a parser which parses information based on the selected parser
@@ -95,17 +96,23 @@ int main(int argc, char *argv[]) {
   if (dynamic_cast<XMLArgument *>(arg.get()) != nullptr) {
     auto *xmlArgument = dynamic_cast<XMLArgument *>(arg.get());
     CuboidGenerator cuboidGenerator;
+    SphereGenerator sphereGenerator;
 
     for (auto &cuboidArgument: xmlArgument->getCuboidArguments()) {
       cuboidGenerator.generate(cuboidArgument, particleContainer);
     }
+
+    for (auto &sphereArgument: xmlArgument->getSphereArguments()) {
+      sphereGenerator.generate(sphereArgument, particleContainer);
+    }
+
   }
 
-  /*if (arg->getPhysics() == "gravitation") {
+  if (arg->getPhysics() == "gravitation") {
     GravitationSimulation::performSimulation(*arg, *writer, particleContainer);
   } else if (arg->getPhysics() == "lennard") {
     LennardSimulation::performSimulation(*arg, *writer, particleContainer);
-  }*/
-  measureTime(*arg, *writer, particleContainer);
+  }
+  //measureTime(*arg, *writer, particleContainer);
 }
 
