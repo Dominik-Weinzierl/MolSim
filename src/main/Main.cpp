@@ -1,26 +1,27 @@
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
 
-#include <arguments/argument/Argument.h>
+#include "arguments/argument/Argument.h"
 #include <iostream>
-#include <simulation/variants/GravitationSimulation.h>
 #include "spdlog/spdlog.h"
-#include <outputWriter/XYZWriter/XYZWriter.h>
-#include <arguments/argumentParser/ParserStrategy.h>
-#include <arguments/argument/XMLArgument/XMLArgument.h>
-#include <generator/variants/CuboidGenerator.h>
+#include "outputWriter/XYZWriter/XYZWriter.h"
+#include "arguments/argumentParser/ParserStrategy.h"
+#include "arguments/argument/XMLArgument/XMLArgument.h"
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "fileReader/InputFile/InputReader.h"
-#include "simulation/variants/LennardSimulation.h"
 #include <chrono>
 #include <iomanip>
+#include "physics/Gravitation/Gravitation.h"
+#include "simulation/Simulation.h"
+#include "physics/LennardJones/LennardJones.h"
+#include "generator/GeneratorArguments/CuboidArgument.h"
 
-static void measureTime(const Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer) {
+/*static void measureTime(const Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer) {
   auto start = std::chrono::high_resolution_clock::now();
-  LennardSimulation::performSimulation(arg, writer, particleContainer);
+  Simulation<LennardJones>::performSimulation(writer, particleContainer, arg);
   auto end = std::chrono::high_resolution_clock::now();
   std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms";
-}
+}*/
 
 /**
  * Creates a parser which parses information based on the selected parser
@@ -94,18 +95,18 @@ int main(int argc, char *argv[]) {
 
   if (dynamic_cast<XMLArgument *>(arg.get()) != nullptr) {
     auto *xmlArgument = dynamic_cast<XMLArgument *>(arg.get());
-    CuboidGenerator cuboidGenerator;
 
     for (auto &cuboidArgument: xmlArgument->getCuboidArguments()) {
-      cuboidGenerator.generate(cuboidArgument, particleContainer);
+      Generator<CuboidArgument>::generate(cuboidArgument, particleContainer);
     }
   }
 
-  /*if (arg->getPhysics() == "gravitation") {
-    GravitationSimulation::performSimulation(*arg, *writer, particleContainer);
+  if (arg->getPhysics() == "gravitation") {
+    Simulation<Gravitation>::performSimulation(*writer, particleContainer, *arg);
   } else if (arg->getPhysics() == "lennard") {
-    LennardSimulation::performSimulation(*arg, *writer, particleContainer);
-  }*/
-  measureTime(*arg, *writer, particleContainer);
+    Simulation<LennardJones>::performSimulation(*writer, particleContainer, *arg);
+  }
+
+  //measureTime(*arg, *writer, particleContainer);
 }
 
