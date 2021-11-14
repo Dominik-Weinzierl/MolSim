@@ -1,10 +1,12 @@
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
+
 #include "Physics.h"
 #include "spdlog/spdlog.h"
 
 void Physics::calculateV(ParticleContainer &particleContainer, const double deltaT) {
-  spdlog::info("started calculating velocities");
+  SPDLOG_DEBUG("started calculating velocities");
   for (auto &p: particleContainer) {
-    spdlog::debug("Calculating velocity for {}", p.toString());
+    SPDLOG_TRACE("Calculating velocity for {}", p.toString());
     double x = 0;
     double y = 0;
     double z = 0;
@@ -15,14 +17,14 @@ void Physics::calculateV(ParticleContainer &particleContainer, const double delt
 
     p.setV(x, y, z);
   }
-  spdlog::info("ended calculating velocities");
+  SPDLOG_DEBUG("ended calculating velocities");
 }
 void Physics::calculateX(ParticleContainer &particleContainer, const double deltaT) {
-  spdlog::info("started calculating positions");
+  SPDLOG_DEBUG("started calculating positions");
   const auto deltaTPow = deltaT * deltaT;
 
   for (auto &p: particleContainer) {
-    spdlog::debug("Calculating position for {}", p.toString());
+    SPDLOG_TRACE("Calculating position for {}", p.toString());
     double x = 0;
     double y = 0;
     double z = 0;
@@ -33,7 +35,7 @@ void Physics::calculateX(ParticleContainer &particleContainer, const double delt
 
     p.setX(x, y, z);
   }
-  spdlog::info("ended calculating positions");
+  SPDLOG_DEBUG("ended calculating positions");
 
 }
 

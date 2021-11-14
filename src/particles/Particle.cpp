@@ -1,18 +1,20 @@
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
+
 #include "Particle.h"
 
 #include <iostream>
-#include <spdlog/spdlog.h>
+#include "spdlog/spdlog.h"
 #include "utils/ArrayUtils.h"
 
 //---------------------------Constructor---------------------------
 Particle::Particle(int type_arg) : x{}, v{}, f{}, old_f{}, m{}, type{type_arg} {
-  spdlog::debug("Particle generated");
+  SPDLOG_TRACE("Particle generated");
 }
 
 
 Particle::Particle(const Vector<> &pX, const Vector<> &pV, double pM, int pType) : x{pX}, v{pV}, f{}, old_f{}, m{pM},
                                                                                    type{pType} {
-  spdlog::debug("Particle generated");
+  SPDLOG_TRACE("Particle generated");
 }
 
 

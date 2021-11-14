@@ -1,4 +1,6 @@
-#include <spdlog/spdlog.h>
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
+
+#include "spdlog/spdlog.h"
 #include "Simulation.h"
 
 void Simulation::performSimulation(__attribute__((unused))OutputWriter &writer, const Physics &physics,
@@ -11,11 +13,12 @@ void Simulation::performSimulation(__attribute__((unused))OutputWriter &writer, 
   while (current_time < arg.getEndTime()) {
     physics.calculateNextStep(particleContainer, deltaT);
 
-    if (iteration % arg.getIteration() == 0) {
+    /*if (iteration % arg.getIteration() == 0) {
       writer.writeFile(iteration);
-    }
+    }*/
 
-    spdlog::info("Iteration {} finished", iteration);
+    //SPDLOG_INFO("Iteration {} finished", iteration);
+
     iteration++;
     current_time += deltaT;
   }
