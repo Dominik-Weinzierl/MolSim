@@ -11,6 +11,17 @@
         <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
     </xsd:complexType>
 
+    <xsd:complexType name="sphere_t">
+        <xsd:sequence>
+            <xsd:element name="Center" type="vector_t"/>
+            <xsd:element name="Velocity" type="vector_t"/>
+        </xsd:sequence>
+        <xsd:attribute name="radius" type="xsd:nonNegativeInteger" use="required"/>
+        <xsd:attribute name="distance" type="xsd:double" use="required"/>
+        <xsd:attribute name="mass" type="xsd:double" use="required"/>
+        <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
+    </xsd:complexType>
+
     <xsd:complexType name="vector_t">
         <xsd:attribute name="x" type="xsd:double" use="required"/>
         <xsd:attribute name="y" type="xsd:double" use="required"/>
@@ -30,6 +41,7 @@
     <xsd:complexType name="shape_t">
         <xsd:sequence>
             <xsd:element name="Cuboid" type="cuboid_t" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="Sphere" type="sphere_t" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
 

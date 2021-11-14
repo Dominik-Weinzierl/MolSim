@@ -613,6 +613,7 @@ const XMLCh *const tree_node_key = ::xsd::cxx::tree::user_data_keys::node;
 // Forward declarations.
 //
 class cuboid_t;
+class sphere_t;
 class vector_t;
 class vector_i;
 class input_t;
@@ -1021,6 +1022,391 @@ class cuboid_t : public ::xml_schema::type {
   ::xsd::cxx::tree::one<Position_type> Position_;
   ::xsd::cxx::tree::one<Velocity_type> Velocity_;
   ::xsd::cxx::tree::one<Dimension_type> Dimension_;
+  ::xsd::cxx::tree::one<distance_type> distance_;
+  ::xsd::cxx::tree::one<mass_type> mass_;
+  ::xsd::cxx::tree::one<meanValue_type> meanValue_;
+
+  //@endcond
+};
+
+/**
+ * @brief Class corresponding to the %sphere_t schema type.
+ *
+ * @nosubgrouping
+ */
+class sphere_t : public ::xml_schema::type {
+ public:
+  /**
+   * @name Center
+   *
+   * @brief Accessor and modifier functions for the %Center
+   * required element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::vector_t Center_type;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<Center_type, char> Center_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element.
+   *
+   * @return A constant reference to the element.
+   */
+  const Center_type &Center() const;
+
+  /**
+   * @brief Return a read-write reference to the element.
+   *
+   * @return A reference to the element.
+   */
+  Center_type &Center();
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the element.
+   */
+  void Center(const Center_type &x);
+
+  /**
+   * @brief Set the element value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly
+   * instead of making a copy.
+   */
+  void Center(::std::unique_ptr<Center_type> p);
+
+  //@}
+
+  /**
+   * @name Velocity
+   *
+   * @brief Accessor and modifier functions for the %Velocity
+   * required element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::vector_t Velocity_type;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<Velocity_type, char> Velocity_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element.
+   *
+   * @return A constant reference to the element.
+   */
+  const Velocity_type &Velocity() const;
+
+  /**
+   * @brief Return a read-write reference to the element.
+   *
+   * @return A reference to the element.
+   */
+  Velocity_type &Velocity();
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the element.
+   */
+  void Velocity(const Velocity_type &x);
+
+  /**
+   * @brief Set the element value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly
+   * instead of making a copy.
+   */
+  void Velocity(::std::unique_ptr<Velocity_type> p);
+
+  //@}
+
+  /**
+   * @name radius
+   *
+   * @brief Accessor and modifier functions for the %radius
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::non_negative_integer radius_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<radius_type, char> radius_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const radius_type &radius() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  radius_type &radius();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void radius(const radius_type &x);
+
+  //@}
+
+  /**
+   * @name distance
+   *
+   * @brief Accessor and modifier functions for the %distance
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::double_ distance_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<distance_type, char, ::xsd::cxx::tree::schema_type::double_> distance_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const distance_type &distance() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  distance_type &distance();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void distance(const distance_type &x);
+
+  //@}
+
+  /**
+   * @name mass
+   *
+   * @brief Accessor and modifier functions for the %mass
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::double_ mass_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<mass_type, char, ::xsd::cxx::tree::schema_type::double_> mass_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const mass_type &mass() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  mass_type &mass();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void mass(const mass_type &x);
+
+  //@}
+
+  /**
+   * @name meanValue
+   *
+   * @brief Accessor and modifier functions for the %meanValue
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::double_ meanValue_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<meanValue_type, char, ::xsd::cxx::tree::schema_type::double_> meanValue_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const meanValue_type &meanValue() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  meanValue_type &meanValue();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void meanValue(const meanValue_type &x);
+
+  //@}
+
+  /**
+   * @name Constructors
+   */
+  //@{
+
+  /**
+   * @brief Create an instance from the ultimate base and
+   * initializers for required elements and attributes.
+   */
+  sphere_t(const Center_type &, const Velocity_type &, const radius_type &, const distance_type &, const mass_type &,
+           const meanValue_type &);
+
+  /**
+   * @brief Create an instance from the ultimate base and
+   * initializers for required elements and attributes
+   * (::std::unique_ptr version).
+   *
+   * This constructor will try to use the passed values directly
+   * instead of making copies.
+   */
+  sphere_t(::std::unique_ptr<Center_type>, ::std::unique_ptr<Velocity_type>, const radius_type &, const distance_type &,
+           const mass_type &, const meanValue_type &);
+
+  /**
+   * @brief Create an instance from a DOM element.
+   *
+   * @param e A DOM element to extract the data from.
+   * @param f Flags to create the new instance with.
+   * @param c A pointer to the object that will contain the new
+   * instance.
+   */
+  sphere_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
+
+  /**
+   * @brief Copy constructor.
+   *
+   * @param x An instance to make a copy of.
+   * @param f Flags to create the copy with.
+   * @param c A pointer to the object that will contain the copy.
+   *
+   * For polymorphic object models use the @c _clone function instead.
+   */
+  sphere_t(const sphere_t &x, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
+
+  /**
+   * @brief Copy the instance polymorphically.
+   *
+   * @param f Flags to create the copy with.
+   * @param c A pointer to the object that will contain the copy.
+   * @return A pointer to the dynamically allocated copy.
+   *
+   * This function ensures that the dynamic type of the instance is
+   * used for copying and should be used for polymorphic object
+   * models instead of the copy constructor.
+   */
+  virtual sphere_t *_clone(::xml_schema::flags f = 0, ::xml_schema::container *c = 0) const;
+
+  /**
+   * @brief Copy assignment operator.
+   *
+   * @param x An instance to make a copy of.
+   * @return A reference to itself.
+   *
+   * For polymorphic object models use the @c _clone function instead.
+   */
+  sphere_t &operator=(const sphere_t &x);
+
+  //@}
+
+  /**
+   * @brief Destructor.
+   */
+  virtual
+  ~sphere_t();
+
+  // Implementation.
+  //
+
+  //@cond
+
+ protected:
+  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::flags);
+
+ protected:
+  ::xsd::cxx::tree::one<Center_type> Center_;
+  ::xsd::cxx::tree::one<Velocity_type> Velocity_;
+  ::xsd::cxx::tree::one<radius_type> radius_;
   ::xsd::cxx::tree::one<distance_type> distance_;
   ::xsd::cxx::tree::one<mass_type> mass_;
   ::xsd::cxx::tree::one<meanValue_type> meanValue_;
@@ -1671,6 +2057,67 @@ class shape_t : public ::xml_schema::type {
   //@}
 
   /**
+   * @name Sphere
+   *
+   * @brief Accessor and modifier functions for the %Sphere
+   * sequence element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::sphere_t Sphere_type;
+
+  /**
+   * @brief Element sequence container type.
+   */
+  typedef ::xsd::cxx::tree::sequence<Sphere_type> Sphere_sequence;
+
+  /**
+   * @brief Element iterator type.
+   */
+  typedef Sphere_sequence::iterator Sphere_iterator;
+
+  /**
+   * @brief Element constant iterator type.
+   */
+  typedef Sphere_sequence::const_iterator Sphere_const_iterator;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<Sphere_type, char> Sphere_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element
+   * sequence.
+   *
+   * @return A constant reference to the sequence container.
+   */
+  const Sphere_sequence &Sphere() const;
+
+  /**
+   * @brief Return a read-write reference to the element sequence.
+   *
+   * @return A reference to the sequence container.
+   */
+  Sphere_sequence &Sphere();
+
+  /**
+   * @brief Copy elements from a given sequence.
+   *
+   * @param s A sequence to copy elements from.
+   *
+   * For each element in @a s this function makes a copy and adds it 
+   * to the sequence. Note that this operation completely changes the 
+   * sequence and all old elements will be lost.
+   */
+  void Sphere(const Sphere_sequence &s);
+
+  //@}
+
+  /**
    * @name Constructors
    */
   //@{
@@ -1743,6 +2190,7 @@ class shape_t : public ::xml_schema::type {
 
  protected:
   Cuboid_sequence Cuboid_;
+  Sphere_sequence Sphere_;
 
   //@endcond
 };
@@ -2594,6 +3042,8 @@ class simulation_t : public ::xml_schema::type {
 #include <xsd/cxx/xml/dom/auto-ptr.hxx>
 
 void operator<<(::xercesc::DOMElement &, const cuboid_t &);
+
+void operator<<(::xercesc::DOMElement &, const sphere_t &);
 
 void operator<<(::xercesc::DOMElement &, const vector_t &);
 

@@ -1,4 +1,5 @@
 #include <generator/GeneratorArguments/CuboidArgument.h>
+#include <generator/GeneratorArguments/SphereArgument.h>
 #include "XMLReader.h"
 
 XMLReader::XMLReader(const std::string &path) {
@@ -11,6 +12,7 @@ XMLReader::XMLReader(const std::string &path) {
 
 std::unique_ptr<XMLArgument> XMLReader::readXML() const {
   std::vector<CuboidArgument> cuboidArguments;
+  std::vector<SphereArgument> sphereArguments;
   std::vector<std::string> files;
   std::string physics{"default"};
   std::string writer{"default"};
@@ -37,6 +39,17 @@ std::unique_ptr<XMLArgument> XMLReader::readXML() const {
       Vector<> velocity{vel.x(), vel.y(), vel.z()};
       cuboidArguments.emplace_back(position, dimension, velocity, dis, mass, mean);
     }
+    for (auto &sphere: it.Sphere()) {
+      auto &pos = sphere.Center();
+      auto &rad = sphere.radius();
+      auto &vel = sphere.Velocity();
+      auto &dis = sphere.distance();
+      auto &mass = sphere.mass();
+      auto &mean = sphere.meanValue();
+      Vector<> position{pos.x(), pos.y(), pos.z()};
+      Vector<> velocity{vel.x(), vel.y(), vel.z()};
+      sphereArguments.emplace_back(position, rad, velocity, dis, mass, mean);
+    }
   }
 
   if (simulation->physics().present()) {
@@ -58,6 +71,7 @@ std::unique_ptr<XMLArgument> XMLReader::readXML() const {
     iteration = static_cast<int>(simulation->iteration().get());
   }
 
-  return std::make_unique<XMLArgument>(cuboidArguments, files, endTime, deltaT, fileName, writer, iteration, physics);
+  return std::make_unique<XMLArgument>(cuboidArguments, sphereArguments, files, endTime, deltaT, fileName, writer,
+                                       iteration, physics);
 }
 
