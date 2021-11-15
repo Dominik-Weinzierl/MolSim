@@ -66,13 +66,13 @@ class BasicArgumentParser : public ArgumentParser<dim> {
       const auto &possibleValue = *(it + 1);
 
       if (flag == "-f" || flag == "--filename") {
-        BasicArgumentParser<dim>::handleFlag(status, "filename", flag, possibleValue);
+        ArgumentParser<dim>::handleFlag(status, "filename", flag, possibleValue);
         it++;
       } else if (flag == "-o" || flag == "--output") {
-        BasicArgumentParser<dim>::handleFlag(status, "output", flag, possibleValue);
+        ArgumentParser<dim>::handleFlag(status, "output", flag, possibleValue);
         it++;
       } else if (flag == "-t" || flag == "--t_end") {
-        ArgumentParser<dim>:: template handleFlag<double>(status, "endTime", flag, possibleValue);
+        ArgumentParser<dim>::template handleFlag<double>(status, "endTime", flag, possibleValue);
         it++;
       } else if (flag == "-d" || flag == "--delta_t") {
         ArgumentParser<dim>::template handleFlag<double>(status, "deltaT", flag, possibleValue);
@@ -81,10 +81,10 @@ class BasicArgumentParser : public ArgumentParser<dim> {
         ArgumentParser<dim>::template handleFlag<int>(status, "iteration", flag, possibleValue);
         it++;
       } else if (flag == "-p" || flag == "--physics") {
-        BasicArgumentParser<dim>::handleFlag(status, "physics", flag, possibleValue, {"gravitation", "lennard"});
+        ArgumentParser<dim>::handleFlag(status, "physics", flag, possibleValue, {"gravitation", "lennard"});
         it++;
       } else if (flag == "-w" || flag == "--writer") {
-        BasicArgumentParser<dim>::handleFlag(status, "writer", flag, possibleValue, {"vtk", "xyz"});
+        ArgumentParser<dim>::handleFlag(status, "writer", flag, possibleValue, {"vtk", "xyz"});
         it++;
       } else {
         throw std::invalid_argument("Invalid argument: " + flag);

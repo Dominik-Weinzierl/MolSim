@@ -31,7 +31,7 @@ class XMLArgumentParser : public ArgumentParser<dim> {
       const auto &flag = *it;
       const auto &possibleValue = *(it + 1);
       if (flag == "-f" || flag == "--filename") {
-        XMLArgumentParser<dim>::handleFlag(status, "filename", flag, possibleValue);
+        ArgumentParser<dim>::handleFlag(status, "filename", flag, possibleValue);
         it++;
       } else if (flag == "-x" || flag == "--xml") {
         continue;
