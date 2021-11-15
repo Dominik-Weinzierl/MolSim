@@ -4,6 +4,7 @@
 #include "arguments/argument/Argument.h"
 #include <tuple>
 #include <unordered_map>
+#include <utility>
 #include <variant>
 
 /**
@@ -76,13 +77,10 @@ class ArgumentParser {
  public:
   /**
    * BasicArgumentsParser is a constructor that takes arguments provided by the main-method.
-   * @param argc amount of provided arguments
-   * @param argv provided arguments
+   * @param args arguments
    */
-  explicit ArgumentParser(int argc, char *arguments[]) {
-    for (int i = 1; i < argc; ++i) {
-      tokens.emplace_back(arguments[i]);
-    }
+  explicit ArgumentParser(std::vector<std::string> args) : tokens{std::move(args)} {
+
   }
 
   /**

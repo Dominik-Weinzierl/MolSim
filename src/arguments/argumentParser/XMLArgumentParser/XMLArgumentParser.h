@@ -28,10 +28,9 @@ class XMLArgumentParser : public ArgumentParser<dim> {
  public:
   /**
    * XMLArgumentParser is a constructor that takes arguments provided by the main-method.
-   * @param argc amount of provided arguments
-   * @param arguments provided arguments
+   * @param args arguments
    */
-  explicit XMLArgumentParser(int argc, char *arguments[]) : ArgumentParser<dim>(argc, arguments) {
+  explicit XMLArgumentParser(const std::vector<std::string> &args) : ArgumentParser<dim>(args) {
 
   }
 

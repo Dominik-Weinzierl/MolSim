@@ -38,10 +38,9 @@ class BasicArgumentParser : public ArgumentParser<dim> {
 
   /**
    * BasicArgumentsParser is a constructor that takes arguments provided by the main-method.
-   * @param argc amount of provided arguments
-   * @param arguments provided arguments
+   * @param args arguments
    */
-  explicit BasicArgumentParser(int argc, char *arguments[]) : ArgumentParser<dim>(argc, arguments) {
+  explicit BasicArgumentParser(const std::vector<std::string> &args) : ArgumentParser<dim>(args) {
 
   };
 

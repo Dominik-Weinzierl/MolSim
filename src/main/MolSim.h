@@ -45,9 +45,14 @@ class MolSim {
   static int benchmark(std::unique_ptr<Argument<dim>> &arg, ParticleContainer<dim> &particleContainer) {
     auto writer = std::make_unique<DummyWriter<dim>>(arg->getOutput(), "benchmark", particleContainer);
     auto start = std::chrono::high_resolution_clock::now();
-    MDSimulation<LennardJones<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
+    if (arg->getPhysics() == "gravitation") {
+      MDSimulation<Gravitation<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
+    } else if (arg->getPhysics() == "lennard") {
+      MDSimulation<LennardJones<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
+    }
     auto end = std::chrono::high_resolution_clock::now();
-    std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms";
+    std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms"
+              << std::endl;
     return 0;
   };
 };
