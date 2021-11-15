@@ -1,23 +1,9 @@
-#include "logger/Logger.h"
+#include "MolSim.h"
 
-#include <arguments/argument/Argument.h>
-#include <iostream>
-#include <outputWriter/XYZWriter/XYZWriter.h>
-#include <arguments/argumentParser/ParserStrategy.h>
-#include "fileReader/InputFile/InputReader.h"
-#include <iomanip>
-#include "simulation/MDSimulation.h"
-#include "physics/LennardJones/LennardJones.h"
-
-constexpr size_t dim = 3;
-
-/*static void measureTime(const Argument<dim> &arg, OutputWriter<dim> &writer,
-                        ParticleContainer<dim> &particleContainer) {
-  auto start = std::chrono::high_resolution_clock::now();
-  MDSimulation<LennardJones<dim>, dim>::performSimulation(writer, particleContainer, arg);
-  auto end = std::chrono::high_resolution_clock::now();
-  std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms";
-}*/
+/**
+ * Dimension of the current simulation.
+ */
+constexpr size_t dim = 2;
 
 /**
  * Creates a parser which parses information based on the selected parser
@@ -25,10 +11,11 @@ constexpr size_t dim = 3;
  * writes the VTK file and performs the simulation
  * @param argc
  * @param argv
- * @return Program exit.
+ * @return Program exit code.
  */
 int main(int argc, char *argv[]) {
   Logger::setupLogger();
+
   ParserStrategy<dim> strategy{argc, argv};
 
   if (argc == 1 || (std::string{argv[1]} == "-h" || std::string{argv[1]} == "--help")) {
@@ -63,15 +50,6 @@ int main(int argc, char *argv[]) {
 
   arg->createAdditionalParticle(particleContainer);
 
-  auto start = std::chrono::high_resolution_clock::now();
-  if (arg->getPhysics() == "gravitation") {
-    MDSimulation<Gravitation<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
-  } else if (arg->getPhysics() == "lennard") {
-    MDSimulation<LennardJones<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
-  }
-  auto end = std::chrono::high_resolution_clock::now();
-  std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms";
-
-  // measureTime(*arg, *writer, particleContainer);
+  return MolSim<dim>::simulate(arg, writer, particleContainer);
 }
 
