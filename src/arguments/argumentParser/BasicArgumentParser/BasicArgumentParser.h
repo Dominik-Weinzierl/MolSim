@@ -51,7 +51,7 @@ class BasicArgumentParser : public ArgumentParser<dim> {
     std::stringstream usage;
     usage << "Usage: "
           << "./MolSim [-h | --help] | {-f | --filename} <filename> {-t | --t_end} <t_end> {-d | --delta_t} <delta_t> "
-          << "[-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}]"
+          << "[-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}] [-b | --benchmark]"
           << std::endl;
     usage << "Options:" << std::endl;
     usage << "\t-h,--help\t\tShow this help message" << std::endl;
@@ -62,6 +62,7 @@ class BasicArgumentParser : public ArgumentParser<dim> {
     usage << "\t-i,--iteration\t\tSpecify the iteration" << std::endl;
     usage << "\t-w,--writer\t\tSpecify the writer used for the output files" << std::endl;
     usage << "\t-p,--physics\t\tSpecify the physics used for the simulation" << std::endl;
+    usage << "\t-b,--benchmark\t\tRun simulation as benchmark" << std::endl;
     std::cout << usage.str();
   }
 
@@ -70,31 +71,44 @@ class BasicArgumentParser : public ArgumentParser<dim> {
   * @return true if the arguments are valid, otherwise an exception could be thrown.
   */
   bool validateInput() override {
-    for (auto it = this->tokens.begin(); it != this->tokens.end() && it + 1 != this->tokens.end(); ++it) {
+    for (auto it = this->tokens.begin(); it != this->tokens.end(); ++it) {
       const auto &flag = *it;
-      const auto &possibleValue = *(it + 1);
 
-      if (flag == "-f" || flag == "--filename") {
-        ArgumentParser<dim>::handleFlag(status, "filename", flag, possibleValue);
-        it++;
-      } else if (flag == "-o" || flag == "--output") {
-        ArgumentParser<dim>::handleFlag(status, "output", flag, possibleValue);
-        it++;
-      } else if (flag == "-t" || flag == "--t_end") {
-        ArgumentParser<dim>::template handleFlag<double>(status, "endTime", flag, possibleValue);
-        it++;
-      } else if (flag == "-d" || flag == "--delta_t") {
-        ArgumentParser<dim>::template handleFlag<double>(status, "deltaT", flag, possibleValue);
-        it++;
-      } else if (flag == "-i" || flag == "--iteration") {
-        ArgumentParser<dim>::template handleFlag<int>(status, "iteration", flag, possibleValue);
-        it++;
-      } else if (flag == "-p" || flag == "--physics") {
-        ArgumentParser<dim>::handleFlag(status, "physics", flag, possibleValue, {"gravitation", "lennard"});
-        it++;
-      } else if (flag == "-w" || flag == "--writer") {
-        ArgumentParser<dim>::handleFlag(status, "writer", flag, possibleValue, {"vtk", "xyz"});
-        it++;
+      if (it + 1 != this->tokens.end()) {
+        const auto &possibleValue = *(it + 1);
+
+        if (flag == "-f" || flag == "--filename") {
+          ArgumentParser<dim>::handleFlag(status, "filename", flag, possibleValue);
+          it++;
+          continue;
+        } else if (flag == "-o" || flag == "--output") {
+          ArgumentParser<dim>::handleFlag(status, "output", flag, possibleValue);
+          it++;
+          continue;
+        } else if (flag == "-t" || flag == "--t_end") {
+          ArgumentParser<dim>::template handleFlag<double>(status, "endTime", flag, possibleValue);
+          it++;
+          continue;
+        } else if (flag == "-d" || flag == "--delta_t") {
+          ArgumentParser<dim>::template handleFlag<double>(status, "deltaT", flag, possibleValue);
+          it++;
+          continue;
+        } else if (flag == "-i" || flag == "--iteration") {
+          ArgumentParser<dim>::template handleFlag<int>(status, "iteration", flag, possibleValue);
+          it++;
+          continue;
+        } else if (flag == "-p" || flag == "--physics") {
+          ArgumentParser<dim>::handleFlag(status, "physics", flag, possibleValue, {"gravitation", "lennard"});
+          it++;
+          continue;
+        } else if (flag == "-w" || flag == "--writer") {
+          ArgumentParser<dim>::handleFlag(status, "writer", flag, possibleValue, {"vtk", "xyz"});
+          it++;
+          continue;
+        }
+      }
+      if (flag == "-b" || flag == "--benchmark") {
+        continue;
       } else {
         throw std::invalid_argument("Invalid argument: " + flag);
       }

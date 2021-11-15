@@ -77,7 +77,7 @@ $ cd MolSim
    ```bash
     $ ./MolSim
   
-    Usage: ./MolSim [-h | --help] | {-f | --filename} <filename> {-t | --t_end} <t_end> {-d | --delta_t} <delta_t> [-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}]
+    Usage: ./MolSim [-h | --help] | {-f | --filename} <filename> {-t | --t_end} <t_end> {-d | --delta_t} <delta_t> [-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}] [-b | --benchmark] 
     Options:
           -h,--help               Show this help message
           -f,--filename           Specify the input filename
@@ -87,10 +87,12 @@ $ cd MolSim
           -i,--iteration          Specify the iteration
           -w,--writer             Specify the writer used for the output files
           -p,--physics            Specify the physics used for the simulation
+          -b,--benchmark	       Run simulation as benchmark
 
-    Usage: ./MolSim [-x | --xml] {-f | --filename <filename>}
+    Usage: ./MolSim {-x | --xml} {-f | --filename <filename>} [-b | --benchmark]
     Options:
           -f,--filename           Specify the input filename as xml
+          -b,--benchmark		Run simulation as benchmark
 
    ```
 
