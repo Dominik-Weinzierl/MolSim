@@ -35,9 +35,9 @@ class MDSimulation {
     while (current_time < arg.getEndTime()) {
       physics.calculateNextStep(particleContainer, deltaT);
 
-      /*if (iteration % arg.getIteration() == 0) {
+      if (iteration % arg.getIteration() == 0) {
         writer.writeFile(iteration);
-      }*/
+      }
 
       SPDLOG_INFO("Iteration {} finished", iteration);
 
