@@ -72,13 +72,13 @@ class BasicArgumentParser : public ArgumentParser<dim> {
         BasicArgumentParser<dim>::handleFlag(status, "output", flag, possibleValue);
         it++;
       } else if (flag == "-t" || flag == "--t_end") {
-        BasicArgumentParser<dim>::template handleFlag<double>(status, "endTime", flag, possibleValue);
+        ArgumentParser<dim>:: template handleFlag<double>(status, "endTime", flag, possibleValue);
         it++;
       } else if (flag == "-d" || flag == "--delta_t") {
-        BasicArgumentParser<dim>::template handleFlag<double>(status, "deltaT", flag, possibleValue);
+        ArgumentParser<dim>::template handleFlag<double>(status, "deltaT", flag, possibleValue);
         it++;
       } else if (flag == "-i" || flag == "--iteration") {
-        BasicArgumentParser<dim>::template handleFlag<int>(status, "iteration", flag, possibleValue);
+        ArgumentParser<dim>::template handleFlag<int>(status, "iteration", flag, possibleValue);
         it++;
       } else if (flag == "-p" || flag == "--physics") {
         BasicArgumentParser<dim>::handleFlag(status, "physics", flag, possibleValue, {"gravitation", "lennard"});
