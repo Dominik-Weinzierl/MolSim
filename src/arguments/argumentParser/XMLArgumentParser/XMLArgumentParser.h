@@ -57,11 +57,10 @@ class XMLArgumentParser : public ArgumentParser<dim> {
   /**
    * Prints the available flag-options.
    */
-  void showUsage() override {
+  void static showUsage() {
     std::stringstream usage;
-    usage << "Usage: " << "./MolSim [-x | --xml]" << std::endl;
+    usage << "Usage: " << "./MolSim [-x | --xml] {-f | --filename <filename>}" << std::endl;
     usage << "Options:" << std::endl;
-    usage << "\t-h,--help\t\tShow this help message" << std::endl;
     usage << "\t-f,--filename\t\tSpecify the input filename as xml" << std::endl;
     std::cout << usage.str();
   }

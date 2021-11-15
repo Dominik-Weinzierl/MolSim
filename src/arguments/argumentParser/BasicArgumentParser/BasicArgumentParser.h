@@ -41,9 +41,12 @@ class BasicArgumentParser : public ArgumentParser<dim> {
   /**
    * Prints the available flag-options.
    */
-  void showUsage() override {
+  void static showUsage() {
     std::stringstream usage;
-    usage << "Usage: " << "./MolSim" << std::endl;
+    usage << "Usage: "
+          << "./MolSim [-h | --help] | {-f | --filename} <filename> {-t | --t_end} <t_end> {-d | --delta_t} <delta_t> "
+          << "[-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}]"
+          << std::endl;
     usage << "Options:" << std::endl;
     usage << "\t-h,--help\t\tShow this help message" << std::endl;
     usage << "\t-f,--filename\t\tSpecify the input filename" << std::endl;

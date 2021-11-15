@@ -75,11 +75,6 @@ class ArgumentParser {
   virtual bool validateInput() = 0;
 
   /**
-   * Prints the available flag-options.
-   */
-  virtual void showUsage() = 0;
-
-  /**
    * Handle the flags and sets the status accordingly without any additional check
    */
   static void handleFlag(ArgumentStatus &status, const std::string &name, const std::string &flag,
