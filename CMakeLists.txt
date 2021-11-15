@@ -38,7 +38,7 @@ include(doxygen)
 # Include FetchContent
 include(FetchContent)
 
-option(BUILD_TESTS "Build tests of project" ON)
+option(BUILD_TESTS "Build tests of project" OFF)
 
 if (BUILD_TESTS)
   # Setup googletest
