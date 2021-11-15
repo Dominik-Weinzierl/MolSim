@@ -26,7 +26,7 @@ class XMLArgument : public Argument<dim> {
    * XMLArgument constructor to construct Arguments provided by the ArgumentParser (XMLArgumentParser).
    * @param pCuboidArguments arguments used to create Cuboids
    * @param pSphereArguments arguments used to create Spheres
-   * @param pFiles additional inout files to load Particle
+   * @param pFiles additional input files to load additional Particle
    * @param pEndTime end time of the simulation
    * @param pDeltaT time steps during the simulation
    * @param pOutput output file prefix

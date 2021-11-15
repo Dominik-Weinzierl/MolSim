@@ -35,38 +35,44 @@ namespace is_container_impl {
  * @tparam T
  */
 template<typename T>
-struct is_container : std::false_type {};
+struct is_container : std::false_type {
+};
 /**
  * Specialization to allow std::array.
  * @tparam T
  * @tparam N
  */
 template<typename T, std::size_t N>
-struct is_container<std::array<T, N>> : std::true_type {};
+struct is_container<std::array<T, N>> : std::true_type {
+};
 /**
  * Specialization to allow std::vector.
  * @tparam Args
  */
 template<typename... Args>
-struct is_container<std::vector<Args...>> : std::true_type {};
+struct is_container<std::vector<Args...>> : std::true_type {
+};
 /**
  * Specialization to allow std::list.
  * @tparam Args
  */
 template<typename... Args>
-struct is_container<std::list<Args...>> : std::true_type {};
+struct is_container<std::list<Args...>> : std::true_type {
+};
 /**
  * Specialization to allow std::set.
  * @tparam Args
  */
 template<typename... Args>
-struct is_container<std::set<Args...>> : std::true_type {};
+struct is_container<std::set<Args...>> : std::true_type {
+};
 /**
  * Specialization to allow std::unordered_set
  * @tparam Args
  */
 template<typename... Args>
-struct is_container<std::unordered_set<Args...>> : std::true_type {};
+struct is_container<std::unordered_set<Args...>> : std::true_type {
+};
 } // namespace is_container_impl
 
 /**
@@ -75,8 +81,7 @@ struct is_container<std::unordered_set<Args...>> : std::true_type {};
  */
 template<typename T>
 struct is_container {
-  static constexpr bool const value =
-      is_container_impl::is_container<std::decay_t<T>>::value;
+  static constexpr bool const value = is_container_impl::is_container<std::decay_t<T>>::value;
 };
 
 /**
@@ -90,9 +95,8 @@ struct is_container {
  * @return String representation of container.
  */
 template<class Container>
-[[nodiscard]] std::string
-to_string(const Container &container, const std::string &delimiter = ", ",
-          const std::array<std::string, 2> &surround = {"[", "]"}) {
+[[nodiscard]] std::string to_string(const Container &container, const std::string &delimiter = ", ",
+                                    const std::array<std::string, 2> &surround = {"[", "]"}) {
   auto iter = std::cbegin(container);
   const auto end = std::cend(container);
   if (iter == end) {
@@ -121,8 +125,7 @@ to_string(const Container &container, const std::string &delimiter = ", ",
  * @return Element wise F(lhs, rhs).
  */
 template<class Container, class F>
-inline Container elementWisePairOp(const Container &lhs, const Container &rhs,
-                                   F binaryFunction) {
+inline Container elementWisePairOp(const Container &lhs, const Container &rhs, F binaryFunction) {
   Container ret = lhs;
   auto retIter = std::begin(ret);
   auto lhsIter = std::cbegin(lhs);
@@ -130,8 +133,7 @@ inline Container elementWisePairOp(const Container &lhs, const Container &rhs,
   auto rhsIter = std::cbegin(rhs);
   const auto rhsEnd = std::cend(rhs);
 
-  for (; lhsIter != lhsEnd and rhsIter != rhsEnd;
-         ++lhsIter, ++rhsIter, ++retIter) {
+  for (; lhsIter != lhsEnd and rhsIter != rhsEnd; ++lhsIter, ++rhsIter, ++retIter) {
     *retIter = binaryFunction(*lhsIter, *rhsIter);
   }
 
@@ -150,8 +152,7 @@ inline Container elementWisePairOp(const Container &lhs, const Container &rhs,
  * @return Element wise F(lhs, rhs).
  */
 template<class Scalar, class Container, class F>
-inline Container elementWiseScalarOp(const Scalar &lhs, const Container &rhs,
-                                     F binaryFunction) {
+inline Container elementWiseScalarOp(const Scalar &lhs, const Container &rhs, F binaryFunction) {
   Container ret = rhs;
   auto retIter = std::begin(ret);
   auto rhsIter = std::cbegin(rhs);
@@ -172,8 +173,9 @@ inline Container elementWiseScalarOp(const Scalar &lhs, const Container &rhs,
  */
 template<class Container>
 auto L2Norm(const Container &c) {
-  return std::sqrt(std::accumulate(std::begin(c), std::end(c), 0.0,
-                                   [](auto a, auto b) { return a + b * b; }));
+  return std::sqrt(std::accumulate(std::begin(c), std::end(c), 0.0, [](auto a, auto b) {
+    return a + b * b;
+  }));
 }
 } // namespace ArrayUtils
 
@@ -189,8 +191,8 @@ auto L2Norm(const Container &c) {
  * @return
  */
 template<class Container>
-std::enable_if_t<ArrayUtils::is_container<Container>::value, std::ostream &>
-operator<<(std::ostream &os, const Container &container) {
+std::enable_if_t<ArrayUtils::is_container<Container>::value, std::ostream &> operator<<(std::ostream &os,
+                                                                                        const Container &container) {
   os << ArrayUtils::to_string(container);
   return os;
 }

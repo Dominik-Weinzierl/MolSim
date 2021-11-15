@@ -40,9 +40,9 @@ target_compile_options(${LIBRARY_NAME} PRIVATE -W -Wall -Wextra -Wnon-virtual-dt
 
 # Clean additional output files as part of 'make clean'
 set_property(
-        TARGET MolSim
-        APPEND
-        PROPERTY ADDITIONAL_CLEAN_FILES ${CMAKE_CURRENT_BINARY_DIR}/output
+    TARGET MolSim
+    APPEND
+    PROPERTY ADDITIONAL_CLEAN_FILES ${CMAKE_CURRENT_BINARY_DIR}/output
 )
 
 set_property(TARGET MolSim PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)

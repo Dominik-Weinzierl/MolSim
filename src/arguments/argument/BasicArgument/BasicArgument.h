@@ -11,7 +11,7 @@ class BasicArgument : public Argument<dim> {
  public:
   /**
    * BasicArgument constructor to construct Arguments provided by the ArgumentParser (BasicArgumentParser).
-   * @param pFiles additional inout files to load Particle
+   * @param pFiles additional input files to load additional Particle
    * @param pEndTime end time of the simulation
    * @param pDeltaT time steps during the simulation
    * @param pOutput output file prefix
