@@ -8,6 +8,7 @@
 
 /**
  * OutputWriter is an extendable file writer for simulation states.
+ * @tparam dim dimension of our simulation.
  */
 template<size_t dim>
 class OutputWriter {
@@ -15,9 +16,9 @@ class OutputWriter {
 
   /**
    * Constructs an OutputWriter to create files.
-   * @param pFileName
-   * @param pPath
-   * @param pContainer
+   * @param pFileName output filename
+   * @param pPath output path
+   * @param pContainer ParticleContainer with a Vector that contains all Particle(s).
    */
   OutputWriter(std::string pFileName, std::string pPath, ParticleContainer<dim> &pContainer) : fileName{
       std::move(pFileName)}, path{std::move(pPath)}, container{pContainer} {
@@ -33,7 +34,7 @@ class OutputWriter {
 
   /**
    * Writes the information about the given iteration into the file.
-   * @param iteration
+   * @param iteration current iteration of the simulation
    */
   virtual void writeFile(int iteration) = 0;
  protected:

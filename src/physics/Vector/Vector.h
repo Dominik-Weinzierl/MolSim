@@ -7,8 +7,18 @@
 #include <numeric>
 #include <utils/ArrayUtils.h>
 
+/**
+ * Alias for std::array<double, dim>.
+ */
 template<size_t dim> using Vector = std::array<double, dim>;
 
+/**
+ * Add two Vector(s).
+ * @tparam dim dimension of our simulation.
+ * @param lhs first vector as value (used for better chaining)
+ * @param rhs second vector as reference (used for better chaining)
+ * @return updated first vector
+ */
 template<size_t dim>
 Vector<dim> operator+(Vector<dim> lhs, const Vector<dim> &rhs) {
   SPDLOG_TRACE("Calculating {0} + {1}", lhs, rhs);
@@ -18,6 +28,13 @@ Vector<dim> operator+(Vector<dim> lhs, const Vector<dim> &rhs) {
   return lhs;
 }
 
+/**
+ * Subtract two Vector(s)
+ * @tparam dim dimension of our simulation.
+ * @param lhs first vector as value (used for better chaining)
+ * @param rhs second vector as reference (used for better chaining)
+ * @return updated first vector
+ */
 template<size_t dim>
 Vector<dim> operator-(Vector<dim> lhs, const Vector<dim> &rhs) {
   SPDLOG_TRACE("Calculating {0} - {1}", lhs, rhs);
@@ -29,9 +46,10 @@ Vector<dim> operator-(Vector<dim> lhs, const Vector<dim> &rhs) {
 
 /**
  * Operator that allows scalar multiplication on a given Vector.
- * @param lhs Vector.
- * @param rhs Double to scale the vector.
- * @return
+ * @tparam dim dimension of our simulation.
+ * @param lhs first vector as reference
+ * @param rhs second vector as reference
+ * @return result of scalar multiplication
  */
 template<size_t dim>
 double operator*(const Vector<dim> &lhs, const Vector<dim> &rhs) {
@@ -40,10 +58,11 @@ double operator*(const Vector<dim> &lhs, const Vector<dim> &rhs) {
 }
 
 /**
- * Operator that allows scalar multiplication on a given Vector.
- * @param rhs Double to scale the vector.
- * @param lhs Vector.
- * @return
+ * Operator used to scale a vector.
+ * @tparam dim dimension of our simulation.
+ * @param d double to scale the vector.
+ * @param lhs vector as value (used for better chaining)
+ * @return scaled vector
  */
 template<size_t dim>
 Vector<dim> operator*(Vector<dim> lhs, const double &d) {
@@ -55,10 +74,11 @@ Vector<dim> operator*(Vector<dim> lhs, const double &d) {
 }
 
 /**
- * Operator that allows scalar multiplication on a given Vector.
- * @param rhs Double to scale the vector.
- * @param lhs Vector.
- * @return
+ * Operator used to scale a vector.
+ * @tparam dim dimension of our simulation.
+ * @param d double to scale the vector.
+ * @param lhs vector as value (used for better chaining)
+ * @return scaled vector
  */
 template<size_t dim>
 Vector<dim> operator*(const double &d, Vector<dim> lhs) {
@@ -66,6 +86,13 @@ Vector<dim> operator*(const double &d, Vector<dim> lhs) {
   return lhs * d;
 }
 
+/**
+ * Operator used to scale a vector by division.
+ * @tparam dim dimension of our simulation.
+ * @param d double to scale the vector.
+ * @param lhs vector as value (used for better chaining)
+ * @return scaled vector
+ */
 template<size_t dim>
 Vector<dim> operator/(Vector<dim> lhs, const double &d) {
   SPDLOG_TRACE("Calculating {0} / {1}", lhs, d);
@@ -75,6 +102,13 @@ Vector<dim> operator/(Vector<dim> lhs, const double &d) {
   return lhs;
 }
 
+/**
+ *
+ * @tparam dim dimension of our simulation.
+ * @param stream std::ostream
+ * @param v Vector to print
+ * @return updated stream
+ */
 template<size_t dim>
 std::ostream &operator<<(std::ostream &stream, const Vector<dim> &v) {
   stream << ArrayUtils::to_string(v);

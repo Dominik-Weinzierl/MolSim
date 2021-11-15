@@ -11,7 +11,8 @@
 #include <iostream>
 
 /**
- * FileReader class reads a file line and prints the read line to the terminal.
+ * FileReader class reads a file and fills the provided ParticleContainer with Particle(s).
+ * @tparam dim dimension of our simulation.
  */
 template<size_t dim>
 class InputReader {
@@ -19,8 +20,8 @@ class InputReader {
 
   /**
    * ReadFile Method adds the particles to the given particleContainer.
-   * @param particleContainer
-   * @param filename
+   * @param particleContainer container in which be store the Particle(s)
+   * @param filename input filename
    */
   static void readFile(ParticleContainer<dim> &particleContainer, const std::string &filename) {
     std::ifstream inputFile(filename);
