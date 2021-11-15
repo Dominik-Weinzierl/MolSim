@@ -10,9 +10,14 @@
 
 /**
  * Simulation class which contains a start time and a method to run a simulation.
+ * @tparam T type of physics used in this simulation.
+ * @tparam dim dimension of our simulation.
  */
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of<Physics<dim>, T>::value, bool>::type = true>
 class MDSimulation {
+  /**
+   * Start time which is zero currently.
+   */
   static constexpr double start_time = 0;
 
  public:
