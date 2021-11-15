@@ -7,7 +7,7 @@
 #include <numeric>
 #include <utils/ArrayUtils.h>
 
-template<size_t dim = 3> using Vector = std::array<double, dim>;
+template<size_t dim> using Vector = std::array<double, dim>;
 
 template<size_t dim>
 Vector<dim> operator+(Vector<dim> lhs, const Vector<dim> &rhs) {

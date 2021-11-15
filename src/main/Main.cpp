@@ -6,13 +6,15 @@
 #include <arguments/argumentParser/ParserStrategy.h>
 #include "fileReader/InputFile/InputReader.h"
 #include <iomanip>
-#include "physics/Gravitation/Gravitation.h"
-#include "simulation/Simulation.h"
+#include "simulation/MDSimulation.h"
 #include "physics/LennardJones/LennardJones.h"
 
-/*static void measureTime(const Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer) {
+constexpr size_t dim = 3;
+
+/*static void measureTime(const Argument<dim> &arg, OutputWriter<dim> &writer,
+                        ParticleContainer<dim> &particleContainer) {
   auto start = std::chrono::high_resolution_clock::now();
-  Simulation<LennardJones>::performSimulation(writer, particleContainer, arg);
+  MDSimulation<LennardJones<dim>, dim>::performSimulation(writer, particleContainer, arg);
   auto end = std::chrono::high_resolution_clock::now();
   std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms";
 }*/
@@ -27,14 +29,14 @@
  */
 int main(int argc, char *argv[]) {
   Logger::setupLogger();
-  ParserStrategy strategy{argc, argv};
+  ParserStrategy<dim> strategy{argc, argv};
 
   if (argc == 1) {
-    ParserStrategy::showUsage();
+    ParserStrategy<dim>::showUsage();
     return 0;
   }
 
-  std::unique_ptr<ArgumentParser> parser = strategy.getParser();
+  std::unique_ptr<ArgumentParser<dim>> parser = strategy.getParser();
 
   try {
     parser->validateInput();
@@ -45,28 +47,31 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  std::unique_ptr<Argument> arg = parser->createArgument();
-  std::unique_ptr<OutputWriter> writer;
-  ParticleContainer particleContainer;
+  std::unique_ptr<Argument<dim>> arg = parser->createArgument();
+  std::unique_ptr<OutputWriter<dim>> writer;
+  ParticleContainer<dim> particleContainer;
 
   if (arg->getWriter() == "vtk") {
-    writer = std::make_unique<VTKWriter>(arg->getOutput(), "output", particleContainer);
+    writer = std::make_unique<VTKWriter<dim>>(arg->getOutput(), "output", particleContainer);
   } else if (arg->getWriter() == "xyz") {
-    writer = std::make_unique<XYZWriter>(arg->getOutput(), "output", particleContainer);
+    writer = std::make_unique<XYZWriter<dim>>(arg->getOutput(), "output", particleContainer);
   }
 
   for (const auto &file: arg->getFiles()) {
-    InputReader::readFile(particleContainer, file);
+    InputReader<dim>::readFile(particleContainer, file);
   }
 
   arg->createAdditionalParticle(particleContainer);
 
+  auto start = std::chrono::high_resolution_clock::now();
   if (arg->getPhysics() == "gravitation") {
-    Simulation<Gravitation>::performSimulation(*writer, particleContainer, *arg);
+    MDSimulation<Gravitation<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
   } else if (arg->getPhysics() == "lennard") {
-    Simulation<LennardJones>::performSimulation(*writer, particleContainer, *arg);
+    MDSimulation<LennardJones<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
   }
+  auto end = std::chrono::high_resolution_clock::now();
+  std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms";
 
-  //measureTime(*arg, *writer, particleContainer);
+  // measureTime(*arg, *writer, particleContainer);
 }
 

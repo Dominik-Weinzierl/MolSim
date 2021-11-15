@@ -5,6 +5,7 @@
 /**
  * Argument stores the arguments parsed by ArgumentParser for easy access.
  */
+template<size_t dim>
 class Argument {
 
  private:
@@ -30,21 +31,37 @@ class Argument {
    * @param pPhysics
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
-           int pIteration, std::string pPhysics);
+           int pIteration, std::string pPhysics) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
+                                                   output{std::move(pOutput)}, writer{std::move(pWriter)},
+                                                   physics{std::move(pPhysics)}, iteration{pIteration} {};
 
-  [[nodiscard]] double getEndTime() const;
+  [[nodiscard]] double getEndTime() const {
+    return endTime;
+  }
 
-  [[nodiscard]] double getDeltaT() const;
+  [[nodiscard]] double getDeltaT() const {
+    return deltaT;
+  }
 
-  [[nodiscard]] std::vector<std::string> getFiles() const;
+  [[nodiscard]] std::vector<std::string> getFiles() const {
+    return files;
+  }
 
-  [[nodiscard]] int getIteration() const;
+  [[nodiscard]] int getIteration() const {
+    return iteration;
+  }
 
-  [[nodiscard]] std::basic_string<char> getOutput() const;
+  [[nodiscard]] std::basic_string<char> getOutput() const {
+    return output;
+  }
 
-  [[nodiscard]] std::basic_string<char> getWriter() const;
+  [[nodiscard]] std::basic_string<char> getWriter() const {
+    return writer;
+  }
 
-  [[nodiscard]] std::basic_string<char> getPhysics() const;
+  [[nodiscard]] std::basic_string<char> getPhysics() const {
+    return physics;
+  }
 
-  virtual void createAdditionalParticle(ParticleContainer& container) const = 0;
+  virtual void createAdditionalParticle(ParticleContainer<dim> &container) const = 0;
 };

@@ -1,14 +1,13 @@
-#include "logger/Logger.h"
-
 #include "Physics.h"
 
-void Physics::calculateV(ParticleContainer &particleContainer, const double deltaT) {
+template<>
+void Physics<3>::calculateV(ParticleContainer<3> &particleContainer, const double deltaT) {
   SPDLOG_DEBUG("started calculating velocities");
   for (auto &p: particleContainer) {
     SPDLOG_TRACE("Calculating velocity for {}", p.toString());
-    double x = 0;
-    double y = 0;
-    double z = 0;
+    double x;
+    double y;
+    double z;
 
     x = p.getV()[0] + deltaT * (p.getOldF()[0] + p.getF()[0]) / (2 * p.getM());
     y = p.getV()[1] + deltaT * (p.getOldF()[1] + p.getF()[1]) / (2 * p.getM());
@@ -18,15 +17,33 @@ void Physics::calculateV(ParticleContainer &particleContainer, const double delt
   }
   SPDLOG_DEBUG("ended calculating velocities");
 }
-void Physics::calculateX(ParticleContainer &particleContainer, const double deltaT) {
+
+template<>
+void Physics<2>::calculateV(ParticleContainer<2> &particleContainer, const double deltaT) {
+  SPDLOG_DEBUG("started calculating velocities");
+  for (auto &p: particleContainer) {
+    SPDLOG_TRACE("Calculating velocity for {}", p.toString());
+    double x;
+    double y;
+
+    x = p.getV()[0] + deltaT * (p.getOldF()[0] + p.getF()[0]) / (2 * p.getM());
+    y = p.getV()[1] + deltaT * (p.getOldF()[1] + p.getF()[1]) / (2 * p.getM());
+
+    p.setV(x, y);
+  }
+  SPDLOG_DEBUG("ended calculating velocities");
+}
+
+template<>
+void Physics<3>::calculateX(ParticleContainer<3> &particleContainer, const double deltaT) {
   SPDLOG_DEBUG("started calculating positions");
   const auto deltaTPow = deltaT * deltaT;
 
   for (auto &p: particleContainer) {
     SPDLOG_TRACE("Calculating position for {}", p.toString());
-    double x = 0;
-    double y = 0;
-    double z = 0;
+    double x;
+    double y;
+    double z;
 
     x = p.getX()[0] + deltaT * p.getV()[0] + deltaTPow * (p.getF()[0] / (2 * p.getM()));
     y = p.getX()[1] + deltaT * p.getV()[1] + deltaTPow * (p.getF()[1] / (2 * p.getM()));
@@ -38,11 +55,21 @@ void Physics::calculateX(ParticleContainer &particleContainer, const double delt
 
 }
 
-void Physics::calculateNextStep(ParticleContainer &particleContainer, double deltaT) const {
-  // calculate new x
-  calculateX(particleContainer, deltaT);
-  // calculate new f
-  calculateF(particleContainer);
-  // calculate new v
-  calculateV(particleContainer, deltaT);
+template<>
+void Physics<2>::calculateX(ParticleContainer<2> &particleContainer, const double deltaT) {
+  SPDLOG_DEBUG("started calculating positions");
+  const auto deltaTPow = deltaT * deltaT;
+
+  for (auto &p: particleContainer) {
+    SPDLOG_TRACE("Calculating position for {}", p.toString());
+    double x;
+    double y;
+
+    x = p.getX()[0] + deltaT * p.getV()[0] + deltaTPow * (p.getF()[0] / (2 * p.getM()));
+    y = p.getX()[1] + deltaT * p.getV()[1] + deltaTPow * (p.getF()[1] / (2 * p.getM()));
+
+    p.setX(x, y);
+  }
+  SPDLOG_DEBUG("ended calculating positions");
+
 }
