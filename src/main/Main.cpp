@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
   Logger::setupLogger();
   ParserStrategy<dim> strategy{argc, argv};
 
-  if (argc == 1) {
+  if (argc == 1 || (std::string{argv[1]} == "-h" || std::string{argv[1]} == "--help")) {
     ParserStrategy<dim>::showUsage();
     return 0;
   }
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
   } catch (std::invalid_argument &exception) {
     std::cout << "[ERROR] " << exception.what() << std::endl;
     SPDLOG_ERROR(exception.what());
-    parser->showUsage();
+    ParserStrategy<dim>::showUsage();
     return -1;
   }
 
