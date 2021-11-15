@@ -32,12 +32,12 @@ class XMLReader {
    */
   [[nodiscard]] std::unique_ptr<XMLArgument<dim>> readXML() {
     std::vector<std::string> files;
-    std::string physics{"default"};
-    std::string writer{"default"};
-    double endTime = -1;
-    double deltaT = -1;
-    int iteration = -1;
-    std::string fileName = "default";
+    std::string physics{"gravitation"};
+    std::string writer{"vtk"};
+    double endTime = 1000;
+    double deltaT = 0.0002;
+    int iteration = 60;
+    std::string fileName = "MD";
 
     for (auto &it: simulation->Source()) {
       std::string path = it.location();

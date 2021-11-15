@@ -19,16 +19,15 @@ class ParserStrategy {
 
   /**
    * ParserStrategy constructor selects the ArgumentParser used based on the input.
-   * @param argc amount of provided arguments
-   * @param argv provided arguments
+   * @param args arguments
    */
-  explicit ParserStrategy(int argc, char *argv[]) {
-    if (argc > 1) {
+  explicit ParserStrategy(const std::vector<std::string> &args) {
+    if (!args.empty()) {
       // XML prefix available
-      if (std::string{argv[1]} == "-x" || std::string{argv[1]} == "--xml") {
-        parser = std::make_unique<XMLArgumentParser<dim>>(argc, argv);
+      if (std::string{args[0]} == "-x" || std::string{args[0]} == "--xml") {
+        parser = std::make_unique<XMLArgumentParser<dim>>(args);
       } else {
-        parser = std::make_unique<BasicArgumentParser<dim>>(argc, argv);
+        parser = std::make_unique<BasicArgumentParser<dim>>(args);
       }
     }
   }

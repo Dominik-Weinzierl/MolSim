@@ -28,10 +28,9 @@ class XMLArgumentParser : public ArgumentParser<dim> {
  public:
   /**
    * XMLArgumentParser is a constructor that takes arguments provided by the main-method.
-   * @param argc amount of provided arguments
-   * @param arguments provided arguments
+   * @param args arguments
    */
-  explicit XMLArgumentParser(int argc, char *arguments[]) : ArgumentParser<dim>(argc, arguments) {
+  explicit XMLArgumentParser(const std::vector<std::string> &args) : ArgumentParser<dim>(args) {
 
   }
 
@@ -40,13 +39,17 @@ class XMLArgumentParser : public ArgumentParser<dim> {
    * @return true if the arguments are valid, otherwise an exception could be thrown.
    */
   bool validateInput() override {
-    for (auto it = this->tokens.begin(); it != this->tokens.end() && it + 1 != this->tokens.end(); ++it) {
+    for (auto it = this->tokens.begin(); it != this->tokens.end(); ++it) {
       const auto &flag = *it;
-      const auto &possibleValue = *(it + 1);
-      if (flag == "-f" || flag == "--filename") {
-        ArgumentParser<dim>::handleFlag(status, "filename", flag, possibleValue);
-        it++;
-      } else if (flag == "-x" || flag == "--xml") {
+      if (it + 1 != this->tokens.end()) {
+        const auto &possibleValue = *(it + 1);
+        if (flag == "-f" || flag == "--filename") {
+          ArgumentParser<dim>::handleFlag(status, "filename", flag, possibleValue);
+          it++;
+          continue;
+        }
+      }
+      if (flag == "-x" || flag == "--xml" || flag == "-b" || flag == "--benchmark") {
         continue;
       } else {
         throw std::invalid_argument("Invalid argument: " + flag);
@@ -72,9 +75,10 @@ class XMLArgumentParser : public ArgumentParser<dim> {
    */
   void static showUsage() {
     std::stringstream usage;
-    usage << "Usage: " << "./MolSim [-x | --xml] {-f | --filename <filename>}" << std::endl;
+    usage << "Usage: " << "./MolSim {-x | --xml} {-f | --filename <filename>} [-b | --benchmark]" << std::endl;
     usage << "Options:" << std::endl;
     usage << "\t-f,--filename\t\tSpecify the input filename as xml" << std::endl;
+    usage << "\t-b,--benchmark\t\tRun simulation as benchmark" << std::endl;
     std::cout << usage.str();
   }
 };

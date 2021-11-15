@@ -14,11 +14,13 @@ constexpr size_t dim = 2;
  * @return Program exit code.
  */
 int main(int argc, char *argv[]) {
+  std::vector<std::string> args(argv + 1, argv + argc);
+
   Logger::setupLogger();
 
-  ParserStrategy<dim> strategy{argc, argv};
+  ParserStrategy<dim> strategy{args};
 
-  if (argc == 1 || (std::string{argv[1]} == "-h" || std::string{argv[1]} == "--help")) {
+  if (argc == 1 || (std::string{args[0]} == "-h" || std::string{args[0]} == "--help")) {
     ParserStrategy<dim>::showUsage();
     return 0;
   }
@@ -50,6 +52,12 @@ int main(int argc, char *argv[]) {
 
   arg->createAdditionalParticle(particleContainer);
 
-  return MolSim<dim>::simulate(arg, writer, particleContainer);
+  if (std::find(args.begin(), args.end(), "-b") != args.end()
+      || std::find(args.begin(), args.end(), "--benchmark") != args.end()) {
+    return MolSim<dim>::benchmark(arg, particleContainer);
+  } else {
+    return MolSim<dim>::simulate(arg, writer, particleContainer);
+  }
+
 }
 
