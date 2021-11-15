@@ -5,6 +5,7 @@
 
 /**
  * Particle is a class that wraps up the properties of a particle, getters, setters and standard methods.
+ * @tparam dim dimension of our simulation.
  */
 template<size_t dim>
 class Particle {
@@ -73,96 +74,191 @@ class Particle {
    */
   virtual ~Particle() = default;
 
+  /**
+   * Getter for the position of the Particle.
+   * @return position of the Particle x
+   */
   [[nodiscard]] const Vector<dim> &getX() const {
     return x;
   }
 
+  /**
+   * Getter for the velocity of the Particle.
+   * @return velocity of the Particle v
+   */
   [[nodiscard]] const Vector<dim> &getV() const {
     return v;
   }
 
+  /**
+   * Getter for the force of the Particle.
+   * @return force of the Particle f
+   */
   [[nodiscard]] const Vector<dim> &getF() const {
     return f;
   }
 
+  /**
+   * Getter for the old force of the Particle.
+   * @return old force of the Particle old_f
+   */
   [[nodiscard]] const Vector<dim> &getOldF() const {
     return old_f;
   }
 
+  /**
+   * Getter for the mass of the Particle.
+   * @return mass of the Particle m
+   */
   [[nodiscard]] const double &getM() const {
     return m;
   }
 
+  /**
+   * Getter for the type of the Particle.
+   * @return type of the Particle type
+   */
   [[nodiscard]] int getType() const {
     return type;
   }
 
+  /**
+   * Setter for the position of the Particle.
+   * @param position new position
+   */
   void setX(const Vector<dim> &position) {
     x = position;
   }
 
+  /**
+   * Setter for the position of the Particle.
+   * @param x_arg new x value
+   * @param y_arg new y value
+   * @param z_arg new z value
+   */
   void setX(double x_arg, double y_arg, double z_arg) {
     x[0] = x_arg;
     x[1] = y_arg;
     x[2] = z_arg;
   }
 
+  /**
+   * Setter for the position of the Particle.
+   * @param x_arg new x value
+   * @param y_arg new y value
+   */
   void setX(double x_arg, double y_arg) {
     x[0] = x_arg;
     x[1] = y_arg;
   }
 
+  /**
+   * Setter for the velocity of the Particle.
+   * @param velocity new velocity
+   */
   void setV(const Vector<dim> &velocity) {
     v = velocity;
   }
 
+  /**
+   * Setter for the velocity of the Particle.
+   * @param x_arg new x value
+   * @param y_arg new y value
+   * @param z_arg new z value
+   */
   void setV(double x_arg, double y_arg, double z_arg) {
     v[0] = x_arg;
     v[1] = y_arg;
     v[2] = z_arg;
   }
 
+  /**
+   * Setter for the velocity of the Particle.
+   * @param x_arg new x value
+   * @param y_arg new y value
+   */
   void setV(double x_arg, double y_arg) {
     v[0] = x_arg;
     v[1] = y_arg;
   }
 
+  /**
+   * Setter for the force of the Particle.
+   * @param force new force
+   */
   void setF(const Vector<dim> &force) {
     f = force;
   }
 
+  /**
+   * Setter for the force of the Particle.
+   * @param x_arg new x value
+   * @param y_arg new y value
+   * @param z_arg new z value
+   */
   void setF(double x_arg, double y_arg, double z_arg) {
     f[0] = x_arg;
     f[1] = y_arg;
     f[2] = z_arg;
   }
 
+  /**
+   * Setter for the force of the Particle.
+   * @param x_arg new x value
+   * @param y_arg new y value
+   */
   void setF(double x_arg, double y_arg) {
     f[0] = x_arg;
     f[1] = y_arg;
   }
 
+  /**
+   * Setter for the old force of the Particle.
+   * @param oldForce new old force
+   */
   void setOldF(const Vector<dim> &oldForce) {
     old_f = oldForce;
   }
 
+  /**
+   * Setter for the old force of the Particle.
+   * @param x_arg new x value
+   * @param y_arg new y value
+   * @param z_arg new z value
+   */
   void setOldF(double x_arg, double y_arg, double z_arg) {
     old_f[0] = x_arg;
     old_f[1] = y_arg;
     old_f[2] = z_arg;
   }
 
+  /**
+   * Setter for the old force of the Particle.
+   * @param x_arg new x value
+   * @param y_arg new y value
+   */
   void setOldF(double x_arg, double y_arg) {
     old_f[0] = x_arg;
     old_f[1] = y_arg;
   }
 
+  /**
+   * Methods to update the force.
+   * @param x_arg new x value to add
+   * @param y_arg new y value to add
+   * @param z_arg new z value to add
+   */
   void updateForce(double x_arg, double y_arg, double z_arg) {
     f[0] += x_arg;
     f[1] += y_arg;
     f[2] += z_arg;
   }
 
+  /**
+   * Methods to update the force.
+   * @param x_arg new x value to add
+   * @param y_arg new y value to add
+   */
   void updateForce(double x_arg, double y_arg) {
     f[0] += x_arg;
     f[1] += y_arg;
@@ -189,6 +285,13 @@ class Particle {
   }
 };
 
+/**
+ * Stream operator for Particle(s).
+ * @tparam dim dimension of our simulation.
+ * @param stream std::ostream
+ * @param p Particle to print
+ * @return updated stream
+ */
 template<size_t dim>
 std::ostream &operator<<(std::ostream &stream, const Particle<dim> &p) {
   stream << p.toString();
