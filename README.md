@@ -74,6 +74,7 @@ $ cd MolSim
 ### Perform simulations
 
 Run `./MolSim` without any arguments to list possible and required arguments.
+
    ```bash
     $ ./MolSim
   
@@ -102,6 +103,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim --filename ../../input/eingabe-sonne.txt --t_end 1000 --delta_t 0.014 --physics gravitation
    ```
+  ![comet_simulation](gifs/comet.gif)
 - _(optional)_ Run additional simulation of the solar system.
    ```bash
    $ ./MolSim -f ../../input/sun_system.txt -t 1000 -d 0.014 --p gravitation
@@ -117,6 +119,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/input_task_3.xml
    ```
+  ![task_3](gifs/task_3.gif)
 - _(optional)_ Run example simulation of `Task 3` as benchmark.
    ```bash
    $ ./MolSim -x -f ../../input/input_task_3.xml -b
@@ -142,6 +145,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
 ### Tests
 
 Run tests to verify correctness.
+
 ```bash
 $ ctest
 [...]
@@ -284,3 +288,7 @@ Our project is developed by Dominik, Janin and Nils as part of Group A.
 ## License
 
 MolSim is released under the [MIT license](https://github.com/Dominik-Weinzierl/MolSim).
+
+## Additional simulations
+
+![balls](gifs/balls.gif)
