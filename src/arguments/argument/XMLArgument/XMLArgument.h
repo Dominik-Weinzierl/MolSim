@@ -119,7 +119,7 @@ class XMLArgument : public Argument<dim> {
                       << s.centerCoordinates[1] << " z: " << s.centerCoordinates[2] << std::endl;
         configuration << "\t\t\t\t Velocity: x: " << s.initialVelocity[0] << " y: " << s.initialVelocity[1] << " z: "
                       << s.initialVelocity[2] << std::endl;
-        configuration << "\t\t\t Radius: " << s.radius << std::endl;
+        configuration << "\t\t\t\t Radius: " << s.radius << std::endl;
         configuration << "\t\t\t\t Distance: " << s.distance << std::endl;
         configuration << "\t\t\t\t Mass: " << s.mass << std::endl;
         configuration << "\t\t\t\t Mean value: " << s.meanValue << std::endl;
