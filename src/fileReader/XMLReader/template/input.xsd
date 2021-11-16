@@ -50,12 +50,12 @@
             <xsd:element name="Shapes" type="shape_t" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="Source" type="input_t" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
-        <xsd:attribute name="endTime" type="xsd:double"/>
-        <xsd:attribute name="deltaT" type="xsd:double"/>
-        <xsd:attribute name="output" type="xsd:string"/>
-        <xsd:attribute name="iteration" type="xsd:nonNegativeInteger"/>
-        <xsd:attribute name="physics" type="xsd:string"/>
-        <xsd:attribute name="writer" type="xsd:string"/>
+        <xsd:attribute name="endTime" type="xsd:double" use="required"/>
+        <xsd:attribute name="deltaT" type="xsd:double" use="required"/>
+        <xsd:attribute name="output" type="xsd:string" use="required"/>
+        <xsd:attribute name="iteration" type="xsd:nonNegativeInteger" use="required"/>
+        <xsd:attribute name="physics" type="xsd:string" use="required"/>
+        <xsd:attribute name="writer" type="xsd:string" use="required"/>
     </xsd:complexType>
     <xsd:element name="Simulation" type="simulation_t"/>
 </xsd:schema>

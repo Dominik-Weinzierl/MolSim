@@ -34,34 +34,22 @@ class XMLReader {
     std::vector<std::string> files;
     std::string physics{"gravitation"};
     std::string writer{"vtk"};
-    double endTime = 1000;
-    double deltaT = 0.0002;
-    int iteration = 60;
-    std::string fileName = "MD";
+    double endTime;
+    double deltaT;
+    int iteration;
+    std::string fileName;
 
     for (auto &it: simulation->Source()) {
       std::string path = it.location();
       files.push_back(path);
     }
 
-    if (simulation->physics().present()) {
-      physics = simulation->physics().get(); // NOLINT(cppcoreguidelines-slicing)
-    }
-    if (simulation->writer().present()) {
-      writer = simulation->writer().get(); // NOLINT(cppcoreguidelines-slicing)
-    }
-    if (simulation->endTime().present()) {
-      endTime = simulation->endTime().get();
-    }
-    if (simulation->deltaT().present()) {
-      deltaT = simulation->deltaT().get();
-    }
-    if (simulation->output().present()) {
-      fileName = simulation->output().get(); // NOLINT(cppcoreguidelines-slicing)
-    }
-    if (simulation->iteration().present()) {
-      iteration = static_cast<int>(simulation->iteration().get());
-    }
+    physics = simulation->physics();
+    writer = simulation->writer();
+    endTime = simulation->endTime();
+    deltaT = simulation->deltaT();
+    fileName = simulation->output();
+    iteration = static_cast<int>(simulation->iteration());
 
     return std::make_unique<XMLArgument<dim>>(this->loadCuboid(), this->loadSpheres(), files, endTime, deltaT, fileName,
                                               writer, iteration, physics);

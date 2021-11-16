@@ -1,6 +1,6 @@
 # MolSim
 
-![CI](https://github.com/Dominik-Weinzierl/MolSim/actions/workflows/continuous_integration.yml/badge.svg)
+![Continuous Integration](https://github.com/Dominik-Weinzierl/MolSim/actions/workflows/continuous_integration.yml/badge.svg)
 
 ## Description
 
@@ -20,11 +20,11 @@ $ cd MolSim
 
 ### Prerequisites
 
-- [cmake](https://cmake.org/)
-- [gcc](https://gcc.gnu.org/)
-- [clang](https://clang.llvm.org/)
+- [cmake](https://cmake.org/) (3.21.4)
+- [gcc](https://gcc.gnu.org/) (11.1.0)
+- [clang](https://clang.llvm.org/) (13.0.0)
 - _(optional)_ [clion](https://www.jetbrains.com/clion/)
-- _(optional)_ [paraview](https://www.paraview.org/)
+- _(optional)_ [paraview](https://www.paraview.org/) (5.9.1)
 
 ## Run application
 
@@ -32,29 +32,29 @@ $ cd MolSim
 
 #### Available build options:
 
-- BUILD_DOCUMENTATION: Enables build of doxygen documentation (default: off)
-- BUILD_TESTS: Enable build of tests (default: off)
+- `BUILD_DOCUMENTATION`: Enables build of doxygen documentation (`default`: off)
+- `BUILD_TESTS`: Enable build of tests (`default`: off)
 
 #### Using the Makefile:
 
-1. Create build folder and run cmake with make.
+1. Create `build` folder and run cmake with make.
     ```bash
     $ make
     ```
-   *Existing build folder will be deleted and created again.
+   *Existing `build` folder will be deleted and created again.
 
 2. Switch into your build folder.
    ```bash
    $ cd ./build
    ```
-3. Create the MolSim target with the generated Makefile.
+3. Create the `MolSim` target with the generated Makefile.
    ```bash
    $ make
    ```
 
 #### Using CMake:
 
-1. Create build folder (`in-source-builds` are disabled).
+1. Create `build` folder (`in-source-builds` are disabled).
     ```bash
     $ mkdir ./build
     ```
@@ -98,7 +98,7 @@ $ cd MolSim
 
 #### Worksheet 1:
 
-- Run example simulation.
+- Run example simulation of `Task 3`.
    ```bash
    $ ./MolSim --filename ../../input/eingabe-sonne.txt --t_end 1000 --delta_t 0.014 --physics gravitation
    ```
@@ -106,12 +106,37 @@ $ cd MolSim
    ```bash
    $ ./MolSim -f ../../input/sun_system.txt -t 1000 -d 0.014 --p gravitation
    ```
+- _(optional)_ Run example simulation of `Task 3` as benchmark.
+   ```bash
+   $ ./MolSim --filename ../../input/eingabe-sonne.txt --t_end 1000 --delta_t 0.014 --physics gravitation --benchmark
+   ```
 
 #### Worksheet 2:
 
-- Run example simulation.
+- Run example simulation of `Task 3`.
    ```bash
    $ ./MolSim -x -f ../../input/input_task_3.xml
+   ```
+- _(optional)_ Run example simulation of `Task 3` as benchmark.
+   ```bash
+   $ ./MolSim -x -f ../../input/input_task_3.xml -b
+   ```
+- Input file used for simulation of `Task 3`.
+  ```xml
+    <Simulation endTime="5" deltaT="0.0002" iteration="20" physics="lennard" writer="vtk" output="MD">
+        <Shapes>
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1">
+                <Position x="0.0" y="0.0" z="0.0"/>
+                <Velocity x="0.0" y="0.0" z="0.0"/>
+                <Dimension x="40" y="8" z="1"/>
+            </Cuboid>
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1">
+                <Position x="15.0" y="15.0" z="0.0"/>
+                <Velocity x="0.0" y="-10.0" z="0.0"/>
+                <Dimension x="8" y="8" z="1"/>
+            </Cuboid>
+        </Shapes>
+    </Simulation>
    ```
 
 ### Tests
@@ -127,10 +152,12 @@ $ cd MolSim
 
 ### Input file format
 
-- XSD:
+- XSD - Definition of xml file structure
+
     ```xml
     <?xml version="1.0"?>
     <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <!-- Cuboids - all attributes are required -->
         <xsd:complexType name="cuboid_t">
             <xsd:sequence>
                 <xsd:element name="Position" type="vector_t"/>
@@ -141,7 +168,8 @@ $ cd MolSim
             <xsd:attribute name="mass" type="xsd:double" use="required"/>
             <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
         </xsd:complexType>
-    
+  
+        <!-- Spheres - all attributes are required -->
         <xsd:complexType name="sphere_t">
             <xsd:sequence>
                 <xsd:element name="Center" type="vector_t"/>
@@ -153,22 +181,26 @@ $ cd MolSim
             <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
         </xsd:complexType>
     
+        <!-- Double vector - all attributes are required -->
         <xsd:complexType name="vector_t">
             <xsd:attribute name="x" type="xsd:double" use="required"/>
             <xsd:attribute name="y" type="xsd:double" use="required"/>
             <xsd:attribute name="z" type="xsd:double" use="required"/>
         </xsd:complexType>
     
+        <!-- Integer vector - all attributes are required -->
         <xsd:complexType name="vector_i">
             <xsd:attribute name="x" type="xsd:nonNegativeInteger" use="required"/>
             <xsd:attribute name="y" type="xsd:nonNegativeInteger" use="required"/>
             <xsd:attribute name="z" type="xsd:nonNegativeInteger" use="required"/>
         </xsd:complexType>
     
+        <!-- Sources - additional files -->
         <xsd:complexType name="input_t">
             <xsd:attribute name="location" type="xsd:string" use="required"/>
         </xsd:complexType>
     
+        <!-- List of Shapes (Cuboids/Spheres) -->
         <xsd:complexType name="shape_t">
             <xsd:sequence>
                 <xsd:element name="Cuboid" type="cuboid_t" minOccurs="0" maxOccurs="unbounded"/>
@@ -176,25 +208,27 @@ $ cd MolSim
             </xsd:sequence>
         </xsd:complexType>
     
+  
+        <!-- Simulation -->
         <xsd:complexType name="simulation_t">
             <xsd:sequence>
                 <xsd:element name="Shapes" type="shape_t" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element name="Source" type="input_t" minOccurs="0" maxOccurs="unbounded"/>
             </xsd:sequence>
-            <xsd:attribute name="endTime" type="xsd:double"/>
-            <xsd:attribute name="deltaT" type="xsd:double"/>
-            <xsd:attribute name="output" type="xsd:string"/>
-            <xsd:attribute name="iteration" type="xsd:nonNegativeInteger"/>
-            <xsd:attribute name="physics" type="xsd:string"/>
-            <xsd:attribute name="writer" type="xsd:string"/>
+            <xsd:attribute name="endTime" type="xsd:double" use="required"/>
+            <xsd:attribute name="deltaT" type="xsd:double" use="required"/>
+            <xsd:attribute name="output" type="xsd:string" use="required"/>
+            <xsd:attribute name="iteration" type="xsd:nonNegativeInteger" use="required"/>
+            <xsd:attribute name="physics" type="xsd:string" use="required"/>
+            <xsd:attribute name="writer" type="xsd:string" use="required"/>
         </xsd:complexType>
         <xsd:element name="Simulation" type="simulation_t"/>
     </xsd:schema>
     ```
 
-- XML:
+- XML - Example input file
     ```xml
-    
+    <!-- Example input file -->
     <Simulation endTime="3" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="MD">
         <Shapes>
             <Cuboid mass="1.0" distance="1.1225" meanValue="0.0">
@@ -207,6 +241,8 @@ $ cd MolSim
                 <Velocity x="-15" y="0" z="0"/>
             </Sphere>
         </Shapes>
+        <Source location="./input/eingabe-sonne.txt"/>
+        <Source location="./input/sun_system.txt"/>
     </Simulation>
     ```
 
