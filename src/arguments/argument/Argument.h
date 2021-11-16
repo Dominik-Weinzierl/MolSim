@@ -9,7 +9,7 @@
  */
 template<size_t dim>
 class Argument {
- private:
+ protected:
   /**
    * Stores additional input files used to fill the ParticleContainer.
    */
@@ -124,4 +124,9 @@ class Argument {
    * @param container modified ParticleContainer.
    */
   virtual void createAdditionalParticle(ParticleContainer<dim> &container) const = 0;
+
+  /**
+   * Prints the arguments.
+   */
+  virtual void toString() const = 0;
 };

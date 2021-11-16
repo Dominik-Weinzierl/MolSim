@@ -52,10 +52,15 @@ int main(int argc, char *argv[]) {
 
   arg->createAdditionalParticle(particleContainer);
 
+  std::cout << "Configuration loaded..." << std::endl;
+  arg->toString();
+
   if (std::find(args.begin(), args.end(), "-b") != args.end()
       || std::find(args.begin(), args.end(), "--benchmark") != args.end()) {
+    std::cout << "Perform benchmarks..." << std::endl;
     return MolSim<dim>::benchmark(arg, particleContainer);
   } else {
+    std::cout << "Perform simulation... " << std::endl;
     return MolSim<dim>::simulate(arg, writer, particleContainer);
   }
 

@@ -17,7 +17,7 @@ void Logger::setupLogger() {
 
     stdoutSink->set_level(spdlog::level::info);
     stderrSink->set_level(spdlog::level::warn);
-    fileSink->set_level(spdlog::level::debug);
+    fileSink->set_level(spdlog::level::off);
 
     spdlog::sinks_init_list sinks = {stdoutSink, stderrSink, fileSink};
     spdlog::logger logger("logger", sinks.begin(), sinks.end());
@@ -26,7 +26,7 @@ void Logger::setupLogger() {
     /**
      * Set level here, and update SPDLOG_ACTIVE_LEVEL in logger/Logger.h
      */
-    spdlog::set_level(spdlog::level::off);
+    spdlog::set_level(spdlog::level::info);
   } catch (const spdlog::spdlog_ex &ex) {
     std::cout << "Log setup failed" << ex.what() << std::endl;
   }

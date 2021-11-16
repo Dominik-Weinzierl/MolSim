@@ -4,6 +4,8 @@
 #include <arguments/argument/Argument.h>
 #include <generator/GeneratorArguments/SphereArgument.h>
 
+#include <iostream>
+
 /**
  * XMLArgument stores the arguments parsed by XMLArgumentParser for easy access.
  * @tparam dim dimension of our simulation.
@@ -76,5 +78,54 @@ class XMLArgument : public Argument<dim> {
     for (const auto &sphereArgument: getSphereArguments()) {
       Generator<SphereArgument<dim>, dim>::generate(sphereArgument, container);
     }
+  }
+
+  /**
+   * Prints the arguments.
+   */
+  void toString() const override {
+    std::stringstream configuration;
+    configuration << "\tAdditional input files:\n";
+    for (const auto &f: this->files) {
+      configuration << "\t\t" << f << std::endl;
+    }
+    configuration << "\tEnd time: " << this->endTime << std::endl;;
+    configuration << "\tDelta t: " << this->deltaT << std::endl;
+    configuration << "\tOutput file prefix: " << this->output << std::endl;
+    configuration << "\tFile writer: " << this->writer << std::endl;
+    configuration << "\tIteration: " << this->iteration << std::endl;
+    configuration << "\tPhysic: " << this->physics << std::endl;
+    configuration << "\tAdditional generator:" << std::endl;
+    configuration << "\t\tCuboid generator:" << std::endl;
+    if (!this->cuboidArguments.empty()) {
+      for (const auto &g: this->cuboidArguments) {
+        configuration << "\t\t\tCuboid:" << std::endl;
+        configuration << "\t\t\t\t Stating coordinates: x: " << g.startingCoordinates[0] << " y: "
+                      << g.startingCoordinates[1] << " z: " << g.startingCoordinates[2] << std::endl;
+        configuration << "\t\t\t\t Dimension: x: " << g.dimensions[0] << " y: " << g.dimensions[1] << " z: "
+                      << g.dimensions[2] << std::endl;
+        configuration << "\t\t\t\t Velocity: x: " << g.initialVelocity[0] << " y: " << g.initialVelocity[1] << " z: "
+                      << g.initialVelocity[2] << std::endl;
+        configuration << "\t\t\t\t Distance: " << g.distance << std::endl;
+        configuration << "\t\t\t\t Mass: " << g.mass << std::endl;
+        configuration << "\t\t\t\t Mean value: " << g.meanValue << std::endl;
+      }
+    }
+    if (!this->sphereArguments.empty()) {
+      configuration << "\t\tSphere generator:" << std::endl;
+      for (const auto &s: this->sphereArguments) {
+        configuration << "\t\t\tSpheres:" << std::endl;
+        configuration << "\t\t\t\t Center coordinates: x: " << s.centerCoordinates[0] << " y: "
+                      << s.centerCoordinates[1] << " z: " << s.centerCoordinates[2] << std::endl;
+        configuration << "\t\t\t\t Velocity: x: " << s.initialVelocity[0] << " y: " << s.initialVelocity[1] << " z: "
+                      << s.initialVelocity[2] << std::endl;
+        configuration << "\t\t\t Radius: " << s.radius << std::endl;
+        configuration << "\t\t\t\t Distance: " << s.distance << std::endl;
+        configuration << "\t\t\t\t Mass: " << s.mass << std::endl;
+        configuration << "\t\t\t\t Mean value: " << s.meanValue << std::endl;
+      }
+    }
+
+    std::cout << configuration.str() << std::endl;
   }
 };
