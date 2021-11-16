@@ -2328,7 +2328,7 @@ class simulation_t : public ::xml_schema::type {
    * @name endTime
    *
    * @brief Accessor and modifier functions for the %endTime
-   * optional attribute.
+   * required attribute.
    */
   //@{
 
@@ -2338,29 +2338,23 @@ class simulation_t : public ::xml_schema::type {
   typedef ::xml_schema::double_ endTime_type;
 
   /**
-   * @brief Attribute optional container type.
-   */
-  typedef ::xsd::cxx::tree::optional<endTime_type> endTime_optional;
-
-  /**
    * @brief Attribute traits type.
    */
   typedef ::xsd::cxx::tree::traits<endTime_type, char, ::xsd::cxx::tree::schema_type::double_> endTime_traits;
 
   /**
-   * @brief Return a read-only (constant) reference to the attribute
-   * container.
+   * @brief Return a read-only (constant) reference to the attribute.
    *
-   * @return A constant reference to the optional container.
+   * @return A constant reference to the attribute.
    */
-  const endTime_optional &endTime() const;
+  const endTime_type &endTime() const;
 
   /**
-   * @brief Return a read-write reference to the attribute container.
+   * @brief Return a read-write reference to the attribute.
    *
-   * @return A reference to the optional container.
+   * @return A reference to the attribute.
    */
-  endTime_optional &endTime();
+  endTime_type &endTime();
 
   /**
    * @brief Set the attribute value.
@@ -2372,24 +2366,13 @@ class simulation_t : public ::xml_schema::type {
    */
   void endTime(const endTime_type &x);
 
-  /**
-   * @brief Set the attribute value.
-   *
-   * @param x An optional container with the new value to set.
-   *
-   * If the value is present in @a x then this function makes a copy 
-   * of this value and sets it as the new value of the attribute.
-   * Otherwise the attribute container is set the 'not present' state.
-   */
-  void endTime(const endTime_optional &x);
-
   //@}
 
   /**
    * @name deltaT
    *
    * @brief Accessor and modifier functions for the %deltaT
-   * optional attribute.
+   * required attribute.
    */
   //@{
 
@@ -2399,29 +2382,23 @@ class simulation_t : public ::xml_schema::type {
   typedef ::xml_schema::double_ deltaT_type;
 
   /**
-   * @brief Attribute optional container type.
-   */
-  typedef ::xsd::cxx::tree::optional<deltaT_type> deltaT_optional;
-
-  /**
    * @brief Attribute traits type.
    */
   typedef ::xsd::cxx::tree::traits<deltaT_type, char, ::xsd::cxx::tree::schema_type::double_> deltaT_traits;
 
   /**
-   * @brief Return a read-only (constant) reference to the attribute
-   * container.
+   * @brief Return a read-only (constant) reference to the attribute.
    *
-   * @return A constant reference to the optional container.
+   * @return A constant reference to the attribute.
    */
-  const deltaT_optional &deltaT() const;
+  const deltaT_type &deltaT() const;
 
   /**
-   * @brief Return a read-write reference to the attribute container.
+   * @brief Return a read-write reference to the attribute.
    *
-   * @return A reference to the optional container.
+   * @return A reference to the attribute.
    */
-  deltaT_optional &deltaT();
+  deltaT_type &deltaT();
 
   /**
    * @brief Set the attribute value.
@@ -2433,24 +2410,13 @@ class simulation_t : public ::xml_schema::type {
    */
   void deltaT(const deltaT_type &x);
 
-  /**
-   * @brief Set the attribute value.
-   *
-   * @param x An optional container with the new value to set.
-   *
-   * If the value is present in @a x then this function makes a copy 
-   * of this value and sets it as the new value of the attribute.
-   * Otherwise the attribute container is set the 'not present' state.
-   */
-  void deltaT(const deltaT_optional &x);
-
   //@}
 
   /**
    * @name output
    *
    * @brief Accessor and modifier functions for the %output
-   * optional attribute.
+   * required attribute.
    */
   //@{
 
@@ -2460,29 +2426,23 @@ class simulation_t : public ::xml_schema::type {
   typedef ::xml_schema::string output_type;
 
   /**
-   * @brief Attribute optional container type.
-   */
-  typedef ::xsd::cxx::tree::optional<output_type> output_optional;
-
-  /**
    * @brief Attribute traits type.
    */
   typedef ::xsd::cxx::tree::traits<output_type, char> output_traits;
 
   /**
-   * @brief Return a read-only (constant) reference to the attribute
-   * container.
+   * @brief Return a read-only (constant) reference to the attribute.
    *
-   * @return A constant reference to the optional container.
+   * @return A constant reference to the attribute.
    */
-  const output_optional &output() const;
+  const output_type &output() const;
 
   /**
-   * @brief Return a read-write reference to the attribute container.
+   * @brief Return a read-write reference to the attribute.
    *
-   * @return A reference to the optional container.
+   * @return A reference to the attribute.
    */
-  output_optional &output();
+  output_type &output();
 
   /**
    * @brief Set the attribute value.
@@ -2495,23 +2455,12 @@ class simulation_t : public ::xml_schema::type {
   void output(const output_type &x);
 
   /**
-   * @brief Set the attribute value.
-   *
-   * @param x An optional container with the new value to set.
-   *
-   * If the value is present in @a x then this function makes a copy 
-   * of this value and sets it as the new value of the attribute.
-   * Otherwise the attribute container is set the 'not present' state.
-   */
-  void output(const output_optional &x);
-
-  /**
    * @brief Set the attribute value without copying.
    *
    * @param p A new value to use.
    *
-   * This function will try to use the passed value directly instead
-   * of making a copy.
+   * This function will try to use the passed value directly
+   * instead of making a copy.
    */
   void output(::std::unique_ptr<output_type> p);
 
@@ -2521,7 +2470,7 @@ class simulation_t : public ::xml_schema::type {
    * @name iteration
    *
    * @brief Accessor and modifier functions for the %iteration
-   * optional attribute.
+   * required attribute.
    */
   //@{
 
@@ -2531,29 +2480,23 @@ class simulation_t : public ::xml_schema::type {
   typedef ::xml_schema::non_negative_integer iteration_type;
 
   /**
-   * @brief Attribute optional container type.
-   */
-  typedef ::xsd::cxx::tree::optional<iteration_type> iteration_optional;
-
-  /**
    * @brief Attribute traits type.
    */
   typedef ::xsd::cxx::tree::traits<iteration_type, char> iteration_traits;
 
   /**
-   * @brief Return a read-only (constant) reference to the attribute
-   * container.
+   * @brief Return a read-only (constant) reference to the attribute.
    *
-   * @return A constant reference to the optional container.
+   * @return A constant reference to the attribute.
    */
-  const iteration_optional &iteration() const;
+  const iteration_type &iteration() const;
 
   /**
-   * @brief Return a read-write reference to the attribute container.
+   * @brief Return a read-write reference to the attribute.
    *
-   * @return A reference to the optional container.
+   * @return A reference to the attribute.
    */
-  iteration_optional &iteration();
+  iteration_type &iteration();
 
   /**
    * @brief Set the attribute value.
@@ -2565,24 +2508,13 @@ class simulation_t : public ::xml_schema::type {
    */
   void iteration(const iteration_type &x);
 
-  /**
-   * @brief Set the attribute value.
-   *
-   * @param x An optional container with the new value to set.
-   *
-   * If the value is present in @a x then this function makes a copy 
-   * of this value and sets it as the new value of the attribute.
-   * Otherwise the attribute container is set the 'not present' state.
-   */
-  void iteration(const iteration_optional &x);
-
   //@}
 
   /**
    * @name physics
    *
    * @brief Accessor and modifier functions for the %physics
-   * optional attribute.
+   * required attribute.
    */
   //@{
 
@@ -2592,29 +2524,23 @@ class simulation_t : public ::xml_schema::type {
   typedef ::xml_schema::string physics_type;
 
   /**
-   * @brief Attribute optional container type.
-   */
-  typedef ::xsd::cxx::tree::optional<physics_type> physics_optional;
-
-  /**
    * @brief Attribute traits type.
    */
   typedef ::xsd::cxx::tree::traits<physics_type, char> physics_traits;
 
   /**
-   * @brief Return a read-only (constant) reference to the attribute
-   * container.
+   * @brief Return a read-only (constant) reference to the attribute.
    *
-   * @return A constant reference to the optional container.
+   * @return A constant reference to the attribute.
    */
-  const physics_optional &physics() const;
+  const physics_type &physics() const;
 
   /**
-   * @brief Return a read-write reference to the attribute container.
+   * @brief Return a read-write reference to the attribute.
    *
-   * @return A reference to the optional container.
+   * @return A reference to the attribute.
    */
-  physics_optional &physics();
+  physics_type &physics();
 
   /**
    * @brief Set the attribute value.
@@ -2627,23 +2553,12 @@ class simulation_t : public ::xml_schema::type {
   void physics(const physics_type &x);
 
   /**
-   * @brief Set the attribute value.
-   *
-   * @param x An optional container with the new value to set.
-   *
-   * If the value is present in @a x then this function makes a copy 
-   * of this value and sets it as the new value of the attribute.
-   * Otherwise the attribute container is set the 'not present' state.
-   */
-  void physics(const physics_optional &x);
-
-  /**
    * @brief Set the attribute value without copying.
    *
    * @param p A new value to use.
    *
-   * This function will try to use the passed value directly instead
-   * of making a copy.
+   * This function will try to use the passed value directly
+   * instead of making a copy.
    */
   void physics(::std::unique_ptr<physics_type> p);
 
@@ -2653,7 +2568,7 @@ class simulation_t : public ::xml_schema::type {
    * @name writer
    *
    * @brief Accessor and modifier functions for the %writer
-   * optional attribute.
+   * required attribute.
    */
   //@{
 
@@ -2663,29 +2578,23 @@ class simulation_t : public ::xml_schema::type {
   typedef ::xml_schema::string writer_type;
 
   /**
-   * @brief Attribute optional container type.
-   */
-  typedef ::xsd::cxx::tree::optional<writer_type> writer_optional;
-
-  /**
    * @brief Attribute traits type.
    */
   typedef ::xsd::cxx::tree::traits<writer_type, char> writer_traits;
 
   /**
-   * @brief Return a read-only (constant) reference to the attribute
-   * container.
+   * @brief Return a read-only (constant) reference to the attribute.
    *
-   * @return A constant reference to the optional container.
+   * @return A constant reference to the attribute.
    */
-  const writer_optional &writer() const;
+  const writer_type &writer() const;
 
   /**
-   * @brief Return a read-write reference to the attribute container.
+   * @brief Return a read-write reference to the attribute.
    *
-   * @return A reference to the optional container.
+   * @return A reference to the attribute.
    */
-  writer_optional &writer();
+  writer_type &writer();
 
   /**
    * @brief Set the attribute value.
@@ -2698,23 +2607,12 @@ class simulation_t : public ::xml_schema::type {
   void writer(const writer_type &x);
 
   /**
-   * @brief Set the attribute value.
-   *
-   * @param x An optional container with the new value to set.
-   *
-   * If the value is present in @a x then this function makes a copy 
-   * of this value and sets it as the new value of the attribute.
-   * Otherwise the attribute container is set the 'not present' state.
-   */
-  void writer(const writer_optional &x);
-
-  /**
    * @brief Set the attribute value without copying.
    *
    * @param p A new value to use.
    *
-   * This function will try to use the passed value directly instead
-   * of making a copy.
+   * This function will try to use the passed value directly
+   * instead of making a copy.
    */
   void writer(::std::unique_ptr<writer_type> p);
 
@@ -2729,7 +2627,8 @@ class simulation_t : public ::xml_schema::type {
    * @brief Create an instance from the ultimate base and
    * initializers for required elements and attributes.
    */
-  simulation_t();
+  simulation_t(const endTime_type &, const deltaT_type &, const output_type &, const iteration_type &,
+               const physics_type &, const writer_type &);
 
   /**
    * @brief Create an instance from a DOM element.
@@ -2794,12 +2693,12 @@ class simulation_t : public ::xml_schema::type {
  protected:
   Shapes_sequence Shapes_;
   Source_sequence Source_;
-  endTime_optional endTime_;
-  deltaT_optional deltaT_;
-  output_optional output_;
-  iteration_optional iteration_;
-  physics_optional physics_;
-  writer_optional writer_;
+  ::xsd::cxx::tree::one<endTime_type> endTime_;
+  ::xsd::cxx::tree::one<deltaT_type> deltaT_;
+  ::xsd::cxx::tree::one<output_type> output_;
+  ::xsd::cxx::tree::one<iteration_type> iteration_;
+  ::xsd::cxx::tree::one<physics_type> physics_;
+  ::xsd::cxx::tree::one<writer_type> writer_;
 
   //@endcond
 };
