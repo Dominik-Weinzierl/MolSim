@@ -44,13 +44,15 @@ class MDSimulation {
         writer.writeFile(iteration);
       }
 
-      SPDLOG_INFO("Iteration {} finished", iteration);
+      if (iteration % 500 == 0) {
+        SPDLOG_INFO("Iteration {} finished", iteration);
+      } else {
+        SPDLOG_TRACE("Iteration {} finished", iteration);
+      }
 
       iteration++;
       current_time += deltaT;
     }
-
-    SPDLOG_INFO("Output written, terminating");
   };
 };
 

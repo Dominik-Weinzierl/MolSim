@@ -33,6 +33,8 @@ class MolSim {
     } else if (arg->getPhysics() == "lennard") {
       MDSimulation<LennardJones<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
     }
+    std::cout << "Finished simulation after " << arg->getEndTime() / arg->getDeltaT() << " iterations..." << std::endl;
+    std::cout << "Output written..." << std::endl;
     return 0;
   };
 
@@ -51,6 +53,7 @@ class MolSim {
       MDSimulation<LennardJones<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
     }
     auto end = std::chrono::high_resolution_clock::now();
+    std::cout << "Finished benchmarks after " << arg->getEndTime() / arg->getDeltaT() << " iterations..." << std::endl;
     std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms"
               << std::endl;
     return 0;
