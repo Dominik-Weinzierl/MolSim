@@ -73,7 +73,7 @@ $ cd MolSim
 
 ### Perform simulations
 
-- Run `./MolSim` without any arguments to list possible and required arguments.
+Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
     $ ./MolSim
   
@@ -141,19 +141,18 @@ $ cd MolSim
 
 ### Tests
 
-- Run tests to verify correctness:
-    ```bash
-    $ ctest
-    [...]
-    100% tests passed, 0 tests failed out of x
+Run tests to verify correctness.
+```bash
+$ ctest
+[...]
+100% tests passed, 0 tests failed out of x
 
-    Total Test time (real) =   x sec
-    ```
+Total Test time (real) =   x sec
+```
 
 ### Input file format
 
 - XSD - Definition of xml file structure
-
     ```xml
     <?xml version="1.0"?>
     <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
