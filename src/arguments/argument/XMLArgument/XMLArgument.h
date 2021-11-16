@@ -85,7 +85,7 @@ class XMLArgument : public Argument<dim> {
    */
   void toString() const override {
     std::stringstream configuration;
-    configuration << "\tAdditional input files:\n";
+    configuration << "\tAdditional input files:" << std::endl;
     for (const auto &f: this->files) {
       configuration << "\t\t" << f << std::endl;
     }
