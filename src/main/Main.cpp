@@ -3,7 +3,7 @@
 /**
  * Dimension of the current simulation.
  */
-constexpr size_t dim = 2;
+constexpr size_t dim = 3;
 
 /**
  * Creates a parser which parses information based on the selected parser
