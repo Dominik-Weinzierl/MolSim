@@ -4,6 +4,8 @@
 #include <arguments/argument/Argument.h>
 #include <generator/GeneratorArguments/SphereArgument.h>
 
+#include <algorithm>
+
 #include <iostream>
 
 /**
@@ -129,3 +131,19 @@ class XMLArgument : public Argument<dim> {
     std::cout << configuration.str() << std::endl;
   }
 };
+
+/**
+ * Compare operator for XMLArgument(s);
+ * @tparam dim dimension of simulation
+ * @param left first XMLArgument
+ * @param right second XMLArgument
+ * @return true if all values are equal
+ */
+template<size_t dim>
+bool operator==(const XMLArgument<dim> &left, const XMLArgument<dim> &right) {
+  return left.getCuboidArguments() == right.getCuboidArguments()
+      && left.getSphereArguments() == left.getSphereArguments() && left.getFiles() == right.getFiles()
+      && left.getEndTime() == right.getEndTime() && left.getDeltaT() == right.getDeltaT()
+      && left.getOutput() == right.getOutput() && left.getWriter() == right.getWriter()
+      && left.getIteration() == right.getIteration() && left.getPhysics() == right.getPhysics();
+}

@@ -56,3 +56,17 @@ class SphereArgument : public GeneratorArguments {
   }
 
 };
+
+/**
+ * Compare operator for SphereArgument(s);
+ * @tparam dim dimension of current simulation
+ * @param left first SphereArgument
+ * @param right second SphereArgument
+ * @return true if they equal
+ */
+template<size_t dim>
+bool operator==(const SphereArgument<dim> &left, const SphereArgument<dim> &right) {
+  return left.centerCoordinates == right.centerCoordinates && left.radius == right.radius
+      && left.initialVelocity == right.initialVelocity && left.distance == right.distance && left.mass == right.mass
+      && left.meanValue == right.meanValue;
+}

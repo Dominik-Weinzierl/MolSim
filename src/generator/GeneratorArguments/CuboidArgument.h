@@ -58,3 +58,17 @@ class CuboidArgument : public GeneratorArguments {
 
   }
 };
+
+/**
+ * Compare operator for CuboidArgument(s);
+ * @tparam dim dimension of current simulation
+ * @param left first CuboidArgument
+ * @param right second CuboidArgument
+ * @return true if they equal
+ */
+template<size_t dim>
+bool operator==(const CuboidArgument<dim> &left, const CuboidArgument<dim> &right) {
+  return left.startingCoordinates == right.startingCoordinates && left.dimensions == right.dimensions
+      && left.initialVelocity == right.initialVelocity && left.distance == right.distance && left.mass == right.mass
+      && left.meanValue == right.meanValue;
+}
