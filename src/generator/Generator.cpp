@@ -42,7 +42,8 @@ void Generator<SphereArgument<3>, 3>::generate(const SphereArgument<3> &c, Parti
         Vector<3>
             pos{x * c.getDistance() + corner[0], y * c.getDistance() + corner[1], z * c.getDistance() + corner[2]};
 
-        if (ArrayUtils::L2Norm(pos - c.getCenterCoordinates()) > rad)
+        // 0.01*dist so that we don't have too many problems with the (in-)precision of floating point math
+        if (ArrayUtils::L2Norm(pos - c.getCenterCoordinates()) > rad + 0.01 * c.getDistance())
           continue;
 
         Particle<3> p{pos, c.getInitialVelocity(), c.getMass()};
@@ -61,7 +62,8 @@ void Generator<SphereArgument<2>, 2>::generate(const SphereArgument<2> &c, Parti
     for (auto y = 0; y <= 2 * c.getRadius(); ++y) {
       Vector<2> pos{x * c.getDistance() + corner[0], y * c.getDistance() + corner[1]};
 
-      if (ArrayUtils::L2Norm(pos - c.getCenterCoordinates()) > rad)
+      // 0.01*dist so that we don't have too many problems with the (in-)precision of floating point math
+      if (ArrayUtils::L2Norm(pos - c.getCenterCoordinates()) > rad + 0.01 * c.getDistance())
         continue;
 
       Particle<2> p{pos, c.getInitialVelocity(), c.getMass()};
