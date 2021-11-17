@@ -36,7 +36,7 @@ TEST(XMLReader, test_case_1) { // NOLINT(cert-err58-cpp)
 /**
 * Test that all fields of the XMLArgument are set correctly for test_case_2.xml.
 */
-TEST(xmlReader, test_case_2) { // NOLINT(cert-err58-cpp)
+TEST(XMLReader, test_case_2) { // NOLINT(cert-err58-cpp)
   // Read input file
   XMLReader<3> reader("../../tests/XMLReader/input/test_case_2.xml");
 
@@ -60,7 +60,7 @@ TEST(xmlReader, test_case_2) { // NOLINT(cert-err58-cpp)
 /**
 * Test that exception is thrown for missing value in test_case_3.xml.
 */
-TEST(xmlReader, test_case_3) { // NOLINT(cert-err58-cpp)
+TEST(XMLReader, test_case_3) { // NOLINT(cert-err58-cpp)
   // Missing attribute output, which is required.
   EXPECT_THROW(XMLReader<3> reader("../../tests/XMLReader/input/test_case_3.xml"), std::invalid_argument);
 }
