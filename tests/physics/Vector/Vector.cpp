@@ -3,7 +3,7 @@
 
 /**
  * ************************************************
- * Test correct functionality of the class Vector
+ * Test correct functionality of the class Vector.
  * ******************************************+*****
  */
 
@@ -18,13 +18,13 @@ TEST(Vector, constructor) { // NOLINT(cert-err58-cpp)
   EXPECT_DOUBLE_EQ(v1[1], 0.0);
   EXPECT_DOUBLE_EQ(v1[2], 0.0);
 
-  // Test with constructor which takes three doubles as argument
+  // Test with constructor which takes three doubles as argument.
   Vector<3> v2{1.0, 2.0, 3.0};
   EXPECT_DOUBLE_EQ(v2[0], 1.0);
   EXPECT_DOUBLE_EQ(v2[1], 2.0);
   EXPECT_DOUBLE_EQ(v2[2], 3.0);
 
-  // Test with constructor which takes a std::array as argument
+  // Test with constructor which takes a std::array as argument.
   std::array<double, 3> arr{1.0, 2.0, 3.0};
   Vector<3> v3{arr};
   EXPECT_DOUBLE_EQ(v3[0], 1.0);
