@@ -69,5 +69,5 @@ if (NOT spdlog_POPULATED)
   add_subdirectory(${spdlog_SOURCE_DIR} ${spdlog_BINARY_DIR})
 endif ()
 
-# Add scr folder
+# Add src folder
 add_subdirectory(src MolSim)
