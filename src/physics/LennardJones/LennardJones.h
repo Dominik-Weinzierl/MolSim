@@ -27,15 +27,7 @@ class LennardJones : public Physics<dim> {
    * @param diff difference between two Particle(s).
    * @return factor
    */
-  [[nodiscard]] inline double calculateFactor(const Vector<dim> &diff) const {
-    double l2Norm = ArrayUtils::L2Norm(diff);
-    double fracture = zeroCrossing / l2Norm;
-
-    double firstFactor = (24 * potentialWellDepth) / (l2Norm * l2Norm);
-    double pow = fracture * fracture * fracture * fracture * fracture * fracture;
-    double secondFactor = pow - 2 * pow * pow;
-    return firstFactor * secondFactor;
-  }
+  [[nodiscard]] inline double calculateFactor(const Vector<dim> &diff) const;
 
   /**
    * Updates the force of the Particle(s).

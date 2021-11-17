@@ -1,6 +1,28 @@
 #include "LennardJones.h"
 
 template<>
+inline double LennardJones<3>::calculateFactor(const Vector<3> &diff) const {
+  double l2Norm = diff[0] * diff[0] + diff[1] * diff[1] + diff[2] * diff[2];
+  double fracture = (zeroCrossing * zeroCrossing) / l2Norm;
+
+  double firstFactor = (24 * potentialWellDepth) / (l2Norm);
+  double pow = fracture * fracture * fracture;
+  double secondFactor = pow - 2 * pow * pow;
+  return firstFactor * secondFactor;
+}
+
+template<>
+inline double LennardJones<2>::calculateFactor(const Vector<2> &diff) const {
+  double l2Norm = diff[0] * diff[0] + diff[1] * diff[1];
+  double fracture = (zeroCrossing * zeroCrossing) / l2Norm;
+
+  double firstFactor = (24 * potentialWellDepth) / (l2Norm);
+  double pow = fracture * fracture * fracture;
+  double secondFactor = pow - 2 * pow * pow;
+  return firstFactor * secondFactor;
+}
+
+template<>
 void LennardJones<3>::performUpdate(ParticleContainer<3> &particleContainer) const {
   for (auto i = particleContainer.begin(); i != particleContainer.end(); ++i) {
     for (auto j = i + 1; j != particleContainer.end(); ++j) {
