@@ -61,6 +61,6 @@ TEST(XMLReader, test_case_2) { // NOLINT(cert-err58-cpp)
 * Test that exception is thrown for missing value in test_case_3.xml.
 */
 TEST(XMLReader, test_case_3) { // NOLINT(cert-err58-cpp)
-  // Missing attribute output, which is required.
+  // Missing attribute output, which is required.f
   EXPECT_THROW(XMLReader<3> reader("../../tests/XMLReader/input/test_case_3.xml"), std::invalid_argument);
 }
