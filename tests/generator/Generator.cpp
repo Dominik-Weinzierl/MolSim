@@ -2,7 +2,6 @@
 #include "generator/Generator.h"
 #include "generator/GeneratorArguments/CuboidArgument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"
-#include "utils/MaxwellBoltzmannDistribution.h"
 #include "particles/Particle.h"
 
 /**
@@ -54,6 +53,22 @@ TEST(CuboidGenerator_2D, applyMotion) { // NOLINT(cert-err58-cpp)
 }
 
 /**
+* Tests correctness of 2d applyMotion for Cuboids
+*/
+TEST(CuboidGenerator_2D, applyNoMotion) { // NOLINT(cert-err58-cpp)
+  constexpr int dim = 2;
+
+  std::vector dimensions = {1, 1};
+
+  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, 1.0, 1.0, 0.0};
+  ParticleContainer<dim> p{};
+
+  Generator<CuboidArgument<dim>, dim>::generate(c, p);
+
+  EXPECT_TRUE(p.getParticles()[0].getV() == (Vector<dim>{0, 0}));
+}
+
+/**
 * Tests correctness of 3d generation for Cuboids
 */
 TEST(CuboidGenerator_3D, generate) { // NOLINT(cert-err58-cpp)
@@ -93,6 +108,22 @@ TEST(CuboidGenerator_3D, applyMotion) { // NOLINT(cert-err58-cpp)
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
 
   EXPECT_FALSE(p.getParticles()[0].getV() == (Vector<dim>{0, 0, 0}));
+}
+
+/**
+* Tests correctness of 3d applyMotion for Cuboids
+*/
+TEST(CuboidGenerator_3D, applyNoMotion) { // NOLINT(cert-err58-cpp)
+  constexpr int dim = 3;
+
+  std::vector dimensions = {1, 1, 1};
+
+  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.0};
+  ParticleContainer<dim> p{};
+
+  Generator<CuboidArgument<dim>, dim>::generate(c, p);
+
+  EXPECT_TRUE(p.getParticles()[0].getV() == (Vector<dim>{0, 0, 0}));
 }
 
 /**
@@ -136,6 +167,20 @@ TEST(SpheresGenerator_2D, applyMotion) { // NOLINT(cert-err58-cpp)
 }
 
 /**
+* Tests correctness of 2d applyMotion for Spheres
+*/
+TEST(SpheresGenerator_2D, applyNoMotion) { // NOLINT(cert-err58-cpp)
+  constexpr int dim = 2;
+
+  SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, 1, {0.0, 0.0}, 1.0, 1.0, 0.0};
+  ParticleContainer<dim> p{};
+
+  Generator<SphereArgument<dim>, dim>::generate(s, p);
+
+  EXPECT_TRUE(p.getParticles()[0].getV() == (Vector<dim>{0, 0}));
+}
+
+/**
 * Tests correctness of 3d generation for Spheres
 */
 TEST(SpheresGenerator_3D, generate) { // NOLINT(cert-err58-cpp)
@@ -173,5 +218,19 @@ TEST(SpheresGenerator_3D, applyMotion) { // NOLINT(cert-err58-cpp)
   Generator<SphereArgument<dim>, dim>::generate(s, p);
 
   EXPECT_FALSE(p.getParticles()[0].getV() == (Vector<dim>{0, 0, 0}));
+}
+
+/**
+* Tests correctness of 3d applyMotion for Spheres
+*/
+TEST(SpheresGenerator_3D, applyZeroMotion) { // NOLINT(cert-err58-cpp)
+  constexpr int dim = 3;
+
+  SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, 1, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.0};
+  ParticleContainer<dim> p{};
+
+  Generator<SphereArgument<dim>, dim>::generate(s, p);
+
+  EXPECT_TRUE(p.getParticles()[0].getV() == (Vector<dim>{0, 0, 0}));
 }
 
