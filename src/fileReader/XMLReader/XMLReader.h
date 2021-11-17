@@ -22,7 +22,7 @@ class XMLReader {
     try {
       simulation = Simulation(path, xml_schema::flags::dont_validate);
     } catch (const xml_schema::exception &e) {
-      throw std::invalid_argument("[ERROR] " + std::string{e.what()});
+      throw std::invalid_argument(std::string{e.what()});
     }
   }
 
