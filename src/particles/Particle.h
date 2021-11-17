@@ -297,3 +297,16 @@ std::ostream &operator<<(std::ostream &stream, const Particle<dim> &p) {
   stream << p.toString();
   return stream;
 }
+
+/**
+ * Operator == to compare Particles for testing
+ * @tparam dim Dimension of the given Particles
+ * @param p1 One of the two Particles to compare
+ * @param p2 One of the two Particles to compare
+ * @return True, if both Particles are the same
+ */
+template<size_t dim>
+bool operator==(const Particle<dim> &p1, const Particle<dim> &p2) {
+  return p1.getX() == p2.getX() && p1.getV() == p2.getV() && p1.getM() == p2.getM() && p1.getF() == p2.getF()
+      && p1.getOldF() == p2.getOldF() && p1.getType() == p2.getType();
+}

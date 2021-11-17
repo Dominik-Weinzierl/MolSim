@@ -51,6 +51,14 @@ class ParticleContainer {
   }
 
   /**
+   * const getter for the vector of Particle(s).
+   * @return const std::vector<Particle<dim>>
+   */
+  [[nodiscard]] const std::vector<Particle<dim>> &getParticles() const {
+    return particles;
+  }
+
+  /**
    * Getter for the vector of Particle(s).
    * @return std::vector<Particle<dim>>
    */
@@ -93,3 +101,15 @@ class ParticleContainer {
     return particles[i];
   }
 };
+
+/**
+ * Operator == to compare ParticleContainers for testing
+ * @tparam dim Dimension of the Particles in the ParticleContainer
+ * @param p1 One of the two ParticleContainers to compare
+ * @param p2 One of the two ParticleContainers to compare
+ * @return True, if both ParticleContainers are the same
+ */
+template<size_t dim>
+bool operator==(const ParticleContainer<dim> &p1, const ParticleContainer<dim> &p2){
+  return p1.getParticles() == p2.getParticles();
+}
