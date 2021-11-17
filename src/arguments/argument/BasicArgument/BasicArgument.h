@@ -56,3 +56,18 @@ class BasicArgument : public Argument<dim> {
     std::cout << configuration.str() << std::endl;
   }
 };
+
+/**
+ * Compare operator for BasicArgument(s);
+ * @tparam dim dimension of simulation
+ * @param left first BasicArgument
+ * @param right second BasicArgument
+ * @return true if all values are equal
+ */
+template<size_t dim>
+bool operator==(const BasicArgument<dim> &left, const BasicArgument<dim> &right) {
+  return left.getFiles() == right.getFiles() && left.getEndTime() == right.getEndTime()
+      && left.getDeltaT() == right.getDeltaT() && left.getOutput() == right.getOutput()
+      && left.getWriter() == right.getWriter() && left.getIteration() == right.getIteration()
+      && left.getPhysics() == right.getPhysics();
+}

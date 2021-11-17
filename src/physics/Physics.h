@@ -16,6 +16,13 @@ class Physics {
   virtual ~Physics() = default;
 
   /**
+   * Calculates and updates the force for all particles in the specified container
+   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   */
+  virtual void calculateF(ParticleContainer<dim> &particleContainer) const = 0;
+
+ public:
+  /**
    * Calculates and updates the position of all particles in the specified container.
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
@@ -23,19 +30,11 @@ class Physics {
   static void calculateX(ParticleContainer<dim> &particleContainer, double deltaT);
 
   /**
-   * Calculates and updates the force for all particles in the specified container
-   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
-   */
-  virtual void calculateF(ParticleContainer<dim> &particleContainer) const = 0;
-
-  /**
    * Calculates and updates the velocity of all particles in the specified container.
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
    */
   static void calculateV(ParticleContainer<dim> &particleContainer, double deltaT);
-
- public:
 
   /**
    * Calls the calculate-Methods for the position, force and velocity with the given parameters.

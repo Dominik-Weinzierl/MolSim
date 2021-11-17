@@ -16,7 +16,7 @@ class Gravitation : public Physics<dim> {
    * @param particleContainer container which contains the Particle(s) used for this simulation.
    */
   void performUpdate(ParticleContainer<dim> &particleContainer) const;
- protected:
+ public:
 
   /**
    * Calculates the force that is active on all particles via the simple force calculation method.

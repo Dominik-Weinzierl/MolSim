@@ -36,7 +36,16 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  std::unique_ptr<Argument<dim>> arg = parser->createArgument();
+  std::unique_ptr<Argument<dim>> arg;
+
+  try {
+    arg = parser->createArgument();
+  } catch (std::invalid_argument &exception) {
+    std::cout << "[ERROR] " << exception.what() << "! Please check your input file." << std::endl;
+    SPDLOG_ERROR(exception.what());
+    return -1;
+  }
+
   std::unique_ptr<OutputWriter<dim>> writer;
   ParticleContainer<dim> particleContainer;
 
@@ -63,6 +72,5 @@ int main(int argc, char *argv[]) {
     std::cout << "Perform simulation... " << std::endl;
     return MolSim<dim>::simulate(arg, writer, particleContainer);
   }
-
 }
 
