@@ -17,7 +17,7 @@ void Logger::setupLogger() {
 
     stdoutSink->set_level(spdlog::level::info);
     stderrSink->set_level(spdlog::level::warn);
-    fileSink->set_level(spdlog::level::debug);
+    fileSink->set_level(spdlog::level::trace);
 
     spdlog::sinks_init_list sinks = {stdoutSink, stderrSink, fileSink};
     spdlog::logger logger("logger", sinks.begin(), sinks.end());
