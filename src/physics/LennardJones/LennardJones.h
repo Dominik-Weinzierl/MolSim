@@ -4,6 +4,7 @@
 #include "particles/ParticleContainer.h"
 #include "physics/Physics.h"
 #include <utils/ArrayUtils.h>
+#include "logger/Logger.h"
 
 /**
  * Contains force calculations based on the lennard jones potential.
@@ -28,12 +29,14 @@ class LennardJones : public Physics<dim> {
    * @return factor
    */
   [[nodiscard]] inline double calculateFactor(const Vector<dim> &diff) const;
+  // Since we expect only dim two or three, there is no default implementation required.
 
   /**
    * Updates the force of the Particle(s).
    * @param particleContainer container which contains the Particle(s) used for this simulation.
    */
   void performUpdate(ParticleContainer<dim> &particleContainer) const;
+  // Since we expect only dim two or three, there is no default implementation required.
 
  public:
 

@@ -28,13 +28,17 @@ class MolSim {
    */
   static int simulate(std::unique_ptr<Argument<dim>> &arg, std::unique_ptr<OutputWriter<dim>> &writer,
                       ParticleContainer<dim> &particleContainer) {
+    auto start = std::chrono::high_resolution_clock::now();
     if (arg->getPhysics() == "gravitation") {
       MDSimulation<Gravitation<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
     } else if (arg->getPhysics() == "lennard") {
       MDSimulation<LennardJones<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
     }
+    auto end = std::chrono::high_resolution_clock::now();
     std::cout << "Finished simulation after " << arg->getEndTime() / arg->getDeltaT() << " iterations..." << std::endl;
     std::cout << "Output written..." << std::endl;
+    std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms"
+              << std::endl;
     return 0;
   };
 

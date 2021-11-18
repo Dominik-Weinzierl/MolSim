@@ -53,7 +53,7 @@ class SphereArgument : public GeneratorArguments {
    * Getter for the radius.
    * @return radius
    */
-  int getRadius() const {
+  [[nodiscard]] int getRadius() const {
     return radius;
   }
 
@@ -104,6 +104,20 @@ class SphereArgument : public GeneratorArguments {
                                                           mass{pMass}, meanValue{pMeanValue} {
   }
 
+  /**
+   * Prints the SphereArgument.
+   */
+  [[nodiscard]] std::string toString() const {
+    std::stringstream argument;
+    argument << "\t\t\t\t Center coordinates: " << ArrayUtils::to_string(centerCoordinates) << std::endl;
+    argument << "\t\t\t\t Velocity: " << ArrayUtils::to_string(initialVelocity) << std::endl;
+    argument << "\t\t\t\t Radius: " << radius << std::endl;
+    argument << "\t\t\t\t Distance: " << distance << std::endl;
+    argument << "\t\t\t\t Mass: " << mass << std::endl;
+    argument << "\t\t\t\t Mean value: " << meanValue << std::endl;
+    return argument.str();
+  };
+
 };
 
 /**
@@ -119,3 +133,17 @@ bool operator==(const SphereArgument<dim> &left, const SphereArgument<dim> &righ
       && left.getInitialVelocity() == right.getInitialVelocity() && left.getDistance() == right.getDistance()
       && left.getMass() == right.getMass() && left.getMeanValue() == right.getMeanValue();
 }
+
+/**
+ * Stream operator for SphereArgument(s).
+ * @tparam dim dimension of our simulation.
+ * @param stream std::ostream
+ * @param p SphereArgument to print
+ * @return updated stream
+ */
+template<size_t dim>
+std::ostream &operator<<(std::ostream &stream, const SphereArgument<dim> &s) {
+  stream << s.toString();
+  return stream;
+}
+

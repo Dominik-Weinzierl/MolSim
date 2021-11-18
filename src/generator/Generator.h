@@ -26,6 +26,7 @@ class Generator {
    * @param container provided particle container
    */
   static void generate(const T &g, ParticleContainer<dim> &container);
+  // If we provide a default implementation, the default implementation is used in all cases. Therefore we have no default implementation here.
 
  private:
   /**

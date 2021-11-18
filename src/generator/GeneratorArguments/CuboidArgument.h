@@ -106,6 +106,21 @@ class CuboidArgument : public GeneratorArguments {
                                                                             meanValue{pMeanValue} {
 
   }
+
+  /**
+   * Prints the CuboidArgument.
+   */
+  [[nodiscard]] std::string toString() const {
+    std::stringstream argument;
+    argument << "\t\t\tCuboid:" << std::endl;
+    argument << "\t\t\t\t Stating coordinates: " << ArrayUtils::to_string(startingCoordinates) << std::endl;
+    argument << "\t\t\t\t Dimension: " << ArrayUtils::to_string(dimensions) << std::endl;
+    argument << "\t\t\t\t Velocity: " << ArrayUtils::to_string(initialVelocity) << std::endl;
+    argument << "\t\t\t\t Distance: " << distance << std::endl;
+    argument << "\t\t\t\t Mass: " << mass << std::endl;
+    argument << "\t\t\t\t Mean value: " << meanValue << std::endl;
+    return argument.str();
+  };
 };
 
 /**
@@ -122,3 +137,17 @@ bool operator==(const CuboidArgument<dim> &left, const CuboidArgument<dim> &righ
       && left.getDistance() == right.getDistance() && left.getMass() == right.getMass()
       && left.getMeanValue() == right.getMeanValue();
 }
+
+/**
+ * Stream operator for CuboidArgument(s).
+ * @tparam dim dimension of our simulation.
+ * @param stream std::ostream
+ * @param p CuboidArgument to print
+ * @return updated stream
+ */
+template<size_t dim>
+std::ostream &operator<<(std::ostream &stream, const CuboidArgument<dim> &c) {
+  stream << c.toString();
+  return stream;
+}
+

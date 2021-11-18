@@ -1,6 +1,6 @@
 #pragma once
 
-#include "spdlog/spdlog.h"
+#include "logger/Logger.h"
 
 #include <array>
 #include <ostream>
@@ -21,7 +21,7 @@ template<size_t dim> using Vector = std::array<double, dim>;
  */
 template<size_t dim>
 Vector<dim> operator+(Vector<dim> lhs, const Vector<dim> &rhs) {
-  SPDLOG_TRACE("Calculating {0} + {1}", lhs, rhs);
+  SPDLOG_TRACE("Calculating {0} + {1}", ArrayUtils::to_string(lhs), ArrayUtils::to_string(rhs));
   std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), [](auto l, auto r) {
     return l + r;
   });
@@ -37,7 +37,7 @@ Vector<dim> operator+(Vector<dim> lhs, const Vector<dim> &rhs) {
  */
 template<size_t dim>
 Vector<dim> operator-(Vector<dim> lhs, const Vector<dim> &rhs) {
-  SPDLOG_TRACE("Calculating {0} - {1}", lhs, rhs);
+  SPDLOG_TRACE("Calculating {0} - {1}", ArrayUtils::to_string(lhs), ArrayUtils::to_string(rhs));
   std::transform(lhs.begin(), lhs.end(), rhs.begin(), lhs.begin(), [](auto l, auto r) {
     return l - r;
   });
@@ -53,7 +53,7 @@ Vector<dim> operator-(Vector<dim> lhs, const Vector<dim> &rhs) {
  */
 template<size_t dim>
 double operator*(const Vector<dim> &lhs, const Vector<dim> &rhs) {
-  SPDLOG_TRACE("Calculating {0} * {1}", lhs, rhs);
+  SPDLOG_TRACE("Calculating {0} * {1}", ArrayUtils::to_string(lhs), ArrayUtils::to_string(rhs));
   return std::inner_product(lhs.begin(), lhs.end(), rhs.begin(), 0.0);
 }
 
@@ -66,7 +66,7 @@ double operator*(const Vector<dim> &lhs, const Vector<dim> &rhs) {
  */
 template<size_t dim>
 Vector<dim> operator*(Vector<dim> lhs, const double &d) {
-  SPDLOG_TRACE("Calculating {0} * {1}", lhs, d);
+  SPDLOG_TRACE("Calculating {0} * {1}", ArrayUtils::to_string(lhs), d);
   std::transform(lhs.begin(), lhs.end(), lhs.begin(), [&](auto v) {
     return v * d;
   });
@@ -82,7 +82,7 @@ Vector<dim> operator*(Vector<dim> lhs, const double &d) {
  */
 template<size_t dim>
 Vector<dim> operator*(const double &d, Vector<dim> lhs) {
-  SPDLOG_TRACE("Calculating {0} * {1}", lhs, d);
+  SPDLOG_TRACE("Calculating {0} * {1}", ArrayUtils::to_string(lhs), d);
   return lhs * d;
 }
 
@@ -95,7 +95,7 @@ Vector<dim> operator*(const double &d, Vector<dim> lhs) {
  */
 template<size_t dim>
 Vector<dim> operator/(Vector<dim> lhs, const double &d) {
-  SPDLOG_TRACE("Calculating {0} / {1}", lhs, d);
+  SPDLOG_TRACE("Calculating {0} / {1}", ArrayUtils::to_string(lhs), d);
   std::transform(lhs.begin(), lhs.end(), lhs.begin(), [&](auto v) {
     return v / d;
   });

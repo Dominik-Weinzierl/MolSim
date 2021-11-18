@@ -2,6 +2,7 @@
 
 #include <string>
 #include "physics/Vector/Vector.h"
+#include "logger/Logger.h"
 
 /**
  * Particle is a class that wraps up the properties of a particle, getters, setters and standard methods.

@@ -22,7 +22,6 @@ $ cd MolSim
 
 - [cmake](https://cmake.org/) (3.21.4)
 - [gcc](https://gcc.gnu.org/) (11.1.0)
-- [clang](https://clang.llvm.org/) (13.0.0)
 - _(optional)_ [clion](https://www.jetbrains.com/clion/)
 - _(optional)_ [paraview](https://www.paraview.org/) (5.9.1)
 
@@ -144,15 +143,22 @@ Run `./MolSim` without any arguments to list possible and required arguments.
 
 ### Tests
 
-Run tests to verify correctness.
-
-```bash
-$ ctest
-[...]
-100% tests passed, 0 tests failed out of x
-
-Total Test time (real) =   x sec
-```
+- Run `cmake` in `build` folder with specified arguments.
+   ```bash
+   $ cmake .. -D BUILD_DOCUMENTATION=OFF -D BUILD_TESTS=ON -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++
+   ```
+- Run `make` in `source` folder with specified arguments.
+   ```bash
+   $ make build_with_test
+   ```
+- Run tests in `build` folder to verify correctness.
+    ```bash
+    $ ctest
+    [...]
+    100% tests passed, 0 tests failed out of 50
+    
+    Total Test time (real) =   0.57 sec
+    ```
 
 ### Input file format
 
@@ -292,3 +298,8 @@ MolSim is released under the [MIT license](https://github.com/Dominik-Weinzierl/
 ## Additional simulations
 
 ![balls](gifs/balls.gif)
+![comets_lennard_jones_2d](gifs/comets_lennard_jones_2d.gif)
+![comets_lennard_jones](gifs/comets_lennard_jones.gif)
+![comets_lennard_jones_fancy](gifs/comets_lennard_jones_fancy.gif)
+![two_spheres_lennard_jones](gifs/two_spheres_lennard_jones.gif)
+

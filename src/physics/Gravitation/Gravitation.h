@@ -16,6 +16,7 @@ class Gravitation : public Physics<dim> {
    * @param particleContainer container which contains the Particle(s) used for this simulation.
    */
   void performUpdate(ParticleContainer<dim> &particleContainer) const;
+  // Since we expect only dim two or three, there is no default implementation required.
  public:
 
   /**

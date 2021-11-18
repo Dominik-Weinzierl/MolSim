@@ -1,9 +1,10 @@
 #include "MolSim.h"
+#include "logger/Logger.h"
 
 /**
  * Dimension of the current simulation.
  */
-constexpr size_t dim = 3;
+constexpr size_t dim = 2;
 
 /**
  * Creates a parser which parses information based on the selected parser
@@ -62,7 +63,7 @@ int main(int argc, char *argv[]) {
   arg->createAdditionalParticle(particleContainer);
 
   std::cout << "Configuration loaded..." << std::endl;
-  arg->toString();
+  std::cout << arg->toString() << std::endl;
 
   if (std::find(args.begin(), args.end(), "-b") != args.end()
       || std::find(args.begin(), args.end(), "--benchmark") != args.end()) {
