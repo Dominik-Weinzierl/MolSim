@@ -51,7 +51,7 @@ class BasicArgumentParser : public ArgumentParser<dim> {
     std::stringstream usage;
     usage << "Usage: "
           << "./MolSim [-h | --help] | {-f | --filename} <filename> {-t | --t_end} <t_end> {-d | --delta_t} <delta_t> "
-          << "[-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}] [-b | --benchmark]"
+          << "[-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}] [-b | --benchmark] [-2 | -3]"
           << std::endl;
     usage << "Options:" << std::endl;
     usage << "\t-h,--help\t\tShow this help message" << std::endl;
@@ -63,6 +63,7 @@ class BasicArgumentParser : public ArgumentParser<dim> {
     usage << "\t-w,--writer\t\tSpecify the writer used for the output files" << std::endl;
     usage << "\t-p,--physics\t\tSpecify the physics used for the simulation" << std::endl;
     usage << "\t-b,--benchmark\t\tRun simulation as benchmark" << std::endl;
+    usage << "\t-2,-3\t\t\tSpecify the dimension of the simulation (default: 3D)" << std::endl;
     std::cout << usage.str();
   }
 
@@ -107,7 +108,7 @@ class BasicArgumentParser : public ArgumentParser<dim> {
           continue;
         }
       }
-      if (flag == "-b" || flag == "--benchmark") {
+      if (flag == "-b" || flag == "--benchmark" || flag == "-2" || flag == "-3") {
         continue;
       } else {
         throw std::invalid_argument("Invalid argument: " + flag);

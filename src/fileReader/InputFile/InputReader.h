@@ -16,6 +16,16 @@
  */
 template<size_t dim>
 class InputReader {
+ private:
+  /**
+   * Read files based on the dimension and ignores the third value if simulation is 2D.
+   * @param particleContainer container in which be store the Particle(s)
+   * @param numParticles amount of particles
+   * @param inputFile input file as stream
+   */
+  static void readParticles(ParticleContainer<dim> &particleContainer, int numParticles, std::ifstream &inputFile);
+  // Since we expect only dim two or three, there is no default implementation required.
+
  public:
 
   /**
@@ -29,46 +39,22 @@ class InputReader {
 
     if (inputFile.is_open()) {
       SPDLOG_INFO("Opened file {}", filename);
-      double m;
       int numParticles = 0;
-      Vector<dim> x;
-      Vector<dim> v;
 
       getline(inputFile, tmpString);
-      // std::cout << "Read line: " << tmpString << std::endl;
 
       while (tmpString.empty() or tmpString[0] == '#') {
         getline(inputFile, tmpString);
-        // std::cout << "Read line: " << tmpString << std::endl;
       }
 
       std::istringstream numStream(tmpString);
       numStream >> numParticles;
-      // std::cout << "Reading " << numParticles << "." << std::endl;
-      getline(inputFile, tmpString);
-      // std::cout << "Read line: " << tmpString << std::endl;
 
-      for (int i = 0; i < numParticles; i++) {
-        std::istringstream dataStream(tmpString);
-
-        for (auto &xj: x) {
-          dataStream >> xj;
-        }
-        for (auto &vj: v) {
-          dataStream >> vj;
-        }
-        if (dataStream.eof()) {
-          SPDLOG_ERROR("Reached end of file {0} unexpectedly after {1} lines of data", filename, i);
-          exit(-1);
-        }
-        dataStream >> m;
-        particleContainer.addParticle({x, v, m});
-
-        getline(inputFile, tmpString);
-        // std::cout << "Read line: " << tmpString << std::endl;
-      }
+      readParticles(particleContainer, numParticles, inputFile);
     } else {
       SPDLOG_ERROR("Could not open file {}", filename);
+      // spdlog is not always active -> this error should be visible even if spdlog is deactivated
+      std::cerr << "Could not open file " << filename << std::endl;
       exit(-1);
     }
   }

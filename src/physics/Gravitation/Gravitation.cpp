@@ -48,3 +48,25 @@ void Gravitation<2>::performUpdate(ParticleContainer<2> &particleContainer) cons
   }
 }
 
+template<>
+void Gravitation<2>::calculateF(ParticleContainer<2> &particleContainer) const {
+  SPDLOG_DEBUG("started calculating forces");
+  for (auto &p: particleContainer) {
+    p.setOldF(p.getF());
+    p.setF(0, 0);
+  }
+  performUpdate(particleContainer);
+  SPDLOG_DEBUG("ended calculating forces");
+}
+
+template<>
+void Gravitation<3>::calculateF(ParticleContainer<3> &particleContainer) const {
+  SPDLOG_DEBUG("started calculating forces");
+  for (auto &p: particleContainer) {
+    p.setOldF(p.getF());
+    p.setF(0, 0, 0);
+  }
+  performUpdate(particleContainer);
+  SPDLOG_DEBUG("ended calculating forces");
+}
+
