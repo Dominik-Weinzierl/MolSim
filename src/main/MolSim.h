@@ -40,13 +40,14 @@ class MolSim {
    * @return successful setup
    */
   int setup(const std::vector<std::string> &args) {
-    Logger::setupLogger();
     ParserStrategy<dim> strategy = ParserStrategy<dim>{args};
 
     if (args.empty() || (std::string{args[0]} == "-h" || std::string{args[0]} == "--help")) {
       ParserStrategy<dim>::showUsage();
       return 0;
     }
+
+    Logger::setupLogger();
 
     std::unique_ptr<ArgumentParser<dim>> parser = strategy.getParser();
 
@@ -110,7 +111,7 @@ class MolSim {
    * @return
    */
   int benchmark() {
-    auto benchWriter = std::make_unique<DummyWriter<dim>>(arg->getOutput(), "benchmark", particleContainer);
+    auto benchWriter = std::make_unique<DummyWriter<dim>>(arg->getOutput(), particleContainer);
     auto start = std::chrono::high_resolution_clock::now();
     if (arg->getPhysics() == "gravitation") {
       MDSimulation<Gravitation<dim>, dim>::performSimulation(*benchWriter, particleContainer, *arg);

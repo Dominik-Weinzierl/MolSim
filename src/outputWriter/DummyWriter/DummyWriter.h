@@ -16,12 +16,12 @@ class DummyWriter : public OutputWriter<dim> {
    * @param pPath output path
    * @param pContainer ParticleContainer with a Vector that contains all Particle(s).
    */
-  explicit DummyWriter(std::string pFileName, std::string pPath, ParticleContainer<dim> &pContainer) : OutputWriter<
-      dim>(std::move(pFileName), std::move(pPath), pContainer) {}
+  explicit DummyWriter(std::string pFileName, ParticleContainer<dim> &pContainer) : OutputWriter<dim>(
+      std::move(pFileName), pContainer) {}
 
   /**
   * Writes no information.
   * @param iteration current iteration of the simulation
   */
-  void writeFile([[maybe_unused]] int iteration) override {}
+  void writeFile([[maybe_unused]] int iteration) override {};
 };

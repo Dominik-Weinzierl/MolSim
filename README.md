@@ -150,6 +150,14 @@ Run `./MolSim` without any arguments to list possible and required arguments.
     </Simulation>
    ```
 
+### Benchmarks
+
+Disable all `spdlog` outputs to get best results:
+
+1. Set `#define SPDLOG_ACTIVE_LEVEL` to `SPDLOG_LEVEL_OFF` in `logger/Logger.h`
+2. Set `spdlog::set_level` to `spdlog::level::off` in `logger/Logger.cpp`
+3. Rerun simulation with additional benchmark argument: `-b` or `--benchmark`
+
 ### Tests
 
 - Run `cmake` in `build` folder with specified arguments.
@@ -160,7 +168,12 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ make build_with_test
    ```
-- Run tests in `build` folder to verify correctness.
+
+1. Run `make` in `build` folder to build target.
+   ```bash
+   $ make 
+   ```
+2. Run tests in `build` folder to verify correctness.
     ```bash
     $ ctest
     [...]
