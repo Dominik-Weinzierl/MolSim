@@ -128,6 +128,90 @@ void cuboid_t::meanValue(const meanValue_type &x) {
 }
 
 
+// sphere_t
+// 
+
+const sphere_t::Center_type &sphere_t::Center() const {
+  return this->Center_.get();
+}
+
+sphere_t::Center_type &sphere_t::Center() {
+  return this->Center_.get();
+}
+
+void sphere_t::Center(const Center_type &x) {
+  this->Center_.set(x);
+}
+
+void sphere_t::Center(::std::unique_ptr<Center_type> x) {
+  this->Center_.set(std::move(x));
+}
+
+const sphere_t::Velocity_type &sphere_t::Velocity() const {
+  return this->Velocity_.get();
+}
+
+sphere_t::Velocity_type &sphere_t::Velocity() {
+  return this->Velocity_.get();
+}
+
+void sphere_t::Velocity(const Velocity_type &x) {
+  this->Velocity_.set(x);
+}
+
+void sphere_t::Velocity(::std::unique_ptr<Velocity_type> x) {
+  this->Velocity_.set(std::move(x));
+}
+
+const sphere_t::radius_type &sphere_t::radius() const {
+  return this->radius_.get();
+}
+
+sphere_t::radius_type &sphere_t::radius() {
+  return this->radius_.get();
+}
+
+void sphere_t::radius(const radius_type &x) {
+  this->radius_.set(x);
+}
+
+const sphere_t::distance_type &sphere_t::distance() const {
+  return this->distance_.get();
+}
+
+sphere_t::distance_type &sphere_t::distance() {
+  return this->distance_.get();
+}
+
+void sphere_t::distance(const distance_type &x) {
+  this->distance_.set(x);
+}
+
+const sphere_t::mass_type &sphere_t::mass() const {
+  return this->mass_.get();
+}
+
+sphere_t::mass_type &sphere_t::mass() {
+  return this->mass_.get();
+}
+
+void sphere_t::mass(const mass_type &x) {
+  this->mass_.set(x);
+}
+
+const sphere_t::meanValue_type &sphere_t::meanValue() const {
+  return this->meanValue_.get();
+}
+
+sphere_t::meanValue_type &sphere_t::meanValue() {
+  return this->meanValue_.get();
+}
+
+void sphere_t::meanValue(const meanValue_type &x) {
+  this->meanValue_.set(x);
+}
+
+
 // vector_t
 // 
 
@@ -228,19 +312,47 @@ void input_t::location(::std::unique_ptr<location_type> x) {
 }
 
 
+// shape_t
+// 
+
+const shape_t::Cuboid_sequence &shape_t::Cuboid() const {
+  return this->Cuboid_;
+}
+
+shape_t::Cuboid_sequence &shape_t::Cuboid() {
+  return this->Cuboid_;
+}
+
+void shape_t::Cuboid(const Cuboid_sequence &s) {
+  this->Cuboid_ = s;
+}
+
+const shape_t::Sphere_sequence &shape_t::Sphere() const {
+  return this->Sphere_;
+}
+
+shape_t::Sphere_sequence &shape_t::Sphere() {
+  return this->Sphere_;
+}
+
+void shape_t::Sphere(const Sphere_sequence &s) {
+  this->Sphere_ = s;
+}
+
+
 // simulation_t
 // 
 
-const simulation_t::Cuboid_sequence &simulation_t::Cuboid() const {
-  return this->Cuboid_;
+const simulation_t::Shapes_sequence &simulation_t::Shapes() const {
+  return this->Shapes_;
 }
 
-simulation_t::Cuboid_sequence &simulation_t::Cuboid() {
-  return this->Cuboid_;
+simulation_t::Shapes_sequence &simulation_t::Shapes() {
+  return this->Shapes_;
 }
 
-void simulation_t::Cuboid(const Cuboid_sequence &s) {
-  this->Cuboid_ = s;
+void simulation_t::Shapes(const Shapes_sequence &s) {
+  this->Shapes_ = s;
 }
 
 const simulation_t::Source_sequence &simulation_t::Source() const {
@@ -255,108 +367,84 @@ void simulation_t::Source(const Source_sequence &s) {
   this->Source_ = s;
 }
 
-const simulation_t::endTime_optional &simulation_t::endTime() const {
-  return this->endTime_;
+const simulation_t::endTime_type &simulation_t::endTime() const {
+  return this->endTime_.get();
 }
 
-simulation_t::endTime_optional &simulation_t::endTime() {
-  return this->endTime_;
+simulation_t::endTime_type &simulation_t::endTime() {
+  return this->endTime_.get();
 }
 
 void simulation_t::endTime(const endTime_type &x) {
   this->endTime_.set(x);
 }
 
-void simulation_t::endTime(const endTime_optional &x) {
-  this->endTime_ = x;
+const simulation_t::deltaT_type &simulation_t::deltaT() const {
+  return this->deltaT_.get();
 }
 
-const simulation_t::deltaT_optional &simulation_t::deltaT() const {
-  return this->deltaT_;
-}
-
-simulation_t::deltaT_optional &simulation_t::deltaT() {
-  return this->deltaT_;
+simulation_t::deltaT_type &simulation_t::deltaT() {
+  return this->deltaT_.get();
 }
 
 void simulation_t::deltaT(const deltaT_type &x) {
   this->deltaT_.set(x);
 }
 
-void simulation_t::deltaT(const deltaT_optional &x) {
-  this->deltaT_ = x;
+const simulation_t::output_type &simulation_t::output() const {
+  return this->output_.get();
 }
 
-const simulation_t::output_optional &simulation_t::output() const {
-  return this->output_;
-}
-
-simulation_t::output_optional &simulation_t::output() {
-  return this->output_;
+simulation_t::output_type &simulation_t::output() {
+  return this->output_.get();
 }
 
 void simulation_t::output(const output_type &x) {
   this->output_.set(x);
 }
 
-void simulation_t::output(const output_optional &x) {
-  this->output_ = x;
-}
-
 void simulation_t::output(::std::unique_ptr<output_type> x) {
   this->output_.set(std::move(x));
 }
 
-const simulation_t::iteration_optional &simulation_t::iteration() const {
-  return this->iteration_;
+const simulation_t::iteration_type &simulation_t::iteration() const {
+  return this->iteration_.get();
 }
 
-simulation_t::iteration_optional &simulation_t::iteration() {
-  return this->iteration_;
+simulation_t::iteration_type &simulation_t::iteration() {
+  return this->iteration_.get();
 }
 
 void simulation_t::iteration(const iteration_type &x) {
   this->iteration_.set(x);
 }
 
-void simulation_t::iteration(const iteration_optional &x) {
-  this->iteration_ = x;
+const simulation_t::physics_type &simulation_t::physics() const {
+  return this->physics_.get();
 }
 
-const simulation_t::physics_optional &simulation_t::physics() const {
-  return this->physics_;
-}
-
-simulation_t::physics_optional &simulation_t::physics() {
-  return this->physics_;
+simulation_t::physics_type &simulation_t::physics() {
+  return this->physics_.get();
 }
 
 void simulation_t::physics(const physics_type &x) {
   this->physics_.set(x);
 }
 
-void simulation_t::physics(const physics_optional &x) {
-  this->physics_ = x;
-}
-
 void simulation_t::physics(::std::unique_ptr<physics_type> x) {
   this->physics_.set(std::move(x));
 }
 
-const simulation_t::writer_optional &simulation_t::writer() const {
-  return this->writer_;
+const simulation_t::writer_type &simulation_t::writer() const {
+  return this->writer_.get();
 }
 
-simulation_t::writer_optional &simulation_t::writer() {
-  return this->writer_;
+simulation_t::writer_type &simulation_t::writer() {
+  return this->writer_.get();
 }
 
 void simulation_t::writer(const writer_type &x) {
   this->writer_.set(x);
-}
-
-void simulation_t::writer(const writer_optional &x) {
-  this->writer_ = x;
 }
 
 void simulation_t::writer(::std::unique_ptr<writer_type> x) {
@@ -510,6 +598,144 @@ cuboid_t &cuboid_t::operator=(const cuboid_t &x) {
 }
 
 cuboid_t::~cuboid_t() {
+}
+
+// sphere_t
+//
+
+sphere_t::sphere_t(const Center_type &Center, const Velocity_type &Velocity, const radius_type &radius,
+                   const distance_type &distance, const mass_type &mass, const meanValue_type &meanValue)
+    : ::xml_schema::type(), Center_(Center, this), Velocity_(Velocity, this), radius_(radius, this),
+      distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this) {
+}
+
+sphere_t::sphere_t(::std::unique_ptr<Center_type> Center, ::std::unique_ptr<Velocity_type> Velocity,
+                   const radius_type &radius, const distance_type &distance, const mass_type &mass,
+                   const meanValue_type &meanValue)
+    : ::xml_schema::type(), Center_(std::move(Center), this), Velocity_(std::move(Velocity), this),
+      radius_(radius, this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this) {
+}
+
+sphere_t::sphere_t(const sphere_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
+                                                                                           Center_(x.Center_, f, this),
+                                                                                           Velocity_(x.Velocity_, f,
+                                                                                                     this),
+                                                                                           radius_(x.radius_, f, this),
+                                                                                           distance_(x.distance_, f,
+                                                                                                     this),
+                                                                                           mass_(x.mass_, f, this),
+                                                                                           meanValue_(x.meanValue_, f,
+                                                                                                      this) {
+}
+
+sphere_t::sphere_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Center_(this), Velocity_(this), radius_(this),
+      distance_(this), mass_(this), meanValue_(this) {
+  if ((f & ::xml_schema::flags::base) == 0) {
+    ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
+    this->parse(p, f);
+  }
+}
+
+void sphere_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags f) {
+  for (; p.more_content(); p.next_content(false)) {
+    const ::xercesc::DOMElement &i(p.cur_element());
+    const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    // Center
+    //
+    if (n.name() == "Center" && n.namespace_().empty()) {
+      ::std::unique_ptr<Center_type> r(Center_traits::create(i, f, this));
+
+      if (!Center_.present()) {
+        this->Center_.set(::std::move(r));
+        continue;
+      }
+    }
+
+    // Velocity
+    //
+    if (n.name() == "Velocity" && n.namespace_().empty()) {
+      ::std::unique_ptr<Velocity_type> r(Velocity_traits::create(i, f, this));
+
+      if (!Velocity_.present()) {
+        this->Velocity_.set(::std::move(r));
+        continue;
+      }
+    }
+
+    break;
+  }
+
+  if (!Center_.present()) {
+    throw ::xsd::cxx::tree::expected_element<char>("Center", "");
+  }
+
+  if (!Velocity_.present()) {
+    throw ::xsd::cxx::tree::expected_element<char>("Velocity", "");
+  }
+
+  while (p.more_attributes()) {
+    const ::xercesc::DOMAttr &i(p.next_attribute());
+    const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    if (n.name() == "radius" && n.namespace_().empty()) {
+      this->radius_.set(radius_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "distance" && n.namespace_().empty()) {
+      this->distance_.set(distance_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "mass" && n.namespace_().empty()) {
+      this->mass_.set(mass_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "meanValue" && n.namespace_().empty()) {
+      this->meanValue_.set(meanValue_traits::create(i, f, this));
+      continue;
+    }
+  }
+
+  if (!radius_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("radius", "");
+  }
+
+  if (!distance_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("distance", "");
+  }
+
+  if (!mass_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("mass", "");
+  }
+
+  if (!meanValue_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("meanValue", "");
+  }
+}
+
+sphere_t *sphere_t::_clone(::xml_schema::flags f, ::xml_schema::container *c) const {
+  return new class sphere_t(*this, f, c);
+}
+
+sphere_t &sphere_t::operator=(const sphere_t &x) {
+  if (this != &x) {
+    static_cast< ::xml_schema::type & > (*this) = x;
+    this->Center_ = x.Center_;
+    this->Velocity_ = x.Velocity_;
+    this->radius_ = x.radius_;
+    this->distance_ = x.distance_;
+    this->mass_ = x.mass_;
+    this->meanValue_ = x.meanValue_;
+  }
+
+  return *this;
+}
+
+sphere_t::~sphere_t() {
 }
 
 // vector_t
@@ -709,22 +935,86 @@ input_t &input_t::operator=(const input_t &x) {
 input_t::~input_t() {
 }
 
+// shape_t
+//
+
+shape_t::shape_t() : ::xml_schema::type(), Cuboid_(this), Sphere_(this) {
+}
+
+shape_t::shape_t(const shape_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
+                                                                                        Cuboid_(x.Cuboid_, f, this),
+                                                                                        Sphere_(x.Sphere_, f, this) {
+}
+
+shape_t::shape_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Cuboid_(this), Sphere_(this) {
+  if ((f & ::xml_schema::flags::base) == 0) {
+    ::xsd::cxx::xml::dom::parser<char> p(e, true, false, false);
+    this->parse(p, f);
+  }
+}
+
+void shape_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags f) {
+  for (; p.more_content(); p.next_content(false)) {
+    const ::xercesc::DOMElement &i(p.cur_element());
+    const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    // Cuboid
+    //
+    if (n.name() == "Cuboid" && n.namespace_().empty()) {
+      ::std::unique_ptr<Cuboid_type> r(Cuboid_traits::create(i, f, this));
+
+      this->Cuboid_.push_back(::std::move(r));
+      continue;
+    }
+
+    // Sphere
+    //
+    if (n.name() == "Sphere" && n.namespace_().empty()) {
+      ::std::unique_ptr<Sphere_type> r(Sphere_traits::create(i, f, this));
+
+      this->Sphere_.push_back(::std::move(r));
+      continue;
+    }
+
+    break;
+  }
+}
+
+shape_t *shape_t::_clone(::xml_schema::flags f, ::xml_schema::container *c) const {
+  return new class shape_t(*this, f, c);
+}
+
+shape_t &shape_t::operator=(const shape_t &x) {
+  if (this != &x) {
+    static_cast< ::xml_schema::type & > (*this) = x;
+    this->Cuboid_ = x.Cuboid_;
+    this->Sphere_ = x.Sphere_;
+  }
+
+  return *this;
+}
+
+shape_t::~shape_t() {
+}
+
 // simulation_t
 //
 
-simulation_t::simulation_t()
-    : ::xml_schema::type(), Cuboid_(this), Source_(this), endTime_(this), deltaT_(this), output_(this),
-      iteration_(this), physics_(this), writer_(this) {
+simulation_t::simulation_t(const endTime_type &endTime, const deltaT_type &deltaT, const output_type &output,
+                           const iteration_type &iteration, const physics_type &physics, const writer_type &writer)
+    : ::xml_schema::type(), Shapes_(this), Source_(this), endTime_(endTime, this), deltaT_(deltaT, this),
+      output_(output, this), iteration_(iteration, this), physics_(physics, this), writer_(writer, this) {
 }
 
 simulation_t::simulation_t(const simulation_t &x, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(x, f, c), Cuboid_(x.Cuboid_, f, this), Source_(x.Source_, f, this),
+    : ::xml_schema::type(x, f, c), Shapes_(x.Shapes_, f, this), Source_(x.Source_, f, this),
       endTime_(x.endTime_, f, this), deltaT_(x.deltaT_, f, this), output_(x.output_, f, this),
       iteration_(x.iteration_, f, this), physics_(x.physics_, f, this), writer_(x.writer_, f, this) {
 }
 
 simulation_t::simulation_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Cuboid_(this), Source_(this), endTime_(this),
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Shapes_(this), Source_(this), endTime_(this),
       deltaT_(this), output_(this), iteration_(this), physics_(this), writer_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
@@ -737,12 +1027,12 @@ void simulation_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
     const ::xercesc::DOMElement &i(p.cur_element());
     const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
 
-    // Cuboid
+    // Shapes
     //
-    if (n.name() == "Cuboid" && n.namespace_().empty()) {
-      ::std::unique_ptr<Cuboid_type> r(Cuboid_traits::create(i, f, this));
+    if (n.name() == "Shapes" && n.namespace_().empty()) {
+      ::std::unique_ptr<Shapes_type> r(Shapes_traits::create(i, f, this));
 
-      this->Cuboid_.push_back(::std::move(r));
+      this->Shapes_.push_back(::std::move(r));
       continue;
     }
 
@@ -792,6 +1082,30 @@ void simulation_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
       continue;
     }
   }
+
+  if (!endTime_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("endTime", "");
+  }
+
+  if (!deltaT_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("deltaT", "");
+  }
+
+  if (!output_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("output", "");
+  }
+
+  if (!iteration_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("iteration", "");
+  }
+
+  if (!physics_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("physics", "");
+  }
+
+  if (!writer_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("writer", "");
+  }
 }
 
 simulation_t *simulation_t::_clone(::xml_schema::flags f, ::xml_schema::container *c) const {
@@ -801,7 +1115,7 @@ simulation_t *simulation_t::_clone(::xml_schema::flags f, ::xml_schema::containe
 simulation_t &simulation_t::operator=(const simulation_t &x) {
   if (this != &x) {
     static_cast< ::xml_schema::type & > (*this) = x;
-    this->Cuboid_ = x.Cuboid_;
+    this->Shapes_ = x.Shapes_;
     this->Source_ = x.Source_;
     this->endTime_ = x.endTime_;
     this->deltaT_ = x.deltaT_;
@@ -1037,6 +1351,58 @@ void operator<<(::xercesc::DOMElement &e, const cuboid_t &i) {
   }
 }
 
+void operator<<(::xercesc::DOMElement &e, const sphere_t &i) {
+  e << static_cast< const ::xml_schema::type & > (i);
+
+  // Center
+  //
+  {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Center", e));
+
+    s << i.Center();
+  }
+
+  // Velocity
+  //
+  {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Velocity", e));
+
+    s << i.Velocity();
+  }
+
+  // radius
+  //
+  {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("radius", e));
+
+    a << i.radius();
+  }
+
+  // distance
+  //
+  {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("distance", e));
+
+    a << ::xml_schema::as_double(i.distance());
+  }
+
+  // mass
+  //
+  {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("mass", e));
+
+    a << ::xml_schema::as_double(i.mass());
+  }
+
+  // meanValue
+  //
+  {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("meanValue", e));
+
+    a << ::xml_schema::as_double(i.meanValue());
+  }
+}
+
 void operator<<(::xercesc::DOMElement &e, const vector_t &i) {
   e << static_cast< const ::xml_schema::type & > (i);
 
@@ -1105,13 +1471,33 @@ void operator<<(::xercesc::DOMElement &e, const input_t &i) {
   }
 }
 
-void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
+void operator<<(::xercesc::DOMElement &e, const shape_t &i) {
   e << static_cast< const ::xml_schema::type & > (i);
 
   // Cuboid
   //
-  for (simulation_t::Cuboid_const_iterator b(i.Cuboid().begin()), n(i.Cuboid().end()); b != n; ++b) {
+  for (shape_t::Cuboid_const_iterator b(i.Cuboid().begin()), n(i.Cuboid().end()); b != n; ++b) {
     ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Cuboid", e));
+
+    s << *b;
+  }
+
+  // Sphere
+  //
+  for (shape_t::Sphere_const_iterator b(i.Sphere().begin()), n(i.Sphere().end()); b != n; ++b) {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Sphere", e));
+
+    s << *b;
+  }
+}
+
+void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
+  e << static_cast< const ::xml_schema::type & > (i);
+
+  // Shapes
+  //
+  for (simulation_t::Shapes_const_iterator b(i.Shapes().begin()), n(i.Shapes().end()); b != n; ++b) {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Shapes", e));
 
     s << *b;
   }
@@ -1126,50 +1512,50 @@ void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
 
   // endTime
   //
-  if (i.endTime()) {
+  {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("endTime", e));
 
-    a << ::xml_schema::as_double(*i.endTime());
+    a << ::xml_schema::as_double(i.endTime());
   }
 
   // deltaT
   //
-  if (i.deltaT()) {
+  {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("deltaT", e));
 
-    a << ::xml_schema::as_double(*i.deltaT());
+    a << ::xml_schema::as_double(i.deltaT());
   }
 
   // output
   //
-  if (i.output()) {
+  {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("output", e));
 
-    a << *i.output();
+    a << i.output();
   }
 
   // iteration
   //
-  if (i.iteration()) {
+  {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("iteration", e));
 
-    a << *i.iteration();
+    a << i.iteration();
   }
 
   // physics
   //
-  if (i.physics()) {
+  {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("physics", e));
 
-    a << *i.physics();
+    a << i.physics();
   }
 
   // writer
   //
-  if (i.writer()) {
+  {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("writer", e));
 
-    a << *i.writer();
+    a << i.writer();
   }
 }
 

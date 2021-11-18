@@ -1,26 +1,10 @@
-#include <arguments/argument/Argument.h>
-#include <iostream>
-#include <simulation/variants/GravitationSimulation.h>
-#include <spdlog/async.h>
-#include <spdlog/spdlog.h>
-#include <outputWriter/XYZWriter/XYZWriter.h>
-#include <arguments/argumentParser/ParserStrategy.h>
-#include <arguments/argument/XMLArgument/XMLArgument.h>
-#include <generator/variants/CuboidGenerator.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include "fileReader/InputFile/InputReader.h"
-#include "simulation/variants/LennardSimulation.h"
-#include <chrono>
-#include <iomanip>
+#include "MolSim.h"
+#include "logger/Logger.h"
 
-/*static void measureTime(const Argument &arg, OutputWriter &writer, ParticleContainer &particleContainer) {
-  auto start = std::chrono::high_resolution_clock::now();
-  LennardSimulation::performSimulation(arg, writer, particleContainer);
-  auto end = std::chrono::high_resolution_clock::now();
-  std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms";
-}
-*/
+/**
+ * Dimension of the current simulation.
+ */
+constexpr size_t dim = 2;
 
 /**
  * Creates a parser which parses information based on the selected parser
@@ -28,80 +12,66 @@
  * writes the VTK file and performs the simulation
  * @param argc
  * @param argv
- * @return Program exit.
+ * @return Program exit code.
  */
 int main(int argc, char *argv[]) {
+  std::vector<std::string> args(argv + 1, argv + argc);
 
-  try {
-    auto stdoutSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-    auto stderrSink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
+  Logger::setupLogger();
 
-    std::stringstream ss;
-    auto now = std::chrono::system_clock::now();
-    auto in_time_t = std::chrono::system_clock::to_time_t(now);
-    ss << "logs/" << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d_%X");
-    std::string logName{ss.str()};
+  ParserStrategy<dim> strategy{args};
 
-    auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logName, true);
-
-    stdoutSink->set_level(spdlog::level::warn);
-    stderrSink->set_level(spdlog::level::err);
-    fileSink->set_level(spdlog::level::debug);
-
-    spdlog::sinks_init_list sinks = {stdoutSink, stderrSink, fileSink};
-    spdlog::logger logger("logger", sinks.begin(), sinks.end());
-    logger.set_level(spdlog::level::debug);
-    spdlog::set_default_logger(std::make_shared<spdlog::logger>(logger));
-  } catch (const spdlog::spdlog_ex &ex) {
-    std::cout << "Log setup failed" << ex.what() << std::endl;
-  }
-
-  ParserStrategy strategy{argc, argv};
-
-  if (argc == 1) {
-    ParserStrategy::showUsage();
+  if (argc == 1 || (std::string{args[0]} == "-h" || std::string{args[0]} == "--help")) {
+    ParserStrategy<dim>::showUsage();
     return 0;
   }
 
-  std::unique_ptr<ArgumentParser> parser = strategy.getParser();
+  std::unique_ptr<ArgumentParser<dim>> parser = strategy.getParser();
 
   try {
     parser->validateInput();
   } catch (std::invalid_argument &exception) {
     std::cout << "[ERROR] " << exception.what() << std::endl;
-    spdlog::error(exception.what());
-    parser->showUsage();
+    SPDLOG_ERROR(exception.what());
+    ParserStrategy<dim>::showUsage();
     return -1;
   }
 
-  std::unique_ptr<Argument> arg = parser->createArgument();
-  std::unique_ptr<OutputWriter> writer;
-  ParticleContainer particleContainer;
+  std::unique_ptr<Argument<dim>> arg;
+
+  try {
+    arg = parser->createArgument();
+  } catch (std::invalid_argument &exception) {
+    std::cout << "[ERROR] " << exception.what() << "! Please check your input file." << std::endl;
+    SPDLOG_ERROR(exception.what());
+    return -1;
+  }
+
+  std::unique_ptr<OutputWriter<dim>> writer;
+  ParticleContainer<dim> particleContainer;
 
   if (arg->getWriter() == "vtk") {
-    writer = std::make_unique<VTKWriter>(arg->getOutput(), "output", particleContainer);
+    writer = std::make_unique<VTKWriter<dim>>(arg->getOutput(), "output", particleContainer);
   } else if (arg->getWriter() == "xyz") {
-    writer = std::make_unique<XYZWriter>(arg->getOutput(), "output", particleContainer);
+    writer = std::make_unique<XYZWriter<dim>>(arg->getOutput(), "output", particleContainer);
   }
 
   for (const auto &file: arg->getFiles()) {
-    InputReader::readFile(particleContainer, file);
+    InputReader<dim>::readFile(particleContainer, file);
   }
 
-  if (dynamic_cast<XMLArgument *>(arg.get()) != nullptr) {
-    auto *xmlArgument = dynamic_cast<XMLArgument *>(arg.get());
-    CuboidGenerator cuboidGenerator;
+  arg->createAdditionalParticle(particleContainer);
 
-    for (auto &cuboidArgument: xmlArgument->getCuboidArguments()) {
-      cuboidGenerator.generate(cuboidArgument, particleContainer);
-    }
-  }
+  std::cout << "Configuration loaded..." << std::endl;
+  std::cout << arg->toString() << std::endl;
 
-  if (arg->getPhysics() == "gravitation") {
-    GravitationSimulation::performSimulation(*arg, *writer, particleContainer);
-  } else if (arg->getPhysics() == "lennard") {
-    LennardSimulation::performSimulation(*arg, *writer, particleContainer);
+  if (std::find(args.begin(), args.end(), "-b") != args.end()
+      || std::find(args.begin(), args.end(), "--benchmark") != args.end()) {
+    std::cout << "Perform benchmarks..." << std::endl;
+    return MolSim<dim>::benchmark(arg, particleContainer);
+  } else {
+    std::cout << "Perform simulation... " << std::endl;
+    return MolSim<dim>::simulate(arg, writer, particleContainer);
   }
-  //measureTime(*arg, *writer, particleContainer);
 }
 

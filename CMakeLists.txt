@@ -14,8 +14,8 @@ if ("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
   message(FATAL_ERROR "In-source builds are not allowed. Please create a separate build directory.")
 endif ()
 
-# -OFast  for Release
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+# -OFast for Release
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -march=native")
 
 # Let ccmake and cmake-gui offer the default build type options
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug;Release;RelWithDebInfo;MinSizeRel")
@@ -38,7 +38,7 @@ include(doxygen)
 # Include FetchContent
 include(FetchContent)
 
-option(BUILD_TESTS "Build tests of project" ON)
+option(BUILD_TESTS "Build tests of project" OFF)
 
 if (BUILD_TESTS)
   # Setup googletest
@@ -69,5 +69,5 @@ if (NOT spdlog_POPULATED)
   add_subdirectory(${spdlog_SOURCE_DIR} ${spdlog_BINARY_DIR})
 endif ()
 
-# Add scr folder
+# Add src folder
 add_subdirectory(src MolSim)
