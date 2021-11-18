@@ -4,6 +4,7 @@
 #include "particles/ParticleContainer.h"
 #include "physics/Physics.h"
 #include <utils/ArrayUtils.h>
+#include "logger/Logger.h"
 
 /**
  * Contains force calculations based on the lennard jones potential.

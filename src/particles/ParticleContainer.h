@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Particle.h"
+#include "logger/Logger.h"
 #include <vector>
 
 /**

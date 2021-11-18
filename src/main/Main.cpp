@@ -1,4 +1,5 @@
 #include "MolSim.h"
+#include "logger/Logger.h"
 
 /**
  * Dimension of the current simulation.
