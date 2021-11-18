@@ -1,0 +1,44 @@
+<Simulation endTime="5.0" deltaT="0.0002" iteration="40" physics="lennard" writer="vtk" output="MD">
+    <Shapes>
+        <Sphere mass="5.0" distance="1.1225" meanValue="0" radius="15">
+            <Center x="0" y="0" z="0"/>
+            <Velocity x="0" y="0" z="0"/>
+        </Sphere>
+        <Sphere mass="2.0" distance="1.1225" meanValue="0" radius="6">
+            <Center x="-30" y="0" z="0"/>
+            <Velocity x="23.0" y="0" z="0"/>
+        </Sphere>
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="3">
+            <Center x="-40" y="+10" z="5.0"/>
+            <Velocity x="18.0" y="3.0" z="-1.0"/>
+        </Sphere>
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="3">
+            <Center x="-42" y="-10" z="-3.0"/>
+            <Velocity x="18.0" y="+3.0" z="0"/>
+        </Sphere>
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="2">
+            <Center x="-48" y="3.0" z="0"/>
+            <Velocity x="16.0" y="-1.0" z="0"/>
+        </Sphere>
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="2">
+            <Center x="-50" y="-3.0" z="4.0"/>
+            <Velocity x="16.0" y="+1.0" z="-1.0"/>
+        </Sphere>
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="1">
+            <Center x="-55" y="0.0" z="6.0"/>
+            <Velocity x="16.0" y="0.0" z="-2.0"/>
+        </Sphere>
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="1">
+            <Center x="-58" y="3.0" z="0"/>
+            <Velocity x="16.0" y="-1.0" z="0"/>
+        </Sphere>
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="1">
+            <Center x="-61" y="3.0" z="10"/>
+            <Velocity x="15.0" y="-1.0" z="-2"/>
+        </Sphere>
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="1">
+            <Center x="-65" y="3.0" z="-10"/>
+            <Velocity x="15.0" y="-1.0" z="+2"/>
+        </Sphere>
+    </Shapes>
+</Simulation>
