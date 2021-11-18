@@ -18,7 +18,7 @@ void InputReader<3>::readParticles(ParticleContainer<3> &particleContainer, int 
       dataStream >> vj;
     }
     if (dataStream.eof()) {
-      SPDLOG_ERROR("Reached end of file {0} unexpectedly after {1} lines of data", filename, i);
+      SPDLOG_ERROR("Reached end of file unexpectedly after {} lines of data", i);
       exit(-1);
     }
     dataStream >> m;
@@ -50,7 +50,7 @@ void InputReader<2>::readParticles(ParticleContainer<2> &particleContainer, int 
     }
     dataStream >> dummy;
     if (dataStream.eof()) {
-      SPDLOG_ERROR("Reached end of file {0} unexpectedly after {1} lines of data", filename, i);
+      SPDLOG_ERROR("Reached end of file unexpectedly after {} lines of data", i);
       exit(-1);
     }
     dataStream >> m;
