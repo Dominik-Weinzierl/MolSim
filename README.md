@@ -292,3 +292,8 @@ MolSim is released under the [MIT license](https://github.com/Dominik-Weinzierl/
 ## Additional simulations
 
 ![balls](gifs/balls.gif)
+![comets_lennard_jones_2d](gifs/comets_lennard_jones_2d.gif)
+![comets_lennard_jones](gifs/comets_lennard_jones.gif)
+![comets_lennard_jones_fancy](gifs/comets_lennard_jones.gif)
+![two_spheres_lennard_jones](gifs/two_spheres_lennard_jones.gif)
+
