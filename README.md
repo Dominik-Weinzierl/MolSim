@@ -105,16 +105,16 @@ Run `./MolSim` without any arguments to list possible and required arguments.
 
 - Run example simulation of `Task 3`.
    ```bash
-   $ ./MolSim --filename ../../input/eingabe-sonne.txt --t_end 1000 --delta_t 0.014 --physics gravitation -2
+   $ ./MolSim --filename ../../input/eingabe-sonne.txt --t_end 1000 --delta_t 0.014 --physics gravitation 
    ```
   ![comet_simulation](gifs/comet.gif)
 - _(optional)_ Run additional simulation of the solar system.
    ```bash
-   $ ./MolSim -f ../../input/sun_system.txt -t 1000 -d 0.014 --p gravitation -2
+   $ ./MolSim -f ../../input/sun_system.txt -t 1000 -d 0.014 --p gravitation 
    ```
 - _(optional)_ Run example simulation of `Task 3` as benchmark.
    ```bash
-   $ ./MolSim --filename ../../input/eingabe-sonne.txt --t_end 1000 --delta_t 0.014 --physics gravitation -2 --benchmark
+   $ ./MolSim --filename ../../input/eingabe-sonne.txt --t_end 1000 --delta_t 0.014 --physics gravitation --benchmark
    ```
 
 #### Worksheet 2:

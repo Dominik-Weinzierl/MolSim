@@ -23,13 +23,6 @@ class Gravitation : public Physics<dim> {
    * Calculates the force that is active on all particles via the simple force calculation method.
    * @param particleContainer
    */
-  void calculateF(ParticleContainer<dim> &particleContainer) const override {
-    SPDLOG_DEBUG("started calculating forces");
-    for (auto &p: particleContainer) {
-      p.setOldF(p.getF());
-      p.setF(0, 0, 0);
-    }
-    performUpdate(particleContainer);
-    SPDLOG_DEBUG("ended calculating forces");
-  }
+  void calculateF(ParticleContainer<dim> &particleContainer) const override;
+  // Since we expect only dim two or three, there is no default implementation required.
 };
