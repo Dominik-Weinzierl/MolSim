@@ -72,27 +72,32 @@ $ cd MolSim
 
 ### Perform simulations
 
+> To perform simulations in `2D` or `3D`, please add the corresponding flag (`-2` | `-3`) as an argument. For more details see the following examples.
+
 Run `./MolSim` without any arguments to list possible and required arguments.
 
    ```bash
     $ ./MolSim
   
-    Usage: ./MolSim [-h | --help] | {-f | --filename} <filename> {-t | --t_end} <t_end> {-d | --delta_t} <delta_t> [-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}] [-b | --benchmark] 
+    Usage: ./MolSim [-h | --help] | {-f | --filename} <filename> {-t | --t_end} <t_end> {-d | --delta_t} <delta_t> [-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}] [-b | --benchmark] [-2 | -3]
     Options:
-          -h,--help               Show this help message
-          -f,--filename           Specify the input filename
-          -t,--t_end              Specify the end time of this simulation
-          -d,--delta_t            Specify the time steps per calculation
-          -o,--output             Specify the output filename
-          -i,--iteration          Specify the iteration
-          -w,--writer             Specify the writer used for the output files
-          -p,--physics            Specify the physics used for the simulation
-          -b,--benchmark	       Run simulation as benchmark
+            -h,--help               Show this help message
+            -f,--filename           Specify the input filename
+            -t,--t_end              Specify the end time of this simulation
+            -d,--delta_t            Specify the time steps per calculation
+            -o,--output             Specify the output filename
+            -i,--iteration          Specify the iteration
+            -w,--writer             Specify the writer used for the output files
+            -p,--physics            Specify the physics used for the simulation
+            -b,--benchmark          Run simulation as benchmark
+            -2,-3                   Specify the dimension of the simulation (default: 3D)
+    
+    Usage: ./MolSim {-x | --xml} {-f | --filename <filename>} [-b | --benchmark] [-2 | -3]
+    Options:
+            -f,--filename           Specify the input filename as xml
+            -b,--benchmark          Run simulation as benchmark
+            -2,-3                   Specify the dimension of the simulation (default: 3D)
 
-    Usage: ./MolSim {-x | --xml} {-f | --filename <filename>} [-b | --benchmark]
-    Options:
-          -f,--filename           Specify the input filename as xml
-          -b,--benchmark		Run simulation as benchmark
 
    ```
 
@@ -100,28 +105,32 @@ Run `./MolSim` without any arguments to list possible and required arguments.
 
 - Run example simulation of `Task 3`.
    ```bash
-   $ ./MolSim --filename ../../input/eingabe-sonne.txt --t_end 1000 --delta_t 0.014 --physics gravitation
+   $ ./MolSim --filename ../../input/eingabe-sonne.txt --t_end 1000 --delta_t 0.014 --physics gravitation -2
    ```
   ![comet_simulation](gifs/comet.gif)
 - _(optional)_ Run additional simulation of the solar system.
    ```bash
-   $ ./MolSim -f ../../input/sun_system.txt -t 1000 -d 0.014 --p gravitation
+   $ ./MolSim -f ../../input/sun_system.txt -t 1000 -d 0.014 --p gravitation -2
    ```
 - _(optional)_ Run example simulation of `Task 3` as benchmark.
    ```bash
-   $ ./MolSim --filename ../../input/eingabe-sonne.txt --t_end 1000 --delta_t 0.014 --physics gravitation --benchmark
+   $ ./MolSim --filename ../../input/eingabe-sonne.txt --t_end 1000 --delta_t 0.014 --physics gravitation -2 --benchmark
    ```
 
 #### Worksheet 2:
 
 - Run example simulation of `Task 3`.
    ```bash
-   $ ./MolSim -x -f ../../input/input_task_3.xml
+   $ ./MolSim -x -f ../../input/input_task_3.xml -2
    ```
   ![task_3](gifs/task_3.gif)
 - _(optional)_ Run example simulation of `Task 3` as benchmark.
    ```bash
-   $ ./MolSim -x -f ../../input/input_task_3.xml -b
+   $ ./MolSim -x -f ../../input/input_task_3.xml -b -2
+   ```
+- _(optional)_ Run example simulation of `Task 3` as `3D` simulation.
+   ```bash
+   $ ./MolSim -x -f ../../input/input_task_3.xml -3
    ```
 - Input file used for simulation of `Task 3`.
   ```xml

@@ -49,7 +49,7 @@ class XMLArgumentParser : public ArgumentParser<dim> {
           continue;
         }
       }
-      if (flag == "-x" || flag == "--xml" || flag == "-b" || flag == "--benchmark") {
+      if (flag == "-x" || flag == "--xml" || flag == "-b" || flag == "--benchmark" || flag == "-2" || flag == "-3") {
         continue;
       } else {
         throw std::invalid_argument("Invalid argument: " + flag);
@@ -75,10 +75,11 @@ class XMLArgumentParser : public ArgumentParser<dim> {
    */
   void static showUsage() {
     std::stringstream usage;
-    usage << "Usage: " << "./MolSim {-x | --xml} {-f | --filename <filename>} [-b | --benchmark]" << std::endl;
+    usage << "Usage: " << "./MolSim {-x | --xml} {-f | --filename <filename>} [-b | --benchmark] [-2 | -3]" << std::endl;
     usage << "Options:" << std::endl;
     usage << "\t-f,--filename\t\tSpecify the input filename as xml" << std::endl;
     usage << "\t-b,--benchmark\t\tRun simulation as benchmark" << std::endl;
+    usage << "\t-2,-3\t\t\tSpecify the dimension of the simulation (default: 3D)" << std::endl;
     std::cout << usage.str();
   }
 };

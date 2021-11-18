@@ -15,6 +15,8 @@ As described in our project readme: [Readme](https://github.com/Dominik-Weinzier
 
 ## Changelog
 
+- for 2d simulations you need to add the flag `-2`, for 3d simulation you can run the simulation without flag or
+  add `-3`.
 - some optimization (templated simulation -> 2D/3D) -> avg. below 10 seconds
 - add generators for cuboids and spheres (templated)
 - add support for XML files describing the simulation (see readme for more details) -> XMLArgumentParser and XMLArgument
