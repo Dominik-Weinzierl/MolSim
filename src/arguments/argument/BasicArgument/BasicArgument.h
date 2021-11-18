@@ -37,24 +37,6 @@ class BasicArgument : public Argument<dim> {
   void createAdditionalParticle(ParticleContainer<dim> &container) const override {
     (void) container;
   }
-
-  /**
-   * Prints the arguments.
-   */
-  void toString() const override {
-    std::stringstream configuration;
-    configuration << "\tAdditional input files:" << std::endl;
-    for (const auto &f: this->files) {
-      configuration << "\t\t" << f << std::endl;
-    }
-    configuration << "\tEnd time: " << this->endTime << std::endl;;
-    configuration << "\tDelta t: " << this->deltaT << std::endl;
-    configuration << "\tOutput file prefix: " << this->output << std::endl;
-    configuration << "\tFile writer: " << this->writer << std::endl;
-    configuration << "\tIteration: " << this->iteration << std::endl;
-    configuration << "\tPhysic: " << this->physics << std::endl;
-    std::cout << configuration.str() << std::endl;
-  }
 };
 
 /**

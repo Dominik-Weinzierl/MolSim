@@ -23,6 +23,7 @@ class VTKWriter : public OutputWriter<dim> {
    * @param p Particle
    */
   void plotParticle(const Particle<dim> &p);
+  // Since we expect only dim two or three, there is no default implementation required.
 
  public:
 

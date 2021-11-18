@@ -28,6 +28,7 @@ class Physics {
    * @param deltaT time step of our simulation
    */
   static void calculateX(ParticleContainer<dim> &particleContainer, double deltaT);
+  // Since we expect only dim two or three, there is no default implementation required.
 
   /**
    * Calculates and updates the velocity of all particles in the specified container.
@@ -35,6 +36,7 @@ class Physics {
    * @param deltaT time step of our simulation
    */
   static void calculateV(ParticleContainer<dim> &particleContainer, double deltaT);
+  // Since we expect only dim two or three, there is no default implementation required.
 
   /**
    * Calls the calculate-Methods for the position, force and velocity with the given parameters.

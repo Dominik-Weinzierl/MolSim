@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include <outputWriter/OutputWriter.h>
+#include <iostream>
 
 /**
  * Argument stores the arguments parsed by ArgumentParser for easy access.
@@ -126,7 +127,34 @@ class Argument {
   virtual void createAdditionalParticle(ParticleContainer<dim> &container) const = 0;
 
   /**
-   * Prints the arguments.
-   */
-  virtual void toString() const = 0;
+  * Prints the arguments.
+  */
+  [[nodiscard]] virtual std::string toString() const {
+    std::stringstream configuration;
+    configuration << "\tAdditional input files:" << std::endl;
+    for (const auto &f: this->files) {
+      configuration << "\t\t" << f << std::endl;
+    }
+    configuration << "\tEnd time: " << this->getEndTime() << std::endl;;
+    configuration << "\tDelta t: " << this->getDeltaT() << std::endl;
+    configuration << "\tOutput file prefix: " << this->getOutput() << std::endl;
+    configuration << "\tFile writer: " << this->getWriter() << std::endl;
+    configuration << "\tIteration: " << this->getIteration() << std::endl;
+    configuration << "\tPhysic: " << this->getPhysics() << std::endl;
+    return configuration.str();
+  }
 };
+
+/**
+ * Stream operator for CuboidArgument(s).
+ * @tparam dim dimension of our simulation.
+ * @param stream std::ostream
+ * @param p CuboidArgument to print
+ * @return updated stream
+ */
+template<size_t dim>
+std::ostream &operator<<(std::ostream &stream, const Argument<dim> &c) {
+  stream << c.toString();
+  return stream;
+}
+
