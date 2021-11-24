@@ -37,7 +37,7 @@ class Physics {
       for (size_t i = 0; i < dim; ++i) {
         temp[i] = p.getX()[i] + deltaT * p.getV()[i] + deltaTPow * (p.getF()[i] / (2 * p.getM()));
       }
-      p.setV(temp);
+      p.setX(temp);
     }
     SPDLOG_DEBUG("ended calculating positions");
   }

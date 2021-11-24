@@ -70,7 +70,7 @@ TEST(Physics_2D, calculateVelocity) { // NOLINT(cert-err58-cpp)
 }
 
 /**
- * Test basic calculations of next steps. In this case, we test correct calculation of positiob.
+ * Test basic calculations of next steps. In this case, we test correct calculation of position.
  */
 TEST(Physics_2D, calculatePosition) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
