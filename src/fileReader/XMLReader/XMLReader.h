@@ -40,7 +40,7 @@ class XMLReader {
     std::string fileName;
 
     for (auto &it: simulation->Source()) {
-      std::string path = it.location();
+      std::string path = it.path();
       files.push_back(path);
     }
 

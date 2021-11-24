@@ -568,6 +568,50 @@ void linkedCell_t::cutoffRadius(const cutoffRadius_type &x) {
 }
 
 
+// strategy_t
+//
+
+const strategy_t::LinkedCell_optional &strategy_t::LinkedCell() const {
+  return this->LinkedCell_;
+}
+
+strategy_t::LinkedCell_optional &strategy_t::LinkedCell() {
+  return this->LinkedCell_;
+}
+
+void strategy_t::LinkedCell(const LinkedCell_type &x) {
+  this->LinkedCell_.set(x);
+}
+
+void strategy_t::LinkedCell(const LinkedCell_optional &x) {
+  this->LinkedCell_ = x;
+}
+
+void strategy_t::LinkedCell(::std::unique_ptr<LinkedCell_type> x) {
+  this->LinkedCell_.set(std::move(x));
+}
+
+const strategy_t::DirectSum_optional &strategy_t::DirectSum() const {
+  return this->DirectSum_;
+}
+
+strategy_t::DirectSum_optional &strategy_t::DirectSum() {
+  return this->DirectSum_;
+}
+
+void strategy_t::DirectSum(const DirectSum_type &x) {
+  this->DirectSum_.set(x);
+}
+
+void strategy_t::DirectSum(const DirectSum_optional &x) {
+  this->DirectSum_ = x;
+}
+
+void strategy_t::DirectSum(::std::unique_ptr<DirectSum_type> x) {
+  this->DirectSum_.set(std::move(x));
+}
+
+
 // simulation_t
 //
 
@@ -595,44 +639,24 @@ void simulation_t::Source(const Source_sequence &s) {
   this->Source_ = s;
 }
 
-const simulation_t::LinkedCell_optional &simulation_t::LinkedCell() const {
-  return this->LinkedCell_;
+const simulation_t::Strategy_optional &simulation_t::Strategy() const {
+  return this->Strategy_;
 }
 
-simulation_t::LinkedCell_optional &simulation_t::LinkedCell() {
-  return this->LinkedCell_;
+simulation_t::Strategy_optional &simulation_t::Strategy() {
+  return this->Strategy_;
 }
 
-void simulation_t::LinkedCell(const LinkedCell_type &x) {
-  this->LinkedCell_.set(x);
+void simulation_t::Strategy(const Strategy_type &x) {
+  this->Strategy_.set(x);
 }
 
-void simulation_t::LinkedCell(const LinkedCell_optional &x) {
-  this->LinkedCell_ = x;
+void simulation_t::Strategy(const Strategy_optional &x) {
+  this->Strategy_ = x;
 }
 
-void simulation_t::LinkedCell(::std::unique_ptr<LinkedCell_type> x) {
-  this->LinkedCell_.set(std::move(x));
-}
-
-const simulation_t::DirectSum_optional &simulation_t::DirectSum() const {
-  return this->DirectSum_;
-}
-
-simulation_t::DirectSum_optional &simulation_t::DirectSum() {
-  return this->DirectSum_;
-}
-
-void simulation_t::DirectSum(const DirectSum_type &x) {
-  this->DirectSum_.set(x);
-}
-
-void simulation_t::DirectSum(const DirectSum_optional &x) {
-  this->DirectSum_ = x;
-}
-
-void simulation_t::DirectSum(::std::unique_ptr<DirectSum_type> x) {
-  this->DirectSum_.set(std::move(x));
+void simulation_t::Strategy(::std::unique_ptr<Strategy_type> x) {
+  this->Strategy_.set(std::move(x));
 }
 
 const simulation_t::endTime_type &simulation_t::endTime() const {
@@ -1512,26 +1536,97 @@ linkedCell_t &linkedCell_t::operator=(const linkedCell_t &x) {
 linkedCell_t::~linkedCell_t() {
 }
 
+// strategy_t
+//
+
+strategy_t::strategy_t() : ::xml_schema::type(), LinkedCell_(this), DirectSum_(this) {
+}
+
+strategy_t::strategy_t(const strategy_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x,
+                                                                                                                    f,
+                                                                                                                    c),
+                                                                                                 LinkedCell_(
+                                                                                                     x.LinkedCell_, f,
+                                                                                                     this), DirectSum_(
+        x.DirectSum_, f, this) {
+}
+
+strategy_t::strategy_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), LinkedCell_(this), DirectSum_(this) {
+  if ((f & ::xml_schema::flags::base) == 0) {
+    ::xsd::cxx::xml::dom::parser<char> p(e, true, false, false);
+    this->parse(p, f);
+  }
+}
+
+void strategy_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags f) {
+  for (; p.more_content(); p.next_content(false)) {
+    const ::xercesc::DOMElement &i(p.cur_element());
+    const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    // LinkedCell
+    //
+    if (n.name() == "LinkedCell" && n.namespace_().empty()) {
+      ::std::unique_ptr<LinkedCell_type> r(LinkedCell_traits::create(i, f, this));
+
+      if (!this->LinkedCell_) {
+        this->LinkedCell_.set(::std::move(r));
+        continue;
+      }
+    }
+
+    // DirectSum
+    //
+    if (n.name() == "DirectSum" && n.namespace_().empty()) {
+      ::std::unique_ptr<DirectSum_type> r(DirectSum_traits::create(i, f, this));
+
+      if (!this->DirectSum_) {
+        this->DirectSum_.set(::std::move(r));
+        continue;
+      }
+    }
+
+    break;
+  }
+}
+
+strategy_t *strategy_t::_clone(::xml_schema::flags f, ::xml_schema::container *c) const {
+  return new class strategy_t(*this, f, c);
+}
+
+strategy_t &strategy_t::operator=(const strategy_t &x) {
+  if (this != &x) {
+    static_cast< ::xml_schema::type & > (*this) = x;
+    this->LinkedCell_ = x.LinkedCell_;
+    this->DirectSum_ = x.DirectSum_;
+  }
+
+  return *this;
+}
+
+strategy_t::~strategy_t() {
+}
+
 // simulation_t
 //
 
 simulation_t::simulation_t(const endTime_type &endTime, const deltaT_type &deltaT, const output_type &output,
                            const iteration_type &iteration, const physics_type &physics, const writer_type &writer)
-    : ::xml_schema::type(), Shapes_(this), Source_(this), LinkedCell_(this), DirectSum_(this), endTime_(endTime, this),
+    : ::xml_schema::type(), Shapes_(this), Source_(this), Strategy_(this), endTime_(endTime, this),
       deltaT_(deltaT, this), output_(output, this), iteration_(iteration, this), physics_(physics, this),
       writer_(writer, this) {
 }
 
 simulation_t::simulation_t(const simulation_t &x, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(x, f, c), Shapes_(x.Shapes_, f, this), Source_(x.Source_, f, this),
-      LinkedCell_(x.LinkedCell_, f, this), DirectSum_(x.DirectSum_, f, this), endTime_(x.endTime_, f, this),
-      deltaT_(x.deltaT_, f, this), output_(x.output_, f, this), iteration_(x.iteration_, f, this),
-      physics_(x.physics_, f, this), writer_(x.writer_, f, this) {
+      Strategy_(x.Strategy_, f, this), endTime_(x.endTime_, f, this), deltaT_(x.deltaT_, f, this),
+      output_(x.output_, f, this), iteration_(x.iteration_, f, this), physics_(x.physics_, f, this),
+      writer_(x.writer_, f, this) {
 }
 
 simulation_t::simulation_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Shapes_(this), Source_(this), LinkedCell_(this),
-      DirectSum_(this), endTime_(this), deltaT_(this), output_(this), iteration_(this), physics_(this), writer_(this) {
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Shapes_(this), Source_(this), Strategy_(this),
+      endTime_(this), deltaT_(this), output_(this), iteration_(this), physics_(this), writer_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -1561,24 +1656,13 @@ void simulation_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
       continue;
     }
 
-    // LinkedCell
+    // Strategy
     //
-    if (n.name() == "LinkedCell" && n.namespace_().empty()) {
-      ::std::unique_ptr<LinkedCell_type> r(LinkedCell_traits::create(i, f, this));
+    if (n.name() == "Strategy" && n.namespace_().empty()) {
+      ::std::unique_ptr<Strategy_type> r(Strategy_traits::create(i, f, this));
 
-      if (!this->LinkedCell_) {
-        this->LinkedCell_.set(::std::move(r));
-        continue;
-      }
-    }
-
-    // DirectSum
-    //
-    if (n.name() == "DirectSum" && n.namespace_().empty()) {
-      ::std::unique_ptr<DirectSum_type> r(DirectSum_traits::create(i, f, this));
-
-      if (!this->DirectSum_) {
-        this->DirectSum_.set(::std::move(r));
+      if (!this->Strategy_) {
+        this->Strategy_.set(::std::move(r));
         continue;
       }
     }
@@ -1655,8 +1739,7 @@ simulation_t &simulation_t::operator=(const simulation_t &x) {
     static_cast< ::xml_schema::type & > (*this) = x;
     this->Shapes_ = x.Shapes_;
     this->Source_ = x.Source_;
-    this->LinkedCell_ = x.LinkedCell_;
-    this->DirectSum_ = x.DirectSum_;
+    this->Strategy_ = x.Strategy_;
     this->endTime_ = x.endTime_;
     this->deltaT_ = x.deltaT_;
     this->output_ = x.output_;
@@ -2145,6 +2228,26 @@ void operator<<(::xercesc::DOMElement &e, const linkedCell_t &i) {
   }
 }
 
+void operator<<(::xercesc::DOMElement &e, const strategy_t &i) {
+  e << static_cast< const ::xml_schema::type & > (i);
+
+  // LinkedCell
+  //
+  if (i.LinkedCell()) {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("LinkedCell", e));
+
+    s << *i.LinkedCell();
+  }
+
+  // DirectSum
+  //
+  if (i.DirectSum()) {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("DirectSum", e));
+
+    s << *i.DirectSum();
+  }
+}
+
 void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
   e << static_cast< const ::xml_schema::type & > (i);
 
@@ -2164,20 +2267,12 @@ void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
     s << *b;
   }
 
-  // LinkedCell
+  // Strategy
   //
-  if (i.LinkedCell()) {
-    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("LinkedCell", e));
+  if (i.Strategy()) {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Strategy", e));
 
-    s << *i.LinkedCell();
-  }
-
-  // DirectSum
-  //
-  if (i.DirectSum()) {
-    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("DirectSum", e));
-
-    s << *i.DirectSum();
+    s << *i.Strategy();
   }
 
   // endTime

@@ -79,16 +79,19 @@
         <xsd:attribute name="cutoffRadius" type="xsd:nonNegativeInteger" use="required"/>
     </xsd:complexType>
 
+    <xsd:complexType name="strategy_t">
+        <xsd:choice>
+            <xsd:element name="LinkedCell" type="linkedCell_t"/>
+            <xsd:element name="DirectSum" type="directSum_t"/>
+        </xsd:choice>
+    </xsd:complexType>
 
     <!-- Simulation -->
     <xsd:complexType name="simulation_t">
         <xsd:sequence>
             <xsd:element name="Shapes" type="shape_t" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="Source" type="input_t" minOccurs="0" maxOccurs="unbounded"/>
-            <xsd:choice>
-                <xsd:element name="LinkedCell" type="linkedCell_t"/>
-                <xsd:element name="DirectSum" type="directSum_t"/>
-            </xsd:choice>
+            <xsd:element name="Strategy" type="strategy_t" minOccurs="0"/>
         </xsd:sequence>
         <xsd:attribute name="endTime" type="xsd:double" use="required"/>
         <xsd:attribute name="deltaT" type="xsd:double" use="required"/>

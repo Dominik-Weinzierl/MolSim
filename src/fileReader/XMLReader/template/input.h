@@ -621,6 +621,7 @@ class boundary_t;
 class shape_t;
 class directSum_t;
 class linkedCell_t;
+class strategy_t;
 class simulation_t;
 
 #include <memory>    // ::std::unique_ptr
@@ -3241,134 +3242,12 @@ class linkedCell_t : public ::xml_schema::type {
 };
 
 /**
- * @brief Class corresponding to the %simulation_t schema type.
+ * @brief Class corresponding to the %strategy_t schema type.
  *
  * @nosubgrouping
  */
-class simulation_t : public ::xml_schema::type {
+class strategy_t : public ::xml_schema::type {
  public:
-  /**
-   * @name Shapes
-   *
-   * @brief Accessor and modifier functions for the %Shapes
-   * sequence element.
-   */
-  //@{
-
-  /**
-   * @brief Element type.
-   */
-  typedef ::shape_t Shapes_type;
-
-  /**
-   * @brief Element sequence container type.
-   */
-  typedef ::xsd::cxx::tree::sequence<Shapes_type> Shapes_sequence;
-
-  /**
-   * @brief Element iterator type.
-   */
-  typedef Shapes_sequence::iterator Shapes_iterator;
-
-  /**
-   * @brief Element constant iterator type.
-   */
-  typedef Shapes_sequence::const_iterator Shapes_const_iterator;
-
-  /**
-   * @brief Element traits type.
-   */
-  typedef ::xsd::cxx::tree::traits<Shapes_type, char> Shapes_traits;
-
-  /**
-   * @brief Return a read-only (constant) reference to the element
-   * sequence.
-   *
-   * @return A constant reference to the sequence container.
-   */
-  const Shapes_sequence &Shapes() const;
-
-  /**
-   * @brief Return a read-write reference to the element sequence.
-   *
-   * @return A reference to the sequence container.
-   */
-  Shapes_sequence &Shapes();
-
-  /**
-   * @brief Copy elements from a given sequence.
-   *
-   * @param s A sequence to copy elements from.
-   *
-   * For each element in @a s this function makes a copy and adds it 
-   * to the sequence. Note that this operation completely changes the 
-   * sequence and all old elements will be lost.
-   */
-  void Shapes(const Shapes_sequence &s);
-
-  //@}
-
-  /**
-   * @name Source
-   *
-   * @brief Accessor and modifier functions for the %Source
-   * sequence element.
-   */
-  //@{
-
-  /**
-   * @brief Element type.
-   */
-  typedef ::input_t Source_type;
-
-  /**
-   * @brief Element sequence container type.
-   */
-  typedef ::xsd::cxx::tree::sequence<Source_type> Source_sequence;
-
-  /**
-   * @brief Element iterator type.
-   */
-  typedef Source_sequence::iterator Source_iterator;
-
-  /**
-   * @brief Element constant iterator type.
-   */
-  typedef Source_sequence::const_iterator Source_const_iterator;
-
-  /**
-   * @brief Element traits type.
-   */
-  typedef ::xsd::cxx::tree::traits<Source_type, char> Source_traits;
-
-  /**
-   * @brief Return a read-only (constant) reference to the element
-   * sequence.
-   *
-   * @return A constant reference to the sequence container.
-   */
-  const Source_sequence &Source() const;
-
-  /**
-   * @brief Return a read-write reference to the element sequence.
-   *
-   * @return A reference to the sequence container.
-   */
-  Source_sequence &Source();
-
-  /**
-   * @brief Copy elements from a given sequence.
-   *
-   * @param s A sequence to copy elements from.
-   *
-   * For each element in @a s this function makes a copy and adds it 
-   * to the sequence. Note that this operation completely changes the 
-   * sequence and all old elements will be lost.
-   */
-  void Source(const Source_sequence &s);
-
-  //@}
-
   /**
    * @name LinkedCell
    *
@@ -3508,6 +3387,284 @@ class simulation_t : public ::xml_schema::type {
    * of making a copy.
    */
   void DirectSum(::std::unique_ptr<DirectSum_type> p);
+
+  //@}
+
+  /**
+   * @name Constructors
+   */
+  //@{
+
+  /**
+   * @brief Create an instance from the ultimate base and
+   * initializers for required elements and attributes.
+   */
+  strategy_t();
+
+  /**
+   * @brief Create an instance from a DOM element.
+   *
+   * @param e A DOM element to extract the data from.
+   * @param f Flags to create the new instance with.
+   * @param c A pointer to the object that will contain the new
+   * instance.
+   */
+  strategy_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
+
+  /**
+   * @brief Copy constructor.
+   *
+   * @param x An instance to make a copy of.
+   * @param f Flags to create the copy with.
+   * @param c A pointer to the object that will contain the copy.
+   *
+   * For polymorphic object models use the @c _clone function instead.
+   */
+  strategy_t(const strategy_t &x, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
+
+  /**
+   * @brief Copy the instance polymorphically.
+   *
+   * @param f Flags to create the copy with.
+   * @param c A pointer to the object that will contain the copy.
+   * @return A pointer to the dynamically allocated copy.
+   *
+   * This function ensures that the dynamic type of the instance is
+   * used for copying and should be used for polymorphic object
+   * models instead of the copy constructor.
+   */
+  virtual strategy_t *_clone(::xml_schema::flags f = 0, ::xml_schema::container *c = 0) const;
+
+  /**
+   * @brief Copy assignment operator.
+   *
+   * @param x An instance to make a copy of.
+   * @return A reference to itself.
+   *
+   * For polymorphic object models use the @c _clone function instead.
+   */
+  strategy_t &operator=(const strategy_t &x);
+
+  //@}
+
+  /**
+   * @brief Destructor.
+   */
+  virtual
+  ~strategy_t();
+
+  // Implementation.
+  //
+
+  //@cond
+
+ protected:
+  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::flags);
+
+ protected:
+  LinkedCell_optional LinkedCell_;
+  DirectSum_optional DirectSum_;
+
+  //@endcond
+};
+
+/**
+ * @brief Class corresponding to the %simulation_t schema type.
+ *
+ * @nosubgrouping
+ */
+class simulation_t : public ::xml_schema::type {
+ public:
+  /**
+   * @name Shapes
+   *
+   * @brief Accessor and modifier functions for the %Shapes
+   * sequence element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::shape_t Shapes_type;
+
+  /**
+   * @brief Element sequence container type.
+   */
+  typedef ::xsd::cxx::tree::sequence<Shapes_type> Shapes_sequence;
+
+  /**
+   * @brief Element iterator type.
+   */
+  typedef Shapes_sequence::iterator Shapes_iterator;
+
+  /**
+   * @brief Element constant iterator type.
+   */
+  typedef Shapes_sequence::const_iterator Shapes_const_iterator;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<Shapes_type, char> Shapes_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element
+   * sequence.
+   *
+   * @return A constant reference to the sequence container.
+   */
+  const Shapes_sequence &Shapes() const;
+
+  /**
+   * @brief Return a read-write reference to the element sequence.
+   *
+   * @return A reference to the sequence container.
+   */
+  Shapes_sequence &Shapes();
+
+  /**
+   * @brief Copy elements from a given sequence.
+   *
+   * @param s A sequence to copy elements from.
+   *
+   * For each element in @a s this function makes a copy and adds it 
+   * to the sequence. Note that this operation completely changes the 
+   * sequence and all old elements will be lost.
+   */
+  void Shapes(const Shapes_sequence &s);
+
+  //@}
+
+  /**
+   * @name Source
+   *
+   * @brief Accessor and modifier functions for the %Source
+   * sequence element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::input_t Source_type;
+
+  /**
+   * @brief Element sequence container type.
+   */
+  typedef ::xsd::cxx::tree::sequence<Source_type> Source_sequence;
+
+  /**
+   * @brief Element iterator type.
+   */
+  typedef Source_sequence::iterator Source_iterator;
+
+  /**
+   * @brief Element constant iterator type.
+   */
+  typedef Source_sequence::const_iterator Source_const_iterator;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<Source_type, char> Source_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element
+   * sequence.
+   *
+   * @return A constant reference to the sequence container.
+   */
+  const Source_sequence &Source() const;
+
+  /**
+   * @brief Return a read-write reference to the element sequence.
+   *
+   * @return A reference to the sequence container.
+   */
+  Source_sequence &Source();
+
+  /**
+   * @brief Copy elements from a given sequence.
+   *
+   * @param s A sequence to copy elements from.
+   *
+   * For each element in @a s this function makes a copy and adds it 
+   * to the sequence. Note that this operation completely changes the 
+   * sequence and all old elements will be lost.
+   */
+  void Source(const Source_sequence &s);
+
+  //@}
+
+  /**
+   * @name Strategy
+   *
+   * @brief Accessor and modifier functions for the %Strategy
+   * optional element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::strategy_t Strategy_type;
+
+  /**
+   * @brief Element optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<Strategy_type> Strategy_optional;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<Strategy_type, char> Strategy_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const Strategy_optional &Strategy() const;
+
+  /**
+   * @brief Return a read-write reference to the element container.
+   *
+   * @return A reference to the optional container.
+   */
+  Strategy_optional &Strategy();
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the element.
+   */
+  void Strategy(const Strategy_type &x);
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the element.
+   * Otherwise the element container is set the 'not present' state.
+   */
+  void Strategy(const Strategy_optional &x);
+
+  /**
+   * @brief Set the element value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly instead
+   * of making a copy.
+   */
+  void Strategy(::std::unique_ptr<Strategy_type> p);
 
   //@}
 
@@ -3880,8 +4037,7 @@ class simulation_t : public ::xml_schema::type {
  protected:
   Shapes_sequence Shapes_;
   Source_sequence Source_;
-  LinkedCell_optional LinkedCell_;
-  DirectSum_optional DirectSum_;
+  Strategy_optional Strategy_;
   ::xsd::cxx::tree::one<endTime_type> endTime_;
   ::xsd::cxx::tree::one<deltaT_type> deltaT_;
   ::xsd::cxx::tree::one<output_type> output_;
@@ -4150,6 +4306,8 @@ void operator<<(::xercesc::DOMAttr &, const directSum_t &);
 void operator<<(::xml_schema::list_stream &, const directSum_t &);
 
 void operator<<(::xercesc::DOMElement &, const linkedCell_t &);
+
+void operator<<(::xercesc::DOMElement &, const strategy_t &);
 
 void operator<<(::xercesc::DOMElement &, const simulation_t &);
 
