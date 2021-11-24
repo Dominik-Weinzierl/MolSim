@@ -72,7 +72,7 @@ class LennardJones : public Physics<dim> {
    * @param particleContainer container which contains the Particle(s) used for this simulation.
    */
   void calculateF(ParticleContainer<dim> &particleContainer) const override {
-    Vector<dim> temp;
+    Vector<dim> temp{};
     SPDLOG_DEBUG("started calculating forces");
     for (auto &p: particleContainer) {
       p.setOldF(p.getF());

@@ -30,7 +30,7 @@ class Physics {
   static void calculateX(ParticleContainer<dim> &particleContainer, double deltaT) {
     SPDLOG_DEBUG("started calculating positions");
     const auto deltaTPow = deltaT * deltaT;
-    Vector<dim> temp;
+    Vector<dim> temp{};
 
     for (auto &p: particleContainer) {
       SPDLOG_TRACE("Calculating position for {}", p.toString());
@@ -49,7 +49,7 @@ class Physics {
    */
   static void calculateV(ParticleContainer<dim> &particleContainer, double deltaT) {
     SPDLOG_DEBUG("started calculating velocities");
-    Vector<dim> temp;
+    Vector<dim> temp{};
     for (auto &p: particleContainer) {
       SPDLOG_TRACE("Calculating velocity for {}", p.toString());
       for (size_t i = 0; i < dim; ++i) {
