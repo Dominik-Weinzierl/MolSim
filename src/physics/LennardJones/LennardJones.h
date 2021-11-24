@@ -28,15 +28,42 @@ class LennardJones : public Physics<dim> {
    * @param diff difference between two Particle(s).
    * @return factor
    */
-  [[nodiscard]] inline double calculateFactor(const Vector<dim> &diff) const;
-  // Since we expect only dim two or three, there is no default implementation required.
+  [[nodiscard]] inline double calculateFactor(const Vector<dim> &diff) const {
+    double l2Norm = 0.0;
+
+    for (size_t t = 0; t < dim; ++t) {
+      l2Norm += diff[t] * diff[t];
+    }
+
+    double fracture = (zeroCrossing * zeroCrossing) / l2Norm;
+
+    double firstFactor = (24 * potentialWellDepth) / (l2Norm);
+    double pow = fracture * fracture * fracture;
+    double secondFactor = pow - 2 * pow * pow;
+    return firstFactor * secondFactor;
+  }
 
   /**
    * Updates the force of the Particle(s).
    * @param particleContainer container which contains the Particle(s) used for this simulation.
    */
-  void performUpdate(ParticleContainer<dim> &particleContainer) const;
-  // Since we expect only dim two or three, there is no default implementation required.
+  void performUpdate(ParticleContainer<dim> &particleContainer) const {
+    for (auto i = particleContainer.begin(); i != particleContainer.end(); ++i) {
+      for (auto j = i + 1; j != particleContainer.end(); ++j) {
+        SPDLOG_TRACE("Calculating force for {} and {}", i->toString(), j->toString());
+
+        Vector<dim> force{i->getX() - j->getX()};
+        double factor = calculateFactor(force);
+
+        for (size_t t = 0; t < dim; ++t) {
+          force[t] *= -factor;
+        }
+
+        i->updateForce(force);
+        j->updateForce(-force);
+      }
+    }
+  }
 
  public:
 
@@ -44,7 +71,14 @@ class LennardJones : public Physics<dim> {
    * Calculates the new force value.
    * @param particleContainer container which contains the Particle(s) used for this simulation.
    */
-  void calculateF(ParticleContainer<dim> &particleContainer) const override;
-  // Since we expect only dim two or three, there is no default implementation required.
-
+  void calculateF(ParticleContainer<dim> &particleContainer) const override {
+    Vector<dim> temp{};
+    SPDLOG_DEBUG("started calculating forces");
+    for (auto &p: particleContainer) {
+      p.setOldF(p.getF());
+      p.setF(temp);
+    }
+    performUpdate(particleContainer);
+    SPDLOG_DEBUG("ended calculating forces");
+  }
 };
