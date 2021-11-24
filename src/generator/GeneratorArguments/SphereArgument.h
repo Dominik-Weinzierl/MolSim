@@ -39,6 +39,11 @@ class SphereArgument : public GeneratorArguments {
    */
   double meanValue;
 
+  /**
+   * Packed value of the Particle(s).
+   */
+  bool packed;
+
  public:
 
   /**
@@ -90,6 +95,14 @@ class SphereArgument : public GeneratorArguments {
   }
 
   /**
+   * Getter for the packed.
+   * @return packed
+   */
+  [[nodiscard]] bool getPacked() const {
+    return packed;
+  }
+
+  /**
    * SphereArgument used to create Sphere(s) by the Generator.
    * @param pCenterCoordinates coordinates of the center
    * @param pRadius radius of the Sphere
@@ -97,11 +110,14 @@ class SphereArgument : public GeneratorArguments {
    * @param pDistance distance between the Particle(s)
    * @param pMass mass of the Particle(s)
    * @param pMeanValue mean value of the Particle(s)
+   * @param pPacked describes if the Cuboid is packed with Particle(s)
    */
   SphereArgument(Vector<dim> pCenterCoordinates, int pRadius, Vector<dim> pInitialVelocity, double pDistance,
-                 double pMass, double pMeanValue = 0.1) : centerCoordinates{pCenterCoordinates}, radius{pRadius},
-                                                          initialVelocity{pInitialVelocity}, distance{pDistance},
-                                                          mass{pMass}, meanValue{pMeanValue} {
+                 double pMass, double pMeanValue, bool pPacked = false) : centerCoordinates{pCenterCoordinates},
+                                                                          radius{pRadius},
+                                                                          initialVelocity{pInitialVelocity},
+                                                                          distance{pDistance}, mass{pMass},
+                                                                          meanValue{pMeanValue}, packed{pPacked} {
   }
 
   /**
@@ -115,6 +131,7 @@ class SphereArgument : public GeneratorArguments {
     argument << "\t\t\t\t Distance: " << distance << std::endl;
     argument << "\t\t\t\t Mass: " << mass << std::endl;
     argument << "\t\t\t\t Mean value: " << meanValue << std::endl;
+    argument << "\t\t\t\t Packed: " << packed << std::endl;
     return argument.str();
   };
 
@@ -131,7 +148,8 @@ template<size_t dim>
 bool operator==(const SphereArgument<dim> &left, const SphereArgument<dim> &right) {
   return left.getCenterCoordinates() == right.getCenterCoordinates() && left.getRadius() == right.getRadius()
       && left.getInitialVelocity() == right.getInitialVelocity() && left.getDistance() == right.getDistance()
-      && left.getMass() == right.getMass() && left.getMeanValue() == right.getMeanValue();
+      && left.getMass() == right.getMass() && left.getMeanValue() == right.getMeanValue()
+      && left.getPacked() == right.getPacked();;
 }
 
 /**

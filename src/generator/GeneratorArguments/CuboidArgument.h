@@ -39,6 +39,11 @@ class CuboidArgument : public GeneratorArguments {
    */
   double meanValue;
 
+  /**
+   * Packed value of the Particle(s).
+   */
+  bool packed;
+
  public:
 
   /**
@@ -90,6 +95,14 @@ class CuboidArgument : public GeneratorArguments {
   }
 
   /**
+   * Getter for the packed.
+   * @return packed
+   */
+  [[nodiscard]] bool getPacked() const {
+    return packed;
+  }
+
+  /**
    * CuboidArgument used to create Cuboid(s) by the Generator.
    * @param pStartingCoordinates coordinates of the lower left corner
    * @param pDimensions dimension of the Cuboid
@@ -97,13 +110,14 @@ class CuboidArgument : public GeneratorArguments {
    * @param pDistance distance between the Particle(s)
    * @param pMass mass of the Particle(s)
    * @param pMeanValue mean value of the Particle(s)
+   * @param pPacked describes if the Cuboid is packed with Particle(s)
    */
   CuboidArgument(Vector<dim> pStartingCoordinates, std::vector<int> pDimensions, Vector<dim> pInitialVelocity,
-                 double pDistance, double pMass, double pMeanValue = 0.1) : startingCoordinates{pStartingCoordinates},
-                                                                            dimensions{std::move(pDimensions)},
-                                                                            initialVelocity{pInitialVelocity},
-                                                                            distance{pDistance}, mass{pMass},
-                                                                            meanValue{pMeanValue} {
+                 double pDistance, double pMass, double pMeanValue, bool pPacked = false) : startingCoordinates{
+      pStartingCoordinates}, dimensions{std::move(pDimensions)}, initialVelocity{pInitialVelocity}, distance{pDistance},
+                                                                                            mass{pMass},
+                                                                                            meanValue{pMeanValue},
+                                                                                            packed{pPacked} {
 
   }
 
@@ -119,6 +133,7 @@ class CuboidArgument : public GeneratorArguments {
     argument << "\t\t\t\t Distance: " << distance << std::endl;
     argument << "\t\t\t\t Mass: " << mass << std::endl;
     argument << "\t\t\t\t Mean value: " << meanValue << std::endl;
+    argument << "\t\t\t\t Packed: " << packed << std::endl;
     return argument.str();
   };
 };
@@ -135,7 +150,7 @@ bool operator==(const CuboidArgument<dim> &left, const CuboidArgument<dim> &righ
   return left.getStartingCoordinates() == right.getStartingCoordinates()
       && left.getDimensions() == right.getDimensions() && left.getInitialVelocity() == right.getInitialVelocity()
       && left.getDistance() == right.getDistance() && left.getMass() == right.getMass()
-      && left.getMeanValue() == right.getMeanValue();
+      && left.getMeanValue() == right.getMeanValue() && left.getPacked() == right.getPacked();
 }
 
 /**
