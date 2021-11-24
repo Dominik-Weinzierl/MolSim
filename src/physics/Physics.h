@@ -27,16 +27,38 @@ class Physics {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
    */
-  static void calculateX(ParticleContainer<dim> &particleContainer, double deltaT);
-  // Since we expect only dim two or three, there is no default implementation required.
+  static void calculateX(ParticleContainer<dim> &particleContainer, double deltaT) {
+    SPDLOG_DEBUG("started calculating positions");
+    const auto deltaTPow = deltaT * deltaT;
+    std::array<double, dim> temp{};
+
+    for (auto &p: particleContainer) {
+      SPDLOG_TRACE("Calculating position for {}", p.toString());
+      for (size_t i = 0; i < dim; ++i) {
+        temp[i] = p.getX()[i] + deltaT * p.getV()[i] + deltaTPow * (p.getF()[i] / (2 * p.getM()));
+      }
+      p.setV(temp);
+    }
+    SPDLOG_DEBUG("ended calculating positions");
+  }
 
   /**
    * Calculates and updates the velocity of all particles in the specified container.
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
    */
-  static void calculateV(ParticleContainer<dim> &particleContainer, double deltaT);
-  // Since we expect only dim two or three, there is no default implementation required.
+  static void calculateV(ParticleContainer<dim> &particleContainer, double deltaT) {
+    SPDLOG_DEBUG("started calculating velocities");
+    std::array<double, dim> temp{};
+    for (auto &p: particleContainer) {
+      SPDLOG_TRACE("Calculating velocity for {}", p.toString());
+      for (size_t i = 0; i < dim; ++i) {
+        temp[i] = p.getV()[i] + deltaT * (p.getOldF()[i] + p.getF()[i]) / (2 * p.getM());
+      }
+      p.setV(temp);
+    }
+    SPDLOG_DEBUG("ended calculating velocities");
+  }
 
   /**
    * Calls the calculate-Methods for the position, force and velocity with the given parameters.
