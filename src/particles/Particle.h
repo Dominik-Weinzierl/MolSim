@@ -266,6 +266,16 @@ class Particle {
   }
 
   /**
+   * Methods to update the force.
+   * @param force new force to add
+   */
+  void updateForce(std::array<double, dim> force) {
+    for (size_t i = 0; i < dim; ++i) {
+      f[i] += force[i];
+    }
+  }
+
+  /**
    * Operator which allows the comparison of the particle to a given particle.
    * @param other
    * @return True, if the given Particle equals this Particle.

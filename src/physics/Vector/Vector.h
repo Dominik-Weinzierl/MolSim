@@ -45,6 +45,21 @@ Vector<dim> operator-(Vector<dim> lhs, const Vector<dim> &rhs) {
 }
 
 /**
+ * Invert Vector
+ * @tparam dim dimension of our simulation.
+ * @param lhs first vector as value (used for better chaining)
+ * @return inverted vector
+ */
+template<size_t dim>
+Vector<dim> &operator-(Vector<dim> &lhs) {
+  SPDLOG_TRACE("Calculating -{0}" ArrayUtils::to_string(lhs));
+  std::transform(lhs.begin(), lhs.end(), lhs.begin(), [](auto v) {
+    return -v;
+  });
+  return lhs;
+}
+
+/**
  * Operator that allows scalar multiplication on a given Vector.
  * @tparam dim dimension of our simulation.
  * @param lhs first vector as reference
