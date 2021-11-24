@@ -16,7 +16,7 @@ class Gravitation : public Physics<dim> {
    * @param particleContainer container which contains the Particle(s) used for this simulation.
    */
   void performUpdate(ParticleContainer<dim> &particleContainer) const {
-    std::array<double, dim> temp{};
+    Vector<dim> temp;
     for (auto i = particleContainer.begin(); i != particleContainer.end(); ++i) {
       for (auto j = i + 1; j != particleContainer.end(); ++j) {
         SPDLOG_TRACE("Calculating force for {} and {}", i->toString(), j->toString());
@@ -44,7 +44,7 @@ class Gravitation : public Physics<dim> {
    */
   void calculateF(ParticleContainer<dim> &particleContainer) const override {
     SPDLOG_DEBUG("started calculating forces");
-    std::array<double, dim> temp{};
+    Vector<dim> temp;
     for (auto &p: particleContainer) {
       p.setOldF(p.getF());
       p.setF(temp);
