@@ -72,5 +72,3 @@ void Generator<SphereArgument<2>, 2>::generate(const SphereArgument<2> &c, Parti
     }
   }
 }
-
-

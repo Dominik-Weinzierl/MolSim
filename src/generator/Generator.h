@@ -40,4 +40,3 @@ class Generator {
     p.setV(t + max);
   }
 };
-
