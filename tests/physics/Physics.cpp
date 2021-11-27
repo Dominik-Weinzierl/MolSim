@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <particles/ParticleContainer.h>
+#include <particles/ParticleContainer/ParticleContainer.h>
 #include <physics/Physics.h>
 
 

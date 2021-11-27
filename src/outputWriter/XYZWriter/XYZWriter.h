@@ -1,6 +1,6 @@
 #pragma once
 
-#include "particles/ParticleContainer.h"
+#include "container/ParticleContainer.h"
 #include "outputWriter/OutputWriter.h"
 
 #include <fstream>

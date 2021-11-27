@@ -1,6 +1,6 @@
 #pragma once
 
-#include "particles/ParticleContainer.h"
+#include "container/ParticleContainer.h"
 
 /**
  * Physics is an abstract class which provides methods to calculate the next simulation step

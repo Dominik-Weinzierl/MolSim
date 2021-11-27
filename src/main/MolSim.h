@@ -11,6 +11,7 @@
 #include <outputWriter/DummyWriter/DummyWriter.h>
 #include "simulation/MDSimulation.h"
 #include "physics/LennardJones/LennardJones.h"
+#include "container/DirectSumContainer.h"
 
 /**
  * Provides static functions for simulation and benchmark.
@@ -32,7 +33,7 @@ class MolSim {
   /**
    * ParticleContainer used by our simulation.
    */
-  ParticleContainer<dim> particleContainer;
+  DirectSumContainer<dim> particleContainer;
 
   /**
    * Setup project based on selected dimension.

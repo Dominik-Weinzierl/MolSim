@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Particle.h"
+#include "particles/Particle.h"
 #include "logger/Logger.h"
 #include <vector>
 
@@ -10,14 +10,12 @@
  */
 template<size_t dim>
 class ParticleContainer {
- private:
+ protected:
 
   /**
    * Particles-Vector Stores all particles.
    */
   std::vector<Particle<dim>> particles;
-
- public:
 
   /**
    * Default Constructor.
@@ -43,6 +41,7 @@ class ParticleContainer {
    */
   ParticleContainer(const ParticleContainer &particleContainer) = default;
 
+ public:
   /**
    * Adds the particle to the ParticleContainer.
    * @param p The particle to be added.
@@ -111,6 +110,6 @@ class ParticleContainer {
  * @return True, if both ParticleContainers are the same
  */
 template<size_t dim>
-bool operator==(const ParticleContainer<dim> &p1, const ParticleContainer<dim> &p2){
+bool operator==(const ParticleContainer<dim> &p1, const ParticleContainer<dim> &p2) {
   return p1.getParticles() == p2.getParticles();
 }

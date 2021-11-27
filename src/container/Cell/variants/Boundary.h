@@ -1,39 +1,40 @@
 #pragma once
 
-#include "particles/Particle.h"
 #include "physics/LennardJones/LennardJones.h"
 #include "boundaryConditions/variants/Reflecting.h"
 #include "boundaryConditions/variants/GhostReflection.h"
-#include "cell/Cell.h"
+#include "container/Cell/Cell.h"
+#include "particles/Particle.h"
 
 /**
  *
  * @tparam T boundary condition
  * @tparam dim dimension for the simulation
  */
-template<typename T, size_t dim, typename std::enable_if<std::is_base_of<BoundaryConditions, T>::value,
+template<typename T, size_t dim, typename std::enable_if<std::is_base_of<BoundaryCondition, T>::value,
                                                          bool>::type = true>
-class Boundary : public Cell<T, dim>{
+class Boundary : public Cell<T, dim> {
 
  private:
   //0: top, 1: bottom, 2: left, 3: right, 4: front, 5: back (root)
   std::array<bool, 6> borderDirection;
   std::array<double, dim> border;
 
-  const double sixthSqrtOfTwo = std::pow(2, 1/6);
+  const double sixthSqrtOfTwo = std::pow(2, 1 / 6);
 
  public:
 
-  explicit Boundary(std::array<bool,6> borderDirection, std::array<double, 2> border) : borderDirection{borderDirection}, border{border} { }
+  explicit Boundary(std::array<bool, 6> borderDirection, std::array<double, 2> border) : borderDirection{
+      borderDirection}, border{border} {}
 
-  void applyCellProperties(T& t) override { }
+  void applyCellProperties(T &t) override {}
 
-  double getReflectionDistance(Particle<dim>& p) const {
+  double getReflectionDistance(Particle<dim> &p) const {
     return sixthSqrtOfTwo * p.zeroCrossing;
   }
 };
 
-//Instant Reflection
+/*//Instant Reflection
 template<size_t dim>
 void Boundary<Reflection, dim>::reflect2d(Particle<dim>& p) {
   auto reflectionDistance{getReflectionDistance(p)};
@@ -157,4 +158,4 @@ void Boundary<GhostReflection, 3>::applyCellProperties(GhostReflection& r) {
   for(auto &p : particles){
     ghostReflect3d(p);
   }
-}
+}*/

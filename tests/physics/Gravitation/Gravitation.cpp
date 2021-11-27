@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "physics/Gravitation/Gravitation.h"
-#include "particles/ParticleContainer.h"
+#include "particles/ParticleContainer/ParticleContainer.h"
 
 
 /**
