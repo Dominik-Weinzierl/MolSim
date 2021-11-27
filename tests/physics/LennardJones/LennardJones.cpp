@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
-#include "physics/LennardJones/LennardJones.h"
+#include "physics/variants/LennardJones.h"
 #include "container/DirectSumContainer.h"
+#include "physics/DirectSum.h"
 
 
 /**
@@ -14,7 +15,7 @@
  */
 TEST(LennardJones_3D_DirectSumContainer, calculateForceBetweenTwoParticlesWithDistanceOne) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
-  LennardJones<dim> l{};
+  DirectSum<LennardJones, dim> l{};
   DirectSumContainer<dim> container{};
   // Particle 1
   container.addParticle({{1.0, 1.0, 1.0}, {0.0, 0.0, 0.0}, 1});
@@ -57,7 +58,7 @@ TEST(LennardJones_3D_DirectSumContainer, calculateForceBetweenTwoParticlesWithDi
  */
 TEST(LennardJones_3D_DirectSumContainer, calculateForceBetweenTwoParticles) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
-  LennardJones<dim> l{};
+  DirectSum<LennardJones, dim> l{};
   DirectSumContainer<dim> container{};
   // Particle 1
   container.addParticle({{2.0, 2.0, 2.0}, {0.0, 0.0, 0.0}, 1});
@@ -99,7 +100,7 @@ TEST(LennardJones_3D_DirectSumContainer, calculateForceBetweenTwoParticles) { //
  */
 TEST(LennardJones_2D_DirectSumContainer, calculateForceBetweenTwoParticlesWithDistanceOne) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
-  LennardJones<dim> l{};
+  DirectSum<LennardJones, dim> l{};
   DirectSumContainer<dim> container{};
   // Particle 1
   container.addParticle({{1.0, 1.0}, {0.0, 0.0}, 1});
@@ -140,7 +141,7 @@ TEST(LennardJones_2D_DirectSumContainer, calculateForceBetweenTwoParticlesWithDi
  */
 TEST(LennardJones_2D_DirectSumContainer, calculateForceBetweenTwoParticles) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
-  LennardJones<dim> l{};
+  DirectSum<LennardJones, dim> l{};
   DirectSumContainer<dim> container{};
   // Particle 1
   container.addParticle({{2.0, 2.0}, {0.0, 0.0}, 1});

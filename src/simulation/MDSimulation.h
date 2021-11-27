@@ -4,16 +4,16 @@
 
 #include "outputWriter/VTKWriter/VTKWriter.h"
 #include <iostream>
-#include <physics/Gravitation/Gravitation.h>
 #include <arguments/argument/Argument.h>
 #include <arguments/argumentParser/BasicArgumentParser/BasicArgumentParser.h>
+#include "physics/Physics.h"
 
 /**
  * Simulation class which contains a start time and a method to run a simulation.
  * @tparam T type of physics used in this simulation.
  * @tparam dim dimension of our simulation.
  */
-template<typename T, size_t dim, typename std::enable_if<std::is_base_of<Physics<dim>, T>::value, bool>::type = true>
+template<typename T, size_t dim>
 class MDSimulation {
   /**
    * Start time which is zero currently.

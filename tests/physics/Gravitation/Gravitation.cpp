@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include "physics/Gravitation/Gravitation.h"
+#include <physics/variants/Gravitation.h>
+#include "physics/DirectSum.h"
 #include "container/DirectSumContainer.h"
 
 
@@ -14,7 +15,7 @@
  */
 TEST(Gravitation_3D_DirectSumContainer, calculateForceBetweenSunAndEarth) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
-  Gravitation<dim> g{};
+  DirectSum<Gravitation, dim> g{};
   DirectSumContainer<dim> container{};
   // Planet 0
   container.addParticle({{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 2});
@@ -41,7 +42,7 @@ TEST(Gravitation_3D_DirectSumContainer, calculateForceBetweenSunAndEarth) { // N
  */
 TEST(Gravitation_3D_DirectSumContainer, calculateNextStepWithSinglePlanetWithoutMoving) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
-  Gravitation<dim> g{};
+  DirectSum<Gravitation, dim> g{};
   DirectSumContainer<dim> container{};
   // Add the sun
   container.addParticle({{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 1});
@@ -59,7 +60,7 @@ TEST(Gravitation_3D_DirectSumContainer, calculateNextStepWithSinglePlanetWithout
  */
 TEST(Gravitation_2D_DirectSumContainer, calculateForceBetweenSunAndEarth) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
-  Gravitation<dim> g{};
+  DirectSum<Gravitation, dim> g{};
   DirectSumContainer<dim> container{};
   // Planet 0
   container.addParticle({{0.0, 0.0}, {0.0, 0.0}, 2});
@@ -86,7 +87,7 @@ TEST(Gravitation_2D_DirectSumContainer, calculateForceBetweenSunAndEarth) { // N
  */
 TEST(Gravitation_2D_DirectSumContainer, calculateNextStepWithSinglePlanetWithoutMoving) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
-  Gravitation<dim> g{};
+  DirectSum<Gravitation, dim> g{};
   DirectSumContainer<dim> container{};
   // Add the sun
   container.addParticle({{0.0, 0.0}, {0.0, 0.0}, 1});

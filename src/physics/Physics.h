@@ -2,24 +2,37 @@
 
 #include "container/ParticleContainer.h"
 
+class PhysicsType {
+};
+
 /**
  * Physics is an abstract class which provides methods to calculate the next simulation step
  * based on the template method pattern.
  * @tparam dim dimension of our simulation.
  */
-template<size_t dim>
+template<typename T, size_t dim, typename std::enable_if<std::is_base_of_v<PhysicsType, T>, bool>::type = true>
 class Physics {
  protected:
+  /**
+   * A zero-crossing is a point where the sign of a mathematical function changes.
+   */
+  double zeroCrossing = 1;
+
+  /**
+   * A potential well is the region surrounding a local minimum of potential energy.
+   */
+  double potentialWellDepth = 5;
+
   /**
    * Default destructor.
    */
   virtual ~Physics() = default;
 
   /**
-   * Calculates and updates the force for all particles in the specified container
-   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   * Updates the force of the Particle(s).
+   * @param particleContainer container which contains the Particle(s) used for this simulation.
    */
-  virtual void calculateF(ParticleContainer<dim> &particleContainer) const = 0;
+  virtual void performUpdate(ParticleContainer<dim> &particleContainer) const = 0;
 
  public:
   /**
@@ -72,6 +85,21 @@ class Physics {
     calculateF(particleContainer);
     // calculate new v
     calculateV(particleContainer, deltaT);
+  }
+
+  /**
+   * Calculates and updates the force for all particles in the specified container
+   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   */
+  void calculateF(ParticleContainer<dim> &particleContainer) const {
+    Vector<dim> temp{};
+    SPDLOG_DEBUG("started calculating forces");
+    for (auto &p: particleContainer) {
+      p.setOldF(p.getF());
+      p.setF(temp);
+    }
+    performUpdate(particleContainer);
+    SPDLOG_DEBUG("ended calculating forces");
   }
 };
 

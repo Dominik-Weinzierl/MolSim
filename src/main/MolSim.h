@@ -9,8 +9,9 @@
 #include "fileReader/InputFile/InputReader.h"
 #include <iomanip>
 #include <outputWriter/DummyWriter/DummyWriter.h>
+#include <physics/variants/Gravitation.h>
 #include "simulation/MDSimulation.h"
-#include "physics/LennardJones/LennardJones.h"
+#include "physics/DirectSum.h"
 #include "container/DirectSumContainer.h"
 
 /**
@@ -95,9 +96,9 @@ class MolSim {
   int simulate() {
     auto start = std::chrono::high_resolution_clock::now();
     if (arg->getPhysics() == "gravitation") {
-      MDSimulation<Gravitation<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
+      MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*writer, particleContainer, *arg);
     } else if (arg->getPhysics() == "lennard") {
-      MDSimulation<LennardJones<dim>, dim>::performSimulation(*writer, particleContainer, *arg);
+      MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*writer, particleContainer, *arg);
     }
     auto end = std::chrono::high_resolution_clock::now();
     std::cout << "Finished simulation after " << arg->getEndTime() / arg->getDeltaT() << " iterations..." << std::endl;
@@ -115,9 +116,9 @@ class MolSim {
     auto benchWriter = std::make_unique<DummyWriter<dim>>(arg->getOutput(), particleContainer);
     auto start = std::chrono::high_resolution_clock::now();
     if (arg->getPhysics() == "gravitation") {
-      MDSimulation<Gravitation<dim>, dim>::performSimulation(*benchWriter, particleContainer, *arg);
+      MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*benchWriter, particleContainer, *arg);
     } else if (arg->getPhysics() == "lennard") {
-      MDSimulation<LennardJones<dim>, dim>::performSimulation(*benchWriter, particleContainer, *arg);
+      MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*benchWriter, particleContainer, *arg);
     }
     auto end = std::chrono::high_resolution_clock::now();
     std::cout << "Finished benchmarks after " << arg->getEndTime() / arg->getDeltaT() << " iterations..." << std::endl;

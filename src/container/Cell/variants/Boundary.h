@@ -1,6 +1,6 @@
 #pragma once
 
-#include "physics/LennardJones/LennardJones.h"
+#include "physics/variants/LennardJones.h"
 #include "boundaryConditions/variants/Reflecting.h"
 #include "boundaryConditions/variants/GhostReflection.h"
 #include "container/Cell/Cell.h"
