@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "physics/Gravitation/Gravitation.h"
-#include "particles/ParticleContainer/ParticleContainer.h"
+#include "container/DirectSumContainer.h"
 
 
 /**
@@ -12,10 +12,10 @@
 /**
  * Test basic calculations of next steps. In this case, we test the force between two planets.
  */
-TEST(Gravitation_3D, calculateForceBetweenSunAndEarth) { // NOLINT(cert-err58-cpp)
+TEST(Gravitation_3D_DirectSumContainer, calculateForceBetweenSunAndEarth) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
   Gravitation<dim> g{};
-  ParticleContainer<dim> container{};
+  DirectSumContainer<dim> container{};
   // Planet 0
   container.addParticle({{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 2});
 
@@ -39,10 +39,10 @@ TEST(Gravitation_3D, calculateForceBetweenSunAndEarth) { // NOLINT(cert-err58-cp
  * Test basic calculations of next steps. In this case, we test that the force,
  * velocity and position is unchanged for an single non moving planet.
  */
-TEST(Gravitation_3D, calculateNextStepWithSinglePlanetWithoutMoving) { // NOLINT(cert-err58-cpp)
+TEST(Gravitation_3D_DirectSumContainer, calculateNextStepWithSinglePlanetWithoutMoving) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
   Gravitation<dim> g{};
-  ParticleContainer<dim> container{};
+  DirectSumContainer<dim> container{};
   // Add the sun
   container.addParticle({{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 1});
 
@@ -57,10 +57,10 @@ TEST(Gravitation_3D, calculateNextStepWithSinglePlanetWithoutMoving) { // NOLINT
 /**
  * Test basic calculations of next steps. In this case, we test the force between two planets.
  */
-TEST(Gravitation_2D, calculateForceBetweenSunAndEarth) { // NOLINT(cert-err58-cpp)
+TEST(Gravitation_2D_DirectSumContainer, calculateForceBetweenSunAndEarth) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
   Gravitation<dim> g{};
-  ParticleContainer<dim> container{};
+  DirectSumContainer<dim> container{};
   // Planet 0
   container.addParticle({{0.0, 0.0}, {0.0, 0.0}, 2});
 
@@ -84,10 +84,10 @@ TEST(Gravitation_2D, calculateForceBetweenSunAndEarth) { // NOLINT(cert-err58-cp
  * Test basic calculations of next steps. In this case, we test that the force,
  * velocity and position is unchanged for an single non moving planet.
  */
-TEST(Gravitation_2D, calculateNextStepWithSinglePlanetWithoutMoving) { // NOLINT(cert-err58-cpp)
+TEST(Gravitation_2D_DirectSumContainer, calculateNextStepWithSinglePlanetWithoutMoving) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
   Gravitation<dim> g{};
-  ParticleContainer<dim> container{};
+  DirectSumContainer<dim> container{};
   // Add the sun
   container.addParticle({{0.0, 0.0}, {0.0, 0.0}, 1});
 
