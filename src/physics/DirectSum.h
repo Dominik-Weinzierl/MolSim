@@ -32,7 +32,7 @@ class DirectSum<LennardJones, dim> : public Physics<LennardJones, dim> {
         double secondFactor = pow - 2 * pow * pow;
         double factor = firstFactor * secondFactor;
 
-        for (size_t t = 0; t < 2; ++t) {
+        for (size_t t = 0; t < dim; ++t) {
           force[t] *= -factor;
         }
 
