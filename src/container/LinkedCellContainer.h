@@ -15,7 +15,9 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   Vector<dim> cellSize;
   Vector<dim> dimension;
 
-  int getIndexBasedOnCoordinates([[maybe_unused]] Vector<dim> coords) {}
+  int getIndexBasedOnCoordinates([[maybe_unused]] Vector<dim> coords) {
+    return -1;
+  }
 
  public:
   LinkedCellContainer() = default;
