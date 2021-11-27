@@ -131,7 +131,7 @@ class SphereArgument : public GeneratorArguments {
     argument << "\t\t\t\t Distance: " << distance << std::endl;
     argument << "\t\t\t\t Mass: " << mass << std::endl;
     argument << "\t\t\t\t Mean value: " << meanValue << std::endl;
-    argument << "\t\t\t\t Packed: " << packed << std::endl;
+    argument << "\t\t\t\t Packed: " << (packed ? "true" : "false") << std::endl;
     return argument.str();
   };
 

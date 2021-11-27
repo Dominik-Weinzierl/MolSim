@@ -76,7 +76,7 @@
             <xsd:element name="Domain" type="vector_i"/>
         </xsd:sequence>
         <!-- cutoffRadius: used for linked cell optimizations -->
-        <xsd:attribute name="cutoffRadius" type="xsd:nonNegativeInteger" use="required"/>
+        <xsd:attribute name="cutoffRadius" type="xsd:double" use="required"/>
     </xsd:complexType>
 
     <xsd:complexType name="strategy_t">

@@ -3119,12 +3119,12 @@ class linkedCell_t : public ::xml_schema::type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::non_negative_integer cutoffRadius_type;
+  typedef ::xml_schema::double_ cutoffRadius_type;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<cutoffRadius_type, char> cutoffRadius_traits;
+  typedef ::xsd::cxx::tree::traits<cutoffRadius_type, char, ::xsd::cxx::tree::schema_type::double_> cutoffRadius_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute.

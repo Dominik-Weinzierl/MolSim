@@ -2224,7 +2224,7 @@ void operator<<(::xercesc::DOMElement &e, const linkedCell_t &i) {
   {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("cutoffRadius", e));
 
-    a << i.cutoffRadius();
+    a << ::xml_schema::as_double(i.cutoffRadius());
   }
 }
 
