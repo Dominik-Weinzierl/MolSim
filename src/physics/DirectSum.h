@@ -2,6 +2,7 @@
 
 #include "Physics.h"
 #include "physics/variants/LennardJones.h"
+#include "physics/variants/Gravitation.h"
 
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of<PhysicsType, T>::value, bool>::type = true>
 class DirectSum : public Physics<T, dim> {

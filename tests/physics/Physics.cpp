@@ -24,7 +24,7 @@ TEST(Physics_3D_DirectSumContainer, calculateVelocity) { // NOLINT(cert-err58-cp
   particle_0.setV({0.0, 2, 0.0});
 
   // Perform calculation
-  Physics<dim>::calculateV(container, 1.0);
+  Physics<PhysicsType, dim>::calculateV(container, 1.0);
 
   EXPECT_EQ(container[0], particle_0);
 }
@@ -44,7 +44,7 @@ TEST(Physics_3D_DirectSumContainer, calculatePosition) { // NOLINT(cert-err58-cp
   particle_0.setX({0.0, 2, 0.0});
 
   // Perform calculation
-  Physics<dim>::calculateX(container, 1.0);
+  Physics<PhysicsType, dim>::calculateX(container, 1.0);
 
   EXPECT_EQ(container[0], particle_0);
 }
@@ -64,7 +64,7 @@ TEST(Physics_2D_DirectSumContainer, calculateVelocity) { // NOLINT(cert-err58-cp
   particle_0.setV({0.0, 2});
 
   // Perform calculation
-  Physics<dim>::calculateV(container, 1.0);
+  Physics<PhysicsType, dim>::calculateV(container, 1.0);
 
   EXPECT_EQ(container[0], particle_0);
 }
@@ -84,7 +84,7 @@ TEST(Physics_2D_DirectSumContainer, calculatePosition) { // NOLINT(cert-err58-cp
   particle_0.setX({0.0, 2});
 
   // Perform calculation
-  Physics<dim>::calculateX(container, 1.0);
+  Physics<PhysicsType, dim>::calculateX(container, 1.0);
 
   EXPECT_EQ(container[0], particle_0);
 }
