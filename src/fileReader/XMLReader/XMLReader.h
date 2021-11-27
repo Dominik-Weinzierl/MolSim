@@ -32,15 +32,19 @@ class XMLReader {
    */
   [[nodiscard]] std::unique_ptr<XMLArgument<dim>> readXML() {
     std::vector<std::string> files;
-    std::string physics{"gravitation"};
-    std::string writer{"vtk"};
+    std::string physics;
+    std::string writer;
     double endTime;
     double deltaT;
     int iteration;
     std::string fileName;
+    std::string algorithm{"DirectSum"};
+    std::optional<double> cutoffRadius = std::nullopt;
+    std::optional<std::array<int, dim>> domain = std::nullopt;
+    std::optional<std::vector<std::string>> boundaries = std::nullopt;
 
     for (auto &it: simulation->Source()) {
-      std::string path = it.location();
+      std::string path = it.path();
       files.push_back(path);
     }
 
@@ -51,8 +55,16 @@ class XMLReader {
     fileName = simulation->output();
     iteration = static_cast<int>(simulation->iteration());
 
-    return std::make_unique<XMLArgument<dim>>(this->loadCuboid(), this->loadSpheres(), files, endTime, deltaT, fileName,
-                                              writer, iteration, physics);
+    if (simulation->Strategy()->LinkedCell().present()) {
+      algorithm = std::string{"LinkedCell"};
+      cutoffRadius = simulation->Strategy()->LinkedCell().get().cutoffRadius();
+      domain = this->loadDomain();
+      boundaries = this->loadBoundaries();
+    }
+
+    return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
+                                              this->loadCuboid(), this->loadSpheres(), algorithm, cutoffRadius, domain,
+                                              boundaries);
   }
  private:
   /**
@@ -66,6 +78,10 @@ class XMLReader {
    * @return std::vector<CuboidArgument<dim>>
    */
   std::vector<CuboidArgument<dim>> loadCuboid() const;
+
+  std::optional<std::array<int, dim>> loadDomain() const;
+
+  [[nodiscard]] std::optional<std::vector<std::string>> loadBoundaries() const;
 
   /**
    * Xml file provided in a usable way.

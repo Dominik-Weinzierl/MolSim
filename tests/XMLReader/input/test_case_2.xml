@@ -6,4 +6,10 @@
             <Dimension x="5" y="20" z="5"/>
         </Cuboid>
     </Shapes>
+    <Strategy>
+        <LinkedCell cutoffRadius="20">
+            <Boundary boundary-top="reflecting" boundary-bottom="reflecting"/>
+            <Domain x="20" y="20" z="20"/>
+        </LinkedCell>
+    </Strategy>
 </Simulation>

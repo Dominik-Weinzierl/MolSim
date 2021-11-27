@@ -127,9 +127,25 @@ void cuboid_t::meanValue(const meanValue_type &x) {
   this->meanValue_.set(x);
 }
 
+const cuboid_t::packed_optional &cuboid_t::packed() const {
+  return this->packed_;
+}
+
+cuboid_t::packed_optional &cuboid_t::packed() {
+  return this->packed_;
+}
+
+void cuboid_t::packed(const packed_type &x) {
+  this->packed_.set(x);
+}
+
+void cuboid_t::packed(const packed_optional &x) {
+  this->packed_ = x;
+}
+
 
 // sphere_t
-// 
+//
 
 const sphere_t::Center_type &sphere_t::Center() const {
   return this->Center_.get();
@@ -211,9 +227,25 @@ void sphere_t::meanValue(const meanValue_type &x) {
   this->meanValue_.set(x);
 }
 
+const sphere_t::packed_optional &sphere_t::packed() const {
+  return this->packed_;
+}
+
+sphere_t::packed_optional &sphere_t::packed() {
+  return this->packed_;
+}
+
+void sphere_t::packed(const packed_type &x) {
+  this->packed_.set(x);
+}
+
+void sphere_t::packed(const packed_optional &x) {
+  this->packed_ = x;
+}
+
 
 // vector_t
-// 
+//
 
 const vector_t::x_type &vector_t::x() const {
   return this->x_.get();
@@ -253,7 +285,7 @@ void vector_t::z(const z_type &x) {
 
 
 // vector_i
-// 
+//
 
 const vector_i::x_type &vector_i::x() const {
   return this->x_.get();
@@ -293,27 +325,171 @@ void vector_i::z(const z_type &x) {
 
 
 // input_t
-// 
+//
 
-const input_t::location_type &input_t::location() const {
-  return this->location_.get();
+const input_t::path_type &input_t::path() const {
+  return this->path_.get();
 }
 
-input_t::location_type &input_t::location() {
-  return this->location_.get();
+input_t::path_type &input_t::path() {
+  return this->path_.get();
 }
 
-void input_t::location(const location_type &x) {
-  this->location_.set(x);
+void input_t::path(const path_type &x) {
+  this->path_.set(x);
 }
 
-void input_t::location(::std::unique_ptr<location_type> x) {
-  this->location_.set(std::move(x));
+void input_t::path(::std::unique_ptr<path_type> x) {
+  this->path_.set(std::move(x));
+}
+
+
+// boundary_t
+//
+
+const boundary_t::boundary_optional &boundary_t::boundary() const {
+  return this->boundary_;
+}
+
+boundary_t::boundary_optional &boundary_t::boundary() {
+  return this->boundary_;
+}
+
+void boundary_t::boundary(const boundary_type &x) {
+  this->boundary_.set(x);
+}
+
+void boundary_t::boundary(const boundary_optional &x) {
+  this->boundary_ = x;
+}
+
+void boundary_t::boundary(::std::unique_ptr<boundary_type> x) {
+  this->boundary_.set(std::move(x));
+}
+
+const boundary_t::boundary_right_optional &boundary_t::boundary_right() const {
+  return this->boundary_right_;
+}
+
+boundary_t::boundary_right_optional &boundary_t::boundary_right() {
+  return this->boundary_right_;
+}
+
+void boundary_t::boundary_right(const boundary_right_type &x) {
+  this->boundary_right_.set(x);
+}
+
+void boundary_t::boundary_right(const boundary_right_optional &x) {
+  this->boundary_right_ = x;
+}
+
+void boundary_t::boundary_right(::std::unique_ptr<boundary_right_type> x) {
+  this->boundary_right_.set(std::move(x));
+}
+
+const boundary_t::boundary_left_optional &boundary_t::boundary_left() const {
+  return this->boundary_left_;
+}
+
+boundary_t::boundary_left_optional &boundary_t::boundary_left() {
+  return this->boundary_left_;
+}
+
+void boundary_t::boundary_left(const boundary_left_type &x) {
+  this->boundary_left_.set(x);
+}
+
+void boundary_t::boundary_left(const boundary_left_optional &x) {
+  this->boundary_left_ = x;
+}
+
+void boundary_t::boundary_left(::std::unique_ptr<boundary_left_type> x) {
+  this->boundary_left_.set(std::move(x));
+}
+
+const boundary_t::boundary_top_optional &boundary_t::boundary_top() const {
+  return this->boundary_top_;
+}
+
+boundary_t::boundary_top_optional &boundary_t::boundary_top() {
+  return this->boundary_top_;
+}
+
+void boundary_t::boundary_top(const boundary_top_type &x) {
+  this->boundary_top_.set(x);
+}
+
+void boundary_t::boundary_top(const boundary_top_optional &x) {
+  this->boundary_top_ = x;
+}
+
+void boundary_t::boundary_top(::std::unique_ptr<boundary_top_type> x) {
+  this->boundary_top_.set(std::move(x));
+}
+
+const boundary_t::boundary_bottom_optional &boundary_t::boundary_bottom() const {
+  return this->boundary_bottom_;
+}
+
+boundary_t::boundary_bottom_optional &boundary_t::boundary_bottom() {
+  return this->boundary_bottom_;
+}
+
+void boundary_t::boundary_bottom(const boundary_bottom_type &x) {
+  this->boundary_bottom_.set(x);
+}
+
+void boundary_t::boundary_bottom(const boundary_bottom_optional &x) {
+  this->boundary_bottom_ = x;
+}
+
+void boundary_t::boundary_bottom(::std::unique_ptr<boundary_bottom_type> x) {
+  this->boundary_bottom_.set(std::move(x));
+}
+
+const boundary_t::boundary_back_optional &boundary_t::boundary_back() const {
+  return this->boundary_back_;
+}
+
+boundary_t::boundary_back_optional &boundary_t::boundary_back() {
+  return this->boundary_back_;
+}
+
+void boundary_t::boundary_back(const boundary_back_type &x) {
+  this->boundary_back_.set(x);
+}
+
+void boundary_t::boundary_back(const boundary_back_optional &x) {
+  this->boundary_back_ = x;
+}
+
+void boundary_t::boundary_back(::std::unique_ptr<boundary_back_type> x) {
+  this->boundary_back_.set(std::move(x));
+}
+
+const boundary_t::boundary_front_optional &boundary_t::boundary_front() const {
+  return this->boundary_front_;
+}
+
+boundary_t::boundary_front_optional &boundary_t::boundary_front() {
+  return this->boundary_front_;
+}
+
+void boundary_t::boundary_front(const boundary_front_type &x) {
+  this->boundary_front_.set(x);
+}
+
+void boundary_t::boundary_front(const boundary_front_optional &x) {
+  this->boundary_front_ = x;
+}
+
+void boundary_t::boundary_front(::std::unique_ptr<boundary_front_type> x) {
+  this->boundary_front_.set(std::move(x));
 }
 
 
 // shape_t
-// 
+//
 
 const shape_t::Cuboid_sequence &shape_t::Cuboid() const {
   return this->Cuboid_;
@@ -340,8 +516,104 @@ void shape_t::Sphere(const Sphere_sequence &s) {
 }
 
 
+// directSum_t
+//
+
+
+// linkedCell_t
+//
+
+const linkedCell_t::Boundary_type &linkedCell_t::Boundary() const {
+  return this->Boundary_.get();
+}
+
+linkedCell_t::Boundary_type &linkedCell_t::Boundary() {
+  return this->Boundary_.get();
+}
+
+void linkedCell_t::Boundary(const Boundary_type &x) {
+  this->Boundary_.set(x);
+}
+
+void linkedCell_t::Boundary(::std::unique_ptr<Boundary_type> x) {
+  this->Boundary_.set(std::move(x));
+}
+
+const linkedCell_t::Domain_type &linkedCell_t::Domain() const {
+  return this->Domain_.get();
+}
+
+linkedCell_t::Domain_type &linkedCell_t::Domain() {
+  return this->Domain_.get();
+}
+
+void linkedCell_t::Domain(const Domain_type &x) {
+  this->Domain_.set(x);
+}
+
+void linkedCell_t::Domain(::std::unique_ptr<Domain_type> x) {
+  this->Domain_.set(std::move(x));
+}
+
+const linkedCell_t::cutoffRadius_type &linkedCell_t::cutoffRadius() const {
+  return this->cutoffRadius_.get();
+}
+
+linkedCell_t::cutoffRadius_type &linkedCell_t::cutoffRadius() {
+  return this->cutoffRadius_.get();
+}
+
+void linkedCell_t::cutoffRadius(const cutoffRadius_type &x) {
+  this->cutoffRadius_.set(x);
+}
+
+
+// strategy_t
+//
+
+const strategy_t::LinkedCell_optional &strategy_t::LinkedCell() const {
+  return this->LinkedCell_;
+}
+
+strategy_t::LinkedCell_optional &strategy_t::LinkedCell() {
+  return this->LinkedCell_;
+}
+
+void strategy_t::LinkedCell(const LinkedCell_type &x) {
+  this->LinkedCell_.set(x);
+}
+
+void strategy_t::LinkedCell(const LinkedCell_optional &x) {
+  this->LinkedCell_ = x;
+}
+
+void strategy_t::LinkedCell(::std::unique_ptr<LinkedCell_type> x) {
+  this->LinkedCell_.set(std::move(x));
+}
+
+const strategy_t::DirectSum_optional &strategy_t::DirectSum() const {
+  return this->DirectSum_;
+}
+
+strategy_t::DirectSum_optional &strategy_t::DirectSum() {
+  return this->DirectSum_;
+}
+
+void strategy_t::DirectSum(const DirectSum_type &x) {
+  this->DirectSum_.set(x);
+}
+
+void strategy_t::DirectSum(const DirectSum_optional &x) {
+  this->DirectSum_ = x;
+}
+
+void strategy_t::DirectSum(::std::unique_ptr<DirectSum_type> x) {
+  this->DirectSum_.set(std::move(x));
+}
+
+
 // simulation_t
-// 
+//
 
 const simulation_t::Shapes_sequence &simulation_t::Shapes() const {
   return this->Shapes_;
@@ -365,6 +637,26 @@ simulation_t::Source_sequence &simulation_t::Source() {
 
 void simulation_t::Source(const Source_sequence &s) {
   this->Source_ = s;
+}
+
+const simulation_t::Strategy_optional &simulation_t::Strategy() const {
+  return this->Strategy_;
+}
+
+simulation_t::Strategy_optional &simulation_t::Strategy() {
+  return this->Strategy_;
+}
+
+void simulation_t::Strategy(const Strategy_type &x) {
+  this->Strategy_.set(x);
+}
+
+void simulation_t::Strategy(const Strategy_optional &x) {
+  this->Strategy_ = x;
+}
+
+void simulation_t::Strategy(::std::unique_ptr<Strategy_type> x) {
+  this->Strategy_.set(std::move(x));
 }
 
 const simulation_t::endTime_type &simulation_t::endTime() const {
@@ -459,15 +751,15 @@ void simulation_t::writer(::std::unique_ptr<writer_type> x) {
 cuboid_t::cuboid_t(const Position_type &Position, const Velocity_type &Velocity, const Dimension_type &Dimension,
                    const distance_type &distance, const mass_type &mass, const meanValue_type &meanValue)
     : ::xml_schema::type(), Position_(Position, this), Velocity_(Velocity, this), Dimension_(Dimension, this),
-      distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this) {
+      distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(this) {
 }
 
 cuboid_t::cuboid_t(::std::unique_ptr<Position_type> Position, ::std::unique_ptr<Velocity_type> Velocity,
                    ::std::unique_ptr<Dimension_type> Dimension, const distance_type &distance, const mass_type &mass,
                    const meanValue_type &meanValue)
     : ::xml_schema::type(), Position_(std::move(Position), this), Velocity_(std::move(Velocity), this),
-      Dimension_(std::move(Dimension), this), distance_(distance, this), mass_(mass, this),
-      meanValue_(meanValue, this) {
+      Dimension_(std::move(Dimension), this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this),
+      packed_(this) {
 }
 
 cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
@@ -481,12 +773,13 @@ cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::conta
                                                                                                      this),
                                                                                            mass_(x.mass_, f, this),
                                                                                            meanValue_(x.meanValue_, f,
-                                                                                                      this) {
+                                                                                                      this),
+                                                                                           packed_(x.packed_, f, this) {
 }
 
 cuboid_t::cuboid_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Position_(this), Velocity_(this), Dimension_(this),
-      distance_(this), mass_(this), meanValue_(this) {
+      distance_(this), mass_(this), meanValue_(this), packed_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -564,6 +857,11 @@ void cuboid_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags 
       this->meanValue_.set(meanValue_traits::create(i, f, this));
       continue;
     }
+
+    if (n.name() == "packed" && n.namespace_().empty()) {
+      this->packed_.set(packed_traits::create(i, f, this));
+      continue;
+    }
   }
 
   if (!distance_.present()) {
@@ -592,6 +890,7 @@ cuboid_t &cuboid_t::operator=(const cuboid_t &x) {
     this->distance_ = x.distance_;
     this->mass_ = x.mass_;
     this->meanValue_ = x.meanValue_;
+    this->packed_ = x.packed_;
   }
 
   return *this;
@@ -606,14 +905,14 @@ cuboid_t::~cuboid_t() {
 sphere_t::sphere_t(const Center_type &Center, const Velocity_type &Velocity, const radius_type &radius,
                    const distance_type &distance, const mass_type &mass, const meanValue_type &meanValue)
     : ::xml_schema::type(), Center_(Center, this), Velocity_(Velocity, this), radius_(radius, this),
-      distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this) {
+      distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(this) {
 }
 
 sphere_t::sphere_t(::std::unique_ptr<Center_type> Center, ::std::unique_ptr<Velocity_type> Velocity,
                    const radius_type &radius, const distance_type &distance, const mass_type &mass,
                    const meanValue_type &meanValue)
     : ::xml_schema::type(), Center_(std::move(Center), this), Velocity_(std::move(Velocity), this),
-      radius_(radius, this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this) {
+      radius_(radius, this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(this) {
 }
 
 sphere_t::sphere_t(const sphere_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
@@ -625,12 +924,13 @@ sphere_t::sphere_t(const sphere_t &x, ::xml_schema::flags f, ::xml_schema::conta
                                                                                                      this),
                                                                                            mass_(x.mass_, f, this),
                                                                                            meanValue_(x.meanValue_, f,
-                                                                                                      this) {
+                                                                                                      this),
+                                                                                           packed_(x.packed_, f, this) {
 }
 
 sphere_t::sphere_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Center_(this), Velocity_(this), radius_(this),
-      distance_(this), mass_(this), meanValue_(this) {
+      distance_(this), mass_(this), meanValue_(this), packed_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -698,6 +998,11 @@ void sphere_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags 
       this->meanValue_.set(meanValue_traits::create(i, f, this));
       continue;
     }
+
+    if (n.name() == "packed" && n.namespace_().empty()) {
+      this->packed_.set(packed_traits::create(i, f, this));
+      continue;
+    }
   }
 
   if (!radius_.present()) {
@@ -730,6 +1035,7 @@ sphere_t &sphere_t::operator=(const sphere_t &x) {
     this->distance_ = x.distance_;
     this->mass_ = x.mass_;
     this->meanValue_ = x.meanValue_;
+    this->packed_ = x.packed_;
   }
 
   return *this;
@@ -887,16 +1193,15 @@ vector_i::~vector_i() {
 // input_t
 //
 
-input_t::input_t(const location_type &location) : ::xml_schema::type(), location_(location, this) {
+input_t::input_t(const path_type &path) : ::xml_schema::type(), path_(path, this) {
 }
 
 input_t::input_t(const input_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
-                                                                                        location_(x.location_, f,
-                                                                                                  this) {
+                                                                                        path_(x.path_, f, this) {
 }
 
 input_t::input_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), location_(this) {
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), path_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, false, false, true);
     this->parse(p, f);
@@ -908,14 +1213,14 @@ void input_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags f
     const ::xercesc::DOMAttr &i(p.next_attribute());
     const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
 
-    if (n.name() == "location" && n.namespace_().empty()) {
-      this->location_.set(location_traits::create(i, f, this));
+    if (n.name() == "path" && n.namespace_().empty()) {
+      this->path_.set(path_traits::create(i, f, this));
       continue;
     }
   }
 
-  if (!location_.present()) {
-    throw ::xsd::cxx::tree::expected_attribute<char>("location", "");
+  if (!path_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("path", "");
   }
 }
 
@@ -926,13 +1231,119 @@ input_t *input_t::_clone(::xml_schema::flags f, ::xml_schema::container *c) cons
 input_t &input_t::operator=(const input_t &x) {
   if (this != &x) {
     static_cast< ::xml_schema::type & > (*this) = x;
-    this->location_ = x.location_;
+    this->path_ = x.path_;
   }
 
   return *this;
 }
 
 input_t::~input_t() {
+}
+
+// boundary_t
+//
+
+boundary_t::boundary_t()
+    : ::xml_schema::type(), boundary_(this), boundary_right_(this), boundary_left_(this), boundary_top_(this),
+      boundary_bottom_(this), boundary_back_(this), boundary_front_(this) {
+}
+
+boundary_t::boundary_t(const boundary_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x,
+                                                                                                                    f,
+                                                                                                                    c),
+                                                                                                 boundary_(x.boundary_,
+                                                                                                           f, this),
+                                                                                                 boundary_right_(
+                                                                                                     x.boundary_right_,
+                                                                                                     f, this),
+                                                                                                 boundary_left_(
+                                                                                                     x.boundary_left_,
+                                                                                                     f, this),
+                                                                                                 boundary_top_(
+                                                                                                     x.boundary_top_, f,
+                                                                                                     this),
+                                                                                                 boundary_bottom_(
+                                                                                                     x.boundary_bottom_,
+                                                                                                     f, this),
+                                                                                                 boundary_back_(
+                                                                                                     x.boundary_back_,
+                                                                                                     f, this),
+                                                                                                 boundary_front_(
+                                                                                                     x.boundary_front_,
+                                                                                                     f, this) {
+}
+
+boundary_t::boundary_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), boundary_(this), boundary_right_(this),
+      boundary_left_(this), boundary_top_(this), boundary_bottom_(this), boundary_back_(this), boundary_front_(this) {
+  if ((f & ::xml_schema::flags::base) == 0) {
+    ::xsd::cxx::xml::dom::parser<char> p(e, false, false, true);
+    this->parse(p, f);
+  }
+}
+
+void boundary_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags f) {
+  while (p.more_attributes()) {
+    const ::xercesc::DOMAttr &i(p.next_attribute());
+    const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    if (n.name() == "boundary" && n.namespace_().empty()) {
+      this->boundary_.set(boundary_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "boundary-right" && n.namespace_().empty()) {
+      this->boundary_right_.set(boundary_right_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "boundary-left" && n.namespace_().empty()) {
+      this->boundary_left_.set(boundary_left_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "boundary-top" && n.namespace_().empty()) {
+      this->boundary_top_.set(boundary_top_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "boundary-bottom" && n.namespace_().empty()) {
+      this->boundary_bottom_.set(boundary_bottom_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "boundary-back" && n.namespace_().empty()) {
+      this->boundary_back_.set(boundary_back_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "boundary-front" && n.namespace_().empty()) {
+      this->boundary_front_.set(boundary_front_traits::create(i, f, this));
+      continue;
+    }
+  }
+}
+
+boundary_t *boundary_t::_clone(::xml_schema::flags f, ::xml_schema::container *c) const {
+  return new class boundary_t(*this, f, c);
+}
+
+boundary_t &boundary_t::operator=(const boundary_t &x) {
+  if (this != &x) {
+    static_cast< ::xml_schema::type & > (*this) = x;
+    this->boundary_ = x.boundary_;
+    this->boundary_right_ = x.boundary_right_;
+    this->boundary_left_ = x.boundary_left_;
+    this->boundary_top_ = x.boundary_top_;
+    this->boundary_bottom_ = x.boundary_bottom_;
+    this->boundary_back_ = x.boundary_back_;
+    this->boundary_front_ = x.boundary_front_;
+  }
+
+  return *this;
+}
+
+boundary_t::~boundary_t() {
 }
 
 // shape_t
@@ -998,24 +1409,224 @@ shape_t &shape_t::operator=(const shape_t &x) {
 shape_t::~shape_t() {
 }
 
+// directSum_t
+//
+
+directSum_t::directSum_t() : ::xml_schema::type() {
+}
+
+directSum_t::directSum_t(const directSum_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(
+    x, f, c) {
+}
+
+directSum_t::directSum_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(e, f, c) {
+}
+
+directSum_t::directSum_t(const ::xercesc::DOMAttr &a, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(a, f, c) {
+}
+
+directSum_t::directSum_t(const ::std::string &s, const ::xercesc::DOMElement *e, ::xml_schema::flags f,
+                         ::xml_schema::container *c) : ::xml_schema::type(s, e, f, c) {
+}
+
+directSum_t *directSum_t::_clone(::xml_schema::flags f, ::xml_schema::container *c) const {
+  return new class directSum_t(*this, f, c);
+}
+
+directSum_t::~directSum_t() {
+}
+
+// linkedCell_t
+//
+
+linkedCell_t::linkedCell_t(const Boundary_type &Boundary, const Domain_type &Domain,
+                           const cutoffRadius_type &cutoffRadius)
+    : ::xml_schema::type(), Boundary_(Boundary, this), Domain_(Domain, this), cutoffRadius_(cutoffRadius, this) {
+}
+
+linkedCell_t::linkedCell_t(::std::unique_ptr<Boundary_type> Boundary, ::std::unique_ptr<Domain_type> Domain,
+                           const cutoffRadius_type &cutoffRadius)
+    : ::xml_schema::type(), Boundary_(std::move(Boundary), this), Domain_(std::move(Domain), this),
+      cutoffRadius_(cutoffRadius, this) {
+}
+
+linkedCell_t::linkedCell_t(const linkedCell_t &x, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(x, f, c), Boundary_(x.Boundary_, f, this), Domain_(x.Domain_, f, this),
+      cutoffRadius_(x.cutoffRadius_, f, this) {
+}
+
+linkedCell_t::linkedCell_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Boundary_(this), Domain_(this), cutoffRadius_(this) {
+  if ((f & ::xml_schema::flags::base) == 0) {
+    ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
+    this->parse(p, f);
+  }
+}
+
+void linkedCell_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags f) {
+  for (; p.more_content(); p.next_content(false)) {
+    const ::xercesc::DOMElement &i(p.cur_element());
+    const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    // Boundary
+    //
+    if (n.name() == "Boundary" && n.namespace_().empty()) {
+      ::std::unique_ptr<Boundary_type> r(Boundary_traits::create(i, f, this));
+
+      if (!Boundary_.present()) {
+        this->Boundary_.set(::std::move(r));
+        continue;
+      }
+    }
+
+    // Domain
+    //
+    if (n.name() == "Domain" && n.namespace_().empty()) {
+      ::std::unique_ptr<Domain_type> r(Domain_traits::create(i, f, this));
+
+      if (!Domain_.present()) {
+        this->Domain_.set(::std::move(r));
+        continue;
+      }
+    }
+
+    break;
+  }
+
+  if (!Boundary_.present()) {
+    throw ::xsd::cxx::tree::expected_element<char>("Boundary", "");
+  }
+
+  if (!Domain_.present()) {
+    throw ::xsd::cxx::tree::expected_element<char>("Domain", "");
+  }
+
+  while (p.more_attributes()) {
+    const ::xercesc::DOMAttr &i(p.next_attribute());
+    const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    if (n.name() == "cutoffRadius" && n.namespace_().empty()) {
+      this->cutoffRadius_.set(cutoffRadius_traits::create(i, f, this));
+      continue;
+    }
+  }
+
+  if (!cutoffRadius_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("cutoffRadius", "");
+  }
+}
+
+linkedCell_t *linkedCell_t::_clone(::xml_schema::flags f, ::xml_schema::container *c) const {
+  return new class linkedCell_t(*this, f, c);
+}
+
+linkedCell_t &linkedCell_t::operator=(const linkedCell_t &x) {
+  if (this != &x) {
+    static_cast< ::xml_schema::type & > (*this) = x;
+    this->Boundary_ = x.Boundary_;
+    this->Domain_ = x.Domain_;
+    this->cutoffRadius_ = x.cutoffRadius_;
+  }
+
+  return *this;
+}
+
+linkedCell_t::~linkedCell_t() {
+}
+
+// strategy_t
+//
+
+strategy_t::strategy_t() : ::xml_schema::type(), LinkedCell_(this), DirectSum_(this) {
+}
+
+strategy_t::strategy_t(const strategy_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x,
+                                                                                                                    f,
+                                                                                                                    c),
+                                                                                                 LinkedCell_(
+                                                                                                     x.LinkedCell_, f,
+                                                                                                     this), DirectSum_(
+        x.DirectSum_, f, this) {
+}
+
+strategy_t::strategy_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), LinkedCell_(this), DirectSum_(this) {
+  if ((f & ::xml_schema::flags::base) == 0) {
+    ::xsd::cxx::xml::dom::parser<char> p(e, true, false, false);
+    this->parse(p, f);
+  }
+}
+
+void strategy_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags f) {
+  for (; p.more_content(); p.next_content(false)) {
+    const ::xercesc::DOMElement &i(p.cur_element());
+    const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    // LinkedCell
+    //
+    if (n.name() == "LinkedCell" && n.namespace_().empty()) {
+      ::std::unique_ptr<LinkedCell_type> r(LinkedCell_traits::create(i, f, this));
+
+      if (!this->LinkedCell_) {
+        this->LinkedCell_.set(::std::move(r));
+        continue;
+      }
+    }
+
+    // DirectSum
+    //
+    if (n.name() == "DirectSum" && n.namespace_().empty()) {
+      ::std::unique_ptr<DirectSum_type> r(DirectSum_traits::create(i, f, this));
+
+      if (!this->DirectSum_) {
+        this->DirectSum_.set(::std::move(r));
+        continue;
+      }
+    }
+
+    break;
+  }
+}
+
+strategy_t *strategy_t::_clone(::xml_schema::flags f, ::xml_schema::container *c) const {
+  return new class strategy_t(*this, f, c);
+}
+
+strategy_t &strategy_t::operator=(const strategy_t &x) {
+  if (this != &x) {
+    static_cast< ::xml_schema::type & > (*this) = x;
+    this->LinkedCell_ = x.LinkedCell_;
+    this->DirectSum_ = x.DirectSum_;
+  }
+
+  return *this;
+}
+
+strategy_t::~strategy_t() {
+}
+
 // simulation_t
 //
 
 simulation_t::simulation_t(const endTime_type &endTime, const deltaT_type &deltaT, const output_type &output,
                            const iteration_type &iteration, const physics_type &physics, const writer_type &writer)
-    : ::xml_schema::type(), Shapes_(this), Source_(this), endTime_(endTime, this), deltaT_(deltaT, this),
-      output_(output, this), iteration_(iteration, this), physics_(physics, this), writer_(writer, this) {
+    : ::xml_schema::type(), Shapes_(this), Source_(this), Strategy_(this), endTime_(endTime, this),
+      deltaT_(deltaT, this), output_(output, this), iteration_(iteration, this), physics_(physics, this),
+      writer_(writer, this) {
 }
 
 simulation_t::simulation_t(const simulation_t &x, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(x, f, c), Shapes_(x.Shapes_, f, this), Source_(x.Source_, f, this),
-      endTime_(x.endTime_, f, this), deltaT_(x.deltaT_, f, this), output_(x.output_, f, this),
-      iteration_(x.iteration_, f, this), physics_(x.physics_, f, this), writer_(x.writer_, f, this) {
+      Strategy_(x.Strategy_, f, this), endTime_(x.endTime_, f, this), deltaT_(x.deltaT_, f, this),
+      output_(x.output_, f, this), iteration_(x.iteration_, f, this), physics_(x.physics_, f, this),
+      writer_(x.writer_, f, this) {
 }
 
 simulation_t::simulation_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Shapes_(this), Source_(this), endTime_(this),
-      deltaT_(this), output_(this), iteration_(this), physics_(this), writer_(this) {
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Shapes_(this), Source_(this), Strategy_(this),
+      endTime_(this), deltaT_(this), output_(this), iteration_(this), physics_(this), writer_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -1043,6 +1654,17 @@ void simulation_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
 
       this->Source_.push_back(::std::move(r));
       continue;
+    }
+
+    // Strategy
+    //
+    if (n.name() == "Strategy" && n.namespace_().empty()) {
+      ::std::unique_ptr<Strategy_type> r(Strategy_traits::create(i, f, this));
+
+      if (!this->Strategy_) {
+        this->Strategy_.set(::std::move(r));
+        continue;
+      }
     }
 
     break;
@@ -1117,6 +1739,7 @@ simulation_t &simulation_t::operator=(const simulation_t &x) {
     static_cast< ::xml_schema::type & > (*this) = x;
     this->Shapes_ = x.Shapes_;
     this->Source_ = x.Source_;
+    this->Strategy_ = x.Strategy_;
     this->endTime_ = x.endTime_;
     this->deltaT_ = x.deltaT_;
     this->output_ = x.output_;
@@ -1349,6 +1972,14 @@ void operator<<(::xercesc::DOMElement &e, const cuboid_t &i) {
 
     a << ::xml_schema::as_double(i.meanValue());
   }
+
+  // packed
+  //
+  if (i.packed()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("packed", e));
+
+    a << *i.packed();
+  }
 }
 
 void operator<<(::xercesc::DOMElement &e, const sphere_t &i) {
@@ -1400,6 +2031,14 @@ void operator<<(::xercesc::DOMElement &e, const sphere_t &i) {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("meanValue", e));
 
     a << ::xml_schema::as_double(i.meanValue());
+  }
+
+  // packed
+  //
+  if (i.packed()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("packed", e));
+
+    a << *i.packed();
   }
 }
 
@@ -1462,12 +2101,72 @@ void operator<<(::xercesc::DOMElement &e, const vector_i &i) {
 void operator<<(::xercesc::DOMElement &e, const input_t &i) {
   e << static_cast< const ::xml_schema::type & > (i);
 
-  // location
+  // path
   //
   {
-    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("location", e));
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("path", e));
 
-    a << i.location();
+    a << i.path();
+  }
+}
+
+void operator<<(::xercesc::DOMElement &e, const boundary_t &i) {
+  e << static_cast< const ::xml_schema::type & > (i);
+
+  // boundary
+  //
+  if (i.boundary()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("boundary", e));
+
+    a << *i.boundary();
+  }
+
+  // boundary-right
+  //
+  if (i.boundary_right()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("boundary-right", e));
+
+    a << *i.boundary_right();
+  }
+
+  // boundary-left
+  //
+  if (i.boundary_left()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("boundary-left", e));
+
+    a << *i.boundary_left();
+  }
+
+  // boundary-top
+  //
+  if (i.boundary_top()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("boundary-top", e));
+
+    a << *i.boundary_top();
+  }
+
+  // boundary-bottom
+  //
+  if (i.boundary_bottom()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("boundary-bottom", e));
+
+    a << *i.boundary_bottom();
+  }
+
+  // boundary-back
+  //
+  if (i.boundary_back()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("boundary-back", e));
+
+    a << *i.boundary_back();
+  }
+
+  // boundary-front
+  //
+  if (i.boundary_front()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("boundary-front", e));
+
+    a << *i.boundary_front();
   }
 }
 
@@ -1491,6 +2190,64 @@ void operator<<(::xercesc::DOMElement &e, const shape_t &i) {
   }
 }
 
+void operator<<(::xercesc::DOMElement &e, const directSum_t &i) {
+  e << static_cast< const ::xml_schema::type & > (i);
+}
+
+void operator<<(::xercesc::DOMAttr &, const directSum_t &) {
+}
+
+void operator<<(::xml_schema::list_stream &, const directSum_t &) {
+}
+
+void operator<<(::xercesc::DOMElement &e, const linkedCell_t &i) {
+  e << static_cast< const ::xml_schema::type & > (i);
+
+  // Boundary
+  //
+  {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Boundary", e));
+
+    s << i.Boundary();
+  }
+
+  // Domain
+  //
+  {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Domain", e));
+
+    s << i.Domain();
+  }
+
+  // cutoffRadius
+  //
+  {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("cutoffRadius", e));
+
+    a << ::xml_schema::as_double(i.cutoffRadius());
+  }
+}
+
+void operator<<(::xercesc::DOMElement &e, const strategy_t &i) {
+  e << static_cast< const ::xml_schema::type & > (i);
+
+  // LinkedCell
+  //
+  if (i.LinkedCell()) {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("LinkedCell", e));
+
+    s << *i.LinkedCell();
+  }
+
+  // DirectSum
+  //
+  if (i.DirectSum()) {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("DirectSum", e));
+
+    s << *i.DirectSum();
+  }
+}
+
 void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
   e << static_cast< const ::xml_schema::type & > (i);
 
@@ -1508,6 +2265,14 @@ void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
     ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Source", e));
 
     s << *b;
+  }
+
+  // Strategy
+  //
+  if (i.Strategy()) {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Strategy", e));
+
+    s << *i.Strategy();
   }
 
   // endTime
