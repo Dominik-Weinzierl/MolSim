@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "physics/variants/LennardJones.h"
-#include "container/DirectSumContainer.h"
+#include "container/DirectSum/DirectSumContainer.h"
 #include "physics/DirectSum.h"
 
 

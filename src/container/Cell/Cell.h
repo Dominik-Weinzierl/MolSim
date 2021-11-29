@@ -1,24 +1,64 @@
 #pragma once
 
-#include "boundaryConditions/BoundaryCondition.h"
 #include "particles/Particle.h"
 #include <functional>
+#include <boundaryType/BoundaryType.h>
+#include <iostream>
 
-template<typename T, size_t dim, typename std::enable_if<std::is_base_of<BoundaryCondition, T>::value,
-                                                         bool>::type = true>
+template<size_t dim>
 class Cell {
  protected:
-  std::vector<std::reference_wrapper<Particle<dim>>> particles{};
-  std::vector<std::reference_wrapper<Cell<T, dim>>> relevantNeighbours{};
- public:
-  virtual void applyCellProperties(T &t) = 0;
+  std::vector<Particle<dim> *> particles{};
+  std::vector<Cell<dim> *> neighbours{};
+  std::vector<Cell<dim> *> relevantNeighbours{};
 
-  void insertParticle(Particle<dim> &p) {
+  BoundaryType boundaryType = BoundaryType::Outflow;
+
+ public:
+  Cell() = default;
+  Cell(BoundaryType pBoundaryType) : boundaryType{pBoundaryType} {};
+
+  virtual ~Cell() = default;
+  virtual void applyCellProperties() = 0;
+
+  void insertParticle(Particle<dim> *p) {
     particles.push_back(p);
   }
 
-  void moveParticleToAnotherCell(Particle<dim> &p, Cell<T, dim> &c) {
+  void moveParticleToAnotherCell(Particle<dim> *p, Cell<dim> *c) {
     particles.erase(std::remove(particles.begin(), particles.end(), p), particles.end());
-    c.insertParticle(p);
+    c->insertParticle(p);
+  }
+
+  /**
+   * @return Iterator to the beginning of the particles-Vector.
+   */
+  [[nodiscard]] auto begin() { return particles.begin(); }
+
+  /**
+   * @return Iterator to the end of the particles-Vector.
+   */
+  [[nodiscard]] auto end() { return particles.end(); }
+
+  /**
+   * @return Iterator to the beginning of the neighbours-Vector.
+   */
+  [[nodiscard]] auto nBegin() { return neighbours.begin(); }
+
+  /**
+   * @return Iterator to the end of the neighbours-Vector.
+   */
+  [[nodiscard]] auto nEnd() { return neighbours.end(); }
+
+  std::vector<Particle<dim> *> &getParticles() {
+    return particles;
+  }
+
+  std::vector<Cell<dim> *> &getNeighbours() {
+    return neighbours;
+  }
+
+  std::vector<Cell<dim> *> &getRelevantNeighbours() {
+    return relevantNeighbours;
   }
 };

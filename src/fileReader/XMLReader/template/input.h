@@ -3109,6 +3109,60 @@ class linkedCell_t : public ::xml_schema::type {
   //@}
 
   /**
+   * @name CellSize
+   *
+   * @brief Accessor and modifier functions for the %CellSize
+   * required element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::vector_i CellSize_type;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<CellSize_type, char> CellSize_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element.
+   *
+   * @return A constant reference to the element.
+   */
+  const CellSize_type &CellSize() const;
+
+  /**
+   * @brief Return a read-write reference to the element.
+   *
+   * @return A reference to the element.
+   */
+  CellSize_type &CellSize();
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the element.
+   */
+  void CellSize(const CellSize_type &x);
+
+  /**
+   * @brief Set the element value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly
+   * instead of making a copy.
+   */
+  void CellSize(::std::unique_ptr<CellSize_type> p);
+
+  //@}
+
+  /**
    * @name cutoffRadius
    *
    * @brief Accessor and modifier functions for the %cutoffRadius
@@ -3161,7 +3215,7 @@ class linkedCell_t : public ::xml_schema::type {
    * @brief Create an instance from the ultimate base and
    * initializers for required elements and attributes.
    */
-  linkedCell_t(const Boundary_type &, const Domain_type &, const cutoffRadius_type &);
+  linkedCell_t(const Boundary_type &, const Domain_type &, const CellSize_type &, const cutoffRadius_type &);
 
   /**
    * @brief Create an instance from the ultimate base and
@@ -3171,7 +3225,8 @@ class linkedCell_t : public ::xml_schema::type {
    * This constructor will try to use the passed values directly
    * instead of making copies.
    */
-  linkedCell_t(::std::unique_ptr<Boundary_type>, ::std::unique_ptr<Domain_type>, const cutoffRadius_type &);
+  linkedCell_t(::std::unique_ptr<Boundary_type>, ::std::unique_ptr<Domain_type>, ::std::unique_ptr<CellSize_type>,
+               const cutoffRadius_type &);
 
   /**
    * @brief Create an instance from a DOM element.
@@ -3236,6 +3291,7 @@ class linkedCell_t : public ::xml_schema::type {
  protected:
   ::xsd::cxx::tree::one<Boundary_type> Boundary_;
   ::xsd::cxx::tree::one<Domain_type> Domain_;
+  ::xsd::cxx::tree::one<CellSize_type> CellSize_;
   ::xsd::cxx::tree::one<cutoffRadius_type> cutoffRadius_;
 
   //@endcond

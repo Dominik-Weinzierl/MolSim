@@ -21,11 +21,11 @@ class BasicArgument : public Argument<dim> {
    * @param pPhysics defines the used Physics during the simulation
    */
   BasicArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
-                std::string pWriter, int pIteration, std::string pPhysics) : Argument<dim>(std::move(pFiles), pEndTime,
+                std::string pWriter, int pIteration, std::string pPhysics, std::string pStrategy) : Argument<dim>(std::move(pFiles), pEndTime,
                                                                                            pDeltaT, std::move(pOutput),
                                                                                            std::move(pWriter),
                                                                                            pIteration,
-                                                                                           std::move(pPhysics)) {
+                                                                                           std::move(pPhysics), pStrategy) {
 
   }
 
@@ -51,5 +51,5 @@ bool operator==(const BasicArgument<dim> &left, const BasicArgument<dim> &right)
   return left.getFiles() == right.getFiles() && left.getEndTime() == right.getEndTime()
       && left.getDeltaT() == right.getDeltaT() && left.getOutput() == right.getOutput()
       && left.getWriter() == right.getWriter() && left.getIteration() == right.getIteration()
-      && left.getPhysics() == right.getPhysics();
+      && left.getPhysics() == right.getPhysics() && left.getStrategy() == right.getStrategy();
 }

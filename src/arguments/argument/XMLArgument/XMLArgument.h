@@ -9,6 +9,7 @@
 #include <iostream>
 #include <utility>
 #include <optional>
+#include <boundaryType/BoundaryType.h>
 
 /**
  * XMLArgument stores the arguments parsed by XMLArgumentParser for easy access.
@@ -28,11 +29,6 @@ class XMLArgument : public Argument<dim> {
   std::vector<SphereArgument<dim>> sphereArguments;
 
   /**
-   * Stores the algorithm used by this simulation.
-   */
-  std::string algorithm;
-
-  /**
    * Stores the cutoffRadius used by the linked cell algorithm.
    */
   std::optional<double> cutoffRadius;
@@ -43,9 +39,14 @@ class XMLArgument : public Argument<dim> {
   std::optional<std::array<int, dim>> domain;
 
   /**
+   * Stores the cell size used by the simulation.
+   */
+  std::optional<std::array<int, dim>> cellSize;
+
+  /**
    * Stores the boundaries used by the linked cell algorithm.
    */
-  std::optional<std::vector<std::string>> boundaries;
+  std::optional<std::vector<BoundaryType>> boundaries;
 
  public:
   /**
@@ -63,16 +64,12 @@ class XMLArgument : public Argument<dim> {
   XMLArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
               std::string pWriter, int pIteration, std::string pPhysics,
               std::vector<CuboidArgument<dim>> pCuboidArguments, std::vector<SphereArgument<dim>> pSphereArguments,
-              std::string pAlgorithm, std::optional<double> pCutoffRadius, std::optional<std::array<int, dim>> pDomain,
-              std::optional<std::vector<std::string>> pBoundaries) : Argument<dim>(std::move(pFiles), pEndTime, pDeltaT,
-                                                                                   std::move(pOutput),
-                                                                                   std::move(pWriter), pIteration,
-                                                                                   std::move(pPhysics)),
-                                                                     cuboidArguments{std::move(pCuboidArguments)},
-                                                                     sphereArguments{std::move(pSphereArguments)},
-                                                                     algorithm{std::move(pAlgorithm)}, domain{pDomain},
-                                                                     cutoffRadius{pCutoffRadius},
-                                                                     boundaries{std::move(pBoundaries)} {
+              std::string pStrategy, std::optional<double> pCutoffRadius, std::optional<std::array<int, dim>> pDomain,
+              std::optional<std::vector<BoundaryType>> pBoundaries, std::optional<std::array<int, dim>> pCellSize)
+      : Argument<dim>(std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration,
+                      std::move(pPhysics), pStrategy), cuboidArguments{std::move(pCuboidArguments)},
+        sphereArguments{std::move(pSphereArguments)}, domain{pDomain}, cutoffRadius{pCutoffRadius},
+        boundaries{std::move(pBoundaries)}, cellSize{pCellSize} {
 
   }
 
@@ -90,14 +87,6 @@ class XMLArgument : public Argument<dim> {
    */
   [[nodiscard]] const std::vector<SphereArgument<dim>> &getSphereArguments() const {
     return sphereArguments;
-  }
-
-  /**
-   * Getter for algorithm.
-   * @return algorithm.
-   */
-  [[nodiscard]] const std::string &getAlgorithm() const {
-    return algorithm;
   }
 
   /**
@@ -120,8 +109,16 @@ class XMLArgument : public Argument<dim> {
    * Getter for boundaries.
    * @return boundaries.
    */
-  [[nodiscard]] const std::optional<std::vector<std::string>> &getBoundaries() const {
+  [[nodiscard]] const std::optional<std::vector<BoundaryType>> &getBoundaries() const {
     return boundaries;
+  }
+
+  /**
+   * Getter for cell size.
+   * @return cellSize.
+   */
+  [[nodiscard]] const std::optional<std::array<int, dim>> &getCellSize() const {
+    return cellSize;
   }
 
   /**
@@ -146,8 +143,7 @@ class XMLArgument : public Argument<dim> {
   [[nodiscard]] std::string toString() const override {
     std::stringstream configuration;
     configuration << Argument<dim>::toString();
-    configuration << "\tStrategy: " << this->algorithm << std::endl;
-    if (this->algorithm == "LinkedCell") {
+    if (this->strategy == "LinkedCell") {
       configuration << "\t\tcutoffRadius: " << this->cutoffRadius.value() << std::endl;
       configuration << "\t\tDomain: " << ArrayUtils::to_string(this->domain.value()) << std::endl;
       configuration << "\t\tBoundary: " << ArrayUtils::to_string(this->boundaries.value()) << std::endl;
@@ -184,6 +180,7 @@ bool operator==(const XMLArgument<dim> &left, const XMLArgument<dim> &right) {
       && left.getEndTime() == right.getEndTime() && left.getDeltaT() == right.getDeltaT()
       && left.getOutput() == right.getOutput() && left.getWriter() == right.getWriter()
       && left.getIteration() == right.getIteration() && left.getPhysics() == right.getPhysics()
-      && left.getAlgorithm() == right.getAlgorithm() && left.getCutoffRadius() == right.getCutoffRadius()
-      && left.getDomain() == right.getDomain() && left.getBoundaries() == right.getBoundaries();
+      && left.getStrategy() == right.getStrategy() && left.getCutoffRadius() == right.getCutoffRadius()
+      && left.getDomain() == right.getDomain() && left.getBoundaries() == right.getBoundaries()
+      && left.getCellSize() == right.getCellSize();
 }

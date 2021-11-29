@@ -11,12 +11,12 @@
 template<size_t dim>
 class ParticleContainer {
  protected:
-
   /**
    * Particles-Vector Stores all particles.
    */
   std::vector<Particle<dim>> particles;
 
+ public:
   /**
    * Default Constructor.
    */
@@ -41,7 +41,6 @@ class ParticleContainer {
    */
   ParticleContainer(const ParticleContainer &particleContainer) = default;
 
- public:
   /**
    * Adds the particle to the ParticleContainer.
    * @param p The particle to be added.
@@ -100,6 +99,8 @@ class ParticleContainer {
   Particle<dim> operator[](unsigned long i) const {
     return particles[i];
   }
+
+  virtual void init() = 0;
 };
 
 /**

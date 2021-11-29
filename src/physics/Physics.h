@@ -14,16 +14,6 @@ template<typename T, size_t dim, typename std::enable_if<std::is_base_of_v<Physi
 class Physics {
  protected:
   /**
-   * A zero-crossing is a point where the sign of a mathematical function changes.
-   */
-  double zeroCrossing = 1;
-
-  /**
-   * A potential well is the region surrounding a local minimum of potential energy.
-   */
-  double potentialWellDepth = 5;
-
-  /**
    * Default destructor.
    */
   virtual ~Physics() = default;
@@ -74,20 +64,6 @@ class Physics {
   }
 
   /**
-   * Calls the calculate-Methods for the position, force and velocity with the given parameters.
-   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
-   * @param deltaT time step of our simulation
-   */
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT) const {
-    // calculate new x
-    calculateX(particleContainer, deltaT);
-    // calculate new f
-    calculateF(particleContainer);
-    // calculate new v
-    calculateV(particleContainer, deltaT);
-  }
-
-  /**
    * Calculates and updates the force for all particles in the specified container
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    */
@@ -100,6 +76,20 @@ class Physics {
     }
     performUpdate(particleContainer);
     SPDLOG_DEBUG("ended calculating forces");
+  }
+
+  /**
+  * Calls the calculate-Methods for the position, force and velocity with the given parameters.
+  * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+  * @param deltaT time step of our simulation
+  */
+  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT) const {
+    // calculate new x
+    calculateX(particleContainer, deltaT);
+    // calculate new f
+    calculateF(particleContainer);
+    // calculate new v
+    calculateV(particleContainer, deltaT);
   }
 };
 

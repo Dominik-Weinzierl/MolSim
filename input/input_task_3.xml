@@ -1,9 +1,6 @@
 <Simulation endTime="5" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="MD">
     <Strategy>
-        <LinkedCell cutoffRadius="20">
-            <Boundary boundary="outflow"/>
-            <Domain x="20" y="20" z="20"/>
-        </LinkedCell>
+        <DirectSum/>
     </Strategy>
     <Shapes>
         <Cuboid mass="1.0" distance="1.1225" meanValue="0.1">

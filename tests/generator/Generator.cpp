@@ -3,7 +3,7 @@
 #include "generator/GeneratorArguments/CuboidArgument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"
 #include "particles/Particle.h"
-#include "container/DirectSumContainer.h"
+#include "container/DirectSum/DirectSumContainer.h"
 
 /**
  * ***************************************************

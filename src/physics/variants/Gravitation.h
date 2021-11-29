@@ -2,10 +2,23 @@
 #include "logger/Logger.h"
 #include "physics/Physics.h"
 
-/**
- * The Gravitation class is a subclass of Physics and therefore implements the calculation methods
- * for the active force of all particles in the particleContainer.
- * @tparam dim dimension of our simulation.
- */
+
 class Gravitation : public PhysicsType {
+ public:
+  template<size_t dim>
+  static inline Vector<dim> calculateForceBetweenTwoParticles(Particle<dim> &i, Particle<dim> &j) {
+    Vector<dim> force{};
+    double m = i.getM() * j.getM();
+
+    Vector<dim> difference = j.getX() - i.getX();
+    double l2Norm = ArrayUtils::L2Norm(difference);
+
+    double factor = m / (l2Norm * l2Norm * l2Norm);
+
+    for (size_t t = 0; t < dim; ++t) {
+      force[t] = factor * difference[t];
+    }
+
+    return force;
+  }
 };

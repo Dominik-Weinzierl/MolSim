@@ -17,7 +17,7 @@ class CuboidArgument : public GeneratorArguments {
   /**
    * Dimension of the Cuboid.
    */
-  std::vector<int> dimensions;
+  std::array<int, dim> dimensions;
 
   /**
    * Initial velocity of the Cuboid.
@@ -58,7 +58,7 @@ class CuboidArgument : public GeneratorArguments {
    * Getter for the dimensions.
    * @return dimensions
    */
-  [[nodiscard]] const std::vector<int> &getDimensions() const {
+  [[nodiscard]] const std::array<int, dim> &getDimensions() const {
     return dimensions;
   }
 
@@ -112,7 +112,7 @@ class CuboidArgument : public GeneratorArguments {
    * @param pMeanValue mean value of the Particle(s)
    * @param pPacked describes if the Cuboid is packed with Particle(s)
    */
-  CuboidArgument(Vector<dim> pStartingCoordinates, std::vector<int> pDimensions, Vector<dim> pInitialVelocity,
+  CuboidArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
                  double pDistance, double pMass, double pMeanValue, bool pPacked = false) : startingCoordinates{
       pStartingCoordinates}, dimensions{std::move(pDimensions)}, initialVelocity{pInitialVelocity}, distance{pDistance},
                                                                                             mass{pMass},

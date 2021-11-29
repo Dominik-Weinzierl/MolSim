@@ -22,4 +22,6 @@ class DirectSumContainer : public ParticleContainer<dim> {
    * @param pParticles vector of particles as initial value.
    */
   DirectSumContainer() = default;
+
+  void init() override {};
 };

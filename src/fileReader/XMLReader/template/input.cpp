@@ -555,6 +555,22 @@ void linkedCell_t::Domain(::std::unique_ptr<Domain_type> x) {
   this->Domain_.set(std::move(x));
 }
 
+const linkedCell_t::CellSize_type &linkedCell_t::CellSize() const {
+  return this->CellSize_.get();
+}
+
+linkedCell_t::CellSize_type &linkedCell_t::CellSize() {
+  return this->CellSize_.get();
+}
+
+void linkedCell_t::CellSize(const CellSize_type &x) {
+  this->CellSize_.set(x);
+}
+
+void linkedCell_t::CellSize(::std::unique_ptr<CellSize_type> x) {
+  this->CellSize_.set(std::move(x));
+}
+
 const linkedCell_t::cutoffRadius_type &linkedCell_t::cutoffRadius() const {
   return this->cutoffRadius_.get();
 }
@@ -1441,24 +1457,26 @@ directSum_t::~directSum_t() {
 // linkedCell_t
 //
 
-linkedCell_t::linkedCell_t(const Boundary_type &Boundary, const Domain_type &Domain,
+linkedCell_t::linkedCell_t(const Boundary_type &Boundary, const Domain_type &Domain, const CellSize_type &CellSize,
                            const cutoffRadius_type &cutoffRadius)
-    : ::xml_schema::type(), Boundary_(Boundary, this), Domain_(Domain, this), cutoffRadius_(cutoffRadius, this) {
+    : ::xml_schema::type(), Boundary_(Boundary, this), Domain_(Domain, this), CellSize_(CellSize, this),
+      cutoffRadius_(cutoffRadius, this) {
 }
 
 linkedCell_t::linkedCell_t(::std::unique_ptr<Boundary_type> Boundary, ::std::unique_ptr<Domain_type> Domain,
-                           const cutoffRadius_type &cutoffRadius)
+                           ::std::unique_ptr<CellSize_type> CellSize, const cutoffRadius_type &cutoffRadius)
     : ::xml_schema::type(), Boundary_(std::move(Boundary), this), Domain_(std::move(Domain), this),
-      cutoffRadius_(cutoffRadius, this) {
+      CellSize_(std::move(CellSize), this), cutoffRadius_(cutoffRadius, this) {
 }
 
 linkedCell_t::linkedCell_t(const linkedCell_t &x, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(x, f, c), Boundary_(x.Boundary_, f, this), Domain_(x.Domain_, f, this),
-      cutoffRadius_(x.cutoffRadius_, f, this) {
+      CellSize_(x.CellSize_, f, this), cutoffRadius_(x.cutoffRadius_, f, this) {
 }
 
 linkedCell_t::linkedCell_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Boundary_(this), Domain_(this), cutoffRadius_(this) {
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Boundary_(this), Domain_(this), CellSize_(this),
+      cutoffRadius_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -1492,6 +1510,17 @@ void linkedCell_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
       }
     }
 
+    // CellSize
+    //
+    if (n.name() == "CellSize" && n.namespace_().empty()) {
+      ::std::unique_ptr<CellSize_type> r(CellSize_traits::create(i, f, this));
+
+      if (!CellSize_.present()) {
+        this->CellSize_.set(::std::move(r));
+        continue;
+      }
+    }
+
     break;
   }
 
@@ -1501,6 +1530,10 @@ void linkedCell_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
 
   if (!Domain_.present()) {
     throw ::xsd::cxx::tree::expected_element<char>("Domain", "");
+  }
+
+  if (!CellSize_.present()) {
+    throw ::xsd::cxx::tree::expected_element<char>("CellSize", "");
   }
 
   while (p.more_attributes()) {
@@ -1527,6 +1560,7 @@ linkedCell_t &linkedCell_t::operator=(const linkedCell_t &x) {
     static_cast< ::xml_schema::type & > (*this) = x;
     this->Boundary_ = x.Boundary_;
     this->Domain_ = x.Domain_;
+    this->CellSize_ = x.CellSize_;
     this->cutoffRadius_ = x.cutoffRadius_;
   }
 
@@ -2217,6 +2251,14 @@ void operator<<(::xercesc::DOMElement &e, const linkedCell_t &i) {
     ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Domain", e));
 
     s << i.Domain();
+  }
+
+  // CellSize
+  //
+  {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("CellSize", e));
+
+    s << i.CellSize();
   }
 
   // cutoffRadius
