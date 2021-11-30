@@ -16,6 +16,10 @@ template<size_t dim>
 class LinkedCellContainer : public ParticleContainer<dim> {
  private:
   std::vector<std::unique_ptr<Cell<dim>>> cells{};
+  std::vector<Halo<dim>> halosCells;
+  std::vector<Halo<dim>> boundaryCells;
+  std::vector<Inner<dim>> innerCells;
+  std::vector<Halo<dim>> halos;
   std::array<int, dim> cellSize;
   std::array<int, dim> dimension;
   std::vector<BoundaryType> boundaries;
@@ -46,13 +50,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     }
   }
 
-  int getIndexBasedOnCoordinates(Vector<dim> coords) {
-    int index = 0;
-    for (size_t i = 0; i < dim; ++i) {
-      index += static_cast<int>(((dimension[i] / cellSize[i]) + 2) * ((coords[i] + cellSize[i]) / cellSize[i]));
-    }
-    return index;
-  }
+  int getIndexBasedOnCoordinates(Vector<dim> coords);
 
   void insertParticlesInCells() {
     for (Particle<dim> &p: ParticleContainer<dim>::particles) {
@@ -76,7 +74,9 @@ class LinkedCellContainer : public ParticleContainer<dim> {
  public:
   LinkedCellContainer(std::vector<BoundaryType> pBoundaries, std::array<int, dim> pCellSize,
                       std::array<int, dim> pDimension) : boundaries{std::move(pBoundaries)}, cellSize{pCellSize},
-                                                         dimension{pDimension} {};
+                                                         dimension{pDimension} {
+    cells.reserve(static_cast<int>(std::pow(dim + 2, dim)));
+  };
 
   /**
    * Constructs a LinkedCell from the provided vector of particles.
@@ -85,6 +85,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   LinkedCellContainer(std::vector<Particle<dim>> pParticles, std::array<int, dim> pCellSize,
                       std::array<int, dim> pDimension) : ParticleContainer<dim>(pParticles), dimension{pDimension},
                                                          cellSize{pCellSize} {
+    cells.reserve(static_cast<int>(std::pow(dim + 2, dim)));
     SPDLOG_TRACE("LinkedCell generated");
   }
 
@@ -93,6 +94,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @param pParticles vector of particles as initial value.
    */
   LinkedCellContainer(Vector<dim> pCellSize, Vector<dim> pDimension) : dimension{pDimension}, cellSize{pCellSize} {
+    cells.reserve(static_cast<int>(std::pow(dim + 2, dim)));
     SPDLOG_TRACE("LinkedCell generated");
   }
 
