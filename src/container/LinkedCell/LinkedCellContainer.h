@@ -23,6 +23,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   std::vector<Inner<dim>> innerCells;
 
   std::array<int, dim> cellSize;
+  double cutoffRadius;
   std::array<int, dim> dimension;
   std::vector<BoundaryType> boundaries;
 
@@ -93,8 +94,10 @@ class LinkedCellContainer : public ParticleContainer<dim> {
 
  public:
   LinkedCellContainer(std::vector<BoundaryType> pBoundaries, std::array<int, dim> pCellSize,
-                      std::array<int, dim> pDimension) : boundaries{std::move(pBoundaries)}, cellSize{pCellSize},
-                                                         dimension{pDimension} {
+                      std::array<int, dim> pDimension, double pCutoffRadius) : boundaries{std::move(pBoundaries)},
+                                                                               cellSize{pCellSize},
+                                                                               dimension{pDimension},
+                                                                               cutoffRadius{pCutoffRadius} {
     reserve();
   };
 

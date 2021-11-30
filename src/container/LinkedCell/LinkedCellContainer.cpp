@@ -147,8 +147,10 @@ void LinkedCellContainer<2>::linkCells() {
 
       auto &neighbours = cell->getNeighbours();
 
-      for (int nX = x - 1; nX <= x + 1; ++nX) {
-        for (int nY = y - 1; nY <= y + 1; ++nY) {
+      for (int nX = x - static_cast<int>(cutoffRadius / cellSize[0]);
+           nX <= x + static_cast<int>(cutoffRadius / cellSize[0]); ++nX) {
+        for (int nY = y - static_cast<int>(cutoffRadius / cellSize[1]);
+             nY <= y + static_cast<int>(cutoffRadius / cellSize[1]); ++nY) {
           // skip own
           if (nX == x && nY == y)
             continue;
@@ -189,9 +191,12 @@ void LinkedCellContainer<3>::linkCells() {
 
         auto &neighbours = cell->getNeighbours();
 
-        for (int nX = x - 1; nX <= x + 1; ++nX) {
-          for (int nY = y - 1; nY <= y + 1; ++nY) {
-            for (int nZ = z - 1; nZ <= z + 1; ++nZ) {
+        for (int nX = x - static_cast<int>(cutoffRadius / cellSize[0]);
+             nX <= x + static_cast<int>(cutoffRadius / cellSize[0]); ++nX) {
+          for (int nY = y - static_cast<int>(cutoffRadius / cellSize[1]);
+               nY <= y + static_cast<int>(cutoffRadius / cellSize[1]); ++nY) {
+            for (int nZ = z - static_cast<int>(cutoffRadius / cellSize[2]);
+                 nZ <= z + static_cast<int>(cutoffRadius / cellSize[2]); ++nZ) {
               // skip own
               if (nX == x && nY == y && nZ == z)
                 continue;

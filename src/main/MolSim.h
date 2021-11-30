@@ -85,7 +85,7 @@ class MolSim {
     } else {
       XMLArgument<dim> xmlArg = dynamic_cast<XMLArgument<dim> &>(*arg);
       particleContainer =
-          std::make_unique<LinkedCellContainer<dim>>(xmlArg.getBoundaries().value(), xmlArg.getCellSize().value(), xmlArg.getDomain().value());
+          std::make_unique<LinkedCellContainer<dim>>(xmlArg.getBoundaries().value(), xmlArg.getCellSize().value(), xmlArg.getDomain().value(), xmlArg.getCutoffRadius().value());
     }
 
     // Select Writer.
@@ -124,7 +124,7 @@ class MolSim {
       if (arg->getStrategy() == "LinkedCell") {
         MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
       } else {
-        MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
+        MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
       }
     }
     auto end = std::chrono::high_resolution_clock::now();
@@ -150,7 +150,7 @@ class MolSim {
       if (arg->getStrategy() == "LinkedCell") {
         MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
       } else {
-        MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
+        MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
       }
     }
     auto end = std::chrono::high_resolution_clock::now();

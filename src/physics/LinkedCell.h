@@ -21,18 +21,6 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
       std::vector<Cell<dim> *> &neighbours = (*cell)->getNeighbours();
       std::vector<Particle<dim> *> &cellParticles = (*cell)->getParticles();
 
-      // calc in the cells
-      for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
-        for (auto j = i + 1; j != cellParticles.end(); ++j) {
-          SPDLOG_TRACE("Calculating force for {} and {}", i->toString(), j->toString());
-
-          Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j))};
-
-          (*i)->updateForce(force);
-          (*i)->updateForce(-force);
-        }
-      }
-
       // calc between particles in cells and relevant neighbours
       for (auto n = neighbours.begin(); n != neighbours.end(); ++n) {
         std::vector<Particle<dim> *> &neighbourParticles = (*n)->getParticles();
@@ -43,8 +31,20 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
             Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j))};
 
             (*i)->updateForce(force);
-            (*i)->updateForce(-force);
+            (*j)->updateForce(-force);
           }
+        }
+      }
+
+      // calc in the cells
+      for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
+        for (auto j = i + 1; j != cellParticles.end(); ++j) {
+          SPDLOG_TRACE("Calculating force for {} and {}", i->toString(), j->toString());
+
+          Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j))};
+
+          (*i)->updateForce(force);
+          (*j)->updateForce(-force);
         }
       }
     }
@@ -61,11 +61,11 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
 
     // calculate new x
     Physics<LennardJones, dim>::calculateX(particleContainer, deltaT);
+
     // calculate new f
-
     Physics<LennardJones, dim>::calculateF(particleContainer);
-    // calculate new v
 
+    // calculate new v
     Physics<LennardJones, dim>::calculateV(particleContainer, deltaT);
 
     auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
