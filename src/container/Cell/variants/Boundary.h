@@ -23,8 +23,9 @@ class Boundary : public Cell<dim> {
 
  public:
 
-  explicit Boundary(BoundaryType pBoundaryType, BoardDirectionType pBorderDirection) : borderDirection{
-      pBorderDirection}, Cell<dim>(pBoundaryType) {}
+  Boundary(BoundaryType pBoundaryType, BoardDirectionType pBorderDirection, std::array<int, dim> pPosition,
+           std::array<int, dim> pCellSize) : borderDirection{pBorderDirection},
+                                             Cell<dim>(pBoundaryType, pPosition, pCellSize) {}
 
   void applyCellProperties() override {}
 

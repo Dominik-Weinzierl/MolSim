@@ -103,9 +103,6 @@ class MolSim {
     // Create Particles (with Generators)
     arg->createAdditionalParticle(*particleContainer);
 
-    // Init ParticleContainer (e.g. LinkedCellContainer creates Cells)
-    particleContainer->init();
-
     std::cout << "Configuration loaded..." << std::endl;
     std::cout << "Selected dimension: " << dim << "D..." << std::endl;
     std::cout << arg->toString() << std::endl;

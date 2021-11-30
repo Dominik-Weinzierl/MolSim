@@ -12,11 +12,18 @@ class Cell {
   std::vector<Cell<dim> *> neighbours{};
   std::vector<Cell<dim> *> relevantNeighbours{};
 
+  std::array<int, dim> position;
+  std::array<int, dim> cellSize;
+
   BoundaryType boundaryType = BoundaryType::Outflow;
 
  public:
   Cell() = default;
-  Cell(BoundaryType pBoundaryType) : boundaryType{pBoundaryType} {};
+
+  Cell(BoundaryType pBoundaryType, std::array<int, dim> pPosition, std::array<int, dim> pCellSize) : boundaryType{
+      pBoundaryType}, position{pPosition}, cellSize{pCellSize} {};
+
+  Cell(std::array<int, dim> pPosition, std::array<int, dim> pCellSize) : position{pPosition}, cellSize{pCellSize} {};
 
   virtual ~Cell() = default;
   virtual void applyCellProperties() = 0;
