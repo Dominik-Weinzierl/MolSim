@@ -121,10 +121,10 @@ class MolSim {
         MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
       }
     } else if (arg->getPhysics() == "lennard") {
-      if (arg->getStrategy() == "DirectSum") {
-        MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
-      } else {
+      if (arg->getStrategy() == "LinkedCell") {
         MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
+      } else {
+        MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
       }
     }
     auto end = std::chrono::high_resolution_clock::now();
@@ -147,10 +147,10 @@ class MolSim {
         MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
       }
     } else if (arg->getPhysics() == "lennard") {
-      if (arg->getStrategy() == "DirectSum") {
-        MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
+      if (arg->getStrategy() == "LinkedCell") {
+        MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
       } else {
-        MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
+        MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
       }
     }
     auto end = std::chrono::high_resolution_clock::now();

@@ -32,7 +32,7 @@ TEST(XMLReader_3D, test_case_1) { // NOLINT(cert-err58-cpp)
   std::string algorithm{"DirectSum"};
   XMLArgument<dim> expected
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       std::nullopt, std::nullopt, std::nullopt};
+       std::nullopt, std::nullopt, std::nullopt, std::nullopt};
 
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);
@@ -62,10 +62,13 @@ TEST(XMLReader_3D, test_case_2) { // NOLINT(cert-err58-cpp)
   std::string algorithm{"LinkedCell"};
   double cutoffRadius = 20.0;
   std::array<int, 3> domain{20, 20, 20};
-  std::vector<std::string> boundary{"outflow", "outflow", "reflecting", "reflecting", "outflow", "outflow"};
+  std::array<int, 3> cellSize{1, 1, 1};
+  std::vector<BoundaryType> boundary
+      {BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting,
+       BoundaryType::Outflow, BoundaryType::Outflow};
   XMLArgument<dim> expected
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       cutoffRadius, domain, boundary};
+       cutoffRadius, domain, boundary, cellSize};
 
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);
@@ -106,7 +109,7 @@ TEST(XMLReader_2D, test_case_1) { // NOLINT(cert-err58-cpp)
   std::string algorithm{"DirectSum"};
   XMLArgument<dim> expected
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       std::nullopt, std::nullopt, std::nullopt};
+       std::nullopt, std::nullopt, std::nullopt, std::nullopt};
 
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);
@@ -135,10 +138,12 @@ TEST(XMLReader_2D, test_case_2) { // NOLINT(cert-err58-cpp)
   std::string algorithm{"LinkedCell"};
   double cutoffRadius = 20.0;
   std::array<int, 2> domain{20, 20};
-  std::vector<std::string> boundary{"outflow", "outflow", "reflecting", "reflecting"};
+  std::array<int, 2> cellSize{1, 1};
+  std::vector<BoundaryType>
+      boundary{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting};
   XMLArgument<dim> expected
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       cutoffRadius, domain, boundary};
+       cutoffRadius, domain, boundary, cellSize};
 
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);

@@ -38,8 +38,7 @@ class Particle {
   double m;
 
   /**
-   * Type of the particle. Use it for whatever you want
-   * (e.g. to separate molecules belonging to different bodies, matters, and so on).
+   * Type of the particle (0 -> normal Particle, -1 -> outflow)
    */
   int type;
 
@@ -267,6 +266,14 @@ class Particle {
   void setOldF(double x_arg, double y_arg) {
     old_f[0] = x_arg;
     old_f[1] = y_arg;
+  }
+
+  /**
+   * Setter the type of the Particle
+   * @param pType new type
+   */
+  void setType(int pType) {
+    type = pType;
   }
 
   /**

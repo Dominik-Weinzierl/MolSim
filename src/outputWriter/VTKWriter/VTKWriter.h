@@ -45,8 +45,14 @@ class VTKWriter : public OutputWriter<dim> {
     strStream << this->path << "/" << this->fileName << "_" << std::setfill('0') << std::setw(4) << iteration << ".vtu";
     std::ofstream file(strStream.str().c_str());
 
-    initializeOutput(static_cast<int>(this->container.size()));
-    for (const auto &particle: this->container.getParticles()) {
+    // Filter particle container
+    std::vector<Particle<dim>> filtered;
+    std::copy_if(this->container.begin(), this->container.end(), std::back_inserter(filtered), [](auto &p) {
+      return p.getType() != -1;
+    });
+
+    initializeOutput(static_cast<int>(filtered.size()));
+    for (const auto &particle: filtered) {
       plotParticle(particle);
     }
 

@@ -70,8 +70,10 @@ class LinkedCellContainer : public ParticleContainer<dim> {
 
   void insertParticlesInCells() {
     for (Particle<dim> &p: ParticleContainer<dim>::particles) {
-      auto *cell = cells[getIndexBasedOnCoordinates(p.getX())];
-      cell->insertParticle(&p);
+      if (p.getType() != -1) {
+        auto *cell = cells[static_cast<unsigned long>(getIndexBasedOnCoordinates(p.getX()))];
+        cell->insertParticle(&p);
+      }
     }
   }
 
@@ -124,7 +126,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     return boundaries;
   }
 
-  std::vector<Halo<dim>> &getHalosCells() {
+  [[nodiscard]] std::vector<Halo<dim>> &getHalosCells() {
     return halosCells;
   }
 };

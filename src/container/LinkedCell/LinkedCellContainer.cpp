@@ -146,7 +146,6 @@ void LinkedCellContainer<2>::linkCells() {
       auto *cell = cells[index];
 
       auto &neighbours = cell->getNeighbours();
-      auto &relevantNeighbours = cell->getRelevantNeighbours();
 
       for (int nX = x - 1; nX <= x + 1; ++nX) {
         for (int nY = y - 1; nY <= y + 1; ++nY) {
@@ -159,17 +158,13 @@ void LinkedCellContainer<2>::linkCells() {
               {static_cast<double>(nX * cellSize[0]), static_cast<double>(nY * cellSize[1])}));
           auto *posN = cells[posNeighIndex];
 
-          // add to list
-          neighbours.push_back(posN);
-
-
           // filter non relevant neighbours
           if (nX < 0 || nY < 0 || nX >= cellsPerRow || nY >= cellsPerColumn || posNeighIndex <= index) {
             continue;
           }
 
           // add relevant neighbours
-          relevantNeighbours.push_back(posN);
+          neighbours.push_back(posN);
         }
       }
     }
@@ -193,7 +188,6 @@ void LinkedCellContainer<3>::linkCells() {
         auto *cell = cells[index];
 
         auto &neighbours = cell->getNeighbours();
-        auto &relevantNeighbours = cell->getRelevantNeighbours();
 
         for (int nX = x - 1; nX <= x + 1; ++nX) {
           for (int nY = y - 1; nY <= y + 1; ++nY) {
@@ -208,10 +202,6 @@ void LinkedCellContainer<3>::linkCells() {
                    static_cast<double>(nZ * cellSize[2])}));
               auto *posN = cells[posNeighIndex];
 
-              // add to list
-              neighbours.push_back(posN);
-
-
               // filter non relevant neighbours
               if (nX < 0 || nY < 0 || nZ < 0 || nX >= cellsPerRow || nY >= cellsPerColumn || nZ >= cellsPerDepth
                   || posNeighIndex <= index) {
@@ -219,7 +209,7 @@ void LinkedCellContainer<3>::linkCells() {
               }
 
               // add relevant neighbours
-              relevantNeighbours.push_back(posN);
+              neighbours.push_back(posN);
             }
           }
         }

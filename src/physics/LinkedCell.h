@@ -18,7 +18,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
     auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
     // TODO: Boundary condition check
     for (auto cell = cellContainer.cellBegin(); cell != cellContainer.cellEnd(); ++cell) {
-      std::vector<Cell<dim> *> &neighbours = (*cell)->getRelevantNeighbours();
+      std::vector<Cell<dim> *> &neighbours = (*cell)->getNeighbours();
       std::vector<Particle<dim> *> &cellParticles = (*cell)->getParticles();
 
       // calc in the cells
@@ -71,7 +71,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
     auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
 
     // TODO apply halos
-    for(auto& h: cellContainer.getHalosCells()){
+    for (auto &h: cellContainer.getHalosCells()) {
       h.applyCellProperties();
     }
   }

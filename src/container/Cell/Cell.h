@@ -10,7 +10,6 @@ class Cell {
  protected:
   std::vector<Particle<dim> *> particles{};
   std::vector<Cell<dim> *> neighbours{};
-  std::vector<Cell<dim> *> relevantNeighbours{};
 
   std::array<int, dim> position;
   std::array<int, dim> cellSize;
@@ -26,15 +25,11 @@ class Cell {
   Cell(std::array<int, dim> pPosition, std::array<int, dim> pCellSize) : position{pPosition}, cellSize{pCellSize} {};
 
   virtual ~Cell() = default;
+
   virtual void applyCellProperties() = 0;
 
   void insertParticle(Particle<dim> *p) {
     particles.push_back(p);
-  }
-
-  void moveParticleToAnotherCell(Particle<dim> *p, Cell<dim> *c) {
-    particles.erase(std::remove(particles.begin(), particles.end(), p), particles.end());
-    c->insertParticle(p);
   }
 
   /**
@@ -63,9 +58,5 @@ class Cell {
 
   std::vector<Cell<dim> *> &getNeighbours() {
     return neighbours;
-  }
-
-  std::vector<Cell<dim> *> &getRelevantNeighbours() {
-    return relevantNeighbours;
   }
 };

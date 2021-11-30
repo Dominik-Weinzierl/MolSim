@@ -13,11 +13,9 @@ class LennardJones : public PhysicsType {
       l2Norm += force[t] * force[t];
     }
 
-    l2Norm = 1 / l2Norm;
+    double fracture = (i.getZeroCrossing() * j.getZeroCrossing()) / l2Norm;
 
-    double fracture = (i.getZeroCrossing() * j.getZeroCrossing()) * l2Norm;
-
-    double firstFactor = (24 * i.getPotentialWellDepth()) * l2Norm;
+    double firstFactor = (24 * i.getPotentialWellDepth()) / l2Norm;
     double pow = fracture * fracture * fracture;
     double secondFactor = pow - 2 * pow * pow;
     double factor = firstFactor * secondFactor;

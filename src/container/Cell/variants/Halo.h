@@ -9,10 +9,10 @@ class Halo : public Cell<dim> {
   Halo(BoundaryType pBoundaryType, std::array<int, dim> pPosition, std::array<int, dim> pCellSize) : Cell<dim>(
       pBoundaryType, pPosition, pCellSize) {};
   void applyCellProperties() override {
-    Vector<dim> temp{};
     for (Particle<dim> *p: this->particles) {
-      // Don't move anymore
-      p->setV(temp);
+      if(this->boundaryType == BoundaryType::Outflow){
+        p->setType(-1);
+      }
     }
   }
 };

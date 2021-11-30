@@ -18,7 +18,7 @@ TEST(CuboidGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
   double distance = 1.1225;
   double mass = 1.0;
   constexpr int dim = 2;
-  std::vector dimensions = {dim, dim};
+  std::array<int, dim> dimensions = {dim, dim};
 
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1};
   DirectSumContainer<dim> p{};
@@ -43,7 +43,7 @@ TEST(CuboidGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
 TEST(CuboidGenerator_2D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 2;
 
-  std::vector dimensions = {1, 1};
+  std::array<int, dim> dimensions = {1, 1};
 
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, 1.0, 1.0, 0.1};
   DirectSumContainer<dim> p{};
@@ -59,7 +59,7 @@ TEST(CuboidGenerator_2D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-
 TEST(CuboidGenerator_2D_DirectSumContainer, applyNoMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 2;
 
-  std::vector dimensions = {1, 1};
+  std::array<int, dim> dimensions = {1, 1};
 
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, 1.0, 1.0, 0.0};
   DirectSumContainer<dim> p{};
@@ -76,7 +76,7 @@ TEST(CuboidGenerator_3D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
   double distance = 1.1225;
   double mass = 1.0;
   constexpr int dim = 3;
-  std::vector dimensions = {dim, dim, dim};
+  std::array<int, dim> dimensions = {dim, dim, dim};
 
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, distance, mass, 0.1};
   DirectSumContainer<dim> p{};
@@ -101,7 +101,7 @@ TEST(CuboidGenerator_3D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
 TEST(CuboidGenerator_3D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 3;
 
-  std::vector dimensions = {1, 1, 1};
+  std::array<int, dim> dimensions = {1, 1, 1};
 
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.1};
   DirectSumContainer<dim> p{};
@@ -117,7 +117,7 @@ TEST(CuboidGenerator_3D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-
 TEST(CuboidGenerator_3D_DirectSumContainer, applyNoMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 3;
 
-  std::vector dimensions = {1, 1, 1};
+  std::array<int, dim> dimensions = {1, 1, 1};
 
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.0};
   DirectSumContainer<dim> p{};
@@ -135,7 +135,6 @@ TEST(SphereGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
   double mass = 1.0;
   constexpr int dim = 2;
   int rad = 2;
-  std::vector dimensions = {dim, dim};
 
   SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, rad, {0.0, 0.0}, distance, mass, 0.1};
   DirectSumContainer<dim> pc{};
