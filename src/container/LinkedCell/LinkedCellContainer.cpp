@@ -2,58 +2,93 @@
 
 template<>
 void LinkedCellContainer<3>::setupCells() {
-  int cellsPerRow = (dimension[0] / cellSize[0]) + 2;
-  int cellsPerColumn = (dimension[1] / cellSize[1]) + 2;
-  int cellsPerDepth = (dimension[2] / cellSize[2]) + 2;
-  for (int z = 0; z < cellsPerDepth; ++z) {
-    if (z == 0) {
+  int cellsPerRow = (domain[0] / cellSize[0]) + 2;
+  int cellsPerColumn = (domain[1] / cellSize[1]) + 2;
+  int cellsPerDepth = (domain[2] / cellSize[2]) + 2;
+  for (int z = -1; z < (cellsPerDepth - 1); ++z) {
+    if (z == -1) {
       // front halo
-      for (int x = 0; x < cellsPerRow; ++x) {
-        setupHalos(5, cellsPerRow, std::array<int, 3>{x * cellSize[0], 0, z * cellSize[2]});
+      for (int x = -1; x < (cellsPerRow - 1); ++x) {
+        setupHalo({BoardDirectionType::LEFT, BoardDirectionType::FRONT, BoardDirectionType::TOP},
+                  {x * cellSize[0], -cellSize[1], z * cellSize[2]});
+        setupHalos(cellsPerColumn - 2, {BoardDirectionType::LEFT, BoardDirectionType::FRONT},
+                   {x * cellSize[0], 0, z * cellSize[2]});
+        setupHalo({BoardDirectionType::LEFT, BoardDirectionType::FRONT, BoardDirectionType::BOTTOM},
+                  {x * cellSize[0], (cellsPerColumn - 2) * cellSize[1], z * cellSize[2]});
       }
-    } else if (z == cellsPerDepth - 1) {
+    } else if (z == cellsPerDepth - 2) {
       // back halo
-      for (int x = 0; x < cellsPerRow; ++x) {
-        setupHalos(4, cellsPerRow, std::array<int, 3>{x * cellSize[0], 0, z * cellSize[2]});
+      for (int x = -1; x < (cellsPerRow - 1); ++x) {
+        setupHalo({BoardDirectionType::LEFT, BoardDirectionType::BACK, BoardDirectionType::TOP},
+                  {x * cellSize[0], -cellSize[1], z * cellSize[2]});
+        setupHalos(cellsPerColumn - 2, {BoardDirectionType::LEFT, BoardDirectionType::BACK},
+                   {x * cellSize[0], 0, z * cellSize[2]});
+        setupHalo({BoardDirectionType::LEFT, BoardDirectionType::BACK, BoardDirectionType::BOTTOM},
+                  {x * cellSize[0], (cellsPerColumn - 2) * cellSize[1], z * cellSize[2]});
       }
     } else {
-      for (int x = 0; x < cellsPerRow; ++x) {
-        std::array<int, 3> pos{x * cellSize[0], 0, z * cellSize[2]};
-        if (x == 0) {
+      for (int x = -1; x < (cellsPerRow - 1); ++x) {
+        if (x == -1) {
           // left halo
-          setupHalos(1, cellsPerRow, pos);
-        } else if (x == cellsPerRow - 1) {
+          setupHalo({BoardDirectionType::LEFT, BoardDirectionType::TOP},
+                    {x * cellSize[0], -cellSize[1], z * cellSize[2]});
+          setupHalos(cellsPerColumn - 2, {BoardDirectionType::LEFT}, {x * cellSize[0], 0, z * cellSize[2]});
+          setupHalo({BoardDirectionType::LEFT, BoardDirectionType::BOTTOM},
+                    {x * cellSize[0], (cellsPerColumn - 2) * cellSize[1], z * cellSize[2]});
+        } else if (x == cellsPerRow - 2) {
           // right halo
-          setupHalos(0, cellsPerRow, pos);
+          setupHalo({BoardDirectionType::RIGHT, BoardDirectionType::TOP},
+                    {x * cellSize[0], -cellSize[1], z * cellSize[2]});
+          setupHalos(cellsPerColumn - 2, {BoardDirectionType::RIGHT}, {x * cellSize[0], 0, z * cellSize[2]});
+          setupHalo({BoardDirectionType::RIGHT, BoardDirectionType::BOTTOM},
+                    {x * cellSize[0], (cellsPerColumn - 2) * cellSize[1], z * cellSize[2]});
         } else {
           // top halo
-          setupHalo(2, pos);
-          if (z == 1) {
+          setupHalo({BoardDirectionType::TOP}, {x * cellSize[0], -cellSize[1]});
+          if (z == 0) {
             // front boundary
-            setupBoundaries(5, cellsPerColumn - 2, BoardDirectionType::FRONT, pos);
-          } else if (z == cellsPerDepth - 2) {
+            setupBoundary({BoardDirectionType::LEFT, BoardDirectionType::FRONT, BoardDirectionType::TOP},
+                          {x * cellSize[0], 0, z * cellSize[2]});
+            setupBoundaries(cellsPerColumn - 4, {BoardDirectionType::LEFT, BoardDirectionType::FRONT},
+                            {x * cellSize[0], 0, z * cellSize[2]});
+            setupBoundary({BoardDirectionType::LEFT, BoardDirectionType::FRONT, BoardDirectionType::BOTTOM},
+                          {x * cellSize[0], (cellsPerColumn - 3) * cellSize[1], z * cellSize[2]});
+          } else if (z == cellsPerDepth - 3) {
             // back boundary
-            setupBoundaries(4, cellsPerColumn - 2, BoardDirectionType::BACK, pos);
-          } else if (x == 1) {
+            setupBoundary({BoardDirectionType::LEFT, BoardDirectionType::BACK, BoardDirectionType::TOP},
+                          {x * cellSize[0], 0, z * cellSize[2]});
+            setupBoundaries(cellsPerColumn - 4, {BoardDirectionType::LEFT, BoardDirectionType::BACK},
+                            {x * cellSize[0], 0, z * cellSize[2]});
+            setupBoundary({BoardDirectionType::LEFT, BoardDirectionType::BACK, BoardDirectionType::BOTTOM},
+                          {x * cellSize[0], (cellsPerColumn - 3) * cellSize[1], z * cellSize[2]});
+          } else if (x == 0) {
             // left boundary
-            setupBoundaries(1, cellsPerColumn - 2, BoardDirectionType::LEFT, pos);
-          } else if (x == cellsPerRow - 2) {
+            setupBoundary({BoardDirectionType::LEFT, BoardDirectionType::TOP}, {x * cellSize[0], 0, z * cellSize[2]});
+            setupBoundaries(cellsPerColumn - 4, {BoardDirectionType::LEFT},
+                            {x * cellSize[0], cellSize[1], z * cellSize[2]});
+            setupBoundary({BoardDirectionType::LEFT, BoardDirectionType::BOTTOM},
+                          {x * cellSize[0], (cellsPerColumn - 3) * cellSize[1], z * cellSize[2]});
+          } else if (x == cellsPerRow - 3) {
             // right boundary
-            setupBoundaries(0, cellsPerColumn - 2, BoardDirectionType::RIGHT, pos);
+            setupBoundary({BoardDirectionType::RIGHT, BoardDirectionType::TOP}, {x * cellSize[0], 0, z * cellSize[2]});
+            setupBoundaries(cellsPerColumn - 4, {BoardDirectionType::RIGHT},
+                            {x * cellSize[0], cellSize[1], z * cellSize[2]});
+            setupBoundary({BoardDirectionType::RIGHT, BoardDirectionType::BOTTOM},
+                          {x * cellSize[0], (cellsPerColumn - 3) * cellSize[1], z * cellSize[2]});
           } else {
             // top boundary
-            setupBoundary(2, BoardDirectionType::TOP, pos);
+            setupBoundary({BoardDirectionType::BOTTOM}, {x * cellSize[0], 0, z * cellSize[2]});
 
             // set inner
-            setupInner(cellsPerColumn - 4, pos);
+            setupInner(cellsPerColumn - 4, {x * cellSize[0], cellSize[1], z * cellSize[2]});
 
             // bottom boundary
-            pos[1] = cellsPerColumn - 2;
-            setupBoundary(3, BoardDirectionType::BOTTOM, pos);
+            setupBoundary({BoardDirectionType::BOTTOM},
+                          {x * cellSize[0], (cellsPerColumn - 3) * cellSize[1], z * cellSize[2]});
           }
           // bottom halo
-          pos[1] = cellsPerColumn - 1;
-          setupHalo(3, pos);
+          setupHalo({BoardDirectionType::BOTTOM},
+                    {x * cellSize[0], (cellsPerColumn - 2) * cellSize[1], z * cellSize[2]});
         }
       }
     }
@@ -62,46 +97,55 @@ void LinkedCellContainer<3>::setupCells() {
 
 template<>
 void LinkedCellContainer<2>::setupCells() {
-  int cellsPerRow = (dimension[0] / cellSize[0]) + 2;
-  int cellsPerColumn = (dimension[1] / cellSize[1]) + 2;
-  for (int x = 0; x < cellsPerRow; ++x) {
-    std::array<int, 2> pos{x * cellSize[0], 0};
-    if (x == 0) {
+  int cellsPerRow = (domain[0] / cellSize[0]) + 2;
+  int cellsPerColumn = (domain[1] / cellSize[1]) + 2;
+  for (int x = -1; x < (cellsPerRow - 1); ++x) {
+    if (x == -1) {
       // left halo
-      setupHalos(1, cellsPerRow, pos);
-    } else if (x == cellsPerRow - 1) {
+      setupHalo({BoardDirectionType::LEFT, BoardDirectionType::TOP}, {x * cellSize[0], -cellSize[1]});
+      setupHalos(cellsPerColumn - 2, {BoardDirectionType::LEFT}, {x * cellSize[0], 0});
+      setupHalo({BoardDirectionType::LEFT, BoardDirectionType::BOTTOM},
+                {x * cellSize[0], (cellsPerColumn - 2) * cellSize[1]});
+    } else if (x == cellsPerRow - 2) {
       // right halo
-      setupHalos(0, cellsPerRow, pos);
+      setupHalo({BoardDirectionType::RIGHT, BoardDirectionType::TOP}, {x * cellSize[0], -cellSize[1]});
+      setupHalos(cellsPerColumn - 2, {BoardDirectionType::RIGHT}, {x * cellSize[0], 0});
+      setupHalo({BoardDirectionType::RIGHT, BoardDirectionType::BOTTOM},
+                {x * cellSize[0], (cellsPerColumn - 2) * cellSize[1]});
     } else {
       // top halo
-      setupHalo(2, pos);
-      if (x == 1) {
+      setupHalo({BoardDirectionType::TOP}, {x * cellSize[0], -cellSize[1]});
+      if (x == 0) {
         // left boundary
-        setupBoundaries(1, cellsPerColumn - 2, BoardDirectionType::LEFT, pos);
-      } else if (x == cellsPerRow - 2) {
+        setupBoundary({BoardDirectionType::LEFT, BoardDirectionType::TOP}, {x * cellSize[0], 0});
+        setupBoundaries(cellsPerColumn - 4, {BoardDirectionType::LEFT}, {x * cellSize[0], cellSize[1]});
+        setupBoundary({BoardDirectionType::LEFT, BoardDirectionType::BOTTOM},
+                      {x * cellSize[0], (cellsPerColumn - 3) * cellSize[1]});
+      } else if (x == cellsPerRow - 3) {
         // right boundary
-        setupBoundaries(0, cellsPerColumn - 2, BoardDirectionType::RIGHT, pos);
+        setupBoundary({BoardDirectionType::RIGHT, BoardDirectionType::TOP}, {x * cellSize[0], 0});
+        setupBoundaries(cellsPerColumn - 4, {BoardDirectionType::RIGHT}, {x * cellSize[0], cellSize[1]});
+        setupBoundary({BoardDirectionType::RIGHT, BoardDirectionType::BOTTOM},
+                      {x * cellSize[0], (cellsPerColumn - 3) * cellSize[1]});
       } else {
         // top boundary
-        setupBoundary(2, BoardDirectionType::TOP, pos);
+        setupBoundary({BoardDirectionType::BOTTOM}, {x * cellSize[0], 0});
 
         // set inner
-        setupInner(cellsPerColumn - 4, pos);
+        setupInner(cellsPerColumn - 4, {x * cellSize[0], cellSize[1]});
 
         // bottom boundary
-        pos[1] = cellsPerColumn - 2;
-        setupBoundary(3, BoardDirectionType::BOTTOM, pos);
+        setupBoundary({BoardDirectionType::BOTTOM}, {x * cellSize[0], (cellsPerColumn - 3) * cellSize[1]});
       }
       // bottom halo
-      pos[1] = cellsPerColumn - 1;
-      setupHalo(3, pos);
+      setupHalo({BoardDirectionType::BOTTOM}, {x * cellSize[0], (cellsPerColumn - 2) * cellSize[1]});
     }
   }
 }
 
 template<>
 int LinkedCellContainer<2>::getIndexBasedOnCoordinates(Vector<2> coords) {
-  int cellsPerColumn = (dimension[1] / cellSize[1]) + 2;
+  int cellsPerColumn = (domain[1] / cellSize[1]) + 2;
   // first column is halo
   int index = cellsPerColumn;
 
@@ -115,8 +159,8 @@ int LinkedCellContainer<2>::getIndexBasedOnCoordinates(Vector<2> coords) {
 
 template<>
 int LinkedCellContainer<3>::getIndexBasedOnCoordinates(Vector<3> coords) {
-  int cellsPerRow = (dimension[0] / cellSize[0]) + 2;
-  int cellsPerColumn = (dimension[1] / cellSize[1]) + 2;
+  int cellsPerRow = (domain[0] / cellSize[0]) + 2;
+  int cellsPerColumn = (domain[1] / cellSize[1]) + 2;
   int cellsPerLayer = cellsPerRow * cellsPerColumn;
 
   // first layers are full
@@ -137,8 +181,8 @@ int LinkedCellContainer<3>::getIndexBasedOnCoordinates(Vector<3> coords) {
 template<>
 void LinkedCellContainer<2>::linkCells() {
   // TODO this needs to be adapted for cel size and cutoffRadius -> in this case we expect cutoffRadius to be cell size
-  int cellsPerRow = (dimension[0] / cellSize[0]);
-  int cellsPerColumn = (dimension[1] / cellSize[1]);
+  int cellsPerRow = (domain[0] / cellSize[0]);
+  int cellsPerColumn = (domain[1] / cellSize[1]);
   for (int x = 0; x < cellsPerRow; ++x) {
     for (int y = 0; y < cellsPerColumn; ++y) {
       auto index = static_cast<size_t>(getIndexBasedOnCoordinates(
@@ -152,7 +196,7 @@ void LinkedCellContainer<2>::linkCells() {
         for (int nY = y - static_cast<int>(cutoffRadius / cellSize[1]);
              nY <= y + static_cast<int>(cutoffRadius / cellSize[1]); ++nY) {
           // skip own
-          if (nX == x && nY == y)
+          if ((nX == x && nY == y) || nX < 0 || nY < 0 || nX >= cellsPerRow || nY >= cellsPerColumn)
             continue;
 
           // get neighbours
@@ -161,7 +205,7 @@ void LinkedCellContainer<2>::linkCells() {
           auto *posN = cells[posNeighIndex];
 
           // filter non relevant neighbours
-          if (nX < 0 || nY < 0 || nX >= cellsPerRow || nY >= cellsPerColumn || posNeighIndex <= index) {
+          if (posNeighIndex <= index) {
             continue;
           }
 
@@ -178,9 +222,9 @@ void LinkedCellContainer<2>::linkCells() {
 template<>
 void LinkedCellContainer<3>::linkCells() {
 // TODO this needs to be adapted for cel size and cutoffRadius -> in this case we expect cutoffRadius to be cell size
-  int cellsPerRow = (dimension[0] / cellSize[0]);
-  int cellsPerColumn = (dimension[1] / cellSize[1]);
-  int cellsPerDepth = (dimension[2] / cellSize[2]);
+  int cellsPerRow = (domain[0] / cellSize[0]);
+  int cellsPerColumn = (domain[1] / cellSize[1]);
+  int cellsPerDepth = (domain[2] / cellSize[2]);
   for (int x = 0; x < cellsPerRow; ++x) {
     for (int y = 0; y < cellsPerColumn; ++y) {
       for (int z = 0; z < cellsPerDepth; ++z) {
@@ -198,7 +242,8 @@ void LinkedCellContainer<3>::linkCells() {
             for (int nZ = z - static_cast<int>(cutoffRadius / cellSize[2]);
                  nZ <= z + static_cast<int>(cutoffRadius / cellSize[2]); ++nZ) {
               // skip own
-              if (nX == x && nY == y && nZ == z)
+              if ((nX == x && nY == y && nZ == z) || nX < 0 || nY < 0 || nZ < 0 || nX >= cellsPerRow
+                  || nY >= cellsPerColumn || nZ >= cellsPerDepth)
                 continue;
 
               // get neighbours
@@ -208,8 +253,7 @@ void LinkedCellContainer<3>::linkCells() {
               auto *posN = cells[posNeighIndex];
 
               // filter non relevant neighbours
-              if (nX < 0 || nY < 0 || nZ < 0 || nX >= cellsPerRow || nY >= cellsPerColumn || nZ >= cellsPerDepth
-                  || posNeighIndex <= index) {
+              if (posNeighIndex <= index) {
                 continue;
               }
 
@@ -225,8 +269,8 @@ void LinkedCellContainer<3>::linkCells() {
 
 template<>
 void LinkedCellContainer<2>::reserve() {
-  int cellsPerRow = (dimension[0] / cellSize[0]);
-  int cellsPerColumn = (dimension[1] / cellSize[1]);
+  int cellsPerRow = (domain[0] / cellSize[0]);
+  int cellsPerColumn = (domain[1] / cellSize[1]);
 
   auto reserveCell = (cellsPerRow + 2) * (cellsPerColumn + 2);
   auto reserveHalo = reserveCell - cellsPerRow * cellsPerColumn;
@@ -237,15 +281,17 @@ void LinkedCellContainer<2>::reserve() {
   cells.reserve(static_cast<unsigned long>(reserveCell));
   halosCells.reserve(static_cast<unsigned long>(reserveHalo));
   boundaryCells.reserve(static_cast<unsigned long>(reserveBoundary));
-  innerCells.reserve(static_cast<unsigned long>(reserveInner));
+  innerCells.reserve(static_cast<unsigned long>(reserveInner > 0 ? reserveInner : 0));
   boundaryAndInnerCells.reserve(static_cast<unsigned long>(boundaryAndInner));
+
+  std::cout << "Reserved " <<  reserveCell << " Cells!" << std::endl;
 }
 
 template<>
 void LinkedCellContainer<3>::reserve() {
-  int cellsPerRow = (dimension[0] / cellSize[0]);
-  int cellsPerColumn = (dimension[1] / cellSize[1]);
-  int cellsPerDepth = (dimension[2] / cellSize[2]);
+  int cellsPerRow = (domain[0] / cellSize[0]);
+  int cellsPerColumn = (domain[1] / cellSize[1]);
+  int cellsPerDepth = (domain[2] / cellSize[2]);
 
   auto reserveCell = (cellsPerRow + 2) * (cellsPerColumn + 2) * (cellsPerDepth + 2);
   auto reserveHalo = reserveCell - cellsPerRow * cellsPerColumn * cellsPerDepth;
@@ -256,8 +302,10 @@ void LinkedCellContainer<3>::reserve() {
   cells.reserve(static_cast<unsigned long>(reserveCell));
   halosCells.reserve(static_cast<unsigned long>(reserveHalo));
   boundaryCells.reserve(static_cast<unsigned long>(reserveBoundary));
-  innerCells.reserve(static_cast<unsigned long>(reserveInner));
+  innerCells.reserve(static_cast<unsigned long>(reserveInner > 0 ? reserveInner : 0));
   boundaryAndInnerCells.reserve(static_cast<unsigned long>(boundaryAndInner));
+
+  std::cout << "Reserved " <<  reserveCell << " Cells!" << std::endl;
 }
 
 

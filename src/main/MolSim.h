@@ -148,9 +148,9 @@ class MolSim {
       }
     } else if (arg->getPhysics() == "lennard") {
       if (arg->getStrategy() == "LinkedCell") {
-        MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
+        MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
       } else {
-        MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
+        MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
       }
     }
     auto end = std::chrono::high_resolution_clock::now();

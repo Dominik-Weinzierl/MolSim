@@ -4,10 +4,6 @@
 #include "container/Cell/Cell.h"
 #include "particles/Particle.h"
 
-enum BoardDirectionType {
-  TOP, LEFT, RIGHT, BOTTOM, FRONT, BACK
-};
-
 /**
  *
  * @tparam T boundary condition
@@ -15,19 +11,28 @@ enum BoardDirectionType {
  */
 template<size_t dim>
 class Boundary : public Cell<dim> {
-
  private:
-  BoardDirectionType borderDirection;
-
+  /**
+   * Used to perform correct reflection. Minimum required distance factor.
+   */
   const double sixthSqrtOfTwo = std::pow(2, 1 / 6);
 
  public:
+  /**
+   * Constructor to create our Boundary(s).
+   * @param pBoundaryType default is Outflow (but other types are also possible)
+   * @param pBorderDirection direct of this cell
+   * @param pAllParticles all Particle(s) used in this simulation
+   * @param pPosition position of this Cell in our Mesh
+   * @param pCellSize size of this cell (each Cell has the same size)
+   */
+  Boundary(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection,
+           std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize)
+      : Cell<dim>(pBoundaryType, pBorderDirection, pAllParticles, pPosition, pCellSize) {};
 
-  Boundary(BoundaryType pBoundaryType, BoardDirectionType pBorderDirection, std::array<int, dim> pPosition,
-           std::array<int, dim> pCellSize) : borderDirection{pBorderDirection},
-                                             Cell<dim>(pBoundaryType, pPosition, pCellSize) {}
+  void applyCellProperties() override {
 
-  void applyCellProperties() override {}
+  }
 
   double getReflectionDistance(Particle<dim> &p) const {
     return sixthSqrtOfTwo * p.getZeroCrossing();

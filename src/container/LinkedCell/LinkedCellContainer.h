@@ -15,55 +15,97 @@
 template<size_t dim>
 class LinkedCellContainer : public ParticleContainer<dim> {
  private:
+  /**
+   * All cells created and used by this LinkedCellContainer.
+   */
   std::vector<Cell<dim> *> cells;
+
+  /**
+   * Cells which are relevant for force calculations.
+   */
   std::vector<Cell<dim> *> boundaryAndInnerCells;
 
+  /**
+   * Halo(s) are the outermost cells. Used to delete Particle(s) or perform additional periodic operations.
+   */
   std::vector<Halo<dim>> halosCells;
+
+  /**
+   * Boundary(s) are the outermost cells inside of the domain. Used to keep Particle(s) inside the domain if needed.
+   */
   std::vector<Boundary<dim>> boundaryCells;
+
+  /**
+   * Inner(s) are the innermost cells which have no additional tasks.
+   */
   std::vector<Inner<dim>> innerCells;
 
-  std::array<int, dim> cellSize;
-  double cutoffRadius;
-  std::array<int, dim> dimension;
+  /**
+   * Cell size of each Cell. This is fixed and won't change during the simulation.
+   */
+  const std::array<int, dim> cellSize;
+
+  /**
+   * Cutoff radius used by the linked cell algorithm to optimize calculations.
+   */
+  const double cutoffRadius;
+
+  /**
+   * Domain of our simulation.
+   */
+  const std::array<int, dim> domain;
+
+  /**
+   * Boundary type of each side (4/6)
+   */
   std::vector<BoundaryType> boundaries;
 
-  void setupHalos(size_t type, int cellsPerColumn, std::array<int, dim> position) {
-    for (int y = 0; y < cellsPerColumn; ++y) {
-      position[0] = y * cellSize[1];
-      halosCells.emplace_back(getBoundaries()[type], position, cellSize);
-      cells.push_back(&halosCells[halosCells.size() - 1]);
+  void setupHalos(int amount, std::vector<BoardDirectionType> pBorderDirection, std::array<int, dim> position) {
+    for (int y = 0; y < amount; ++y) {
+      setupHalo(pBorderDirection, position);
+      position[1] += cellSize[1];
     }
   }
 
-  void setupHalo(size_t type, std::array<int, dim> position) {
-    halosCells.emplace_back(getBoundaries()[type], position, cellSize);
+  void setupHalo(std::vector<BoardDirectionType> pBorderDirection, std::array<int, dim> position) {
+    /**
+     * Currently we have only particles in our Halo-Cell, if the mesh side is outflow.
+     */
+    /*std::vector<BoundaryType> boundaryTypes{};
+    for (BoardDirectionType &b: pBorderDirection) {
+      boundaryTypes.push_back(getBoundaries()[b]);
+    }*/
+    halosCells
+        .emplace_back(std::vector<BoundaryType>{BoundaryType::Outflow}, pBorderDirection, this->particles, position,
+                      cellSize);
     cells.push_back(&halosCells[halosCells.size() - 1]);
   }
 
-  void setupBoundaries(size_t type, int cellsPerColumn, BoardDirectionType bType, std::array<int, dim> position) {
-    for (int y = 0; y < cellsPerColumn; ++y) {
-      position[1] = (y + 1) * cellSize[1];
-      boundaryCells.emplace_back(getBoundaries()[type], bType, position, cellSize);
-      auto *ptr = &boundaryCells[boundaryCells.size() - 1];
-      cells.push_back(ptr);
-      boundaryAndInnerCells.push_back(ptr);
+  void setupBoundaries(int amount, std::vector<BoardDirectionType> pBorderDirection, std::array<int, dim> position) {
+    for (int y = 0; y < amount; ++y) {
+      setupBoundary(pBorderDirection, position);
+      position[1] += cellSize[1];
     }
   }
 
-  void setupBoundary(size_t type, BoardDirectionType bType, std::array<int, dim> position) {
-    boundaryCells.emplace_back(getBoundaries()[type], bType, position, cellSize);
+  void setupBoundary(std::vector<BoardDirectionType> pBorderDirection, std::array<int, dim> position) {
+    std::vector<BoundaryType> boundaryTypes{};
+    for (BoardDirectionType &b: pBorderDirection) {
+      boundaryTypes.push_back(getBoundaries()[b]);
+    }
+    boundaryCells.emplace_back(boundaryTypes, pBorderDirection, this->particles, position, cellSize);
     auto *ptr = &boundaryCells[boundaryCells.size() - 1];
     cells.push_back(ptr);
     boundaryAndInnerCells.push_back(ptr);
   }
 
-  void setupInner(int cellsPerColumn, std::array<int, dim> position) {
-    for (int y = 0; y < cellsPerColumn; ++y) {
-      position[1] = (y + 2) * cellSize[1];
-      innerCells.emplace_back(position, cellSize);
+  void setupInner(int amount, std::array<int, dim> position) {
+    for (int y = 0; y < amount; ++y) {
+      innerCells.emplace_back(this->particles, position, cellSize);
       auto *ptr = &innerCells[innerCells.size() - 1];
       cells.push_back(ptr);
       boundaryAndInnerCells.push_back(ptr);
+      position[1] += cellSize[1];
     }
   }
 
@@ -94,10 +136,9 @@ class LinkedCellContainer : public ParticleContainer<dim> {
 
  public:
   LinkedCellContainer(std::vector<BoundaryType> pBoundaries, std::array<int, dim> pCellSize,
-                      std::array<int, dim> pDimension, double pCutoffRadius) : boundaries{std::move(pBoundaries)},
-                                                                               cellSize{pCellSize},
-                                                                               dimension{pDimension},
-                                                                               cutoffRadius{pCutoffRadius} {
+                      std::array<int, dim> pDomain, double pCutoffRadius) : boundaries{std::move(pBoundaries)},
+                                                                            cellSize{pCellSize}, domain{pDomain},
+                                                                            cutoffRadius{pCutoffRadius} {
     reserve();
   };
 
@@ -132,4 +173,9 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   [[nodiscard]] std::vector<Halo<dim>> &getHalosCells() {
     return halosCells;
   }
+
+  [[nodiscard]] std::vector<Boundary<dim>> &getBoundaryCells() {
+    return boundaryCells;
+  }
+
 };

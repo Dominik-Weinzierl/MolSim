@@ -13,7 +13,7 @@
             <Dimension x="1" y="1" z="1"/>
         </Cuboid>
         <Cuboid mass="1.0" distance="1.1225" meanValue="0.1">
-            <Position x="2.0" y="1.0" z="0.0"/>
+            <Position x="1.5" y="1.0" z="0.0"/>
             <Velocity x="-3.0" y="0.0" z="0.0"/>
             <Dimension x="1" y="1" z="1"/>
         </Cuboid>

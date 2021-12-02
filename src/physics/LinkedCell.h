@@ -16,7 +16,10 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
  public:
   void performUpdate(ParticleContainer<dim> &particleContainer) const override {
     auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
-    // TODO: Boundary condition check
+    for (Boundary<dim> &b: cellContainer.getBoundaryCells()) {
+      b.applyCellProperties();
+    }
+
     for (auto cell = cellContainer.cellBegin(); cell != cellContainer.cellEnd(); ++cell) {
       std::vector<Cell<dim> *> &neighbours = (*cell)->getNeighbours();
       std::vector<Particle<dim> *> &cellParticles = (*cell)->getParticles();

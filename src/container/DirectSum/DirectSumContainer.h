@@ -14,7 +14,7 @@ class DirectSumContainer : public ParticleContainer<dim> {
    * @param pParticles vector of particles as initial value.
    */
   explicit DirectSumContainer(std::vector<Particle<dim>> pParticles) : ParticleContainer<dim>(pParticles) {
-    SPDLOG_TRACE("LinkedCell generated");
+    SPDLOG_TRACE("DirectSumContainer generated");
   }
 
   /**
@@ -23,5 +23,8 @@ class DirectSumContainer : public ParticleContainer<dim> {
    */
   DirectSumContainer() = default;
 
+  /**
+   * There is no additional setup needed for direct sum calculations.
+   */
   void init() override {};
 };

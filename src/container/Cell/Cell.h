@@ -5,29 +5,84 @@
 #include <boundaryType/BoundaryType.h>
 #include <iostream>
 
+enum BoardDirectionType {
+  RIGHT, LEFT, TOP, BOTTOM, BACK, FRONT
+};
+
 template<size_t dim>
 class Cell {
  protected:
+  /**
+   * Vector of Particle(s) in this Cell.
+   */
   std::vector<Particle<dim> *> particles{};
+
+  /**
+   * Vector of all Particle(s) in this simulation.
+   */
+  std::vector<Particle<dim>> &allParticles;
+
+  /**
+   * Vector of neighbours of this Cell.
+   */
   std::vector<Cell<dim> *> neighbours{};
 
-  std::array<int, dim> position;
-  std::array<int, dim> cellSize;
+  /**
+   * Current position of this Cell. This is fixed and won't change during the simulation.
+   */
+  const std::array<int, dim> position;
 
-  BoundaryType boundaryType = BoundaryType::Outflow;
+  /**
+   * Cell size of each Cell. This is fixed and won't change during the simulation.
+   */
+  const std::array<int, dim> cellSize;
+
+  /**
+   * BoundaryType of this Cell. Used to handle correct boundary options (e.g. Outflow, Reflection, ...)
+   */
+  const std::vector<BoundaryType> boundaryType {BoundaryType::Outflow};
+
+  /**
+   * Defines the side on which this Cell is.
+   */
+  const std::vector<BoardDirectionType> borderDirection;
 
  public:
-  Cell() = default;
+  /**
+   * Constructor to create our Cell(s).
+   * @param pBoundaryType default is Outflow (but other types are also possible)
+   * @param pBorderDirection direct of this cell
+   * @param pAllParticles all Particle(s) used in this simulation
+   * @param pPosition position of this Cell in our Mesh
+   * @param pCellSize size of this cell (each Cell has the same size)
+   */
+  Cell(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection, std::vector<Particle<dim>> &pAllParticles,
+       std::array<int, dim> pPosition, std::array<int, dim> pCellSize) : boundaryType{pBoundaryType}, borderDirection{pBorderDirection}, allParticles{pAllParticles}, position{pPosition},
+                                         cellSize{pCellSize} {};
 
-  Cell(BoundaryType pBoundaryType, std::array<int, dim> pPosition, std::array<int, dim> pCellSize) : boundaryType{
-      pBoundaryType}, position{pPosition}, cellSize{pCellSize} {};
+  /**
+   * Constructor to create our Cell(s). In this case our boundary type is always Outflow.
+   * @param pPosition position of this Cell in our Mesh
+   * @param pAllParticles all Particle(s) used in this simulation
+   * @param pCellSize size of this cell (each Cell has the same size)
+   */
+  Cell(std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize)
+      : allParticles{pAllParticles}, position{pPosition}, cellSize{pCellSize} {};
 
-  Cell(std::array<int, dim> pPosition, std::array<int, dim> pCellSize) : position{pPosition}, cellSize{pCellSize} {};
-
+  /**
+   * Default destructor used for inheritance.
+   */
   virtual ~Cell() = default;
 
+  /**
+   * Each Cell type has different actions they need to perform on Particle(s).
+   */
   virtual void applyCellProperties() = 0;
 
+  /**
+   * Insert a Particle (in this case a pointer to a Particle) into our Cell.
+   * @param p pointer to Particle in ParticleContainer (e.g. LinkedCellContainer)
+   */
   void insertParticle(Particle<dim> *p) {
     particles.push_back(p);
   }
@@ -52,10 +107,18 @@ class Cell {
    */
   [[nodiscard]] auto nEnd() { return neighbours.end(); }
 
+  /**
+   * Getter for the Particle(s) which are in this Cell.
+   * @return std::vector<Particle<dim> *> particles
+   */
   std::vector<Particle<dim> *> &getParticles() {
     return particles;
   }
 
+  /**
+   * Getter for the neighbours (relevant cells).
+   * @return std::vector<Cell<dim> *> neighbours
+   */
   std::vector<Cell<dim> *> &getNeighbours() {
     return neighbours;
   }
