@@ -1,11 +1,11 @@
 #pragma once
 
+#include <list>
+#include <fstream>
+
 #include "particles/Particle.h"
 #include "outputWriter/VTKWriter/template/vtk-unstructured.h"
 #include "outputWriter/OutputWriter.h"
-
-#include <list>
-#include <fstream>
 
 /**
  * VTKWriter writes files based on the VTK file format.
@@ -46,7 +46,7 @@ class VTKWriter : public OutputWriter<dim> {
     std::ofstream file(strStream.str().c_str());
 
     initializeOutput(static_cast<int>(this->container.size()));
-    for (const auto &particle: this->container.getParticles()) {
+    for (const auto &particle: this->container) {
       plotParticle(particle);
     }
 

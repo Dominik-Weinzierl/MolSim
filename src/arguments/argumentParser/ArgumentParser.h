@@ -1,11 +1,12 @@
 #pragma once
 
 #include <memory>
-#include "arguments/argument/Argument.h"
 #include <tuple>
 #include <unordered_map>
 #include <utility>
 #include <variant>
+
+#include "arguments/argument/Argument.h"
 
 /**
  * Contains status of parsed arguments.

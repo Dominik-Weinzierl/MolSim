@@ -1,14 +1,13 @@
 #pragma once
 
-#include <list>
-#include <particles/ParticleContainer.h>
-
-#include "logger/Logger.h"
-
-#include "physics/Vector/Vector.h"
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <list>
+
+#include "container/ParticleContainer.h"
+#include "logger/Logger.h"
+#include "physics/Vector/Vector.h"
 
 /**
  * FileReader class reads a file and fills the provided ParticleContainer with Particle(s).

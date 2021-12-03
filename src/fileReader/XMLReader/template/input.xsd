@@ -74,6 +74,8 @@
             <xsd:element name="Boundary" type="boundary_t"/>
             <!-- Domain: size of the domain -->
             <xsd:element name="Domain" type="vector_i"/>
+            <!-- Domain: size of the domain -->
+            <xsd:element name="CellSize" type="vector_i"/>
         </xsd:sequence>
         <!-- cutoffRadius: used for linked cell optimizations -->
         <xsd:attribute name="cutoffRadius" type="xsd:double" use="required"/>

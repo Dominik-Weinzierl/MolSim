@@ -1,0 +1,16 @@
+<Simulation endTime="3" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="MD">
+    <Strategy>
+        <LinkedCell cutoffRadius="1">
+            <Domain x="5" y="5" z="5"/>
+            <CellSize x="1" y="1" z="1"/>
+            <Boundary boundary="outflow"/>
+        </LinkedCell>
+    </Strategy>
+    <Shapes>
+        <Cuboid mass="1.0" distance="1.1225" meanValue="0.1">
+            <Position x="0.5" y="0.5" z="0.5"/>
+            <Velocity x="4.0" y="2.0" z="0.0"/>
+            <Dimension x="3" y="3" z="3"/>
+        </Cuboid>
+    </Shapes>
+</Simulation>

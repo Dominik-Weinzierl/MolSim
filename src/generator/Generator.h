@@ -1,6 +1,6 @@
 #pragma once
 
-#include "particles/ParticleContainer.h"
+#include "container/ParticleContainer.h"
 #include "particles/Particle.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
 
@@ -40,4 +40,3 @@ class Generator {
     p.setV(t + max);
   }
 };
-

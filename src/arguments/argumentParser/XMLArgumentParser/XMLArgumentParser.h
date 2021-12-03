@@ -1,4 +1,5 @@
 #pragma once
+
 #include "arguments/argumentParser/ArgumentParser.h"
 #include "fileReader/XMLReader/XMLReader.h"
 
@@ -66,6 +67,7 @@ class XMLArgumentParser : public ArgumentParser<dim> {
    * @return std::unique_ptr<Argument<dim>>.
    */
   std::unique_ptr<Argument<dim>> createArgument() override {
+    // TODO: Filter requirements
     XMLReader<dim> reader{std::get<std::string>(status.getValue("filename"))};
     return reader.readXML();
   }

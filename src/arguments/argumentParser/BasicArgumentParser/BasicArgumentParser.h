@@ -1,11 +1,12 @@
 #pragma once
+
+#include <optional>
+#include <vector>
+
 #include "arguments/argumentParser/ArgumentParser.h"
 #include "arguments/argument/BasicArgument/BasicArgument.h"
 #include "outputWriter/XYZWriter/XYZWriter.h"
 #include "BasicArgumentParser.h"
-
-#include <optional>
-#include <vector>
 
 /**
  * Contains status of parsed arguments.
@@ -19,6 +20,7 @@ class BasicArgumentStatus : public ArgumentStatus {
     flags.insert({"output", {true, "default", std::string{"MD_vtk"}}});
     flags.insert({"physics", {true, "default", std::string{"gravitation"}}});
     flags.insert({"iteration", {true, "default", 60}});
+    flags.insert({"strategy", {true, "default", "DirectSum"}});
   }
 };
 
@@ -51,7 +53,7 @@ class BasicArgumentParser : public ArgumentParser<dim> {
     std::stringstream usage;
     usage << "Usage: "
           << "./MolSim [-h | --help] | {-f | --filename} <filename> {-t | --t_end} <t_end> {-d | --delta_t} <delta_t> "
-          << "[-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}] [-b | --benchmark] [-2 | -3]"
+          << "[-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}] [-b | --benchmark] [-2 | -3] [-s | --strategy {DirectSum | LinkedCell}]"
           << std::endl;
     usage << "Options:" << std::endl;
     usage << "\t-h,--help\t\tShow this help message" << std::endl;
@@ -64,6 +66,7 @@ class BasicArgumentParser : public ArgumentParser<dim> {
     usage << "\t-p,--physics\t\tSpecify the physics used for the simulation" << std::endl;
     usage << "\t-b,--benchmark\t\tRun simulation as benchmark" << std::endl;
     usage << "\t-2,-3\t\t\tSpecify the dimension of the simulation (default: 3D)" << std::endl;
+    usage << "\t-s,--strategy\t\tRun simulation with the specified strategy" << std::endl;
     std::cout << usage.str();
   }
 
@@ -106,6 +109,10 @@ class BasicArgumentParser : public ArgumentParser<dim> {
           ArgumentParser<dim>::handleFlag(status, "writer", flag, possibleValue, {"vtk", "xyz"});
           it++;
           continue;
+        } else if (flag == "-s" || flag == "--strategy") {
+          ArgumentParser<dim>::handleFlag(status, "strategy", flag, possibleValue, {"DirectSum", "LinkedCell"});
+          it++;
+          continue;
         }
       }
       if (flag == "-b" || flag == "--benchmark" || flag == "-2" || flag == "-3") {
@@ -132,8 +139,9 @@ class BasicArgumentParser : public ArgumentParser<dim> {
     auto writer = std::get<std::string>(status.getValue("writer"));
     auto iteration = std::get<int>(status.getValue("iteration"));
     auto physics = std::get<std::string>(status.getValue("physics"));
+    auto strategy = std::get<std::string>(status.getValue("strategy"));
 
     return std::make_unique<BasicArgument<dim>>(std::vector<std::string>{filename}, endTime, deltaT, output, writer,
-                                                iteration, physics);
+                                                iteration, physics, strategy);
   }
 };

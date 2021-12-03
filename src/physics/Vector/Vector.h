@@ -1,11 +1,11 @@
 #pragma once
 
-#include "logger/Logger.h"
-
 #include <array>
 #include <ostream>
 #include <numeric>
-#include <utils/ArrayUtils.h>
+
+#include "logger/Logger.h"
+#include "utils/ArrayUtils.h"
 
 /**
  * Alias for std::array<double, dim>.

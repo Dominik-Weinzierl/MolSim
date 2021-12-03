@@ -1,7 +1,9 @@
 #pragma once
+
 #include <string>
-#include <arguments/argument/Argument.h>
 #include <iostream>
+
+#include "arguments/argument/Argument.h"
 
 /**
  * BasicArgument stores the arguments parsed by BasicArgumentParser for easy access.
@@ -19,13 +21,12 @@ class BasicArgument : public Argument<dim> {
    * @param pWriter used writer to write in the output files
    * @param pIteration defines the writing iteration
    * @param pPhysics defines the used Physics during the simulation
+   * @param pStrategy defines the used strategy to perform this simulation (direct vs linked cell)
    */
   BasicArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
-                std::string pWriter, int pIteration, std::string pPhysics) : Argument<dim>(std::move(pFiles), pEndTime,
-                                                                                           pDeltaT, std::move(pOutput),
-                                                                                           std::move(pWriter),
-                                                                                           pIteration,
-                                                                                           std::move(pPhysics)) {
+                std::string pWriter, int pIteration, std::string pPhysics, std::string pStrategy) : Argument<dim>(
+      std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
+      pStrategy) {
 
   }
 
@@ -51,5 +52,5 @@ bool operator==(const BasicArgument<dim> &left, const BasicArgument<dim> &right)
   return left.getFiles() == right.getFiles() && left.getEndTime() == right.getEndTime()
       && left.getDeltaT() == right.getDeltaT() && left.getOutput() == right.getOutput()
       && left.getWriter() == right.getWriter() && left.getIteration() == right.getIteration()
-      && left.getPhysics() == right.getPhysics();
+      && left.getPhysics() == right.getPhysics() && left.getStrategy() == right.getStrategy();
 }

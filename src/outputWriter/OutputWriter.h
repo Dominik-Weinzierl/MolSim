@@ -1,10 +1,12 @@
+#pragma once
+
 #include <string>
-#include "particles/ParticleContainer.h"
-#include "particles/Particle.h"
 #include <utility>
 #include <filesystem>
 
-#pragma once
+#include "container/ParticleContainer.h"
+#include "particles/Particle.h"
+
 
 /**
  * OutputWriter is an extendable file writer for simulation states.

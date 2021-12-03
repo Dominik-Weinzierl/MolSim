@@ -90,13 +90,13 @@ Run `./MolSim` without any arguments to list possible and required arguments.
             -w,--writer             Specify the writer used for the output files
             -p,--physics            Specify the physics used for the simulation
             -b,--benchmark          Run simulation as benchmark
-            -2,-3                   Specify the dimension of the simulation (default: 3D)
+            -2,-3                   Specify the domain of the simulation (default: 3D)
     
     Usage: ./MolSim {-x | --xml} {-f | --filename <filename>} [-b | --benchmark] [-2 | -3]
     Options:
             -f,--filename           Specify the input filename as xml
             -b,--benchmark          Run simulation as benchmark
-            -2,-3                   Specify the dimension of the simulation (default: 3D)
+            -2,-3                   Specify the domain of the simulation (default: 3D)
 
 
    ```

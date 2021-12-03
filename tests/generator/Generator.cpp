@@ -3,6 +3,7 @@
 #include "generator/GeneratorArguments/CuboidArgument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"
 #include "particles/Particle.h"
+#include "container/DirectSum/DirectSumContainer.h"
 
 /**
  * ***************************************************
@@ -13,14 +14,14 @@
 /**
 * Tests correctness of 2d generation for Cuboids
 */
-TEST(CuboidGenerator_2D, generate) { // NOLINT(cert-err58-cpp)
+TEST(CuboidGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp)
   double distance = 1.1225;
   double mass = 1.0;
   constexpr int dim = 2;
-  std::vector dimensions = {dim, dim};
+  std::array<int, dim> dimensions = {dim, dim};
 
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1};
-  ParticleContainer<dim> p{};
+  DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
   EXPECT_EQ(p.size(), 4);
@@ -39,13 +40,13 @@ TEST(CuboidGenerator_2D, generate) { // NOLINT(cert-err58-cpp)
 /**
 * Tests correctness of 2d applyMotion for Cuboids
 */
-TEST(CuboidGenerator_2D, applyMotion) { // NOLINT(cert-err58-cpp)
+TEST(CuboidGenerator_2D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 2;
 
-  std::vector dimensions = {1, 1};
+  std::array<int, dim> dimensions = {1, 1};
 
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, 1.0, 1.0, 0.1};
-  ParticleContainer<dim> p{};
+  DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
 
@@ -55,13 +56,13 @@ TEST(CuboidGenerator_2D, applyMotion) { // NOLINT(cert-err58-cpp)
 /**
 * Tests correctness of 2d applyMotion for Cuboids
 */
-TEST(CuboidGenerator_2D, applyNoMotion) { // NOLINT(cert-err58-cpp)
+TEST(CuboidGenerator_2D_DirectSumContainer, applyNoMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 2;
 
-  std::vector dimensions = {1, 1};
+  std::array<int, dim> dimensions = {1, 1};
 
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, 1.0, 1.0, 0.0};
-  ParticleContainer<dim> p{};
+  DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
 
@@ -71,14 +72,14 @@ TEST(CuboidGenerator_2D, applyNoMotion) { // NOLINT(cert-err58-cpp)
 /**
 * Tests correctness of 3d generation for Cuboids
 */
-TEST(CuboidGenerator_3D, generate) { // NOLINT(cert-err58-cpp)
+TEST(CuboidGenerator_3D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp)
   double distance = 1.1225;
   double mass = 1.0;
   constexpr int dim = 3;
-  std::vector dimensions = {dim, dim, dim};
+  std::array<int, dim> dimensions = {dim, dim, dim};
 
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, distance, mass, 0.1};
-  ParticleContainer<dim> p{};
+  DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
   EXPECT_EQ(p.size(), 27);
@@ -97,13 +98,13 @@ TEST(CuboidGenerator_3D, generate) { // NOLINT(cert-err58-cpp)
 /**
 * Tests correctness of 3d applyMotion for Cuboids
 */
-TEST(CuboidGenerator_3D, applyMotion) { // NOLINT(cert-err58-cpp)
+TEST(CuboidGenerator_3D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 3;
 
-  std::vector dimensions = {1, 1, 1};
+  std::array<int, dim> dimensions = {1, 1, 1};
 
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.1};
-  ParticleContainer<dim> p{};
+  DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
 
@@ -113,13 +114,13 @@ TEST(CuboidGenerator_3D, applyMotion) { // NOLINT(cert-err58-cpp)
 /**
 * Tests correctness of 3d applyMotion for Cuboids
 */
-TEST(CuboidGenerator_3D, applyNoMotion) { // NOLINT(cert-err58-cpp)
+TEST(CuboidGenerator_3D_DirectSumContainer, applyNoMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 3;
 
-  std::vector dimensions = {1, 1, 1};
+  std::array<int, dim> dimensions = {1, 1, 1};
 
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.0};
-  ParticleContainer<dim> p{};
+  DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
 
@@ -129,15 +130,14 @@ TEST(CuboidGenerator_3D, applyNoMotion) { // NOLINT(cert-err58-cpp)
 /**
 * Tests correctness of 2d generation for Spheres
 */
-TEST(SphereGenerator_2D, generate) { // NOLINT(cert-err58-cpp)
+TEST(SphereGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp)
   double distance = 1.1225;
   double mass = 1.0;
   constexpr int dim = 2;
   int rad = 2;
-  std::vector dimensions = {dim, dim};
 
   SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, rad, {0.0, 0.0}, distance, mass, 0.1};
-  ParticleContainer<dim> pc{};
+  DirectSumContainer<dim> pc{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, pc);
   EXPECT_EQ(pc.size(), 13);
@@ -155,11 +155,11 @@ TEST(SphereGenerator_2D, generate) { // NOLINT(cert-err58-cpp)
 /**
 * Tests correctness of 2d applyMotion for Spheres
 */
-TEST(SpheresGenerator_2D, applyMotion) { // NOLINT(cert-err58-cpp)
+TEST(SpheresGenerator_2D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 2;
 
   SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, 1, {0.0, 0.0}, 1.0, 1.0, 0.1};
-  ParticleContainer<dim> p{};
+  DirectSumContainer<dim> p{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, p);
 
@@ -169,11 +169,11 @@ TEST(SpheresGenerator_2D, applyMotion) { // NOLINT(cert-err58-cpp)
 /**
 * Tests correctness of 2d applyMotion for Spheres
 */
-TEST(SpheresGenerator_2D, applyNoMotion) { // NOLINT(cert-err58-cpp)
+TEST(SpheresGenerator_2D_DirectSumContainer, applyNoMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 2;
 
   SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, 1, {0.0, 0.0}, 1.0, 1.0, 0.0};
-  ParticleContainer<dim> p{};
+  DirectSumContainer<dim> p{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, p);
 
@@ -183,7 +183,7 @@ TEST(SpheresGenerator_2D, applyNoMotion) { // NOLINT(cert-err58-cpp)
 /**
 * Tests correctness of 3d generation for Spheres
 */
-TEST(SpheresGenerator_3D, generate) { // NOLINT(cert-err58-cpp)
+TEST(SpheresGenerator_3D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp)
   double distance = 1.1225;
   double mass = 1.0;
   constexpr int dim = 3;
@@ -191,7 +191,7 @@ TEST(SpheresGenerator_3D, generate) { // NOLINT(cert-err58-cpp)
   std::vector dimensions = {dim, dim};
 
   SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, rad, {0.0, 0.0, 0.0}, distance, mass, 0.1};
-  ParticleContainer<dim> pc{};
+  DirectSumContainer<dim> pc{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, pc);
   EXPECT_EQ(pc.size(), 33);
@@ -209,11 +209,11 @@ TEST(SpheresGenerator_3D, generate) { // NOLINT(cert-err58-cpp)
 /**
 * Tests correctness of 3d applyMotion for Spheres
 */
-TEST(SpheresGenerator_3D, applyMotion) { // NOLINT(cert-err58-cpp)
+TEST(SpheresGenerator_3D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 3;
 
   SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, 1, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.1};
-  ParticleContainer<dim> p{};
+  DirectSumContainer<dim> p{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, p);
 
@@ -223,11 +223,11 @@ TEST(SpheresGenerator_3D, applyMotion) { // NOLINT(cert-err58-cpp)
 /**
 * Tests correctness of 3d applyMotion for Spheres
 */
-TEST(SpheresGenerator_3D, applyZeroMotion) { // NOLINT(cert-err58-cpp)
+TEST(SpheresGenerator_3D_DirectSumContainer, applyZeroMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 3;
 
   SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, 1, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.0};
-  ParticleContainer<dim> p{};
+  DirectSumContainer<dim> p{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, p);
 

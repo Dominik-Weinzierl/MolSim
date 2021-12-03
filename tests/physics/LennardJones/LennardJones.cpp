@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
-#include "physics/LennardJones/LennardJones.h"
-#include "particles/ParticleContainer.h"
+#include "physics/variants/LennardJones.h"
+#include "container/DirectSum/DirectSumContainer.h"
+#include "physics/DirectSum.h"
 
 
 /**
@@ -12,10 +13,10 @@
 /**
  * Test basic calculations of next steps. In this case, we test the force between two particles with L2Norm is one.
  */
-TEST(LennardJones_3D, calculateForceBetweenTwoParticlesWithDistanceOne) { // NOLINT(cert-err58-cpp)
+TEST(LennardJones_3D_DirectSumContainer, calculateForceBetweenTwoParticlesWithDistanceOne) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
-  LennardJones<dim> l{};
-  ParticleContainer<dim> container{};
+  DirectSum<LennardJones, dim> l{};
+  DirectSumContainer<dim> container{};
   // Particle 1
   container.addParticle({{1.0, 1.0, 1.0}, {0.0, 0.0, 0.0}, 1});
 
@@ -55,10 +56,10 @@ TEST(LennardJones_3D, calculateForceBetweenTwoParticlesWithDistanceOne) { // NOL
 /**
  * Test basic calculations of next steps. In this case, we test the force between two particles with L2Norm is not one.
  */
-TEST(LennardJones_3D, calculateForceBetweenTwoParticles) { // NOLINT(cert-err58-cpp)
+TEST(LennardJones_3D_DirectSumContainer, calculateForceBetweenTwoParticles) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
-  LennardJones<dim> l{};
-  ParticleContainer<dim> container{};
+  DirectSum<LennardJones, dim> l{};
+  DirectSumContainer<dim> container{};
   // Particle 1
   container.addParticle({{2.0, 2.0, 2.0}, {0.0, 0.0, 0.0}, 1});
 
@@ -97,10 +98,10 @@ TEST(LennardJones_3D, calculateForceBetweenTwoParticles) { // NOLINT(cert-err58-
 /**
  * Test basic calculations of next steps. In this case, we test the force between two particles with L2Norm is one.
  */
-TEST(LennardJones_2D, calculateForceBetweenTwoParticlesWithDistanceOne) { // NOLINT(cert-err58-cpp)
+TEST(LennardJones_2D_DirectSumContainer, calculateForceBetweenTwoParticlesWithDistanceOne) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
-  LennardJones<dim> l{};
-  ParticleContainer<dim> container{};
+  DirectSum<LennardJones, dim> l{};
+  DirectSumContainer<dim> container{};
   // Particle 1
   container.addParticle({{1.0, 1.0}, {0.0, 0.0}, 1});
 
@@ -138,10 +139,10 @@ TEST(LennardJones_2D, calculateForceBetweenTwoParticlesWithDistanceOne) { // NOL
 /**
  * Test basic calculations of next steps. In this case, we test the force between two particles with L2Norm is not one.
  */
-TEST(LennardJones_2D, calculateForceBetweenTwoParticles) { // NOLINT(cert-err58-cpp)
+TEST(LennardJones_2D_DirectSumContainer, calculateForceBetweenTwoParticles) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
-  LennardJones<dim> l{};
-  ParticleContainer<dim> container{};
+  DirectSum<LennardJones, dim> l{};
+  DirectSumContainer<dim> container{};
   // Particle 1
   container.addParticle({{2.0, 2.0}, {0.0, 0.0}, 1});
 

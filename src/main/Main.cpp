@@ -1,5 +1,4 @@
 #include "MolSim.h"
-#include "logger/Logger.h"
 
 /**
  * Creates a parser which parses information based on the selected parser

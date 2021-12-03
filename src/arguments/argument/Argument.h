@@ -3,6 +3,7 @@
 #include <memory>
 #include <outputWriter/OutputWriter.h>
 #include <iostream>
+#include <utility>
 
 /**
  * Argument stores the arguments parsed by ArgumentParser for easy access.
@@ -46,6 +47,11 @@ class Argument {
    */
   int iteration;
 
+  /**
+   * Stores the strategy used by this simulation.
+   */
+  std::string strategy;
+
  public:
   virtual ~Argument() = default;
 
@@ -60,9 +66,12 @@ class Argument {
    * @param pPhysics defines the used Physics during the simulation
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
-           int pIteration, std::string pPhysics) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
-                                                   output{std::move(pOutput)}, writer{std::move(pWriter)},
-                                                   physics{std::move(pPhysics)}, iteration{pIteration} {};
+           int pIteration, std::string pPhysics, std::string pStrategy) : files{std::move(pFiles)}, endTime{pEndTime},
+                                                                          deltaT{pDeltaT}, output{std::move(pOutput)},
+                                                                          writer{std::move(pWriter)},
+                                                                          physics{std::move(pPhysics)},
+                                                                          iteration{pIteration},
+                                                                          strategy{std::move(pStrategy)} {};
 
   /**
    * Getter for endTime.
@@ -121,6 +130,14 @@ class Argument {
   }
 
   /**
+   * Getter for strategy.
+   * @return strategy.
+   */
+  [[nodiscard]] const std::string &getStrategy() const {
+    return strategy;
+  }
+
+  /**
    * Used to create additional Particle based on input arguments.
    * @param container modified ParticleContainer.
    */
@@ -141,6 +158,7 @@ class Argument {
     configuration << "\tFile writer: " << this->getWriter() << std::endl;
     configuration << "\tIteration: " << this->getIteration() << std::endl;
     configuration << "\tPhysic: " << this->getPhysics() << std::endl;
+    configuration << "\tStrategy: " << this->strategy << std::endl;
     return configuration.str();
   }
 };

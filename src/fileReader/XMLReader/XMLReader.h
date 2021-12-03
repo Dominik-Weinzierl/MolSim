@@ -1,10 +1,11 @@
 #pragma once
 
+#include <memory>
+
 #include "arguments/argument/XMLArgument/XMLArgument.h"
 #include "generator/GeneratorArguments/CuboidArgument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"
 #include "template/input.h"
-#include <memory>
 
 /**
  * XMLReader class reads a xml file and and provides Argument(s) to create Particle(s) via Generator(s)
@@ -38,10 +39,11 @@ class XMLReader {
     double deltaT;
     int iteration;
     std::string fileName;
-    std::string algorithm{"DirectSum"};
+    std::string strategy{"DirectSum"};
     std::optional<double> cutoffRadius = std::nullopt;
     std::optional<std::array<int, dim>> domain = std::nullopt;
-    std::optional<std::vector<std::string>> boundaries = std::nullopt;
+    std::optional<std::vector<BoundaryType>> boundaries = std::nullopt;
+    std::optional<std::array<int, dim>> cellSize = std::nullopt;
 
     for (auto &it: simulation->Source()) {
       std::string path = it.path();
@@ -56,32 +58,99 @@ class XMLReader {
     iteration = static_cast<int>(simulation->iteration());
 
     if (simulation->Strategy()->LinkedCell().present()) {
-      algorithm = std::string{"LinkedCell"};
+      strategy = std::string{"LinkedCell"};
       cutoffRadius = simulation->Strategy()->LinkedCell().get().cutoffRadius();
       domain = this->loadDomain();
       boundaries = this->loadBoundaries();
+      cellSize = this->loadCellSize();
     }
 
     return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
-                                              this->loadCuboid(), this->loadSpheres(), algorithm, cutoffRadius, domain,
-                                              boundaries);
+                                              this->loadCuboid(), this->loadSpheres(), strategy, cutoffRadius, domain,
+                                              boundaries, cellSize);
   }
  private:
+
+  Vector<dim> wrapVector_t(const vector_t &input) const{
+    Vector<dim> temp{input.x(), input.y()};
+    if (dim == 3) {
+      temp[2] = input.z();
+    }
+    return temp;
+  }
+
+  std::array<int, dim> wrapVector_i(const vector_i &input) const{
+    std::array<int, dim> temp{static_cast<int>(input.x()), static_cast<int>(input.y())};
+    if (dim == 3) {
+      temp[2] = static_cast<int>(input.z());
+    }
+    return temp;
+  }
+
   /**
    * Used to load the SphereArgument(s) from the xml file.
    * @return std::vector<SphereArgument<dim>>
    */
-  std::vector<SphereArgument<dim>> loadSpheres() const;
+  std::vector<SphereArgument<dim>> loadSpheres() const {
+    std::vector<SphereArgument<dim>> sphereArguments;
+
+    for (auto &it: simulation->Shapes()) {
+      for (auto &sphere: it.Sphere()) {
+        auto &pos = sphere.Center();
+        auto &rad = sphere.radius();
+        auto &vel = sphere.Velocity();
+        auto &dis = sphere.distance();
+        auto &mass = sphere.mass();
+        auto &mean = sphere.meanValue();
+        auto &pack = sphere.packed();
+        sphereArguments.emplace_back(wrapVector_t(pos), rad, wrapVector_t(vel), dis, mass, mean, pack);
+      }
+    }
+
+    return sphereArguments;
+  }
 
   /**
    * Used to load the CuboidArgument(s) from the xml file.
    * @return std::vector<CuboidArgument<dim>>
    */
-  std::vector<CuboidArgument<dim>> loadCuboid() const;
+  std::vector<CuboidArgument<dim>> loadCuboid() const {
+    std::vector<CuboidArgument<dim>> cuboidArguments;
 
-  std::optional<std::array<int, dim>> loadDomain() const;
+    for (auto &it: simulation->Shapes()) {
+      for (auto &cuboid: it.Cuboid()) {
+        auto &pos = cuboid.Position();
+        auto &dime = cuboid.Dimension();
+        auto &vel = cuboid.Velocity();
+        auto &dis = cuboid.distance();
+        auto &mass = cuboid.mass();
+        auto &mean = cuboid.meanValue();
+        auto &pack = cuboid.packed();
+        cuboidArguments.emplace_back(wrapVector_t(pos), wrapVector_i(dime), wrapVector_t(vel), dis, mass, mean, pack);
+      }
+    }
 
-  [[nodiscard]] std::optional<std::vector<std::string>> loadBoundaries() const;
+    return cuboidArguments;
+  }
+
+  std::optional<std::array<int, dim>> loadDomain() const {
+    return wrapVector_i(simulation->Strategy()->LinkedCell().get().Domain());
+  }
+
+  std::optional<std::array<int, dim>> loadCellSize() const {
+    return wrapVector_i(simulation->Strategy()->LinkedCell().get().CellSize());
+  }
+
+  [[nodiscard]] std::optional<std::vector<BoundaryType>> loadBoundaries() const;
+
+  BoundaryType toBoundaryType(std::string &s) const {
+    if (s == "outflow") {
+      return Outflow;
+    } else if (s == "reflecting") {
+      return Reflecting;
+    }
+    return Outflow;
+  }
 
   /**
    * Xml file provided in a usable way.
