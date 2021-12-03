@@ -1,12 +1,13 @@
 #pragma once
 
+#include <cmath>
+
 #include "physics/variants/LennardJones.h"
 #include "container/Cell/Cell.h"
 #include "particles/Particle.h"
 
 /**
- *
- * @tparam T boundary condition
+ * Boundary is a special kind of a Cell which supports the reflection of Particle(s).
  * @tparam dim dimension for the simulation
  */
 template<size_t dim>
@@ -15,7 +16,44 @@ class Boundary : public Cell<dim> {
   /**
    * Used to perform correct reflection. Minimum required distance factor.
    */
-  const double sixthSqrtOfTwo = std::pow(2, 1 / 6);
+  const double sixthSqrtOfTwo = 1.1224620483094;
+
+  /**
+   * Apply the additional force on only the relevant Particle.
+   * @param p relevant Particle which will be reflected
+   * @param ghost used to perform reflection
+   */
+  inline void applyForce(Particle<dim> &p, Particle<dim> &ghost) {
+    Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(p, ghost)};
+    p.updateForce(force);
+  }
+
+  /**
+   * Apply smooth reflection.
+   * @param p pointer to Particle on which we apply the smooth reflection
+   * @param t direction on which we apply this reflection
+   */
+  inline void applyReflecting(Particle<dim> *p, BoardDirectionType t) {
+    Particle<dim> ghost{*p};
+    double dist;
+
+    size_t index = t / 2;
+    // RIGHT, TOP, BACK
+    if (t % 2 == 0) {
+      dist = (this->position[index] + this->cellSize[index]) - (p->getX()[index]);
+    }
+      // LEFT, BOTTOM, FRONT
+    else {
+      dist = -(p->getX()[index] - this->position[index]);
+    }
+
+    if (std::fabs(dist) < sixthSqrtOfTwo * p->getZeroCrossing()) {
+      auto pos = ghost.getX();
+      pos[index] += 2 * dist;
+      ghost.setX(pos);
+      applyForce(*p, ghost);
+    }
+  }
 
  public:
   /**
@@ -30,137 +68,20 @@ class Boundary : public Cell<dim> {
            std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize)
       : Cell<dim>(pBoundaryType, pBorderDirection, pAllParticles, pPosition, pCellSize) {};
 
+  /**
+   * Apply selected boundary properties.
+   */
   void applyCellProperties() override {
-
-  }
-
-  double getReflectionDistance(Particle<dim> &p) const {
-    return sixthSqrtOfTwo * p.getZeroCrossing();
+    if (!this->particles.empty()) {
+      for (size_t i = 0; i < this->boundaryType.size(); ++i) {
+        if (this->boundaryType[i] != BoundaryType::Outflow) {
+          for (Particle<dim> *p: this->particles) {
+            if (this->boundaryType[i] == BoundaryType::Reflecting) {
+              applyReflecting(p, this->borderDirection[i]);
+            }
+          }
+        }
+      }
+    }
   }
 };
-
-/*//Instant Reflection
-template<size_t dim>
-void Boundary<Reflection, dim>::reflect2d(Particle<dim>& p) {
-  auto reflectionDistance{getReflectionDistance(p)};
-  auto force{p.getF()};
-
-  //Check top & bottom
-  if(borderDirection[0] && (border[1] - p.getX()[1] < reflectionDistance) ||
-      borderDirection[1] && (p.getX()[1] < reflectionDistance)){
-    p.setF(p.getF()[0], -p.getF()[1]);
-  }
-
-  //Check left & right
-  if(borderDirection[2] && (p.getX()[0] < reflectionDistance) ||
-      borderDirection[3] && (border[0] - p.getX()[0] < reflectionDistance)) {
-    p.setF(-p.getF()[0], p.getF()[1]);
-  }
-
-  if(force != p.getF()){
-    p.setOldF(force);
-  }
-}
-
-template <>
-void Boundary<Reflection, 3>::reflect3d(Particle<3>& p) {
-  auto reflectionDistance{getReflectionDistance(p)};
-  auto force{p.getF()};
-
-  reflect2d(p);
-
-  //Check front & back
-  if(borderDirection[4] && (border[2] - p.getX()[2] < reflectionDistance) || borderDirection[5] && (p.getX()[2] < reflectionDistance)){
-    p.setF(p.getF()[0], p.getF()[1], -p.getF()[2]);
-  }
-
-  if(force != p.getF()){
-    p.setOldF(force);
-  }
-}
-
-template<>
-void Boundary<Reflecting, 2>::applyCellProperties(Reflecting& r) {
-  for(auto &p : particles){
-    reflect2d(p);
-  }
-}
-
-template<>
-void Boundary<Reflecting, 3>::applyCellProperties(Reflecting& r) {
-  for(auto &p : particles){
-    reflect3d(p);
-  }
-}
-
-
-//Smooth Reflection
-//TODO: Muss öfter aufgerufen werden
-template<size_t dim>
-void Boundary<GhostReflection, dim>::ghostReflect2d(Particle<dim>& p) {
-  auto reflectionDistance{getReflectionDistance(p)};
-
-  //Reflect?
-  Particle<dim> ghost{p};
-  //Check top
-  if(borderDirection[0] && (border[1] - p.getX()[1] < reflectionDistance)){
-    ghost.setX(ghost.getX()[0], border[1] + (border[1]-p.getX()[1]));
-  }
-  //Check bottom
-  if(borderDirection[1] && p.getX()[1] < reflectionDistance)){
-    ghost.setX(ghost.getX()[0], - p.getX()[1])
-  }
-  //Check left
-  if(borderDirection[2] && p.getX()[0] < reflectionDistance)){
-    ghost.setX(-p.getX()[0], ghost.getX()[1]);
-  }
-  //Check right
-  if(borderDirection[3] && (border[0] - p.getX()[0] < reflectionDistance)){
-    ghost.setX(border[0] + (border[0] - p.getX()[0]), ghost.getX()[1]);
-  }
-
-  //Calculate force if particles are not at the same position
-  if(p.getX() != ghost.getX()){
-    ParticleContainer<dim> particleContainer{{p, ghost}};
-    calculateF(particleContainer);
-    this.addParticle(p);
-  }
-}
-
-template <>
-void Boundary<GhostReflection, 3>::ghostReflect3d(Particle<3>& p) {
-  auto reflectionDistance{getReflectionDistance(p)};
-  ghostReflect2d(p);
-
-  Particle<dim> ghost{p};
-
-  //Check front
-  if(borderDirection[4] && (border[2] - p.getX()[2] < reflectionDistance)){
-    ghost.setX(ghost.getX()[0], ghost.getX()[1], border[2] + p.getX()[2]);
-  }
-
-  //Check back
-  if(borderDirection[5] && p.getX()[2] < reflectionDistance)){
-    ghost.setX(ghost.getX()[0], ghost.getX()[1], -p.getX()[2]);
-  }
-
-  if(p.getX() != ghost.getX()){
-    ParticleContainer<dim> particleContainer{{p, ghost}};
-    calculateF(particleContainer);
-    this.addParticle(p);
-  }
-}
-
-template<>
-void Boundary<GhostReflection, 2>::applyCellProperties(GhostReflection& r) {
-  for(auto &p : particles){
-    ghostReflect2d(p);
-  }
-}
-
-template<>
-void Boundary<GhostReflection, 3>::applyCellProperties(GhostReflection& r) {
-  for(auto &p : particles){
-    ghostReflect3d(p);
-  }
-}*/

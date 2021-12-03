@@ -1,4 +1,5 @@
 #pragma once
+
 #include "arguments/argumentParser/ArgumentParser.h"
 #include "fileReader/XMLReader/XMLReader.h"
 

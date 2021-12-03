@@ -1,11 +1,12 @@
 #pragma once
+
+#include <optional>
+#include <vector>
+
 #include "arguments/argumentParser/ArgumentParser.h"
 #include "arguments/argument/BasicArgument/BasicArgument.h"
 #include "outputWriter/XYZWriter/XYZWriter.h"
 #include "BasicArgumentParser.h"
-
-#include <optional>
-#include <vector>
 
 /**
  * Contains status of parsed arguments.

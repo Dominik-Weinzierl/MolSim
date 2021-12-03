@@ -1,11 +1,11 @@
 #pragma once
 
-#include "logger/Logger.h"
-
-#include "outputWriter/VTKWriter/VTKWriter.h"
 #include <iostream>
-#include <arguments/argument/Argument.h>
-#include <arguments/argumentParser/BasicArgumentParser/BasicArgumentParser.h>
+
+#include "logger/Logger.h"
+#include "outputWriter/VTKWriter/VTKWriter.h"
+#include "arguments/argument/Argument.h"
+#include "arguments/argumentParser/BasicArgumentParser/BasicArgumentParser.h"
 #include "physics/Physics.h"
 
 /**

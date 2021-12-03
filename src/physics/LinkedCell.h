@@ -59,11 +59,11 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * @param deltaT time step of our simulation
   */
   void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT) const override {
-    // Init ParticleContainer
-    particleContainer.init();
-
     // calculate new x
     Physics<LennardJones, dim>::calculateX(particleContainer, deltaT);
+
+    // Init ParticleContainer
+    particleContainer.init();
 
     // calculate new f
     Physics<LennardJones, dim>::calculateF(particleContainer);
@@ -73,9 +73,16 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
 
     auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
 
-    // TODO apply halos
-    for (auto &h: cellContainer.getHalosCells()) {
+    // Apply Halo properties
+    for (Halo<dim> &h: cellContainer.getHalosCells()) {
       h.applyCellProperties();
     }
+
+    // Delete all deleted Particle
+    std::vector<Particle<dim>> &particles = particleContainer.getParticles();
+    particles.erase(std::remove_if(particles.begin(), particles.end(), [](auto &p) {
+      return p.getType() == -1;
+    }), particles.end());
+
   }
 };

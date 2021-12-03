@@ -2,6 +2,10 @@
 
 #include "container/Cell/Cell.h"
 
+/**
+ * Inner is our default Cell which stores only Particle(s).
+ * @tparam dim dimension for the simulation
+ */
 template<size_t dim>
 class Inner : public Cell<dim> {
  public:
@@ -13,5 +17,9 @@ class Inner : public Cell<dim> {
    */
   Inner(std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize)
       : Cell<dim>(pAllParticles, pPosition, pCellSize) {};
+
+  /**
+   * There is no additional behaviour needed.
+   */
   inline void applyCellProperties() override {}
 };

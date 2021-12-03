@@ -1,15 +1,14 @@
 #pragma once
 
-#include <generator/GeneratorArguments/CuboidArgument.h>
-#include <arguments/argument/Argument.h>
-#include <generator/GeneratorArguments/SphereArgument.h>
-
 #include <algorithm>
-
 #include <iostream>
 #include <utility>
 #include <optional>
-#include <boundaryType/BoundaryType.h>
+
+#include "generator/GeneratorArguments/CuboidArgument.h"
+#include "arguments/argument/Argument.h"
+#include "generator/GeneratorArguments/SphereArgument.h"
+#include "boundaryType/BoundaryType.h"
 
 /**
  * XMLArgument stores the arguments parsed by XMLArgumentParser for easy access.
@@ -51,8 +50,6 @@ class XMLArgument : public Argument<dim> {
  public:
   /**
    * XMLArgument constructor to construct Arguments provided by the ArgumentParser (XMLArgumentParser).
-   * @param pCuboidArguments arguments used to create Cuboids
-   * @param pSphereArguments arguments used to create Spheres
    * @param pFiles additional input files to load additional Particle
    * @param pEndTime end time of the simulation
    * @param pDeltaT time steps during the simulation
@@ -60,6 +57,13 @@ class XMLArgument : public Argument<dim> {
    * @param pWriter used writer to write in the output files
    * @param pIteration defines the writing iteration
    * @param pPhysics defines the used Physics during the simulation
+   * @param pCuboidArguments arguments used to create Cuboids
+   * @param pSphereArguments arguments used to create Spheres
+   * @param pStrategy defines the used strategy for this simulation (direct vs linked cell)
+   * @param pCutoffRadius optional cutoff radius used for the linked cell algorithm
+   * @param pDomain optional domain used for the linked cell algorithm
+   * @param pBoundaries optional boundaries used for the linked cell algorithm
+   * @param pCellSize optional cell size used for the linked cell algorithm
    */
   XMLArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
               std::string pWriter, int pIteration, std::string pPhysics,
@@ -149,8 +153,8 @@ class XMLArgument : public Argument<dim> {
       configuration << "\t\tBoundary: " << ArrayUtils::to_string(this->boundaries.value()) << std::endl;
     };
     configuration << "\tGenerator: " << std::endl;
-    configuration << "\t\tCuboid generator:" << std::endl;
     if (!this->cuboidArguments.empty()) {
+      configuration << "\t\tCuboid generator:" << std::endl;
       for (const auto &g: this->cuboidArguments) {
         configuration << g;
       }

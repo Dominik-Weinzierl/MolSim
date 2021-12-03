@@ -3,6 +3,10 @@
 #include "particles/Particle.h"
 #include "container/Cell/Cell.h"
 
+/**
+ * Halo is a special kind of a Cell which supports the deletion of Particle(s).
+ * @tparam dim dimension for the simulation
+ */
 template<size_t dim>
 class Halo : public Cell<dim> {
  public:
@@ -18,17 +22,15 @@ class Halo : public Cell<dim> {
        std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize)
       : Cell<dim>(pBoundaryType, pBorderDirection, pAllParticles, pPosition, pCellSize) {};
 
+  /**
+   * Used to set the type of the Particle(s) to -1. This means, that these Particle(s) will be removed soon.
+   */
   void applyCellProperties() override {
-    if (!this->particles.empty()) {
-      if (all_of(this->boundaryType.begin(), this->boundaryType.end(), [&](int i) {
-        return i == BoundaryType::Outflow;
-      })) {
-        for (auto *p: this->particles) {
-          this->allParticles
-              .erase(std::remove(this->allParticles.begin(), this->allParticles.end(), *p), this->allParticles.end());
+    if (!this->getParticles().empty()) {
+      if (this->boundaryType[0] == BoundaryType::Outflow) {
+        for (Particle<dim> *p: this->particles) {
+          p->setType(-1);
         }
-      } else {
-        // TODO: NEED TO HANDLE OTHER CASES
       }
     }
   }

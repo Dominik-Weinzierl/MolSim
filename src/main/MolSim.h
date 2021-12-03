@@ -1,13 +1,13 @@
 #pragma once
 
-#include "logger/Logger.h"
-
-#include "arguments/argument/Argument.h"
 #include <iostream>
+#include <iomanip>
+
+#include "logger/Logger.h"
+#include "arguments/argument/Argument.h"
 #include "outputWriter/XYZWriter/XYZWriter.h"
 #include "arguments/argumentParser/ParserStrategy.h"
 #include "fileReader/InputFile/InputReader.h"
-#include <iomanip>
 #include "outputWriter/DummyWriter/DummyWriter.h"
 #include "physics/variants/Gravitation.h"
 #include "simulation/MDSimulation.h"

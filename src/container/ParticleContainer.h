@@ -1,8 +1,9 @@
 #pragma once
 
+#include <vector>
+
 #include "particles/Particle.h"
 #include "logger/Logger.h"
-#include <vector>
 
 /**
  * ParticleContainer is a container for particles that provides functions to iterate over single particles and pairs.

@@ -4,11 +4,19 @@
 #include <functional>
 #include <boundaryType/BoundaryType.h>
 #include <iostream>
+#include <utility>
 
+/**
+ * Describes the direction of this cell in relation to the board.
+ */
 enum BoardDirectionType {
   RIGHT, LEFT, TOP, BOTTOM, BACK, FRONT
 };
 
+/**
+ * Cell is a container which handles pointer to neighbour Cell(s) and Particles(s).
+ * @tparam dim dimension for the simulation
+ */
 template<size_t dim>
 class Cell {
  protected:
@@ -40,7 +48,7 @@ class Cell {
   /**
    * BoundaryType of this Cell. Used to handle correct boundary options (e.g. Outflow, Reflection, ...)
    */
-  const std::vector<BoundaryType> boundaryType {BoundaryType::Outflow};
+  const std::vector<BoundaryType> boundaryType{BoundaryType::Outflow};
 
   /**
    * Defines the side on which this Cell is.
@@ -56,9 +64,10 @@ class Cell {
    * @param pPosition position of this Cell in our Mesh
    * @param pCellSize size of this cell (each Cell has the same size)
    */
-  Cell(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection, std::vector<Particle<dim>> &pAllParticles,
-       std::array<int, dim> pPosition, std::array<int, dim> pCellSize) : boundaryType{pBoundaryType}, borderDirection{pBorderDirection}, allParticles{pAllParticles}, position{pPosition},
-                                         cellSize{pCellSize} {};
+  Cell(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection,
+       std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize)
+      : boundaryType{std::move(pBoundaryType)}, borderDirection{std::move(pBorderDirection)},
+        allParticles{pAllParticles}, position{pPosition}, cellSize{pCellSize} {};
 
   /**
    * Constructor to create our Cell(s). In this case our boundary type is always Outflow.

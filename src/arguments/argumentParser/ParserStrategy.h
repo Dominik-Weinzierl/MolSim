@@ -1,7 +1,9 @@
 #pragma once
+
 #include <memory>
-#include <arguments/argumentParser/XMLArgumentParser/XMLArgumentParser.h>
-#include <arguments/argumentParser/BasicArgumentParser/BasicArgumentParser.h>
+
+#include "arguments/argumentParser/XMLArgumentParser/XMLArgumentParser.h"
+#include "arguments/argumentParser/BasicArgumentParser/BasicArgumentParser.h"
 #include "ArgumentParser.h"
 
 /**

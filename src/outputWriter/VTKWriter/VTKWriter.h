@@ -1,11 +1,11 @@
 #pragma once
 
+#include <list>
+#include <fstream>
+
 #include "particles/Particle.h"
 #include "outputWriter/VTKWriter/template/vtk-unstructured.h"
 #include "outputWriter/OutputWriter.h"
-
-#include <list>
-#include <fstream>
 
 /**
  * VTKWriter writes files based on the VTK file format.

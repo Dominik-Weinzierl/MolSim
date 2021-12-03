@@ -1,10 +1,11 @@
 #pragma once
 
+#include <memory>
+
 #include "arguments/argument/XMLArgument/XMLArgument.h"
 #include "generator/GeneratorArguments/CuboidArgument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"
 #include "template/input.h"
-#include <memory>
 
 /**
  * XMLReader class reads a xml file and and provides Argument(s) to create Particle(s) via Generator(s)
