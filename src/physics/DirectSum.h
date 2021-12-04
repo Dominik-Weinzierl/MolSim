@@ -4,12 +4,21 @@
 #include "physics/variants/LennardJones.h"
 #include "physics/variants/Gravitation.h"
 
+/**
+ * This class implements the DirectSum-algorithm.
+ * @tparam T The physics to be used.
+ * @tparam dim The dimension of the simulation.
+ */
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of<PhysicsType, T>::value, bool>::type = true>
 class DirectSum : public Physics<T, dim> {
  public:
   void performUpdate(ParticleContainer<dim> &particleContainer) const override;
 };
 
+/**
+ * Implements DirectSum algorithm for LennardJones
+ * @tparam dim The dimension of our simulation
+ */
 template<size_t dim>
 class DirectSum<LennardJones, dim> : public Physics<LennardJones, dim> {
  public:
@@ -27,6 +36,10 @@ class DirectSum<LennardJones, dim> : public Physics<LennardJones, dim> {
   }
 };
 
+/**
+ * Implements DirectSum for Gravitation
+ * @tparam dim The dimension of our simulation
+ */
 template<size_t dim>
 class DirectSum<Gravitation, dim> : public Physics<Gravitation, dim> {
  public:

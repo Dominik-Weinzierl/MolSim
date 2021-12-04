@@ -4,12 +4,21 @@
 #include "physics/variants/LennardJones.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
 
+/**
+ * This class implements the LinkedCell algorithm.
+ * @tparam T The physics to be used.
+ * @tparam dim The dimension of our simulation
+ */
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of<PhysicsType, T>::value, bool>::type = true>
 class LinkedCell : public Physics<T, dim> {
   void performUpdate(ParticleContainer<dim> &particleContainer) const override;
   void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT) const override;
 };
 
+/**
+ * Implements LinkedCell for LennardJones
+ * @tparam dim The dimension of our simulation
+ */
 template<size_t dim>
 class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
  private:

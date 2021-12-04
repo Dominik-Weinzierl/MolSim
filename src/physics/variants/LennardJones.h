@@ -2,6 +2,9 @@
 
 #include "physics/Physics.h"
 
+/**
+ * This class implements the Lennard-Jones potential.
+ */
 class LennardJones : public PhysicsType {
  public:
   template<size_t dim>

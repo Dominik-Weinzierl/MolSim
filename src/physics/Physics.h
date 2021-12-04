@@ -2,6 +2,9 @@
 
 #include "container/ParticleContainer.h"
 
+/**
+ * This is the superclass for the different types of physics we implemented.
+ */
 class PhysicsType {
 };
 
