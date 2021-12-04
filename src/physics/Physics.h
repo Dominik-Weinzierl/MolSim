@@ -9,11 +9,6 @@ class PhysicsType {
  * Physics is an abstract class which provides methods to calculate the next simulation step
  * based on the template method pattern.
  *
- * There are currently two implementations: The Direct Sum and the Linked Cell algorithm respectively.
- * The Linked Cell algorithm is quite a bit better regarding performance, as can be seen in this plot, showing the runtime in ms/iteration for a 2D-square with n particles.
- * \image html ../../pics/plotsheet3.png
- * \image latex ../../pics/plotsheet3.png
- *
  *
  * @tparam dim dimension of our simulation.
  */
