@@ -57,7 +57,7 @@ class XMLReader {
     fileName = simulation->output();
     iteration = static_cast<int>(simulation->iteration());
 
-    if (simulation->Strategy()->LinkedCell().present()) {
+    if (simulation->Strategy().present() && simulation->Strategy()->LinkedCell().present()) {
       strategy = std::string{"LinkedCell"};
       cutoffRadius = simulation->Strategy()->LinkedCell().get().cutoffRadius();
       domain = this->loadDomain();
