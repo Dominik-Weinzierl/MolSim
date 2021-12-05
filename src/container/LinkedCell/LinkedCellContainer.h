@@ -240,7 +240,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   }
 
   void updateCells() override {
-    for (auto &c: cells) {
+    for (auto *c: cells) {
       c->getParticles().clear();
     }
     insertParticlesInCells();
