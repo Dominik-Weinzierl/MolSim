@@ -84,6 +84,38 @@ TEST(XMLReader_3D, test_case_3) { // NOLINT(cert-err58-cpp)
   EXPECT_THROW(XMLReader<dim> reader("../../tests/XMLReader/input/test_case_3.xml"), std::invalid_argument);
 }
 
+
+/**
+* Test that DirectSum is used if no strategy is specified.
+*/
+TEST(XMLReader_3D, test_case_4) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 3;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_4.xml");
+
+  // Create expected argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+  std::vector<CuboidArgument<dim>>
+      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {5, 20, 5}, {0, 0, 0}, 1.1225, 1.0, 0.0}};
+  std::vector<SphereArgument<dim>> sphereArguments{};
+  std::vector<std::string> files{};
+  double endTime = 3;
+  double deltaT = 0.0002;
+  std::string physics{"lennard"};
+  std::string output{"testtest"};
+  auto iteration = 60;
+  std::string writer{"vtk"};
+  std::string algorithm{"DirectSum"};
+  XMLArgument<dim> expected
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
+       std::nullopt, std::nullopt, std::nullopt, std::nullopt};
+
+  // Compare both XMLArgument
+  EXPECT_EQ(*arg, expected);
+}
+
+
 /**
 * Test that all fields of the XMLArgument are set correctly for test_case_1.xml.
 */
@@ -157,4 +189,34 @@ TEST(XMLReader_2D, test_case_3) { // NOLINT(cert-err58-cpp)
 
   // Missing attribute output, which is required.f
   EXPECT_THROW(XMLReader<dim> reader("../../tests/XMLReader/input/test_case_3.xml"), std::invalid_argument);
+}
+
+
+/**
+ * Test that DirectSum is used if no strategy is specified.
+ */
+TEST(XMLReader_2D, test_case_4) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 2;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_4.xml");
+
+  // Create expected argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+  std::vector<CuboidArgument<dim>> cuboidArguments{CuboidArgument<dim>{{0, 0}, {5, 20}, {0, 0}, 1.1225, 1.0, 0.0}};
+  std::vector<SphereArgument<dim>> sphereArguments{};
+  std::vector<std::string> files{};
+  double endTime = 3;
+  double deltaT = 0.0002;
+  std::string physics{"lennard"};
+  std::string output{"testtest"};
+  auto iteration = 60;
+  std::string writer{"vtk"};
+  std::string algorithm{"DirectSum"};
+  XMLArgument<dim> expected
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
+       std::nullopt, std::nullopt, std::nullopt, std::nullopt};
+
+  // Compare both XMLArgument
+  EXPECT_EQ(*arg, expected);
 }
