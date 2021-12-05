@@ -2,12 +2,17 @@
 
 #include "container/ParticleContainer.h"
 
+/**
+ * This is the superclass for the different types of physics we implemented.
+ */
 class PhysicsType {
 };
 
 /**
  * Physics is an abstract class which provides methods to calculate the next simulation step
  * based on the template method pattern.
+ *
+ *
  * @tparam dim dimension of our simulation.
  */
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of_v<PhysicsType, T>, bool>::type = true>

@@ -27,4 +27,10 @@ class DirectSumContainer : public ParticleContainer<dim> {
    * There is no additional setup needed for direct sum calculations.
    */
   void init() override {};
+
+  /**
+   * Note that we don't need to do anything here.
+   */
+
+  void updateCells() override {};
 };

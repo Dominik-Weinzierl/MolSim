@@ -3,7 +3,9 @@
 #include "logger/Logger.h"
 #include "physics/Physics.h"
 
-
+/**
+ * This class implements gravitational physics.
+ */
 class Gravitation : public PhysicsType {
  public:
   template<size_t dim>
