@@ -175,13 +175,6 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   }
 
   /**
-   * Used to calculate the index of the Cell in our cell list.
-   * @param coords position of the Particle
-   * @return list index
-   */
-  int getIndexBasedOnCoordinates(Vector<dim> coords);
-
-  /**
    * Insert a pointer to the Particle into the correct Cell.
    */
   void insertParticlesInCells() {
@@ -204,7 +197,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   void linkCells();
 
   /**
-   * Reserve enough space in vectors tro avoid reference issues.
+   * Reserve enough space in vectors to avoid reference issues.
    */
   void reserve();
 
@@ -227,13 +220,6 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * Setup linked cell structure.
    */
   void init() override {
-    cells.clear();
-    boundaryAndInnerCells.clear();
-
-    halosCells.clear();
-    boundaryCells.clear();
-    innerCells.clear();
-
     setupCells();
     insertParticlesInCells();
     linkCells();
@@ -245,6 +231,13 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     }
     insertParticlesInCells();
   }
+
+  /**
+ * Used to calculate the index of the Cell in our cell list.
+ * @param coords position of the Particle
+ * @return list index
+ */
+  int getIndexBasedOnCoordinates(Vector<dim> coords);
 
   /**
    * @return Iterator to the beginning of the cell-Vector.
@@ -280,4 +273,11 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     return boundaryCells;
   }
 
+  [[nodiscard]] std::vector<Cell<dim> *> &getBoundaryAndInnerCells() {
+    return boundaryAndInnerCells;
+  }
+
+  [[nodiscard]] std::array<int, dim> getDomain(){
+    return domain;
+  }
 };

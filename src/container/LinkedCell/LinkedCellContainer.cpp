@@ -171,6 +171,7 @@ void LinkedCellContainer<2>::setupCells() {
 
 template<>
 int LinkedCellContainer<2>::getIndexBasedOnCoordinates(Vector<2> coords) {
+  //Includes halocells
   int cellsPerColumn = (domain[1] / cellSize[1]) + 2;
   // first column is halo
   int index = cellsPerColumn;
@@ -189,7 +190,7 @@ int LinkedCellContainer<3>::getIndexBasedOnCoordinates(Vector<3> coords) {
   int cellsPerColumn = (domain[1] / cellSize[1]) + 2;
 
   // first layers are full
-  int index = (static_cast<int>((coords[2] / cellSize[1])) + 1) * (cellsPerRow * cellsPerColumn);
+  int index = (static_cast<int>((coords[2] / cellSize[2])) + 1) * (cellsPerRow * cellsPerColumn);
 
   // add halo column
   index += cellsPerColumn;
