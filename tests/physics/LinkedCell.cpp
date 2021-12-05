@@ -1,5 +1,4 @@
 #include "gtest/gtest.h"
-#include "gmock/gmock.h"
 #include "physics/variants/LennardJones.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
 #include "physics/LinkedCell.h"
@@ -9,7 +8,7 @@
 * Test if force remains unchanged if there is only one particle
 */
 
-TEST(LCPhys2D, oneParticle) { // NOLINT(cert-err58-cpp)
+TEST(LinkedCell_2D, oneParticle) { // NOLINT(cert-err58-cpp)
   std::vector<BoundaryType>
       boundaries{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow};
   std::array<int, 2> cellSize{1, 1};
@@ -32,7 +31,7 @@ TEST(LCPhys2D, oneParticle) { // NOLINT(cert-err58-cpp)
 /**
  * Test if the force remains unchanged if two particles are too far away.
  */
-TEST(LCPhys2D, twoParticlesFar) {
+TEST(LinkedCell_2D, twoParticlesFar) {
   std::vector<BoundaryType>
       boundaries{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow};
   std::array<int, 2> cellSize{1, 1};
@@ -58,7 +57,7 @@ TEST(LCPhys2D, twoParticlesFar) {
 /**
  * Test if force is calculated correctly for two close particles
  */
-TEST(LJPhys2D, twoParticlesClose) {
+TEST(LinkedCell_2D, twoParticlesClose) {
   std::vector<BoundaryType>
       boundaries{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow};
   std::array<int, 2> cellSize{1, 1};
@@ -87,7 +86,7 @@ TEST(LJPhys2D, twoParticlesClose) {
   EXPECT_NEAR(container[1].getF()[1], 0.058364868164062458, eps);
 }
 
-TEST(LCPhys3D, oneParticle) { // NOLINT(cert-err58-cpp)
+TEST(LinkedCell_3D, oneParticle) { // NOLINT(cert-err58-cpp)
   std::vector<BoundaryType> boundaries
       {BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow,
        BoundaryType::Outflow, BoundaryType::Outflow};
@@ -111,7 +110,7 @@ TEST(LCPhys3D, oneParticle) { // NOLINT(cert-err58-cpp)
 /**
  * Test if the force remains unchanged if two particles are too far away.
  */
-TEST(LCPhys3D, twoParticlesFar) {
+TEST(LinkedCell_3D, twoParticlesFar) {
   std::vector<BoundaryType> boundaries
       {BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow,
        BoundaryType::Outflow, BoundaryType::Outflow};
@@ -137,7 +136,7 @@ TEST(LCPhys3D, twoParticlesFar) {
 /**
  * Test if force is calculated correctly for two close particles
  */
-TEST(LJPhys3D, twoParticlesClose) {
+TEST(LinkedCell_3D, twoParticlesClose) {
   std::vector<BoundaryType> boundaries
       {BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow,
        BoundaryType::Outflow, BoundaryType::Outflow};
