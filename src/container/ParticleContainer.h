@@ -99,6 +99,11 @@ class ParticleContainer {
    * Setup all additional container or structures used by this container.
    */
   virtual void init() = 0;
+
+  /**
+   * Updates the distribution of the particles into the cells
+   */
+  virtual void updateCells() = 0;
 };
 
 /**

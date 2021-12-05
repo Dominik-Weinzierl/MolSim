@@ -239,6 +239,13 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     linkCells();
   }
 
+  void updateCells() override {
+    for (auto &c: cells) {
+      c->getParticles().clear();
+    }
+    insertParticlesInCells();
+  }
+
   /**
    * @return Iterator to the beginning of the cell-Vector.
    */

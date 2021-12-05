@@ -71,8 +71,8 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
     // calculate new x
     Physics<LennardJones, dim>::calculateX(particleContainer, deltaT);
 
-    // Init ParticleContainer
-    particleContainer.init();
+    // Update cells
+    particleContainer.updateCells();
 
     // calculate new f
     Physics<LennardJones, dim>::calculateF(particleContainer);

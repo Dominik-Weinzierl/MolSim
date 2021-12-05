@@ -85,7 +85,9 @@ class MolSim {
     } else {
       XMLArgument<dim> xmlArg = dynamic_cast<XMLArgument<dim> &>(*arg);
       particleContainer =
-          std::make_unique<LinkedCellContainer<dim>>(xmlArg.getBoundaries().value(), xmlArg.getCellSize().value(), xmlArg.getDomain().value(), xmlArg.getCutoffRadius().value());
+          std::make_unique<LinkedCellContainer<dim>>(xmlArg.getBoundaries().value(), xmlArg.getCellSize().value(),
+                                                     xmlArg.getDomain().value(), xmlArg.getCutoffRadius().value());
+      particleContainer->init();
     }
 
     // Select Writer.
