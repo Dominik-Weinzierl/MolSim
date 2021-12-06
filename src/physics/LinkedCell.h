@@ -37,10 +37,18 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
       for (auto n = neighbours.begin(); n != neighbours.end(); ++n) {
         for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
           for (auto j = (*n)->getParticles().begin(); j != (*n)->getParticles().end(); ++j) {
-            SPDLOG_TRACE("Calculating force for {} and {}", i->toString(), j->toString());
+            double l2Norm = 0.0;
 
+            for (size_t t = 0; t < dim; ++t) {
+              double diff = (*i)->getX()[t] - (*j)->getX()[t];
+              l2Norm += diff * diff;
+            }
+
+            if (l2Norm > cellContainer.getCutoffRadiusSquare())
+              continue;
+
+            SPDLOG_TRACE("Calculating force for {} and {}", (*(*i))->toString(), (*(*j))->toString());
             Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j))};
-
             (*i)->updateForce(force);
             (*j)->updateForce(-force);
           }
