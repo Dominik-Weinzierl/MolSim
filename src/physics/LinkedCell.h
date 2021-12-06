@@ -35,9 +35,8 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
 
       // calc between particles in cells and relevant neighbours
       for (auto n = neighbours.begin(); n != neighbours.end(); ++n) {
-        std::vector<Particle<dim> *> &neighbourParticles = (*n)->getParticles();
         for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
-          for (auto j = neighbourParticles.begin(); j != neighbourParticles.end(); ++j) {
+          for (auto j = (*n)->getParticles().begin(); j != (*n)->getParticles().end(); ++j) {
             SPDLOG_TRACE("Calculating force for {} and {}", i->toString(), j->toString());
 
             Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j))};
