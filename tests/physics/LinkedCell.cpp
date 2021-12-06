@@ -143,7 +143,7 @@ TEST(LinkedCell_3D, twoParticlesClose) {
        BoundaryType::Outflow, BoundaryType::Outflow};
   std::array<int, 3> cellSize{1, 1, 1};
   std::array<int, 3> domain{9, 9, 9};
-  double cutoffRadius = 6;
+  double cutoffRadius = 4;
   LinkedCellContainer<3> container{boundaries, cellSize, domain, cutoffRadius};
   // Particle 1
   container.addParticle({{2.0, 2.0, 2.0}, {0.0, 0.0, 0.0}, 1});
