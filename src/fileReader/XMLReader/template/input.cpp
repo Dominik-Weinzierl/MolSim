@@ -127,20 +127,16 @@ void cuboid_t::meanValue(const meanValue_type &x) {
   this->meanValue_.set(x);
 }
 
-const cuboid_t::packed_optional &cuboid_t::packed() const {
-  return this->packed_;
+const cuboid_t::packed_type &cuboid_t::packed() const {
+  return this->packed_.get();
 }
 
-cuboid_t::packed_optional &cuboid_t::packed() {
-  return this->packed_;
+cuboid_t::packed_type &cuboid_t::packed() {
+  return this->packed_.get();
 }
 
 void cuboid_t::packed(const packed_type &x) {
   this->packed_.set(x);
-}
-
-void cuboid_t::packed(const packed_optional &x) {
-  this->packed_ = x;
 }
 
 
@@ -227,20 +223,16 @@ void sphere_t::meanValue(const meanValue_type &x) {
   this->meanValue_.set(x);
 }
 
-const sphere_t::packed_optional &sphere_t::packed() const {
-  return this->packed_;
+const sphere_t::packed_type &sphere_t::packed() const {
+  return this->packed_.get();
 }
 
-sphere_t::packed_optional &sphere_t::packed() {
-  return this->packed_;
+sphere_t::packed_type &sphere_t::packed() {
+  return this->packed_.get();
 }
 
 void sphere_t::packed(const packed_type &x) {
   this->packed_.set(x);
-}
-
-void sphere_t::packed(const packed_optional &x) {
-  this->packed_ = x;
 }
 
 
@@ -765,17 +757,18 @@ void simulation_t::writer(::std::unique_ptr<writer_type> x) {
 //
 
 cuboid_t::cuboid_t(const Position_type &Position, const Velocity_type &Velocity, const Dimension_type &Dimension,
-                   const distance_type &distance, const mass_type &mass, const meanValue_type &meanValue)
+                   const distance_type &distance, const mass_type &mass, const meanValue_type &meanValue,
+                   const packed_type &packed)
     : ::xml_schema::type(), Position_(Position, this), Velocity_(Velocity, this), Dimension_(Dimension, this),
-      distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(this) {
+      distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(packed, this) {
 }
 
 cuboid_t::cuboid_t(::std::unique_ptr<Position_type> Position, ::std::unique_ptr<Velocity_type> Velocity,
                    ::std::unique_ptr<Dimension_type> Dimension, const distance_type &distance, const mass_type &mass,
-                   const meanValue_type &meanValue)
+                   const meanValue_type &meanValue, const packed_type &packed)
     : ::xml_schema::type(), Position_(std::move(Position), this), Velocity_(std::move(Velocity), this),
       Dimension_(std::move(Dimension), this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this),
-      packed_(this) {
+      packed_(packed, this) {
 }
 
 cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
@@ -891,6 +884,10 @@ void cuboid_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags 
   if (!meanValue_.present()) {
     throw ::xsd::cxx::tree::expected_attribute<char>("meanValue", "");
   }
+
+  if (!packed_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("packed", "");
+  }
 }
 
 cuboid_t *cuboid_t::_clone(::xml_schema::flags f, ::xml_schema::container *c) const {
@@ -919,16 +916,18 @@ cuboid_t::~cuboid_t() {
 //
 
 sphere_t::sphere_t(const Center_type &Center, const Velocity_type &Velocity, const radius_type &radius,
-                   const distance_type &distance, const mass_type &mass, const meanValue_type &meanValue)
+                   const distance_type &distance, const mass_type &mass, const meanValue_type &meanValue,
+                   const packed_type &packed)
     : ::xml_schema::type(), Center_(Center, this), Velocity_(Velocity, this), radius_(radius, this),
-      distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(this) {
+      distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(packed, this) {
 }
 
 sphere_t::sphere_t(::std::unique_ptr<Center_type> Center, ::std::unique_ptr<Velocity_type> Velocity,
                    const radius_type &radius, const distance_type &distance, const mass_type &mass,
-                   const meanValue_type &meanValue)
+                   const meanValue_type &meanValue, const packed_type &packed)
     : ::xml_schema::type(), Center_(std::move(Center), this), Velocity_(std::move(Velocity), this),
-      radius_(radius, this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(this) {
+      radius_(radius, this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this),
+      packed_(packed, this) {
 }
 
 sphere_t::sphere_t(const sphere_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
@@ -1035,6 +1034,10 @@ void sphere_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags 
 
   if (!meanValue_.present()) {
     throw ::xsd::cxx::tree::expected_attribute<char>("meanValue", "");
+  }
+
+  if (!packed_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("packed", "");
   }
 }
 
@@ -2009,10 +2012,10 @@ void operator<<(::xercesc::DOMElement &e, const cuboid_t &i) {
 
   // packed
   //
-  if (i.packed()) {
+  {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("packed", e));
 
-    a << *i.packed();
+    a << i.packed();
   }
 }
 
@@ -2069,10 +2072,10 @@ void operator<<(::xercesc::DOMElement &e, const sphere_t &i) {
 
   // packed
   //
-  if (i.packed()) {
+  {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("packed", e));
 
-    a << *i.packed();
+    a << i.packed();
   }
 }
 

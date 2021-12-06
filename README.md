@@ -110,7 +110,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
   ![comet_simulation](pics/comet.gif)
 - _(optional)_ Run additional simulation of the solar system.
    ```bash
-   $ ./MolSim -f ../../input/ws_01/sun_system.txt -t 1000 -d 0.014 --p gravitation 
+   $ ./MolSim -f ../../input/ws_01/sun_system.txt -t 1000 -d 0.014 -p gravitation 
    ```
 - _(optional)_ Run example simulation of `Task 3` as benchmark.
    ```bash
@@ -136,12 +136,12 @@ Run `./MolSim` without any arguments to list possible and required arguments.
   ```xml
     <Simulation endTime="5" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="MD">
         <Shapes>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
                 <Position x="0.0" y="0.0" z="0.0"/>
                 <Velocity x="0.0" y="0.0" z="0.0"/>
                 <Dimension x="40" y="8" z="1"/>
             </Cuboid>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
                 <Position x="15.0" y="15.0" z="0.0"/>
                 <Velocity x="0.0" y="-10.0" z="0.0"/>
                 <Dimension x="8" y="8" z="1"/>
@@ -179,12 +179,12 @@ Run `./MolSim` without any arguments to list possible and required arguments.
             </LinkedCell>
         </Strategy>
         <Shapes>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
                 <Position x="20.0" y="20.0" z="1.0"/>
                 <Velocity x="0.0" y="0.0" z="0.0"/>
                 <Dimension x="100" y="20" z="1"/>
             </Cuboid>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
                 <Position x="70" y="60" z="1.0"/>
                 <Velocity x="0.0" y="-10.0" z="0.0"/>
                 <Dimension x="20" y="20" z="1"/>
@@ -209,27 +209,37 @@ Run `./MolSim` without any arguments to list possible and required arguments.
     <Simulation endTime="10" deltaT="0.00005" iteration="120" physics="lennard" writer="vtk" output="MD">
         <Strategy>
             <LinkedCell cutoffRadius="3">
-                <Domain x="120" y="50" z="9"/>
+                <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
+                <Domain x="120" y="51" z="9"/>
                 <CellSize x="3" y="3" z="3"/>
                 <Boundary boundary-bottom="reflecting"/>
             </LinkedCell>
         </Strategy>
         <Shapes>
-            <Sphere mass="1.0" distance="1.1225" meanValue="0.1" radius="15">
+            <Sphere mass="1.0" distance="1.1225" meanValue="0.1" radius="15" packed="true">
                 <Center x="60.0" y="25.0" z="25.0"/>
                 <Velocity x="0.0" y="-10.0" z="0.0"/>
             </Sphere>
         </Shapes>
-    </Simulation>   
+    </Simulation>
     ```
 
 ### Benchmarks
 
-Disable all `spdlog` outputs to get best results:
+Disable all `spdlog` outputs to get best results. Therefore add `-D WITH_SPD_LOG_OFF=OFF` to your cmake command. (
+Default: disabled)
 
-1. Set `#define SPDLOG_ACTIVE_LEVEL` to `SPDLOG_LEVEL_OFF` in `logger/Logger.h`
-2. Set `spdlog::set_level` to `spdlog::level::off` in `logger/Logger.cpp`
-3. Rerun simulation with additional benchmark argument: `-b` or `--benchmark`
+### Logging
+
+Additional cmake options:
+
+- `WITH_SPD_LOG_OFF` "Disable logger" ON
+- `WITH_SPD_LOG_TRACE` "Log level: Trace" OFF
+- `WITH_SPD_LOG_DEBUG` "Log level: Debug" OFF
+- `WITH_SPD_LOG_INFO` "Log level: Info" OFF
+- `WITH_SPD_LOG_WARN` "Log level: Warn" OFF
+- `WITH_SPD_LOG_ERROR` "Log level: Error" OFF
+- `WITH_SPD_LOG_CRITICAL` "Log level: Critical" OFF
 
 ### Tests
 
@@ -272,9 +282,8 @@ Disable all `spdlog` outputs to get best results:
             <xsd:attribute name="distance" type="xsd:double" use="required"/>
             <xsd:attribute name="mass" type="xsd:double" use="required"/>
             <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
-            <xsd:attribute name="packed" type="xsd:boolean"/>
+            <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
         </xsd:complexType>
-    
         <!-- Spheres - all attributes are required -->
         <xsd:complexType name="sphere_t">
             <xsd:sequence>
@@ -285,7 +294,7 @@ Disable all `spdlog` outputs to get best results:
             <xsd:attribute name="distance" type="xsd:double" use="required"/>
             <xsd:attribute name="mass" type="xsd:double" use="required"/>
             <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
-            <xsd:attribute name="packed" type="xsd:boolean"/>
+            <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
         </xsd:complexType>
     
         <!-- Double vector - all attributes are required -->

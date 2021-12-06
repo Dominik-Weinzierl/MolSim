@@ -9,6 +9,7 @@
  */
 template<size_t dim>
 class CuboidArgument : public GeneratorArguments {
+
   /**
    * Coordinates of the lower left corner.
    */
@@ -113,7 +114,7 @@ class CuboidArgument : public GeneratorArguments {
    * @param pPacked describes if the Cuboid is packed with Particle(s)
    */
   CuboidArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
-                 double pDistance, double pMass, double pMeanValue, bool pPacked = false) : startingCoordinates{
+                 double pDistance, double pMass, double pMeanValue, bool pPacked = true) : startingCoordinates{
       pStartingCoordinates}, dimensions{std::move(pDimensions)}, initialVelocity{pInitialVelocity}, distance{pDistance},
                                                                                             mass{pMass},
                                                                                             meanValue{pMeanValue},

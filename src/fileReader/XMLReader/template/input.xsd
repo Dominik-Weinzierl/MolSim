@@ -10,7 +10,7 @@
         <xsd:attribute name="distance" type="xsd:double" use="required"/>
         <xsd:attribute name="mass" type="xsd:double" use="required"/>
         <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
-        <xsd:attribute name="packed" type="xsd:boolean"/>
+        <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
     </xsd:complexType>
 
     <!-- Spheres - all attributes are required -->
@@ -23,7 +23,7 @@
         <xsd:attribute name="distance" type="xsd:double" use="required"/>
         <xsd:attribute name="mass" type="xsd:double" use="required"/>
         <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
-        <xsd:attribute name="packed" type="xsd:boolean"/>
+        <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
     </xsd:complexType>
 
     <!-- Double vector - all attributes are required -->

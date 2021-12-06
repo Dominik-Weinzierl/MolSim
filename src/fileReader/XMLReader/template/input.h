@@ -943,7 +943,7 @@ class cuboid_t : public ::xml_schema::type {
    * @name packed
    *
    * @brief Accessor and modifier functions for the %packed
-   * optional attribute.
+   * required attribute.
    */
   //@{
 
@@ -953,29 +953,23 @@ class cuboid_t : public ::xml_schema::type {
   typedef ::xml_schema::boolean packed_type;
 
   /**
-   * @brief Attribute optional container type.
-   */
-  typedef ::xsd::cxx::tree::optional<packed_type> packed_optional;
-
-  /**
    * @brief Attribute traits type.
    */
   typedef ::xsd::cxx::tree::traits<packed_type, char> packed_traits;
 
   /**
-   * @brief Return a read-only (constant) reference to the attribute
-   * container.
+   * @brief Return a read-only (constant) reference to the attribute.
    *
-   * @return A constant reference to the optional container.
+   * @return A constant reference to the attribute.
    */
-  const packed_optional &packed() const;
+  const packed_type &packed() const;
 
   /**
-   * @brief Return a read-write reference to the attribute container.
+   * @brief Return a read-write reference to the attribute.
    *
-   * @return A reference to the optional container.
+   * @return A reference to the attribute.
    */
-  packed_optional &packed();
+  packed_type &packed();
 
   /**
    * @brief Set the attribute value.
@@ -986,17 +980,6 @@ class cuboid_t : public ::xml_schema::type {
    * the new value of the attribute.
    */
   void packed(const packed_type &x);
-
-  /**
-   * @brief Set the attribute value.
-   *
-   * @param x An optional container with the new value to set.
-   *
-   * If the value is present in @a x then this function makes a copy 
-   * of this value and sets it as the new value of the attribute.
-   * Otherwise the attribute container is set the 'not present' state.
-   */
-  void packed(const packed_optional &x);
 
   //@}
 
@@ -1010,7 +993,7 @@ class cuboid_t : public ::xml_schema::type {
    * initializers for required elements and attributes.
    */
   cuboid_t(const Position_type &, const Velocity_type &, const Dimension_type &, const distance_type &,
-           const mass_type &, const meanValue_type &);
+           const mass_type &, const meanValue_type &, const packed_type &);
 
   /**
    * @brief Create an instance from the ultimate base and
@@ -1021,7 +1004,7 @@ class cuboid_t : public ::xml_schema::type {
    * instead of making copies.
    */
   cuboid_t(::std::unique_ptr<Position_type>, ::std::unique_ptr<Velocity_type>, ::std::unique_ptr<Dimension_type>,
-           const distance_type &, const mass_type &, const meanValue_type &);
+           const distance_type &, const mass_type &, const meanValue_type &, const packed_type &);
 
   /**
    * @brief Create an instance from a DOM element.
@@ -1090,7 +1073,7 @@ class cuboid_t : public ::xml_schema::type {
   ::xsd::cxx::tree::one<distance_type> distance_;
   ::xsd::cxx::tree::one<mass_type> mass_;
   ::xsd::cxx::tree::one<meanValue_type> meanValue_;
-  packed_optional packed_;
+  ::xsd::cxx::tree::one<packed_type> packed_;
 
   //@endcond
 };
@@ -1390,7 +1373,7 @@ class sphere_t : public ::xml_schema::type {
    * @name packed
    *
    * @brief Accessor and modifier functions for the %packed
-   * optional attribute.
+   * required attribute.
    */
   //@{
 
@@ -1400,29 +1383,23 @@ class sphere_t : public ::xml_schema::type {
   typedef ::xml_schema::boolean packed_type;
 
   /**
-   * @brief Attribute optional container type.
-   */
-  typedef ::xsd::cxx::tree::optional<packed_type> packed_optional;
-
-  /**
    * @brief Attribute traits type.
    */
   typedef ::xsd::cxx::tree::traits<packed_type, char> packed_traits;
 
   /**
-   * @brief Return a read-only (constant) reference to the attribute
-   * container.
+   * @brief Return a read-only (constant) reference to the attribute.
    *
-   * @return A constant reference to the optional container.
+   * @return A constant reference to the attribute.
    */
-  const packed_optional &packed() const;
+  const packed_type &packed() const;
 
   /**
-   * @brief Return a read-write reference to the attribute container.
+   * @brief Return a read-write reference to the attribute.
    *
-   * @return A reference to the optional container.
+   * @return A reference to the attribute.
    */
-  packed_optional &packed();
+  packed_type &packed();
 
   /**
    * @brief Set the attribute value.
@@ -1433,17 +1410,6 @@ class sphere_t : public ::xml_schema::type {
    * the new value of the attribute.
    */
   void packed(const packed_type &x);
-
-  /**
-   * @brief Set the attribute value.
-   *
-   * @param x An optional container with the new value to set.
-   *
-   * If the value is present in @a x then this function makes a copy 
-   * of this value and sets it as the new value of the attribute.
-   * Otherwise the attribute container is set the 'not present' state.
-   */
-  void packed(const packed_optional &x);
 
   //@}
 
@@ -1457,7 +1423,7 @@ class sphere_t : public ::xml_schema::type {
    * initializers for required elements and attributes.
    */
   sphere_t(const Center_type &, const Velocity_type &, const radius_type &, const distance_type &, const mass_type &,
-           const meanValue_type &);
+           const meanValue_type &, const packed_type &);
 
   /**
    * @brief Create an instance from the ultimate base and
@@ -1468,7 +1434,7 @@ class sphere_t : public ::xml_schema::type {
    * instead of making copies.
    */
   sphere_t(::std::unique_ptr<Center_type>, ::std::unique_ptr<Velocity_type>, const radius_type &, const distance_type &,
-           const mass_type &, const meanValue_type &);
+           const mass_type &, const meanValue_type &, const packed_type &);
 
   /**
    * @brief Create an instance from a DOM element.
@@ -1537,7 +1503,7 @@ class sphere_t : public ::xml_schema::type {
   ::xsd::cxx::tree::one<distance_type> distance_;
   ::xsd::cxx::tree::one<mass_type> mass_;
   ::xsd::cxx::tree::one<meanValue_type> meanValue_;
-  packed_optional packed_;
+  ::xsd::cxx::tree::one<packed_type> packed_;
 
   //@endcond
 };

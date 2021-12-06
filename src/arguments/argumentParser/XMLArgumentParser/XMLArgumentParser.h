@@ -67,9 +67,32 @@ class XMLArgumentParser : public ArgumentParser<dim> {
    * @return std::unique_ptr<Argument<dim>>.
    */
   std::unique_ptr<Argument<dim>> createArgument() override {
-    // TODO: Filter requirements
     XMLReader<dim> reader{std::get<std::string>(status.getValue("filename"))};
-    return reader.readXML();
+    std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+
+    if (arg->getStrategy() == "LinkedCell") {
+      // Check Domain is multiple of Cell size
+      for (size_t i = 0; i < dim; ++i) {
+        if (arg->getDomain().value()[i] % arg->getCellSize().value()[i] != 0) {
+          throw std::invalid_argument("Domain size should be multiple of cell size");
+        }
+      }
+
+      // Check we have at least three Cells per Dimension
+      for (size_t i = 0; i < dim; ++i) {
+        if (arg->getDomain().value()[i] / arg->getCellSize().value()[i] < 3) {
+          throw std::invalid_argument("At least three cells per dimension are needed");
+        }
+      }
+
+      // Check cutoff radius >= cellsize
+      for (size_t i = 0; i < dim; ++i) {
+        if ((arg->getCellSize().value()[i]) > (arg->getCutoffRadius().value())) {
+          throw std::invalid_argument("Cutoff radius needs to be at least the size as the cell size");
+        }
+      }
+    }
+    return arg;
   }
 
   /**
@@ -77,7 +100,8 @@ class XMLArgumentParser : public ArgumentParser<dim> {
    */
   void static showUsage() {
     std::stringstream usage;
-    usage << "Usage: " << "./MolSim {-x | --xml} {-f | --filename <filename>} [-b | --benchmark] [-2 | -3]" << std::endl;
+    usage << "Usage: " << "./MolSim {-x | --xml} {-f | --filename <filename>} [-b | --benchmark] [-2 | -3]"
+          << std::endl;
     usage << "Options:" << std::endl;
     usage << "\t-f,--filename\t\tSpecify the input filename as xml" << std::endl;
     usage << "\t-b,--benchmark\t\tRun simulation as benchmark" << std::endl;
