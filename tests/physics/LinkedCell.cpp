@@ -1,4 +1,5 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
 #include "physics/variants/LennardJones.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
 #include "physics/LinkedCell.h"

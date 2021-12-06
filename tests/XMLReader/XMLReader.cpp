@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
-#include <fileReader/XMLReader/XMLReader.h>
+
+#include "fileReader/XMLReader/XMLReader.h"
+
 /**
  * ***************************************************
  * Test correct functionality of the class XMLReader.
