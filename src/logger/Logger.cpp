@@ -24,10 +24,27 @@ void Logger::setupLogger() {
     spdlog::logger logger("logger", sinks.begin(), sinks.end());
     spdlog::set_default_logger(std::make_shared<spdlog::logger>(logger));
 
-    /**
-     * Set level here, and update SPDLOG_ACTIVE_LEVEL in logger/Logger.h
-     */
+#ifdef USE_SPD_LOG_OFF
     spdlog::set_level(spdlog::level::off);
+#endif
+#ifdef USE_SPD_LOG_TRACE
+    spdlog::set_level(spdlog::level::trace);
+#endif
+#ifdef USE_SPD_LOG_DEBUG
+    spdlog::set_level(spdlog::level::debug);
+#endif
+#ifdef USE_SPD_LOG_INFO
+    spdlog::set_level(spdlog::level::info);
+#endif
+#ifdef USE_SPD_LOG_WARN
+    spdlog::set_level(spdlog::level::warn);
+#endif
+#ifdef USE_SPD_LOG_ERROR
+    spdlog::set_level(spdlog::level::error);
+#endif
+#ifdef USE_SPD_LOG_CRITICAL
+    spdlog::set_level(spdlog::level::critical);
+#endif
   } catch (const spdlog::spdlog_ex &ex) {
     std::cout << "Log setup failed" << ex.what() << std::endl;
   }

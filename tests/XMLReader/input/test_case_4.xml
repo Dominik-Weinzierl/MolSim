@@ -1,7 +1,4 @@
-<Simulation endTime="3" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk">
-    <Strategy>
-        <DirectSum/>
-    </Strategy>
+<Simulation endTime="3" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="testtest">
     <Shapes>
         <Cuboid mass="1.0" distance="1.1225" meanValue="0.0" packed="true">
             <Position x="0.0" y="0.0" z="0.0"/>

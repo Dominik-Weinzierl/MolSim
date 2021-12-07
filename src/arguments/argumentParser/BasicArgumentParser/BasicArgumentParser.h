@@ -53,7 +53,7 @@ class BasicArgumentParser : public ArgumentParser<dim> {
     std::stringstream usage;
     usage << "Usage: "
           << "./MolSim [-h | --help] | {-f | --filename} <filename> {-t | --t_end} <t_end> {-d | --delta_t} <delta_t> "
-          << "[-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}] [-b | --benchmark] [-2 | -3] [-s | --strategy {DirectSum | LinkedCell}]"
+          << "[-o | --output <output>] [-i | --iteration <iteration>] [-w | --writer {vtk | xyz}] [-p | --physics {gravitation | lennard}] [-b | --benchmark] [-2 | -3]"
           << std::endl;
     usage << "Options:" << std::endl;
     usage << "\t-h,--help\t\tShow this help message" << std::endl;
@@ -66,7 +66,6 @@ class BasicArgumentParser : public ArgumentParser<dim> {
     usage << "\t-p,--physics\t\tSpecify the physics used for the simulation" << std::endl;
     usage << "\t-b,--benchmark\t\tRun simulation as benchmark" << std::endl;
     usage << "\t-2,-3\t\t\tSpecify the dimension of the simulation (default: 3D)" << std::endl;
-    usage << "\t-s,--strategy\t\tRun simulation with the specified strategy" << std::endl;
     std::cout << usage.str();
   }
 
@@ -107,10 +106,6 @@ class BasicArgumentParser : public ArgumentParser<dim> {
           continue;
         } else if (flag == "-w" || flag == "--writer") {
           ArgumentParser<dim>::handleFlag(status, "writer", flag, possibleValue, {"vtk", "xyz"});
-          it++;
-          continue;
-        } else if (flag == "-s" || flag == "--strategy") {
-          ArgumentParser<dim>::handleFlag(status, "strategy", flag, possibleValue, {"DirectSum", "LinkedCell"});
           it++;
           continue;
         }

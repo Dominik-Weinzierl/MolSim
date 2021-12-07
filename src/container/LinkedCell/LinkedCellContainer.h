@@ -52,6 +52,11 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   const double cutoffRadius;
 
   /**
+   * Cutoff radius used by the linked cell algorithm to optimize calculations.
+   */
+  const double cutoffRadiusSquare;
+
+  /**
    * Domain of our simulation.
    */
   const std::array<int, dim> domain;
@@ -109,8 +114,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @param pos position of this layer
    * @param d describes the position of this row
    */
-  inline void setupHaloColumnWrapper(int cellsPerColumn, std::array<int, 2> pos,
-                                      BoardDirectionType d);
+  inline void setupHaloColumnWrapper(int cellsPerColumn, std::array<int, 2> pos, BoardDirectionType d);
 
   /**
    * Setup Boundary(s) where needed.
@@ -157,8 +161,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @param pos position of this layer
    * @param d describes the position of this row
    */
-  inline void setupBoundaryColumnWrapper(int cellsPerColumn, std::array<int, 2> pos,
-                                          BoardDirectionType d);
+  inline void setupBoundaryColumnWrapper(int cellsPerColumn, std::array<int, 2> pos, BoardDirectionType d);
   /**
    * Setup Inner(s).
    * @param amount amount of Inner(s)
@@ -173,6 +176,13 @@ class LinkedCellContainer : public ParticleContainer<dim> {
       position[1] += cellSize[1];
     }
   }
+
+  /**
+   * Used to calculate the index of the Cell in our cell list.
+   * @param coords position of the Particle
+   * @return list index
+   */
+  int getIndexBasedOnCoordinates(Vector<dim> coords);
 
   /**
    * Insert a pointer to the Particle into the correct Cell.
@@ -197,7 +207,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   void linkCells();
 
   /**
-   * Reserve enough space in vectors to avoid reference issues.
+   * Reserve enough space in vectors tro avoid reference issues.
    */
   void reserve();
 
@@ -212,7 +222,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   LinkedCellContainer(std::vector<BoundaryType> pBoundaries, std::array<int, dim> pCellSize,
                       std::array<int, dim> pDomain, double pCutoffRadius) : boundaries{std::move(pBoundaries)},
                                                                             cellSize{pCellSize}, domain{pDomain},
-                                                                            cutoffRadius{pCutoffRadius} {
+                                                                            cutoffRadius{pCutoffRadius}, cutoffRadiusSquare{pCutoffRadius * pCutoffRadius} {
     reserve();
   };
 
@@ -220,6 +230,13 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * Setup linked cell structure.
    */
   void init() override {
+    cells.clear();
+    boundaryAndInnerCells.clear();
+
+    halosCells.clear();
+    boundaryCells.clear();
+    innerCells.clear();
+
     setupCells();
     insertParticlesInCells();
     linkCells();
@@ -231,13 +248,6 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     }
     insertParticlesInCells();
   }
-
-  /**
- * Used to calculate the index of the Cell in our cell list.
- * @param coords position of the Particle
- * @return list index
- */
-  int getIndexBasedOnCoordinates(Vector<dim> coords);
 
   /**
    * @return Iterator to the beginning of the cell-Vector.
@@ -273,11 +283,20 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     return boundaryCells;
   }
 
-  [[nodiscard]] std::vector<Cell<dim> *> &getBoundaryAndInnerCells() {
-    return boundaryAndInnerCells;
+  /**
+   * Getter for cutoffRadius(s).
+   * @return cutoffRadius
+   */
+  [[nodiscard]] const double &getCutoffRadius() const {
+    return cutoffRadius;
   }
 
-  [[nodiscard]] std::array<int, dim> getDomain(){
-    return domain;
+  /**
+   * Getter for cutoffRadius(s).
+   * @return cutoffRadius
+   */
+  [[nodiscard]] const double &getCutoffRadiusSquare() const {
+    return cutoffRadiusSquare;
   }
+
 };

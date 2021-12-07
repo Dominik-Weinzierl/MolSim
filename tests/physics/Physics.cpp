@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
+
 #include "container/DirectSum/DirectSumContainer.h"
-#include <physics/Physics.h>
+#include "physics/Physics.h"
 
 
 /**
@@ -12,7 +13,7 @@
 /**
  * Test basic calculations of next steps. In this case, we test correct calculation of velocity.
  */
-TEST(Physics_3D_DirectSumContainer, calculateVelocity) { // NOLINT(cert-err58-cpp)
+TEST(Physics_3D, calculateVelocity) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
   DirectSumContainer<dim> container{};
   container.addParticle({{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 2});
@@ -32,7 +33,7 @@ TEST(Physics_3D_DirectSumContainer, calculateVelocity) { // NOLINT(cert-err58-cp
 /**
  * Test basic calculations of next steps. In this case, we test correct calculation of positiob.
  */
-TEST(Physics_3D_DirectSumContainer, calculatePosition) { // NOLINT(cert-err58-cpp)
+TEST(Physics_3D, calculatePosition) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
   DirectSumContainer<dim> container{};
   container.addParticle({{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, 2});
@@ -52,7 +53,7 @@ TEST(Physics_3D_DirectSumContainer, calculatePosition) { // NOLINT(cert-err58-cp
 /**
  * Test basic calculations of next steps. In this case, we test correct calculation of velocity.
  */
-TEST(Physics_2D_DirectSumContainer, calculateVelocity) { // NOLINT(cert-err58-cpp)
+TEST(Physics_2D, calculateVelocity) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
   DirectSumContainer<dim> container{};
   container.addParticle({{0.0, 0.0}, {0.0, 0.0}, 2});
@@ -72,7 +73,7 @@ TEST(Physics_2D_DirectSumContainer, calculateVelocity) { // NOLINT(cert-err58-cp
 /**
  * Test basic calculations of next steps. In this case, we test correct calculation of position.
  */
-TEST(Physics_2D_DirectSumContainer, calculatePosition) { // NOLINT(cert-err58-cpp)
+TEST(Physics_2D, calculatePosition) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
   DirectSumContainer<dim> container{};
   container.addParticle({{0.0, 0.0}, {0.0, 0.0}, 2});

@@ -96,5 +96,14 @@ class Physics {
     // calculate new v
     calculateV(particleContainer, deltaT);
   }
+
+  static inline double calcL2NormSquare(Particle<dim> &i, Particle<dim> &j) {
+    double l2Norm = 0.0;
+    for (size_t t = 0; t < dim; ++t) {
+      double diff = i.getX()[t] - j.getX()[t];
+      l2Norm += diff * diff;
+    }
+    return l2Norm;
+  }
 };
 
