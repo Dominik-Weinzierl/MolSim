@@ -113,7 +113,7 @@ class SphereArgument : public GeneratorArguments {
    * @param pPacked describes if the Cuboid is packed with Particle(s)
    */
   SphereArgument(Vector<dim> pCenterCoordinates, int pRadius, Vector<dim> pInitialVelocity, double pDistance,
-                 double pMass, double pMeanValue, bool pPacked = false) : centerCoordinates{pCenterCoordinates},
+                 double pMass, double pMeanValue, bool pPacked = true) : centerCoordinates{pCenterCoordinates},
                                                                           radius{pRadius},
                                                                           initialVelocity{pInitialVelocity},
                                                                           distance{pDistance}, mass{pMass},

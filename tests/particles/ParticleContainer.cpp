@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "container/DirectSum/DirectSumContainer.h"
 #include "particles/Particle.h"
 

@@ -52,6 +52,11 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   const double cutoffRadius;
 
   /**
+   * Cutoff radius used by the linked cell algorithm to optimize calculations.
+   */
+  const double cutoffRadiusSquare;
+
+  /**
    * Domain of our simulation.
    */
   const std::array<int, dim> domain;
@@ -109,8 +114,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @param pos position of this layer
    * @param d describes the position of this row
    */
-  inline void setupHaloColumnWrapper(int cellsPerColumn, std::array<int, 2> pos,
-                                      BoardDirectionType d);
+  inline void setupHaloColumnWrapper(int cellsPerColumn, std::array<int, 2> pos, BoardDirectionType d);
 
   /**
    * Setup Boundary(s) where needed.
@@ -157,8 +161,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @param pos position of this layer
    * @param d describes the position of this row
    */
-  inline void setupBoundaryColumnWrapper(int cellsPerColumn, std::array<int, 2> pos,
-                                          BoardDirectionType d);
+  inline void setupBoundaryColumnWrapper(int cellsPerColumn, std::array<int, 2> pos, BoardDirectionType d);
   /**
    * Setup Inner(s).
    * @param amount amount of Inner(s)
@@ -219,7 +222,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   LinkedCellContainer(std::vector<BoundaryType> pBoundaries, std::array<int, dim> pCellSize,
                       std::array<int, dim> pDomain, double pCutoffRadius) : boundaries{std::move(pBoundaries)},
                                                                             cellSize{pCellSize}, domain{pDomain},
-                                                                            cutoffRadius{pCutoffRadius} {
+                                                                            cutoffRadius{pCutoffRadius}, cutoffRadiusSquare{pCutoffRadius * pCutoffRadius} {
     reserve();
   };
 
@@ -278,6 +281,22 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    */
   [[nodiscard]] std::vector<Boundary<dim>> &getBoundaryCells() {
     return boundaryCells;
+  }
+
+  /**
+   * Getter for cutoffRadius(s).
+   * @return cutoffRadius
+   */
+  [[nodiscard]] const double &getCutoffRadius() const {
+    return cutoffRadius;
+  }
+
+  /**
+   * Getter for cutoffRadius(s).
+   * @return cutoffRadius
+   */
+  [[nodiscard]] const double &getCutoffRadiusSquare() const {
+    return cutoffRadiusSquare;
   }
 
 };

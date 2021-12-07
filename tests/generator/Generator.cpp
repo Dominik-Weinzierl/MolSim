@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "generator/Generator.h"
 #include "generator/GeneratorArguments/CuboidArgument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"

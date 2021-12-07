@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include <physics/variants/Gravitation.h>
+
+#include "physics/variants/Gravitation.h"
 #include "physics/DirectSum.h"
 #include "container/DirectSum/DirectSumContainer.h"
 
