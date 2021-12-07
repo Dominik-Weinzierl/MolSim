@@ -8,13 +8,8 @@
 class LennardJones : public PhysicsType {
  public:
   template<size_t dim>
-  static inline Vector<dim> calculateForceBetweenTwoParticles(Particle<dim> &i, Particle<dim> &j) {
-    Vector<dim> force{i.getX() - j.getX()};
-    double l2Norm = 0.0;
-
-    for (size_t t = 0; t < dim; ++t) {
-      l2Norm += force[t] * force[t];
-    }
+  static inline Vector<dim> calculateForceBetweenTwoParticles(Particle<dim> &i, Particle<dim> &j, double &l2Norm) {
+    Vector<dim> diff{i.getX() - j.getX()};
 
     double fracture = (i.getZeroCrossing() * j.getZeroCrossing()) / l2Norm;
 
@@ -24,9 +19,9 @@ class LennardJones : public PhysicsType {
     double factor = firstFactor * secondFactor;
 
     for (size_t t = 0; t < dim; ++t) {
-      force[t] *= -factor;
+      diff[t] *= -factor;
     }
 
-    return force;
+    return diff;
   }
 };

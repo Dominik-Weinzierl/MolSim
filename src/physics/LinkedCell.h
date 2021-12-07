@@ -37,18 +37,13 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
       for (auto n = neighbours.begin(); n != neighbours.end(); ++n) {
         for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
           for (auto j = (*n)->getParticles().begin(); j != (*n)->getParticles().end(); ++j) {
-            double l2Norm = 0.0;
-
-            for (size_t t = 0; t < dim; ++t) {
-              double diff = (*i)->getX()[t] - (*j)->getX()[t];
-              l2Norm += diff * diff;
-            }
+            double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
 
             if (l2Norm > cellContainer.getCutoffRadiusSquare())
               continue;
 
             SPDLOG_TRACE("Calculating force for {} and {}", (*(*i))->toString(), (*(*j))->toString());
-            Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j))};
+            Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
             (*i)->updateForce(force);
             (*j)->updateForce(-force);
           }
@@ -60,7 +55,9 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
         for (auto j = i + 1; j != cellParticles.end(); ++j) {
           SPDLOG_TRACE("Calculating force for {} and {}", i->toString(), j->toString());
 
-          Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j))};
+          double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
+
+          Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
 
           (*i)->updateForce(force);
           (*j)->updateForce(-force);

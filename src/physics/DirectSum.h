@@ -27,7 +27,8 @@ class DirectSum<LennardJones, dim> : public Physics<LennardJones, dim> {
       for (auto j = i + 1; j != particleContainer.end(); ++j) {
         SPDLOG_TRACE("Calculating force for {} and {}", i->toString(), j->toString());
 
-        Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*i, *j)};
+        double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*i, *j);
+        Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*i, *j, l2Norm)};
 
         i->updateForce(force);
         j->updateForce(-force);

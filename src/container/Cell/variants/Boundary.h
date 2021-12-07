@@ -5,6 +5,7 @@
 #include "physics/variants/LennardJones.h"
 #include "container/Cell/Cell.h"
 #include "particles/Particle.h"
+#include "physics/Physics.h"
 
 /**
  * Boundary is a special kind of a Cell which supports the reflection of Particle(s).
@@ -24,7 +25,8 @@ class Boundary : public Cell<dim> {
    * @param ghost used to perform reflection
    */
   inline void applyForce(Particle<dim> &p, Particle<dim> &ghost) {
-    Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(p, ghost)};
+    double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(p, ghost);
+    Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(p, ghost, l2Norm)};
     p.updateForce(force);
   }
 
