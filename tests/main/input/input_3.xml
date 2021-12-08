@@ -1,14 +1,14 @@
 <Simulation endTime="1" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="MD">
     <Strategy>
-        <LinkedCell cutoffRadius="1">
+        <LinkedCell cutoffRadius="3">
             <Boundary boundary-top="reflecting" boundary="outflow"/>
-            <Domain x="3" y="3" z="3"/>
+            <Domain x="9" y="9" z="9"/>
             <CellSize x="1" y="1" z="1"/>
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Sphere mass="1.0" distance="1.1225" meanValue="1.0" packed="true" radius="0">
-            <Center x="-4.5" y="4.5" z="4.5"/>
+        <Sphere mass="1.0" distance="1.1225" meanValue="1.0" packed="true" radius="2">
+            <Center x="-4.5" y="4.5" z="-4.5"/>
             <Velocity x="0.0" y="-10.0" z="0.0"/>
         </Sphere>
     </Shapes>
