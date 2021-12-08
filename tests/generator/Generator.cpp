@@ -38,6 +38,124 @@ TEST(CuboidGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
   }
 }
 
+
+/**
+ * Test if non-packed 2D Cuboids are generated correctly
+ */
+TEST(CuboidGenerator_2D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-err58-cpp)
+  double distance = 1.1225;
+  double mass = 1.0;
+  constexpr int dim = 2;
+  std::array<int, dim> dimensions = {4, 4};
+
+  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1, false};
+  DirectSumContainer<dim> p{};
+
+  Generator<CuboidArgument<dim>, dim>::generate(c, p);
+  EXPECT_EQ(p.size(), 12);
+
+  for (unsigned long i = 0; i < 4; i++) {
+    for (auto j = 0; j < 4; j += 4) {
+      Vector<dim> pos{static_cast<double>(i) * distance, static_cast<double>(j) * distance};
+      ASSERT_TRUE(std::find_if(p.getParticles().begin(), p.getParticles().end(), [&pos](const Particle<dim> &p1) {
+        return p1.getX() == pos;
+      }) != p.getParticles().end());
+      EXPECT_EQ(p.getParticles()[i].getM(), mass);
+    }
+  }
+
+  for (unsigned long i = 0; i < 4; i += 4) {
+    for (auto j = 0; j < 4; j++) {
+      Vector<dim> pos{static_cast<double>(i) * distance, static_cast<double>(j) * distance};
+      ASSERT_TRUE(std::find_if(p.getParticles().begin(), p.getParticles().end(), [&pos](const Particle<dim> &p1) {
+        return p1.getX() == pos;
+      }) != p.getParticles().end());
+      EXPECT_EQ(p.getParticles()[i].getM(), mass);
+    }
+  }
+
+  for (unsigned long i = 1; i < 3; i++) {
+    for (auto j = 1; j < 3; j++) {
+      Vector<dim> pos{static_cast<double>(i) * distance, static_cast<double>(j) * distance};
+      ASSERT_FALSE(std::find_if(p.getParticles().begin(), p.getParticles().end(), [&pos](const Particle<dim> &p1) {
+        return p1.getX() == pos;
+      }) != p.getParticles().end());
+      EXPECT_EQ(p.getParticles()[i].getM(), mass);
+    }
+  }
+}
+
+
+/**
+ * Test if non-packed 3D Cuboids are generated correctly
+ */
+TEST(CuboidGenerator_3D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-err58-cpp)
+  double distance = 1.1225;
+  double mass = 1.0;
+  constexpr int dim = 3;
+  std::array<int, dim> dimensions = {4, 4, 4};
+
+  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1, false};
+  DirectSumContainer<dim> p{};
+
+  Generator<CuboidArgument<dim>, dim>::generate(c, p);
+  EXPECT_EQ(p.size(), 56);
+
+  for (unsigned long i = 0; i < 4; i++) {
+    for (auto j = 0; j < 4; j += 4) {
+      for (auto k = 0; k < 4; k++) {
+        Vector<dim> pos
+            {static_cast<double>(i) * distance, static_cast<double>(j) * distance, static_cast<double>(k) * distance};
+        ASSERT_TRUE(std::find_if(p.getParticles().begin(), p.getParticles().end(), [&pos](const Particle<dim> &p1) {
+          return p1.getX() == pos;
+        }) != p.getParticles().end());
+      }
+      EXPECT_EQ(p.getParticles()[i].getM(), mass);
+    }
+  }
+
+  for (unsigned long i = 0; i < 4; i += 4) {
+    for (auto j = 0; j < 4; j++) {
+      for (auto k = 0; k < 4; k++) {
+        Vector<dim> pos
+            {static_cast<double>(i) * distance, static_cast<double>(j) * distance, static_cast<double>(k) * distance};
+        ASSERT_TRUE(std::find_if(p.getParticles().begin(), p.getParticles().end(), [&pos](const Particle<dim> &p1) {
+          return p1.getX() == pos;
+        }) != p.getParticles().end());
+      }
+      EXPECT_EQ(p.getParticles()[i].getM(), mass);
+    }
+  }
+
+  for (unsigned long i = 0; i < 4; i++) {
+    for (auto j = 0; j < 4; j++) {
+      for (auto k = 0; k < 4; k += 4) {
+        Vector<dim> pos
+            {static_cast<double>(i) * distance, static_cast<double>(j) * distance, static_cast<double>(k) * distance};
+        ASSERT_TRUE(std::find_if(p.getParticles().begin(), p.getParticles().end(), [&pos](const Particle<dim> &p1) {
+          return p1.getX() == pos;
+        }) != p.getParticles().end());
+      }
+      EXPECT_EQ(p.getParticles()[i].getM(), mass);
+    }
+  }
+
+  for (unsigned long i = 1; i < 3; i++) {
+    for (auto j = 1; j < 3; j++) {
+      for (auto k = 1; k < 3; k++) {
+        Vector<dim> pos
+            {static_cast<double>(i) * distance, static_cast<double>(j) * distance, static_cast<double>(k) * distance};
+        ASSERT_FALSE(std::find_if(p.getParticles().begin(), p.getParticles().end(), [&pos](const Particle<dim> &p1) {
+          return p1.getX() == pos;
+        }) != p.getParticles().end());
+      }
+      EXPECT_EQ(p.getParticles()[i].getM(), mass);
+    }
+  }
+}
+
+
+
 /**
 * Tests correctness of 2d applyMotion for Cuboids
 */
