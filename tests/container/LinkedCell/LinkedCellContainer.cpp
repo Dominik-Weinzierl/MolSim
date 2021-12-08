@@ -137,7 +137,7 @@ TEST(LinkedCellContainer_2D, checkCutoffRadius) {
 */
 TEST(LinkedCellContainer_3D, checkCutoffRadius) {
   LinkedCell<LennardJones, 3> linkedCell{};
-  LinkedCellContainer<3> l{{Outflow, Outflow, Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 1.5};
+  LinkedCellContainer<3> l{{Outflow, Outflow, Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 2};
 
   l.addParticle({{0.1, 0.1, 0.1}, {-1.0, 0.0, 0.0}, 1.0});
   l.addParticle({{1.5, 1.5, 1.5}, {-1.0, 0.0, 0.0}, 1.0});
@@ -148,4 +148,23 @@ TEST(LinkedCellContainer_3D, checkCutoffRadius) {
   linkedCell.calculateNextStep(l, 1.0);
 
   ASSERT_TRUE(force == l.getParticles()[1].getF());
+}
+
+/**
+* Checks linking behavior if cutoff radius is greater than cell size and has (no) common divisor.
+*/
+TEST(LinkedCellContainer_2D, checkCutoffRadiusWithRest) {
+  LinkedCellContainer<2> l_1{{Outflow, Outflow, Outflow, Outflow}, {2, 2}, {6, 6}, 3};
+  l_1.init();
+
+  Boundary<2> &l_1_cell = l_1.getBoundaryCells()[0];
+  EXPECT_EQ(l_1_cell.getNeighbours().size(), 8);
+
+  // --------
+
+  LinkedCellContainer<2> l_2{{Outflow, Outflow, Outflow, Outflow}, {2, 2}, {6, 6}, 2};
+  l_2.init();
+
+  Boundary<2> &l_2_cell = l_2.getBoundaryCells()[0];
+  EXPECT_EQ(l_2_cell.getNeighbours().size(), 3);
 }
