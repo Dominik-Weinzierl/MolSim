@@ -168,3 +168,14 @@ TEST(LinkedCellContainer_2D, checkCutoffRadiusWithRest) {
   Boundary<2> &l_2_cell = l_2.getBoundaryCells()[0];
   EXPECT_EQ(l_2_cell.getNeighbours().size(), 3);
 }
+
+/**
+* Checks behavior if Particle gets out of bound.
+*/
+TEST(LinkedCellContainer, checkParticleGetsOutOfBounds) {
+  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 36}, 3};
+
+  l.addParticle({{-5, 0}, {-1.0, 0.0}, 1.0});
+
+  EXPECT_THROW(l.init(), std::invalid_argument);
+}

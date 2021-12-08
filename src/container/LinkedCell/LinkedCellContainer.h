@@ -183,7 +183,11 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   void insertParticlesInCells() {
     for (Particle<dim> &p: ParticleContainer<dim>::particles) {
       if (p.getType() != -1) {
-        auto *cell = cells[static_cast<unsigned long>(getIndexBasedOnCoordinates(p.getX()))];
+        size_t index = getIndexBasedOnCoordinates(p.getX());
+        if (index >= cells.size()) {
+          throw std::invalid_argument("Particle got out of bounds! Please check your configuration");
+        }
+        auto *cell = cells[index];
         cell->insertParticle(&p);
       }
     }
@@ -215,7 +219,9 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   LinkedCellContainer(std::vector<BoundaryType> pBoundaries, std::array<int, dim> pCellSize,
                       std::array<int, dim> pDomain, double pCutoffRadius) : boundaries{std::move(pBoundaries)},
                                                                             cellSize{pCellSize}, domain{pDomain},
-                                                                            cutoffRadius{pCutoffRadius}, cutoffRadiusSquare{pCutoffRadius * pCutoffRadius} {
+                                                                            cutoffRadius{pCutoffRadius},
+                                                                            cutoffRadiusSquare{
+                                                                                pCutoffRadius * pCutoffRadius} {
     reserve();
   };
 
