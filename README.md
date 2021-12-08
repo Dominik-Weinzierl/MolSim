@@ -156,6 +156,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/task_2_linked.xml -2
    ```
+  ![task_3](pics/ws_03_task_2.gif)
 - _(optional)_ Run example simulation of `Task 2` as direct sum simulation.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/task_2_direct.xml -2
@@ -196,6 +197,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/water_drop.xml -2
    ```
+  ![task_3](pics/ws_03_task_3.gif)
 - _(optional)_ Run example simulation of `Task 3` as benchmark.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/water_drop.xml -b -2
