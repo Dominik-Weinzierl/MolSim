@@ -183,7 +183,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   void insertParticlesInCells() {
     for (Particle<dim> &p: ParticleContainer<dim>::particles) {
       if (p.getType() != -1) {
-        size_t index = getIndexBasedOnCoordinates(p.getX());
+        auto index = static_cast<size_t>(getIndexBasedOnCoordinates(p.getX()));
         if (index >= cells.size()) {
           throw std::invalid_argument("Particle got out of bounds! Please check your configuration");
         }
