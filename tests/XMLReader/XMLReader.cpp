@@ -10,7 +10,7 @@
 
 
 /**
-* Test that all fields of the XMLArgument are set correctly for test_case_1.xml.
+* Test that all fields of the XMLArgument are set correctly for test_case_1.xml for 3d simulations.
 */
 TEST(XMLReader_3D, test_case_1) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
@@ -20,10 +20,10 @@ TEST(XMLReader_3D, test_case_1) { // NOLINT(cert-err58-cpp)
 
   // Create expected argument
   std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
-  std::vector<CuboidArgument<dim>> cuboidArguments
-      {CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1},
-       CuboidArgument<dim>{{15.0, 15.0, 0}, {8, 8, 1}, {0, -10, 0}, 1.1225, 1.0, 0.1}};
-  std::vector<SphereArgument<dim>> sphereArguments{};
+  std::vector<CuboidArgument<dim>>
+      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true}};
+  std::vector<SphereArgument<dim>>
+      sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true}};
   std::vector<std::string> files{};
   double endTime = 5;
   double deltaT = 0.0002;
@@ -40,86 +40,9 @@ TEST(XMLReader_3D, test_case_1) { // NOLINT(cert-err58-cpp)
   EXPECT_EQ(*arg, expected);
 }
 
-/**
-* Test that all fields of the XMLArgument are set correctly for test_case_2.xml.
-*/
-TEST(XMLReader_3D, test_case_2) { // NOLINT(cert-err58-cpp)
-  constexpr static size_t dim = 3;
-
-  // Read input file
-  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_2.xml");
-
-  // Create expected argument
-  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
-  std::vector<CuboidArgument<dim>>
-      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {5, 20, 5}, {0, 0, 0}, 1.1225, 1.0, 0.0}};
-  std::vector<SphereArgument<dim>> sphereArguments{SphereArgument<dim>{{25, 10, 0}, 10, {-15, 0, 0}, 1.1225, 1.0, 0.0}};
-  std::vector<std::string> files{};
-  double endTime = 3;
-  double deltaT = 0.0002;
-  std::string physics{"lennard"};
-  std::string output{"MD"};
-  auto iteration = 60;
-  std::string writer{"vtk"};
-  std::string algorithm{"LinkedCell"};
-  double cutoffRadius = 20.0;
-  std::array<int, 3> domain{20, 20, 20};
-  std::array<int, 3> cellSize{1, 1, 1};
-  std::vector<BoundaryType> boundary
-      {BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting,
-       BoundaryType::Outflow, BoundaryType::Outflow};
-  XMLArgument<dim> expected
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       cutoffRadius, domain, boundary, cellSize};
-
-  // Compare both XMLArgument
-  EXPECT_EQ(*arg, expected);
-}
 
 /**
-* Test that exception is thrown for missing value in test_case_3.xml.
-*/
-TEST(XMLReader_3D, test_case_3) { // NOLINT(cert-err58-cpp)
-  constexpr static size_t dim = 3;
-
-  // Missing attribute output, which is required.f
-  EXPECT_THROW(XMLReader<dim> reader("../../tests/XMLReader/input/test_case_3.xml"), std::invalid_argument);
-}
-
-
-/**
-* Test that DirectSum is used if no strategy is specified.
-*/
-TEST(XMLReader_3D, test_case_4) { // NOLINT(cert-err58-cpp)
-  constexpr static size_t dim = 3;
-
-  // Read input file
-  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_4.xml");
-
-  // Create expected argument
-  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
-  std::vector<CuboidArgument<dim>>
-      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {5, 20, 5}, {0, 0, 0}, 1.1225, 1.0, 0.0}};
-  std::vector<SphereArgument<dim>> sphereArguments{};
-  std::vector<std::string> files{};
-  double endTime = 3;
-  double deltaT = 0.0002;
-  std::string physics{"lennard"};
-  std::string output{"testtest"};
-  auto iteration = 60;
-  std::string writer{"vtk"};
-  std::string algorithm{"DirectSum"};
-  XMLArgument<dim> expected
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       std::nullopt, std::nullopt, std::nullopt, std::nullopt};
-
-  // Compare both XMLArgument
-  EXPECT_EQ(*arg, expected);
-}
-
-
-/**
-* Test that all fields of the XMLArgument are set correctly for test_case_1.xml.
+* Test that all fields of the XMLArgument are set correctly for test_case_1.xml for 2d simulations.
 */
 TEST(XMLReader_2D, test_case_1) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
@@ -129,10 +52,10 @@ TEST(XMLReader_2D, test_case_1) { // NOLINT(cert-err58-cpp)
 
   // Create expected argument
   std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
-  std::vector<CuboidArgument<dim>> cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1},
-                                                   CuboidArgument<dim>{{15.0, 15.0}, {8, 8}, {0, -10}, 1.1225, 1.0,
-                                                                       0.1}};
-  std::vector<SphereArgument<dim>> sphereArguments{};
+  std::vector<CuboidArgument<dim>>
+      cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true}};
+  std::vector<SphereArgument<dim>>
+      sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true}};
   std::vector<std::string> files{};
   double endTime = 5;
   double deltaT = 0.0002;
@@ -150,7 +73,35 @@ TEST(XMLReader_2D, test_case_1) { // NOLINT(cert-err58-cpp)
 }
 
 /**
-* Test that all fields of the XMLArgument are set correctly for test_case_2.xml.
+* Check that strategy selection works as expected in 3d.
+*/
+TEST(XMLReader_3D, test_case_2) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 3;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_2.xml");
+
+  // Create expected argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+
+  std::string strategy{"LinkedCell"};
+  double cutoffRadius = 20.0;
+  std::array<int, dim> domain{20, 20, 20};
+  std::array<int, dim> cellSize{1, 1, 1};
+  std::vector<BoundaryType> boundary
+      {BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting,
+       BoundaryType::Outflow, BoundaryType::Outflow};
+
+  // Compare both XMLArgument
+  EXPECT_EQ((*arg).getStrategy(), strategy);
+  EXPECT_EQ((*arg).getCutoffRadius().value(), cutoffRadius);
+  EXPECT_EQ((*arg).getDomain().value(), domain);
+  EXPECT_EQ((*arg).getCellSize().value(), cellSize);
+  EXPECT_EQ((*arg).getBoundaries().value(), boundary);
+}
+
+/**
+* Check that strategy selection works as expected in 2d.
 */
 TEST(XMLReader_2D, test_case_2) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
@@ -160,65 +111,143 @@ TEST(XMLReader_2D, test_case_2) { // NOLINT(cert-err58-cpp)
 
   // Create expected argument
   std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
-  std::vector<CuboidArgument<dim>> cuboidArguments{CuboidArgument<dim>{{0, 0}, {5, 20}, {0, 0}, 1.1225, 1.0, 0.0}};
-  std::vector<SphereArgument<dim>> sphereArguments{SphereArgument<dim>{{25, 10}, 10, {-15, 0}, 1.1225, 1.0, 0.0}};
-  std::vector<std::string> files{};
-  double endTime = 3;
-  double deltaT = 0.0002;
-  std::string physics{"lennard"};
-  std::string output{"MD"};
-  auto iteration = 60;
-  std::string writer{"vtk"};
-  std::string algorithm{"LinkedCell"};
+
+  std::string strategy{"LinkedCell"};
   double cutoffRadius = 20.0;
-  std::array<int, 2> domain{20, 20};
-  std::array<int, 2> cellSize{1, 1};
+  std::array<int, dim> domain{20, 20};
+  std::array<int, dim> cellSize{1, 1};
   std::vector<BoundaryType>
       boundary{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting};
-  XMLArgument<dim> expected
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       cutoffRadius, domain, boundary, cellSize};
 
   // Compare both XMLArgument
-  EXPECT_EQ(*arg, expected);
+  EXPECT_EQ((*arg).getStrategy(), strategy);
+  EXPECT_EQ((*arg).getCutoffRadius().value(), cutoffRadius);
+  EXPECT_EQ((*arg).getDomain().value(), domain);
+  EXPECT_EQ((*arg).getCellSize().value(), cellSize);
+  EXPECT_EQ((*arg).getBoundaries().value(), boundary);
 }
 
 /**
-* Test that exception is thrown for missing value in test_case_3.xml.
+* Test that strategy is direct sum in 3d.
+*/
+TEST(XMLReader_3D, test_case_3) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 3;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_3.xml");
+
+  // Create expected argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+  std::string strategy{"DirectSum"};
+
+  // Compare both XMLArgument
+  EXPECT_EQ((*arg).getStrategy(), strategy);
+}
+
+/**
+* Test that strategy is direct sum in 2d.
 */
 TEST(XMLReader_2D, test_case_3) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
 
-  // Missing attribute output, which is required.f
-  EXPECT_THROW(XMLReader<dim> reader("../../tests/XMLReader/input/test_case_3.xml"), std::invalid_argument);
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_3.xml");
+
+  // Create expected argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+  std::string strategy{"DirectSum"};
+
+  // Compare both XMLArgument
+  EXPECT_EQ((*arg).getStrategy(), strategy);
 }
 
 
 /**
- * Test that DirectSum is used if no strategy is specified.
- */
+* Test that exception is thrown for missing output attribute in test_case_3.xml.
+*/
+TEST(XMLReader, test_case_missing_output) { // NOLINT(cert-err58-cpp)
+  // Missing attributes
+  EXPECT_THROW(XMLReader<2> reader("../../tests/XMLReader/input/test_case_output.xml"), std::invalid_argument);
+  EXPECT_THROW(XMLReader<3> reader("../../tests/XMLReader/input/test_case_output.xml"), std::invalid_argument);
+}
+
+/**
+* Test that exception is thrown for missing physics attribute in test_case_3.xml.
+*/
+TEST(XMLReader, test_case_missing_physics) { // NOLINT(cert-err58-cpp)
+  // Missing attributes
+  EXPECT_THROW(XMLReader<2> reader("../../tests/XMLReader/input/test_case_physics.xml"), std::invalid_argument);
+  EXPECT_THROW(XMLReader<3> reader("../../tests/XMLReader/input/test_case_physics.xml"), std::invalid_argument);
+}
+
+/**
+* Test that exception is thrown for missing writer attribute in test_case_3.xml.
+*/
+TEST(XMLReader, test_case_missing_writer) { // NOLINT(cert-err58-cpp)
+  // Missing attributes
+  EXPECT_THROW(XMLReader<2> reader("../../tests/XMLReader/input/test_case_writer.xml"), std::invalid_argument);
+  EXPECT_THROW(XMLReader<3> reader("../../tests/XMLReader/input/test_case_writer.xml"), std::invalid_argument);
+}
+
+/**
+* Test that exception is thrown for missing deltaT attribute in test_case_3.xml.
+*/
+TEST(XMLReader, test_case_missing_delta) { // NOLINT(cert-err58-cpp)
+  // Missing attributes
+  EXPECT_THROW(XMLReader<2> reader("../../tests/XMLReader/input/test_case_delta.xml"), std::invalid_argument);
+  EXPECT_THROW(XMLReader<3> reader("../../tests/XMLReader/input/test_case_delta.xml"), std::invalid_argument);
+}
+
+/**
+* Test that exception is thrown for missing iteration attribute in test_case_3.xml.
+*/
+TEST(XMLReader, test_case_missing_iteration) { // NOLINT(cert-err58-cpp)
+  // Missing attributes
+  EXPECT_THROW(XMLReader<2> reader("../../tests/XMLReader/input/test_case_iteration.xml"), std::invalid_argument);
+  EXPECT_THROW(XMLReader<3> reader("../../tests/XMLReader/input/test_case_iteration.xml"), std::invalid_argument);
+}
+
+/**
+* Test that exception is thrown for missing endTime attribute in test_case_3.xml.
+*/
+TEST(XMLReader, test_case_missing_endtime) { // NOLINT(cert-err58-cpp)
+  // Missing attributes
+  EXPECT_THROW(XMLReader<2> reader("../../tests/XMLReader/input/test_case_endtime.xml"), std::invalid_argument);
+  EXPECT_THROW(XMLReader<3> reader("../../tests/XMLReader/input/test_case_endtime.xml"), std::invalid_argument);
+}
+
+/**
+* Test that additional files are loaded in 3d.
+*/
+TEST(XMLReader_3D, test_case_4) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 3;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_4.xml");
+
+  // Create argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+
+  std::vector<std::string> files{"../../tests/XMLReader/input/test_case_4.txt"};
+
+  // Compare both XMLArgument
+  EXPECT_EQ((*arg).getFiles(), files);
+}
+
+/**
+* Test that additional files are loaded in 2d.
+*/
 TEST(XMLReader_2D, test_case_4) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
 
   // Read input file
   XMLReader<dim> reader("../../tests/XMLReader/input/test_case_4.xml");
 
-  // Create expected argument
+  // Create argument
   std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
-  std::vector<CuboidArgument<dim>> cuboidArguments{CuboidArgument<dim>{{0, 0}, {5, 20}, {0, 0}, 1.1225, 1.0, 0.0}};
-  std::vector<SphereArgument<dim>> sphereArguments{};
-  std::vector<std::string> files{};
-  double endTime = 3;
-  double deltaT = 0.0002;
-  std::string physics{"lennard"};
-  std::string output{"testtest"};
-  auto iteration = 60;
-  std::string writer{"vtk"};
-  std::string algorithm{"DirectSum"};
-  XMLArgument<dim> expected
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       std::nullopt, std::nullopt, std::nullopt, std::nullopt};
+
+  std::vector<std::string> files{"../../tests/XMLReader/input/test_case_4.txt"};
 
   // Compare both XMLArgument
-  EXPECT_EQ(*arg, expected);
+  EXPECT_EQ((*arg).getFiles(), files);
 }

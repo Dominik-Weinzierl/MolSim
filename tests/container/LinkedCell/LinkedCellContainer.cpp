@@ -4,6 +4,12 @@
 #include "physics/LinkedCell.h"
 
 /**
+ * ***************************************************
+ * Test correct functionality of the linked cell container(s)
+ * ******************************************+********
+ */
+
+/**
  * Tests the 2d setup of the LinkedCellContainer, the amount of cells that get generated and the
  * function getIndexBasedOnCoordinates, 2D
  */
@@ -90,10 +96,6 @@ TEST(Boundary_2D, checkReflection) {
   linkedCell.calculateNextStep(l, 0.0005);
 
   ASSERT_TRUE(l.size() == 1);
-
-  for (auto i = 0; i < 10000; i++) {
-    linkedCell.calculateNextStep(l, 0.0005);
-  }
 }
 
 /**
