@@ -44,7 +44,7 @@ class Boundary : public Cell<dim> {
     if (t % 2 == 0) {
       dist = (this->position[index] + this->cellSize[index]) - (p->getX()[index]);
     }
-      // LEFT, BOTTOM, FRONT
+    // LEFT, BOTTOM, FRONT
     else {
       dist = -(p->getX()[index] - this->position[index]);
     }

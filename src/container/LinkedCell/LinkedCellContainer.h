@@ -178,13 +178,6 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   }
 
   /**
-   * Used to calculate the index of the Cell in our cell list.
-   * @param coords position of the Particle
-   * @return list index
-   */
-  int getIndexBasedOnCoordinates(Vector<dim> coords);
-
-  /**
    * Insert a pointer to the Particle into the correct Cell.
    */
   void insertParticlesInCells() {
@@ -242,6 +235,13 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     linkCells();
   }
 
+  /**
+  * Used to calculate the index of the Cell in our cell list.
+  * @param coords position of the Particle
+  * @return list index
+  */
+  int getIndexBasedOnCoordinates(Vector<dim> coords);
+
   void updateCells() override {
     for (auto *c: cells) {
       c->getParticles().clear();
@@ -292,11 +292,27 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   }
 
   /**
-   * Getter for cutoffRadius(s).
-   * @return cutoffRadius
+   * Getter for cutoffRadiusSquare(s).
+   * @return cutoffRadiusSquare
    */
   [[nodiscard]] const double &getCutoffRadiusSquare() const {
     return cutoffRadiusSquare;
+  }
+
+  /**
+   * Getter for domain.
+   * @return domain
+   */
+  [[nodiscard]] const std::array<int, dim> &getDomain() const {
+    return domain;
+  }
+
+  /**
+   * Getter for boundary and inner cells.
+   * @return boundaryAndInnerCells
+   */
+  [[nodiscard]] std::vector<Cell<dim> *> getBoundaryAndInnerCells() const {
+    return boundaryAndInnerCells;
   }
 
 };
