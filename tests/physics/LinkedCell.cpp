@@ -4,6 +4,11 @@
 #include "container/LinkedCell/LinkedCellContainer.h"
 #include "physics/LinkedCell.h"
 
+/**
+ * ***************************************************
+ * Test correct functionality of the linked cell physics
+ * ******************************************+********
+ */
 
 /**
 * Test if force remains unchanged if there is only one particle
@@ -25,7 +30,7 @@ TEST(LinkedCell_2D, oneParticle) { // NOLINT(cert-err58-cpp)
   container.init();
   LinkedCell<LennardJones, 2> phy;
   phy.performUpdate(container);
-  // we can do that here as v = 0.
+
   EXPECT_EQ(v, p.getF());
 }
 
@@ -51,7 +56,7 @@ TEST(LinkedCell_2D, twoParticlesFar) {
   container.init();
   LinkedCell<LennardJones, 2> phy;
   phy.performUpdate(container);
-  // we can do that here as v = 0.
+
   EXPECT_EQ(v, p.getF());
   EXPECT_EQ(v, q.getF());
 }
@@ -104,7 +109,7 @@ TEST(LinkedCell_3D, oneParticle) { // NOLINT(cert-err58-cpp)
   container.init();
   LinkedCell<LennardJones, 3> phy;
   phy.performUpdate(container);
-  // we can do that here as v = 0.
+
   EXPECT_EQ(v, p.getF());
 }
 
@@ -130,7 +135,7 @@ TEST(LinkedCell_3D, twoParticlesFar) {
   container.init();
   LinkedCell<LennardJones, 3> phy;
   phy.performUpdate(container);
-  // we can do that here as v = 0.
+
   EXPECT_EQ(v, p.getF());
   EXPECT_EQ(v, q.getF());
 }

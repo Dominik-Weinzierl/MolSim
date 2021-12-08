@@ -155,4 +155,11 @@ class ArgumentParser {
   void performCheck(ArgumentStatus &status, const std::string &name, const std::string &flag,
                     const std::string &possibleValue);
 
+  /**
+   * Getter for tokens.
+   * @return std::vector<std::string> & tokens
+   */
+  [[nodiscard]] const std::vector<std::string> &getTokens() const{
+    return tokens;
+  }
 };

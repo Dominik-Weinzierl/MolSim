@@ -221,10 +221,10 @@ void LinkedCellContainer<2>::linkCells() {
       auto &neighbours = cell->getNeighbours();
 
       // Check all possible neighbours
-      for (int nX = x - static_cast<int>(cutoffRadius / cellSize[0]);
-           nX <= x + static_cast<int>(cutoffRadius / cellSize[0]); ++nX) {
-        for (int nY = y - static_cast<int>(cutoffRadius / cellSize[1]);
-             nY <= y + static_cast<int>(cutoffRadius / cellSize[1]); ++nY) {
+      for (int nX = x - static_cast<int>(std::ceil(cutoffRadius / cellSize[0]));
+           nX <= x + static_cast<int>(std::ceil(cutoffRadius / cellSize[0])); ++nX) {
+        for (int nY = y - static_cast<int>(std::ceil(cutoffRadius / cellSize[1]));
+             nY <= y + static_cast<int>(std::ceil(cutoffRadius / cellSize[1])); ++nY) {
 
           // Filter non relevant neighbours
           if ((nX == x && nY == y) || nX < 0 || nY < 0 || nX >= cellsPerRow || nY >= cellsPerColumn)
@@ -248,8 +248,6 @@ void LinkedCellContainer<2>::linkCells() {
   }
 }
 
-// TODO CLEAN UP!!
-
 template<>
 void LinkedCellContainer<3>::linkCells() {
   int cellsPerRow = (domain[0] / cellSize[0]);
@@ -270,12 +268,12 @@ void LinkedCellContainer<3>::linkCells() {
         // Get neighbours
         auto &neighbours = cell->getNeighbours();
 
-        for (int nX = x - static_cast<int>(cutoffRadius / cellSize[0]);
-             nX <= x + static_cast<int>(cutoffRadius / cellSize[0]); ++nX) {
-          for (int nY = y - static_cast<int>(cutoffRadius / cellSize[1]);
-               nY <= y + static_cast<int>(cutoffRadius / cellSize[1]); ++nY) {
-            for (int nZ = z - static_cast<int>(cutoffRadius / cellSize[2]);
-                 nZ <= z + static_cast<int>(cutoffRadius / cellSize[2]); ++nZ) {
+        for (int nX = x - static_cast<int>(std::ceil(cutoffRadius / cellSize[0]));
+             nX <= x + static_cast<int>(std::ceil(cutoffRadius / cellSize[0])); ++nX) {
+          for (int nY = y - static_cast<int>(std::ceil(cutoffRadius / cellSize[1]));
+               nY <= y + static_cast<int>(std::ceil(cutoffRadius / cellSize[1])); ++nY) {
+            for (int nZ = z - static_cast<int>(std::ceil(cutoffRadius / cellSize[2]));
+                 nZ <= z + static_cast<int>(std::ceil(cutoffRadius / cellSize[2])); ++nZ) {
 
               // Filter non relevant neighbours
               if ((nX == x && nY == y && nZ == z) || nX < 0 || nY < 0 || nZ < 0 || nX >= cellsPerRow

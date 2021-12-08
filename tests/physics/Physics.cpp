@@ -6,7 +6,7 @@
 
 /**
  * ***************************************************
- * Test correct functionality of the class Physics.
+ * Test correct functionality of the class Physics
  * ******************************************+********
  */
 

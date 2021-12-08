@@ -171,7 +171,7 @@ class XMLArgument : public Argument<dim> {
 };
 
 /**
- * Compare operator for XMLArgument(s);
+ * Compare operator for XMLArgument(s).
  * @tparam dim dimension of simulation
  * @param left first XMLArgument
  * @param right second XMLArgument
@@ -187,4 +187,23 @@ bool operator==(const XMLArgument<dim> &left, const XMLArgument<dim> &right) {
       && left.getStrategy() == right.getStrategy() && left.getCutoffRadius() == right.getCutoffRadius()
       && left.getDomain() == right.getDomain() && left.getBoundaries() == right.getBoundaries()
       && left.getCellSize() == right.getCellSize();
+}
+
+/**
+ * Unequal operator for XMLArgument(s).
+ * @tparam dim dimension of simulation
+ * @param left first XMLArgument
+ * @param right second XMLArgument
+ * @return true if on value is unequal.
+ */
+template<size_t dim>
+bool operator!=(const XMLArgument<dim> &left, const XMLArgument<dim> &right) {
+  return left.getCuboidArguments() != right.getCuboidArguments()
+      || left.getSphereArguments() != left.getSphereArguments() || left.getFiles() != right.getFiles()
+      || left.getEndTime() != right.getEndTime() || left.getDeltaT() != right.getDeltaT()
+      || left.getOutput() != right.getOutput() || left.getWriter() != right.getWriter()
+      || left.getIteration() != right.getIteration() || left.getPhysics() != right.getPhysics()
+      || left.getStrategy() != right.getStrategy() || left.getCutoffRadius() != right.getCutoffRadius()
+      || left.getDomain() != right.getDomain() || left.getBoundaries() != right.getBoundaries()
+      || left.getCellSize() != right.getCellSize();
 }

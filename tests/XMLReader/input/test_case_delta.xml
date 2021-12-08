@@ -1,0 +1,2 @@
+<Simulation endTime="3" iteration="60" physics="lennard" writer="vtk" output="output">
+</Simulation>
