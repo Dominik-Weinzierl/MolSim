@@ -100,10 +100,10 @@ TEST(Boundary_2D, checkReflection) {
 TEST(Halo_2D, checkOutflow) {
   LinkedCell<LennardJones, 2> linkedCell{};
   LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 1.0};
-  l.init();
   ASSERT_TRUE(l.size() == 0);
   l.addParticle({{0.1, 0.1}, {-1.0, 0.0}, 1.0});
-  linkedCell.calculateNextStep(l, 1.225);
+  l.init();
+  linkedCell.calculateNextStep(l, 0.5);
   ASSERT_TRUE(l.size() == 0);
 }
 
@@ -112,14 +112,15 @@ TEST(Halo_2D, checkOutflow) {
 */
 TEST(LinkedCellContainer_2D, checkCutoffRadius){
   LinkedCell<LennardJones, 2> linkedCell{};
-  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 1.5};
-  l.init();
+  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 2};
 
   l.addParticle({{0.1, 0.1}, {-1.0, 0.0}, 1.0});
-  l.addParticle({{0.3, 0.3}, {-1.0, 0.0}, 1.0});
+  l.addParticle({{1.5, 1.5}, {-1.0, 0.0}, 1.0});
+
+  l.init();
 
   auto force = l.getParticles()[1].getF();
-  linkedCell.calculateNextStep(l, 1.0);
+  linkedCell.calculateNextStep(l, 0.0005);
 
   ASSERT_TRUE(force != l.getParticles()[1].getF());
 }
