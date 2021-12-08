@@ -52,7 +52,7 @@ Vector<dim> operator-(Vector<dim> lhs, const Vector<dim> &rhs) {
  */
 template<size_t dim>
 Vector<dim> &operator-(Vector<dim> &lhs) {
-  SPDLOG_TRACE("Calculating -{0}" ArrayUtils::to_string(lhs));
+  SPDLOG_TRACE("Calculating -{0}", ArrayUtils::to_string(lhs));
   std::transform(lhs.begin(), lhs.end(), lhs.begin(), [](auto v) {
     return -v;
   });

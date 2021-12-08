@@ -26,6 +26,7 @@ class Halo : public Cell<dim> {
    * Used to set the type of the Particle(s) to -1. This means, that these Particle(s) will be removed soon.
    */
   void applyCellProperties() override {
+    SPDLOG_TRACE("Halo[{}]->applyCellProperties()", ArrayUtils::to_string(this->position));
     if (!this->getParticles().empty()) {
       if (this->boundaryType[0] == BoundaryType::Outflow) {
         for (Particle<dim> *p: this->particles) {

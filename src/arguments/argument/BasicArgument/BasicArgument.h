@@ -27,7 +27,7 @@ class BasicArgument : public Argument<dim> {
                 std::string pWriter, int pIteration, std::string pPhysics, std::string pStrategy) : Argument<dim>(
       std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
       pStrategy) {
-
+    SPDLOG_TRACE("BasicArgument created!");
   }
 
   /**
@@ -36,6 +36,7 @@ class BasicArgument : public Argument<dim> {
    * @param container the ParticleContainer in which the current particles are stored.
    */
   void createAdditionalParticle(ParticleContainer<dim> &container) const override {
+    SPDLOG_TRACE("BasicArgument->createAdditionalParticle()");
     (void) container;
   }
 };
@@ -49,6 +50,7 @@ class BasicArgument : public Argument<dim> {
  */
 template<size_t dim>
 bool operator==(const BasicArgument<dim> &left, const BasicArgument<dim> &right) {
+  SPDLOG_TRACE("BasicArgument->operator==");
   return left.getFiles() == right.getFiles() && left.getEndTime() == right.getEndTime()
       && left.getDeltaT() == right.getDeltaT() && left.getOutput() == right.getOutput()
       && left.getWriter() == right.getWriter() && left.getIteration() == right.getIteration()

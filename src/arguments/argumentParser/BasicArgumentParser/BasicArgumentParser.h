@@ -43,13 +43,14 @@ class BasicArgumentParser : public ArgumentParser<dim> {
    * @param args arguments
    */
   explicit BasicArgumentParser(const std::vector<std::string> &args) : ArgumentParser<dim>(args) {
-
+    SPDLOG_TRACE("BasicArgumentParser created!");
   };
 
   /**
    * Prints the available flag-options.
    */
   void static showUsage() {
+    SPDLOG_TRACE("BasicArgumentParser->showUsage()");
     std::stringstream usage;
     usage << "Usage: "
           << "./MolSim [-h | --help] | {-f | --filename} <filename> {-t | --t_end} <t_end> {-d | --delta_t} <delta_t> "
@@ -74,6 +75,7 @@ class BasicArgumentParser : public ArgumentParser<dim> {
   * @return true if the arguments are valid, otherwise an exception could be thrown.
   */
   bool validateInput() override {
+    SPDLOG_TRACE("BasicArgumentParser->validateInput(): {}", ArrayUtils::to_string(this->tokens));
     for (auto it = this->tokens.begin(); it != this->tokens.end(); ++it) {
       const auto &flag = *it;
 
@@ -127,6 +129,7 @@ class BasicArgumentParser : public ArgumentParser<dim> {
    * @return std::unique_ptr<Argument<dim>>.
    */
   std::unique_ptr<Argument<dim>> createArgument() override {
+    SPDLOG_TRACE("BasicArgumentParser->createArgument()");
     auto filename = std::get<std::string>(status.getValue("filename"));
     auto endTime = std::get<double>(status.getValue("endTime"));
     auto deltaT = std::get<double>(status.getValue("deltaT"));

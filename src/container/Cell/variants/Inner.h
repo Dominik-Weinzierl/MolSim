@@ -21,5 +21,7 @@ class Inner : public Cell<dim> {
   /**
    * There is no additional behaviour needed.
    */
-  inline void applyCellProperties() override {}
+  inline void applyCellProperties() override {
+    SPDLOG_TRACE("Inner[{}]->applyCellProperties()", ArrayUtils::to_string(this->position));
+  }
 };

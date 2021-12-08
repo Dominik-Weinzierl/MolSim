@@ -28,6 +28,7 @@ $ cd MolSim
 ## Run application
 
 ### Build
+> The building process can take a while! Please be patient.
 
 #### Available build options:
 

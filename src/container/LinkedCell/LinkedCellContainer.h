@@ -185,6 +185,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
       if (p.getType() != -1) {
         auto index = static_cast<size_t>(getIndexBasedOnCoordinates(p.getX()));
         if (index >= cells.size()) {
+          SPDLOG_ERROR("Particle got out of bounds [{}]! Please check your configuration", index);
           throw std::invalid_argument("Particle got out of bounds! Please check your configuration");
         }
         auto *cell = cells[index];
@@ -223,12 +224,14 @@ class LinkedCellContainer : public ParticleContainer<dim> {
                                                                             cutoffRadiusSquare{
                                                                                 pCutoffRadius * pCutoffRadius} {
     reserve();
+    SPDLOG_TRACE("LinkedCellContainer generated");
   };
 
   /**
    * Setup linked cell structure.
    */
   void init() override {
+    SPDLOG_TRACE("LinkedCellContainer->init(): Init structure");
     cells.clear();
     boundaryAndInnerCells.clear();
 
@@ -249,6 +252,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   int getIndexBasedOnCoordinates(Vector<dim> coords);
 
   void updateCells() override {
+    SPDLOG_TRACE("LinkedCellContainer->updateCells(): Clear cells and insert particles {}", this->particles.size());
     for (auto *c: cells) {
       c->getParticles().clear();
     }
