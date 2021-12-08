@@ -262,9 +262,9 @@ Additional cmake options:
     ```bash
     $ ctest
     [...]
-    100% tests passed, 0 tests failed out of 50
+    100% tests passed, 0 tests failed out of 95
     
-    Total Test time (real) =   0.57 sec
+    Total Test time (real) =   0.90 sec
     ```
 
 ### Input file format
