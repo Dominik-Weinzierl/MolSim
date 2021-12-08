@@ -271,6 +271,33 @@ TEST(SphereGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
   }
 }
 
+
+/**
+* Tests correctness of 2d generation for unpacked Spheres
+*/
+TEST(SphereGenerator_2D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-err58-cpp)
+  double distance = 1.1225;
+  double mass = 1.0;
+  constexpr int dim = 2;
+  int rad = 2;
+
+  SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, rad, {0.0, 0.0}, distance, mass, 0.1, false};
+  DirectSumContainer<dim> pc{};
+
+  Generator<SphereArgument<dim>, dim>::generate(s, pc);
+  EXPECT_EQ(pc.size(), 8);
+
+  for (unsigned long i = 0; i < dim; i++) {
+    for (auto j = 0; j < dim; j++) {
+      ASSERT_TRUE(std::find_if(pc.getParticles().begin(), pc.getParticles().end(), [&s, &rad](const Particle<dim> &p) {
+        return (ArrayUtils::L2Norm(p.getX() - s.getCenterCoordinates()) > rad + 0.01 * s.getDistance()
+            || ArrayUtils::L2Norm(p.getX() - s.getCenterCoordinates()) < rad + 0.6 * s.getDistance());
+      }) != pc.getParticles().end());
+      EXPECT_EQ(pc.getParticles()[i].getM(), mass);
+    }
+  }
+}
+
 /**
 * Tests correctness of 2d applyMotion for Spheres
 */
@@ -319,6 +346,33 @@ TEST(SpheresGenerator_3D_DirectSumContainer, generate) { // NOLINT(cert-err58-cp
     for (auto j = 0; j < dim; j++) {
       ASSERT_TRUE(std::find_if(pc.getParticles().begin(), pc.getParticles().end(), [&s, &rad](const Particle<dim> &p) {
         return ArrayUtils::L2Norm(p.getX() - s.getCenterCoordinates()) > rad + 0.01 * s.getDistance();
+      }) != pc.getParticles().end());
+      EXPECT_EQ(pc.getParticles()[i].getM(), mass);
+    }
+  }
+}
+
+/**
+* Tests correctness of 3d generation for unpacked Spheres
+*/
+TEST(SpheresGenerator_3D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-err58-cpp)
+  double distance = 1.1225;
+  double mass = 1.0;
+  constexpr int dim = 3;
+  int rad = 2;
+  std::vector dimensions = {dim, dim};
+
+  SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, rad, {0.0, 0.0, 0.0}, distance, mass, 0.1, false};
+  DirectSumContainer<dim> pc{};
+
+  Generator<SphereArgument<dim>, dim>::generate(s, pc);
+  EXPECT_EQ(pc.size(), 26);
+
+  for (unsigned long i = 0; i < dim; i++) {
+    for (auto j = 0; j < dim; j++) {
+      ASSERT_TRUE(std::find_if(pc.getParticles().begin(), pc.getParticles().end(), [&s, &rad](const Particle<dim> &p) {
+        return (ArrayUtils::L2Norm(p.getX() - s.getCenterCoordinates()) > rad + 0.01 * s.getDistance()
+            || ArrayUtils::L2Norm(p.getX() - s.getCenterCoordinates()) < rad + 0.6 * s.getDistance());
       }) != pc.getParticles().end());
       EXPECT_EQ(pc.getParticles()[i].getM(), mass);
     }
