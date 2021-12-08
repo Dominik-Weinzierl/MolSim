@@ -1,0 +1,9 @@
+<Simulation endTime="5" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="MD">
+    <Strategy>
+        <LinkedCell cutoffRadius="3">
+            <Boundary boundary-top="reflecting" boundary-bottom="reflecting"/>
+            <Domain x="9" y="9" z="6"/>
+            <CellSize x="3" y="3" z="3"/>
+        </LinkedCell>
+    </Strategy>
+</Simulation>

@@ -155,6 +155,7 @@ TEST(XMLArgument, compareOperatorNotEqual) { // NOLINT(cert-err58-cpp)
        cutoffRadius, domain, boundaries, cellSize};
 
   physics = std::string{"lennard"};
+
   XMLArgument<dim> second
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
        cutoffRadius, domain, boundaries, cellSize};
