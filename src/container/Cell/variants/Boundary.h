@@ -17,7 +17,7 @@ class Boundary : public Cell<dim> {
   /**
    * Used to perform correct reflection. Minimum required distance factor.
    */
-  const double sixthSqrtOfTwo = 1.1224620483094;
+  const double sixthSqrtOfTwo = std::pow(2, 1.0 / 6.0);
 
   /**
    * Apply the additional force on only the relevant Particle.
@@ -53,7 +53,7 @@ class Boundary : public Cell<dim> {
 
     if (std::fabs(dist) < sixthSqrtOfTwo * p->getZeroCrossing()) {
       auto pos = ghost.getX();
-      pos[index] += 2 * dist;
+      pos[index] += dist;
       ghost.setX(pos);
       applyForce(*p, ghost);
     }
