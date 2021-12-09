@@ -198,7 +198,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/water_drop.xml -2
    ```
-  ![task_3](pics/ws_03_task_3.gif)
+  ![task_3](pics/ws_03_task_4.gif)
 - _(optional)_ Run example simulation of `Task 3` as benchmark.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/water_drop.xml -b -2
@@ -449,6 +449,7 @@ MolSim is released under the [MIT license](https://github.com/Dominik-Weinzierl/
 ![comets_lennard_jones](pics/comets_lennard_jones.gif)
 ![comets_lennard_jones_fancy](pics/comets_lennard_jones_fancy.gif)
 ![two_spheres_lennard_jones](pics/two_spheres_lennard_jones.gif)
+![ws_03_task_4_3D](pics/two_spheres_lennard_jones.gif)
 
 ## Linked Cells vs. Direct Sums
 
