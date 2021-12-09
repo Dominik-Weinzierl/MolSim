@@ -17,7 +17,7 @@ class Boundary : public Cell<dim> {
   /**
    * Used to perform correct reflection. Minimum required distance factor.
    */
-  const double sixthSqrtOfTwo = 1.1224620483094;
+  const double sixthSqrtOfTwo = std::pow(2, 1.0 / 6.0);
 
   /**
    * Apply the additional force on only the relevant Particle.
@@ -25,6 +25,7 @@ class Boundary : public Cell<dim> {
    * @param ghost used to perform reflection
    */
   inline void applyForce(Particle<dim> &p, Particle<dim> &ghost) {
+    SPDLOG_TRACE("Boundary->applyForce(): {} | {}", p.toString(), ghost.toString());
     double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(p, ghost);
     Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(p, ghost, l2Norm)};
     p.updateForce(force);
@@ -36,6 +37,7 @@ class Boundary : public Cell<dim> {
    * @param t direction on which we apply this reflection
    */
   inline void applyReflecting(Particle<dim> *p, BoardDirectionType t) {
+    SPDLOG_TRACE("Boundary->applyReflecting(): {} | {}", p->toString(), t);
     Particle<dim> ghost{*p};
     double dist;
 
@@ -44,14 +46,14 @@ class Boundary : public Cell<dim> {
     if (t % 2 == 0) {
       dist = (this->position[index] + this->cellSize[index]) - (p->getX()[index]);
     }
-    // LEFT, BOTTOM, FRONT
+      // LEFT, BOTTOM, FRONT
     else {
       dist = -(p->getX()[index] - this->position[index]);
     }
 
     if (std::fabs(dist) < sixthSqrtOfTwo * p->getZeroCrossing()) {
       auto pos = ghost.getX();
-      pos[index] += 2 * dist;
+      pos[index] += dist;
       ghost.setX(pos);
       applyForce(*p, ghost);
     }
@@ -74,6 +76,7 @@ class Boundary : public Cell<dim> {
    * Apply selected boundary properties.
    */
   void applyCellProperties() override {
+    SPDLOG_TRACE("Boundary[{}]->applyCellProperties()", ArrayUtils::to_string(this->position));
     if (!this->particles.empty()) {
       for (size_t i = 0; i < this->boundaryType.size(); ++i) {
         if (this->boundaryType[i] != BoundaryType::Outflow) {

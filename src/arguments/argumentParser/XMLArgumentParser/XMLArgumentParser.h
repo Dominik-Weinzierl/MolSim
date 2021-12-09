@@ -32,7 +32,7 @@ class XMLArgumentParser : public ArgumentParser<dim> {
    * @param args arguments
    */
   explicit XMLArgumentParser(const std::vector<std::string> &args) : ArgumentParser<dim>(args) {
-
+    SPDLOG_TRACE("XMLArgumentParser created!");
   }
 
   /**
@@ -40,6 +40,7 @@ class XMLArgumentParser : public ArgumentParser<dim> {
    * @return true if the arguments are valid, otherwise an exception could be thrown.
    */
   bool validateInput() override {
+    SPDLOG_TRACE("XMLArgumentParser->validateInput(): {}", ArrayUtils::to_string(this->tokens));
     for (auto it = this->tokens.begin(); it != this->tokens.end(); ++it) {
       const auto &flag = *it;
       if (it + 1 != this->tokens.end()) {
@@ -67,6 +68,7 @@ class XMLArgumentParser : public ArgumentParser<dim> {
    * @return std::unique_ptr<Argument<dim>>.
    */
   std::unique_ptr<Argument<dim>> createArgument() override {
+    SPDLOG_TRACE("XMLArgumentParser->createArgument()");
     XMLReader<dim> reader{std::get<std::string>(status.getValue("filename"))};
     std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
 
@@ -99,6 +101,7 @@ class XMLArgumentParser : public ArgumentParser<dim> {
    * Prints the available flag-options.
    */
   void static showUsage() {
+    SPDLOG_TRACE("XMLArgumentParser->showUsage()");
     std::stringstream usage;
     usage << "Usage: " << "./MolSim {-x | --xml} {-f | --filename <filename>} [-b | --benchmark] [-2 | -3]"
           << std::endl;

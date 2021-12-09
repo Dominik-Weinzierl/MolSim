@@ -93,6 +93,7 @@ class Cell {
    * @param p pointer to Particle in ParticleContainer (e.g. LinkedCellContainer)
    */
   void insertParticle(Particle<dim> *p) {
+    SPDLOG_TRACE("Cell->insertParticle(): {}", p->toString());
     particles.push_back(p);
   }
 

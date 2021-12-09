@@ -78,6 +78,7 @@ class Argument {
    * @return double endTime
    */
   [[nodiscard]] double getEndTime() const {
+    SPDLOG_TRACE("Argument->getEndTime(): {}", endTime);
     return endTime;
   }
 
@@ -86,6 +87,7 @@ class Argument {
    * @return double deltaT
    */
   [[nodiscard]] double getDeltaT() const {
+    SPDLOG_TRACE("Argument->getDeltaT(): {}", deltaT);
     return deltaT;
   }
 
@@ -94,6 +96,7 @@ class Argument {
    * @return std::vector<std::string> files
    */
   [[nodiscard]] std::vector<std::string> getFiles() const {
+    SPDLOG_TRACE("Argument->getFiles(): {}", ArrayUtils::to_string(files));
     return files;
   }
 
@@ -102,6 +105,7 @@ class Argument {
    * @return int iteration
    */
   [[nodiscard]] int getIteration() const {
+    SPDLOG_TRACE("Argument->getIteration(): {}", iteration);
     return iteration;
   }
 
@@ -110,6 +114,7 @@ class Argument {
    * @return std::basic_string<char> output
    */
   [[nodiscard]] std::basic_string<char> getOutput() const {
+    SPDLOG_TRACE("Argument->getOutput(): {}", output);
     return output;
   }
 
@@ -118,6 +123,7 @@ class Argument {
    * @return std::basic_string<char> writer
    */
   [[nodiscard]] std::basic_string<char> getWriter() const {
+    SPDLOG_TRACE("Argument->getWriter(): {}", writer);
     return writer;
   }
 
@@ -126,6 +132,7 @@ class Argument {
    * @return std::basic_string<char> physics
    */
   [[nodiscard]] std::basic_string<char> getPhysics() const {
+    SPDLOG_TRACE("Argument->getPhysics(): {}", physics);
     return physics;
   }
 
@@ -134,6 +141,7 @@ class Argument {
    * @return strategy.
    */
   [[nodiscard]] const std::string &getStrategy() const {
+    SPDLOG_TRACE("Argument->getStrategy(): {}", strategy);
     return strategy;
   }
 
@@ -147,6 +155,7 @@ class Argument {
   * Prints the arguments.
   */
   [[nodiscard]] virtual std::string toString() const {
+    SPDLOG_TRACE("Argument->toString()");
     std::stringstream configuration;
     configuration << "\tAdditional input files:" << std::endl;
     for (const auto &f: this->files) {
@@ -172,6 +181,7 @@ class Argument {
  */
 template<size_t dim>
 std::ostream &operator<<(std::ostream &stream, const Argument<dim> &c) {
+  SPDLOG_TRACE("Argument->operator<<");
   stream << c.toString();
   return stream;
 }
