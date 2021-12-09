@@ -24,7 +24,9 @@ As described in our project readme: [Readme](https://github.com/Dominik-Weinzier
 - Add smooth reflection as boundary option (and outflow as well)
 - Support linked cell algorithm for 2d and 3d simulations
 - Add simulations and perform benchmarks
-- in total 95 test cases (will be increased on the next sheet)
+- in total 108 test cases (will be increased on the next sheet)
 - Restructure folder structure and project structure
 - Optimize and restructure imports as requested :)
-- ...
+- Add cmake options for logger
+- Create simulations
+- Add packed and unpacked shapes (Sphere and Cuboid)

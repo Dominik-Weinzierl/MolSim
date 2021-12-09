@@ -175,7 +175,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
     <Simulation endTime="20" deltaT="0.0005" iteration="60" physics="lennard" writer="vtk" output="MD">
         <Strategy>
             <LinkedCell cutoffRadius="3">
-                <Domain x="180" y="90" z="3"/>
+                <Domain x="180" y="90" z="9"/>
                 <CellSize x="3" y="3" z="3"/>
                 <Boundary boundary="outflow"/>
             </LinkedCell>
@@ -194,28 +194,28 @@ Run `./MolSim` without any arguments to list possible and required arguments.
         </Shapes>
     </Simulation>
    ```
-- Run example simulation of `Task 3`.
+- Run example simulation of `Task 4`.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/water_drop.xml -2
    ```
-  ![task_3](pics/ws_03_task_3.gif)
-- _(optional)_ Run example simulation of `Task 3` as benchmark.
+  ![task_3](pics/ws_03_task_4.gif)
+- _(optional)_ Run example simulation of `Task 4` as benchmark.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/water_drop.xml -b -2
    ```
-- _(optional)_ Run example simulation of `Task 3` as `3D` simulation.
+- _(optional)_ Run example simulation of `Task 4` as `3D` simulation.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/water_drop.xml -3
    ```
-- Input file used for simulation of `Task 3`.
+- Input file used for simulation of `Task 4`.
   ```xml
     <Simulation endTime="10" deltaT="0.00005" iteration="120" physics="lennard" writer="vtk" output="MD">
         <Strategy>
             <LinkedCell cutoffRadius="3">
                 <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
-                <Domain x="120" y="51" z="9"/>
+                <Domain x="120" y="51" z="51"/>
                 <CellSize x="3" y="3" z="3"/>
-                <Boundary boundary-bottom="reflecting"/>
+                <Boundary boundary="reflecting"/>
             </LinkedCell>
         </Strategy>
         <Shapes>
@@ -263,9 +263,9 @@ Additional cmake options:
     ```bash
     $ ctest
     [...]
-    100% tests passed, 0 tests failed out of 95
+    100% tests passed, 0 tests failed out of 108
     
-    Total Test time (real) =   0.90 sec
+    Total Test time (real) =   38.84 sec
     ```
 
 ### Input file format
@@ -449,6 +449,8 @@ MolSim is released under the [MIT license](https://github.com/Dominik-Weinzierl/
 ![comets_lennard_jones](pics/comets_lennard_jones.gif)
 ![comets_lennard_jones_fancy](pics/comets_lennard_jones_fancy.gif)
 ![two_spheres_lennard_jones](pics/two_spheres_lennard_jones.gif)
+![ws_03_task_4_3D](pics/ws_03_task_4_3D.gif)
+![ws_03_task_4_3D_all_reflecting](pics/ws_03_task_4_3D_all_reflecting.gif)
 
 ## Linked Cells vs. Direct Sums
 

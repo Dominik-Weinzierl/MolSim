@@ -23,7 +23,6 @@
  */
 template<size_t dim>
 class MolSim {
- private:
   /**
    * Arguments used by our simulation.
    */
@@ -39,6 +38,7 @@ class MolSim {
    */
   std::unique_ptr<ParticleContainer<dim>> particleContainer;
 
+ public:
   /**
    * Setup project based on selected dimension.
    * @param args input arguments
@@ -178,7 +178,6 @@ class MolSim {
     }
   };
 
- public:
   /**
    * Wrapper to minimize code duplicate in main.
    * @param args arguments
@@ -192,4 +191,28 @@ class MolSim {
       return value;
     return sim.selectMethod(args);
   };
+
+  /**
+   * Getter for argument.
+   * @return std::unique_ptr<Argument<dim>> & arg
+   */
+  const std::unique_ptr<Argument<dim>> &getArg() const {
+    return arg;
+  }
+
+  /**
+   * Getter for writer.
+   * @return std::unique_ptr<OutputWriter<dim>> & writer
+   */
+  const std::unique_ptr<OutputWriter<dim>> &getWriter() const {
+    return writer;
+  }
+
+  /**
+   * Getter for particleContainer.
+   * @return std::unique_ptr<ParticleContainer<dim>> & particleContainer
+   */
+  const std::unique_ptr<ParticleContainer<dim>> &getParticleContainer() const {
+    return particleContainer;
+  }
 };
