@@ -4,7 +4,6 @@
 #include "physics/DirectSum.h"
 #include "container/DirectSum/DirectSumContainer.h"
 
-
 /**
  * ***************************************************
  * Test correct functionality of the class Gravitation
@@ -100,4 +99,3 @@ TEST(Gravitation_2D_DirectSumContainer, calculateNextStepWithSinglePlanetWithout
 
   EXPECT_EQ(container[0], sun);
 }
-

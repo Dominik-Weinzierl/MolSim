@@ -57,5 +57,3 @@ class DirectSum<Gravitation, dim> : public Physics<Gravitation, dim> {
     }
   }
 };
-
-

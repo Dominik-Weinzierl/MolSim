@@ -97,6 +97,12 @@ class Physics {
     calculateV(particleContainer, deltaT);
   }
 
+  /**
+   * Calculates the square of the l2Norm for two given Particles.
+   * @param i Particle one
+   * @param j Particle two
+   * @return Square of l2Norm
+   */
   static inline double calcL2NormSquare(Particle<dim> &i, Particle<dim> &j) {
     double l2Norm = 0.0;
     for (size_t t = 0; t < dim; ++t) {
@@ -106,4 +112,3 @@ class Physics {
     return l2Norm;
   }
 };
-

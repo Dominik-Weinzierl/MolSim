@@ -129,4 +129,3 @@ std::ostream &operator<<(std::ostream &stream, const Vector<dim> &v) {
   stream << ArrayUtils::to_string(v);
   return stream;
 }
-

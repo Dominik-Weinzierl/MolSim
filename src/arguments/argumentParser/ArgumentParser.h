@@ -19,7 +19,6 @@ class ArgumentStatus {
   std::unordered_map<std::string, std::tuple<bool, std::string, std::variant<std::string, int, double>>> flags;
 
  public:
-
   /**
    * Insert available arguments during construction.
    */

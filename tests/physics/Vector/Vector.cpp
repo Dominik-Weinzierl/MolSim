@@ -8,7 +8,6 @@
  * ******************************************+*****
  */
 
-
 /**
  * Test correctness of constructors of class Vector.
  */

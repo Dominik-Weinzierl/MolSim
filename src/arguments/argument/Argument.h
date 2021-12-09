@@ -185,4 +185,3 @@ std::ostream &operator<<(std::ostream &stream, const Argument<dim> &c) {
   stream << c.toString();
   return stream;
 }
-

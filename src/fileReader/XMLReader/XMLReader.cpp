@@ -63,6 +63,3 @@ std::optional<std::vector<BoundaryType>> XMLReader<2>::loadBoundaries() const {
 
   return bounds;
 }
-
-
-

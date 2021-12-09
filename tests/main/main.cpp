@@ -113,6 +113,3 @@ TEST(Main, ws_02_task_3) { // NOLINT(cert-err58-cpp)
 TEST(Main, ws_03_task_2) { // NOLINT(cert-err58-cpp)
   EXPECT_EQ(MolSim<3>::run({"-x", "-f", "../../input/ws_03/task_2_linked.xml", "-b", "-2"}), 0);
 }
-
-
-

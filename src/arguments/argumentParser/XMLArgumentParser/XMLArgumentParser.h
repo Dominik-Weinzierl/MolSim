@@ -112,4 +112,3 @@ class XMLArgumentParser : public ArgumentParser<dim> {
     std::cout << usage.str();
   }
 };
-

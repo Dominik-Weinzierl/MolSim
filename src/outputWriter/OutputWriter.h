@@ -52,4 +52,3 @@ class OutputWriter {
   const std::string path;
   ParticleContainer<dim> &container;
 };
-

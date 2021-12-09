@@ -108,4 +108,3 @@ TEST(DirectSumContainer_2D, size) { // NOLINT(cert-err58-cpp)
   p1.addParticle({{0.0, 0.0}, {0.0, 0.0}, 1});
   EXPECT_EQ(p1.size(), 3);
 }
-
