@@ -157,6 +157,3 @@ class XMLReader {
    */
   std::unique_ptr<simulation_t> simulation;
 };
-
-
-

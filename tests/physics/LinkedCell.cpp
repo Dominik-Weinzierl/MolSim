@@ -13,7 +13,6 @@
 /**
 * Test if force remains unchanged if there is only one particle
 */
-
 TEST(LinkedCell_2D, oneParticle) { // NOLINT(cert-err58-cpp)
   std::vector<BoundaryType>
       boundaries{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow};
@@ -60,6 +59,7 @@ TEST(LinkedCell_2D, twoParticlesFar) {
   EXPECT_EQ(v, p.getF());
   EXPECT_EQ(v, q.getF());
 }
+
 /**
  * Test if force is calculated correctly for two close particles
  */
@@ -92,6 +92,9 @@ TEST(LinkedCell_2D, twoParticlesClose) {
   EXPECT_NEAR(container[1].getF()[1], 0.058364868164062458, eps);
 }
 
+/**
+ * Check change of force for only one particle.
+ */
 TEST(LinkedCell_3D, oneParticle) { // NOLINT(cert-err58-cpp)
   std::vector<BoundaryType> boundaries
       {BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow,
@@ -139,6 +142,7 @@ TEST(LinkedCell_3D, twoParticlesFar) {
   EXPECT_EQ(v, p.getF());
   EXPECT_EQ(v, q.getF());
 }
+
 /**
  * Test if force is calculated correctly for two close particles
  */

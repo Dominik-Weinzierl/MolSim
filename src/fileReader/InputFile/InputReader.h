@@ -26,7 +26,6 @@ class InputReader {
   // Since we expect only dim two or three, there is no default implementation required.
 
  public:
-
   /**
    * ReadFile Method adds the particles to the given particleContainer.
    * @param particleContainer container in which be store the Particle(s)

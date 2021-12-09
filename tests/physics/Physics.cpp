@@ -3,7 +3,6 @@
 #include "container/DirectSum/DirectSumContainer.h"
 #include "physics/Physics.h"
 
-
 /**
  * ***************************************************
  * Test correct functionality of the class Physics

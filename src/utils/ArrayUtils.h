@@ -179,7 +179,6 @@ auto L2Norm(const Container &c) {
 }
 } // namespace ArrayUtils
 
-
 /**
  * Stream operator for containers.
  *

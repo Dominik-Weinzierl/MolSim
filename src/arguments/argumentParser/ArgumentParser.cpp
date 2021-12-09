@@ -43,4 +43,3 @@ void ArgumentParser<3>::performCheck<double>(ArgumentStatus &status, const std::
     throw std::invalid_argument("Expected: double  | Got: " + possibleValue);
   }
 }
-

@@ -160,8 +160,6 @@ TEST(LinkedCellContainer_2D, checkCutoffRadiusWithRest) {
   Boundary<2> &l_1_cell = l_1.getBoundaryCells()[0];
   EXPECT_EQ(l_1_cell.getNeighbours().size(), 8);
 
-  // --------
-
   LinkedCellContainer<2> l_2{{Outflow, Outflow, Outflow, Outflow}, {2, 2}, {6, 6}, 2};
   l_2.init();
 

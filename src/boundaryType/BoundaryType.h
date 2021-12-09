@@ -6,4 +6,3 @@
 enum BoundaryType {
   Outflow, Reflecting
 };
-

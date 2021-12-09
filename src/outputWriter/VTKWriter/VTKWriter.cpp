@@ -59,4 +59,3 @@ void VTKWriter<2>::plotParticle(const Particle<2> &p) {
   pointsIterator->push_back(p.getX()[1]);
   pointsIterator->push_back(0.0);
 }
-
