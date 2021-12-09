@@ -450,6 +450,7 @@ MolSim is released under the [MIT license](https://github.com/Dominik-Weinzierl/
 ![comets_lennard_jones_fancy](pics/comets_lennard_jones_fancy.gif)
 ![two_spheres_lennard_jones](pics/two_spheres_lennard_jones.gif)
 ![ws_03_task_4_3D](pics/ws_03_task_4_3D.gif)
+![ws_03_task_4_3D_all_reflecting](pics/ws_03_task_4_3D_all_reflecting.gif)
 
 ## Linked Cells vs. Direct Sums
 

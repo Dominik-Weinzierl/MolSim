@@ -1,15 +1,21 @@
-<Simulation endTime="5" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="MD">
+<Simulation endTime="10" deltaT="0.00005" iteration="100" physics="lennard" writer="vtk" output="MD">
     <Strategy>
         <LinkedCell cutoffRadius="3">
             <Boundary boundary="reflecting"/>
-            <Domain x="9" y="9" z="3"/>
+            <Domain x="9" y="9" z="1"/>
             <CellSize x="3" y="3" z="3"/>
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0.1" packed="true" radius="0">
-            <Center x="4.5" y="4.5" z="4.5"/>
-            <Velocity x="1.0" y="-1.0" z="0.0"/>
+        <Sphere mass="1.0" distance="1.1225" meanValue="0.0" packed="true" radius="0">
+            <Center x="8" y="8" z="4.5"/>
+            <Velocity x="-10.0" y="-10.0" z="0.0"/>
+        </Sphere>
+    </Shapes>
+    <Shapes>
+        <Sphere mass="1.0" distance="1.1225" meanValue="0.0" packed="true" radius="0">
+            <Center x="1" y="1" z="0"/>
+            <Velocity x="10.0" y="10.0" z="0.0"/>
         </Sphere>
     </Shapes>
 </Simulation>
