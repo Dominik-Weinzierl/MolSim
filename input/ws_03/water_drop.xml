@@ -4,7 +4,7 @@
             <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
             <Domain x="120" y="51" z="51"/>
             <CellSize x="3" y="3" z="3"/>
-            <Boundary boundary="reflecting"/>
+            <Boundary boundary-bottom="reflecting"/>
         </LinkedCell>
     </Strategy>
     <Shapes>

@@ -125,6 +125,7 @@ class SphereArgument : public GeneratorArguments {
    */
   [[nodiscard]] std::string toString() const {
     std::stringstream argument;
+    argument << "\t\t\tSphere:" << std::endl;
     argument << "\t\t\t\t Center coordinates: " << ArrayUtils::to_string(centerCoordinates) << std::endl;
     argument << "\t\t\t\t Velocity: " << ArrayUtils::to_string(initialVelocity) << std::endl;
     argument << "\t\t\t\t Radius: " << radius << std::endl;
