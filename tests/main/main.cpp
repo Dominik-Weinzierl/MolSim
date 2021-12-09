@@ -87,13 +87,5 @@ TEST(Main, ws_03_task_2) { // NOLINT(cert-err58-cpp)
   EXPECT_EQ(MolSim<3>::run({"-x", "-f", "../../input/ws_03/task_2_linked.xml", "-b", "-2"}), 0);
 }
 
-/**
- * In this test we test the simulation from worksheet 3.
- */
-TEST(Main, ws_03_task_4) { // NOLINT(cert-err58-cpp)
-  EXPECT_EQ(MolSim<3>::run({"-x", "-f", "../../input/ws_03/water_drop.xml", "-b", "-2"}), 0);
-}
-
-
 
 
