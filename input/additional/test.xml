@@ -3,7 +3,7 @@
         <LinkedCell cutoffRadius="3">
             <Domain x="180" y="90" z="90"/>
             <CellSize x="3" y="3" z="3"/>
-            <Boundary boundary="reflection"/>
+            <Boundary boundary="reflecting"/>
         </LinkedCell>
     </Strategy>
     <Shapes>
