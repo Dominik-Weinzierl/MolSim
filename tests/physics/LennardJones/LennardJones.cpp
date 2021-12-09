@@ -4,7 +4,6 @@
 #include "container/DirectSum/DirectSumContainer.h"
 #include "physics/DirectSum.h"
 
-
 /**
  * ***************************************************
  * Test correct functionality of the class LennardJones
@@ -52,7 +51,6 @@ TEST(LennardJones_3D_DirectSumContainer, calculateForceBetweenTwoParticlesWithDi
   EXPECT_NEAR(container[1].getF()[1], 1.37174211248285, eps);
   EXPECT_NEAR(container[1].getF()[2], 1.37174211248285, eps);
 }
-
 
 /**
  * Test basic calculations of next steps. In this case, we test the force between two particles with L2Norm is not one.
@@ -136,7 +134,6 @@ TEST(LennardJones_2D_DirectSumContainer, calculateForceBetweenTwoParticlesWithDi
   EXPECT_NEAR(container[1].getF()[1], 5.6249999999999973, eps);
 }
 
-
 /**
  * Test basic calculations of next steps. In this case, we test the force between two particles with L2Norm is not one.
  */
@@ -176,5 +173,3 @@ TEST(LennardJones_2D_DirectSumContainer, calculateForceBetweenTwoParticles) { //
   EXPECT_NEAR(container[1].getF()[0], 0.058364868164062458, eps);
   EXPECT_NEAR(container[1].getF()[1], 0.058364868164062458, eps);
 }
-
-

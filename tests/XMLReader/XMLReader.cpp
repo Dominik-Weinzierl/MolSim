@@ -8,7 +8,6 @@
  * ******************************************+********
  */
 
-
 /**
 * Test that all fields of the XMLArgument are set correctly for test_case_1.xml for 3d simulations.
 */
@@ -39,7 +38,6 @@ TEST(XMLReader_3D, test_case_1) { // NOLINT(cert-err58-cpp)
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);
 }
-
 
 /**
 * Test that all fields of the XMLArgument are set correctly for test_case_1.xml for 2d simulations.
@@ -160,7 +158,6 @@ TEST(XMLReader_2D, test_case_3) { // NOLINT(cert-err58-cpp)
   // Compare both XMLArgument
   EXPECT_EQ((*arg).getStrategy(), strategy);
 }
-
 
 /**
 * Test that exception is thrown for missing output attribute in test_case_3.xml.

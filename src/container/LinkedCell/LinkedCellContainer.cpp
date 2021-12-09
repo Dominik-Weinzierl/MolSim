@@ -341,5 +341,3 @@ void LinkedCellContainer<3>::reserve() {
 
   std::cout << "Reserved " << reserveCell << " Cells!" << std::endl;
 }
-
-

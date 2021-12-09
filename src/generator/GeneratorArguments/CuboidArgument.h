@@ -166,4 +166,3 @@ std::ostream &operator<<(std::ostream &stream, const CuboidArgument<dim> &c) {
   stream << c.toString();
   return stream;
 }
-

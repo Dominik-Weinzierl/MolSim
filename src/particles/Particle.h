@@ -54,7 +54,6 @@ class Particle {
   double potentialWellDepth = 5;
 
  public:
-
   /**
    * Default constructor.
    * @param type Default value 0.
@@ -80,6 +79,7 @@ class Particle {
                                                                                      type{pType} {
     SPDLOG_TRACE("Particle generated");
   }
+
   /**
    * Default destructor.
    */

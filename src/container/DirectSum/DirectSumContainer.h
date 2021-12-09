@@ -31,6 +31,5 @@ class DirectSumContainer : public ParticleContainer<dim> {
   /**
    * Note that we don't need to do anything here.
    */
-
   void updateCells() override {};
 };

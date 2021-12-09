@@ -38,7 +38,6 @@ TEST(CuboidGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
   }
 }
 
-
 /**
  * Test if non-packed 2D Cuboids are generated correctly.
  */
@@ -84,7 +83,6 @@ TEST(CuboidGenerator_2D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-e
     }
   }
 }
-
 
 /**
  * Test if non-packed 3D Cuboids are generated correctly.
@@ -153,8 +151,6 @@ TEST(CuboidGenerator_3D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-e
     }
   }
 }
-
-
 
 /**
 * Tests correctness of 2d applyMotion for Cuboids.
@@ -270,7 +266,6 @@ TEST(SphereGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
     }
   }
 }
-
 
 /**
 * Tests correctness of 2d generation for unpacked Spheres.
@@ -406,4 +401,3 @@ TEST(SpheresGenerator_3D_DirectSumContainer, applyZeroMotion) { // NOLINT(cert-e
 
   EXPECT_TRUE(p.getParticles()[0].getV() == (Vector<dim>{0, 0, 0}));
 }
-

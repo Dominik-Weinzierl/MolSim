@@ -26,7 +26,6 @@ class VTKWriter : public OutputWriter<dim> {
   // Since we expect only dim two or three, there is no default implementation required.
 
  public:
-
   /**
    * Constructs a VTKWriter to create files based on the VTK file format.
    * @param pFileName output filename
@@ -52,8 +51,8 @@ class VTKWriter : public OutputWriter<dim> {
 
     VTKFile(file, *vtkFile);
   }
- private:
 
+ private:
   /**
    * Initializes the VTK format.
    * @param numParticles amount of Particle(s) used in our simulation

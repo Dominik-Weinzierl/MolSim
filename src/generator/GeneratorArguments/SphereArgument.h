@@ -165,4 +165,3 @@ std::ostream &operator<<(std::ostream &stream, const SphereArgument<dim> &s) {
   stream << s.toString();
   return stream;
 }
-
