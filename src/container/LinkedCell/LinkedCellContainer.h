@@ -281,7 +281,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * Getter for Halo(s).
    * @return std::vector<Halo<dim>> halosCells
    */
-  [[nodiscard]] std::vector<Halo<dim>> &getHalosCells() {
+  [[nodiscard]] std::vector<Halo<dim>> &getHalosCells(){
     return halosCells;
   }
 
@@ -321,8 +321,23 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * Getter for boundary and inner cells.
    * @return boundaryAndInnerCells
    */
-  [[nodiscard]] std::vector<Cell<dim> *> getBoundaryAndInnerCells() const {
+  [[nodiscard]] const std::vector<Cell<dim> *> &getBoundaryAndInnerCells() const {
     return boundaryAndInnerCells;
   }
 
+  /**
+   * Getter for inner cells.
+   * @return boundaryAndInnerCells
+   */
+  [[nodiscard]] const std::vector<Inner<dim>> &getInnerCells() const {
+    return innerCells;
+  }
+
+  /**
+   * Getter for all cells.
+   * @return cells
+   */
+  [[nodiscard]] const std::vector<Cell<dim> *> &getCells() const {
+    return cells;
+  }
 };

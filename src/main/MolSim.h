@@ -191,4 +191,28 @@ class MolSim {
       return value;
     return sim.selectMethod(args);
   };
+
+  /**
+   * Getter for argument.
+   * @return std::unique_ptr<Argument<dim>> & arg
+   */
+  const std::unique_ptr<Argument<dim>> &getArg() const {
+    return arg;
+  }
+
+  /**
+   * Getter for writer.
+   * @return std::unique_ptr<OutputWriter<dim>> & writer
+   */
+  const std::unique_ptr<OutputWriter<dim>> &getWriter() const {
+    return writer;
+  }
+
+  /**
+   * Getter for particleContainer.
+   * @return std::unique_ptr<ParticleContainer<dim>> & particleContainer
+   */
+  const std::unique_ptr<ParticleContainer<dim>> &getParticleContainer() const {
+    return particleContainer;
+  }
 };

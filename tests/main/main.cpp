@@ -56,6 +56,33 @@ TEST(Main, invalid_input_3D) { // NOLINT(cert-err58-cpp)
 }
 
 /**
+ * Test help text.
+ */
+TEST(Main, help) { // NOLINT(cert-err58-cpp)
+  testing::internal::CaptureStdout();
+  ParserStrategy<2>::showUsage();
+  auto help_text = testing::internal::GetCapturedStdout();
+
+  testing::internal::CaptureStdout();
+  EXPECT_EQ(MolSim<2>::run({"-h"}), 0);
+  std::string output = testing::internal::GetCapturedStdout();
+
+  EXPECT_EQ(output, help_text);
+
+  testing::internal::CaptureStdout();
+  EXPECT_EQ(MolSim<2>::run({"--help"}), 0);
+  output = testing::internal::GetCapturedStdout();
+
+  EXPECT_EQ(output, help_text);
+
+  testing::internal::CaptureStdout();
+  EXPECT_EQ(MolSim<2>::run({}), 0);
+  output = testing::internal::GetCapturedStdout();
+
+  EXPECT_EQ(output, help_text);
+}
+
+/**
  * In this test we test the simulation from worksheet 1.
  */
 TEST(Main, ws_01_eingabe_sonne) { // NOLINT(cert-err58-cpp)
