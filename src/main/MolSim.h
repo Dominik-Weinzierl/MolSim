@@ -23,7 +23,6 @@
  */
 template<size_t dim>
 class MolSim {
- private:
   /**
    * Arguments used by our simulation.
    */
@@ -39,6 +38,7 @@ class MolSim {
    */
   std::unique_ptr<ParticleContainer<dim>> particleContainer;
 
+ public:
   /**
    * Setup project based on selected dimension.
    * @param args input arguments
@@ -178,7 +178,6 @@ class MolSim {
     }
   };
 
- public:
   /**
    * Wrapper to minimize code duplicate in main.
    * @param args arguments
