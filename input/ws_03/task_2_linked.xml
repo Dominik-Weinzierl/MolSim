@@ -15,7 +15,7 @@
         <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
             <Position x="70" y="60" z="1.0"/>
             <Velocity x="0.0" y="-10.0" z="0.0"/>
-            <Dimension x="20" y="20" z="1"/>
+            <Dimension x="20" y="20" z="1.0"/>
         </Cuboid>
     </Shapes>
 </Simulation>
