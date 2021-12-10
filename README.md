@@ -137,12 +137,12 @@ Run `./MolSim` without any arguments to list possible and required arguments.
   ```xml
     <Simulation endTime="5" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="MD">
         <Shapes>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
                 <Position x="0.0" y="0.0" z="0.0"/>
                 <Velocity x="0.0" y="0.0" z="0.0"/>
                 <Dimension x="40" y="8" z="1"/>
             </Cuboid>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
                 <Position x="15.0" y="15.0" z="0.0"/>
                 <Velocity x="0.0" y="-10.0" z="0.0"/>
                 <Dimension x="8" y="8" z="1"/>
@@ -181,15 +181,15 @@ Run `./MolSim` without any arguments to list possible and required arguments.
             </LinkedCell>
         </Strategy>
         <Shapes>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
                 <Position x="20.0" y="20.0" z="1.0"/>
                 <Velocity x="0.0" y="0.0" z="0.0"/>
                 <Dimension x="100" y="20" z="1"/>
             </Cuboid>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
                 <Position x="70" y="60" z="1.0"/>
                 <Velocity x="0.0" y="-10.0" z="0.0"/>
-                <Dimension x="20" y="20" z="1"/>
+                <Dimension x="20" y="20" z="1.0"/>
             </Cuboid>
         </Shapes>
     </Simulation>
@@ -215,11 +215,11 @@ Run `./MolSim` without any arguments to list possible and required arguments.
                 <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
                 <Domain x="120" y="51" z="51"/>
                 <CellSize x="3" y="3" z="3"/>
-                <Boundary boundary="reflecting"/>
+                <Boundary boundary-bottom="reflecting"/>
             </LinkedCell>
         </Strategy>
         <Shapes>
-            <Sphere mass="1.0" distance="1.1225" meanValue="0.1" radius="15" packed="true">
+            <Sphere mass="1.0" distance="1.1225" meanValue="0.1" radius="15" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
                 <Center x="60.0" y="25.0" z="25.0"/>
                 <Velocity x="0.0" y="-10.0" z="0.0"/>
             </Sphere>

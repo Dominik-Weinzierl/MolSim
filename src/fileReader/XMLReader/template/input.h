@@ -622,6 +622,7 @@ class shape_t;
 class directSum_t;
 class linkedCell_t;
 class strategy_t;
+class thermostat_t;
 class simulation_t;
 
 #include <memory>    // ::std::unique_ptr
@@ -984,6 +985,95 @@ class cuboid_t : public ::xml_schema::type {
   //@}
 
   /**
+   * @name depthOfPotentialWell
+   *
+   * @brief Accessor and modifier functions for the %depthOfPotentialWell
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::double_ depthOfPotentialWell_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<depthOfPotentialWell_type, char, ::xsd::cxx::tree::schema_type::double_>
+      depthOfPotentialWell_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const depthOfPotentialWell_type &depthOfPotentialWell() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  depthOfPotentialWell_type &depthOfPotentialWell();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void depthOfPotentialWell(const depthOfPotentialWell_type &x);
+
+  //@}
+
+  /**
+   * @name zeroCrossing
+   *
+   * @brief Accessor and modifier functions for the %zeroCrossing
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::double_ zeroCrossing_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<zeroCrossing_type, char, ::xsd::cxx::tree::schema_type::double_> zeroCrossing_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const zeroCrossing_type &zeroCrossing() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  zeroCrossing_type &zeroCrossing();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void zeroCrossing(const zeroCrossing_type &x);
+
+  //@}
+
+  /**
    * @name Constructors
    */
   //@{
@@ -993,7 +1083,8 @@ class cuboid_t : public ::xml_schema::type {
    * initializers for required elements and attributes.
    */
   cuboid_t(const Position_type &, const Velocity_type &, const Dimension_type &, const distance_type &,
-           const mass_type &, const meanValue_type &, const packed_type &);
+           const mass_type &, const meanValue_type &, const packed_type &, const depthOfPotentialWell_type &,
+           const zeroCrossing_type &);
 
   /**
    * @brief Create an instance from the ultimate base and
@@ -1004,7 +1095,8 @@ class cuboid_t : public ::xml_schema::type {
    * instead of making copies.
    */
   cuboid_t(::std::unique_ptr<Position_type>, ::std::unique_ptr<Velocity_type>, ::std::unique_ptr<Dimension_type>,
-           const distance_type &, const mass_type &, const meanValue_type &, const packed_type &);
+           const distance_type &, const mass_type &, const meanValue_type &, const packed_type &,
+           const depthOfPotentialWell_type &, const zeroCrossing_type &);
 
   /**
    * @brief Create an instance from a DOM element.
@@ -1074,6 +1166,8 @@ class cuboid_t : public ::xml_schema::type {
   ::xsd::cxx::tree::one<mass_type> mass_;
   ::xsd::cxx::tree::one<meanValue_type> meanValue_;
   ::xsd::cxx::tree::one<packed_type> packed_;
+  ::xsd::cxx::tree::one<depthOfPotentialWell_type> depthOfPotentialWell_;
+  ::xsd::cxx::tree::one<zeroCrossing_type> zeroCrossing_;
 
   //@endcond
 };
@@ -1414,6 +1508,95 @@ class sphere_t : public ::xml_schema::type {
   //@}
 
   /**
+   * @name depthOfPotentialWell
+   *
+   * @brief Accessor and modifier functions for the %depthOfPotentialWell
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::double_ depthOfPotentialWell_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<depthOfPotentialWell_type, char, ::xsd::cxx::tree::schema_type::double_>
+      depthOfPotentialWell_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const depthOfPotentialWell_type &depthOfPotentialWell() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  depthOfPotentialWell_type &depthOfPotentialWell();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void depthOfPotentialWell(const depthOfPotentialWell_type &x);
+
+  //@}
+
+  /**
+   * @name zeroCrossing
+   *
+   * @brief Accessor and modifier functions for the %zeroCrossing
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::double_ zeroCrossing_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<zeroCrossing_type, char, ::xsd::cxx::tree::schema_type::double_> zeroCrossing_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const zeroCrossing_type &zeroCrossing() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  zeroCrossing_type &zeroCrossing();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void zeroCrossing(const zeroCrossing_type &x);
+
+  //@}
+
+  /**
    * @name Constructors
    */
   //@{
@@ -1423,7 +1606,7 @@ class sphere_t : public ::xml_schema::type {
    * initializers for required elements and attributes.
    */
   sphere_t(const Center_type &, const Velocity_type &, const radius_type &, const distance_type &, const mass_type &,
-           const meanValue_type &, const packed_type &);
+           const meanValue_type &, const packed_type &, const depthOfPotentialWell_type &, const zeroCrossing_type &);
 
   /**
    * @brief Create an instance from the ultimate base and
@@ -1434,7 +1617,8 @@ class sphere_t : public ::xml_schema::type {
    * instead of making copies.
    */
   sphere_t(::std::unique_ptr<Center_type>, ::std::unique_ptr<Velocity_type>, const radius_type &, const distance_type &,
-           const mass_type &, const meanValue_type &, const packed_type &);
+           const mass_type &, const meanValue_type &, const packed_type &, const depthOfPotentialWell_type &,
+           const zeroCrossing_type &);
 
   /**
    * @brief Create an instance from a DOM element.
@@ -1504,6 +1688,8 @@ class sphere_t : public ::xml_schema::type {
   ::xsd::cxx::tree::one<mass_type> mass_;
   ::xsd::cxx::tree::one<meanValue_type> meanValue_;
   ::xsd::cxx::tree::one<packed_type> packed_;
+  ::xsd::cxx::tree::one<depthOfPotentialWell_type> depthOfPotentialWell_;
+  ::xsd::cxx::tree::one<zeroCrossing_type> zeroCrossing_;
 
   //@endcond
 };
@@ -3491,6 +3677,303 @@ class strategy_t : public ::xml_schema::type {
 };
 
 /**
+ * @brief Class corresponding to the %thermostat_t schema type.
+ *
+ * @nosubgrouping
+ */
+class thermostat_t : public ::xml_schema::type {
+ public:
+  /**
+   * @name initialT
+   *
+   * @brief Accessor and modifier functions for the %initialT
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::double_ initialT_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<initialT_type, char, ::xsd::cxx::tree::schema_type::double_> initialT_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const initialT_type &initialT() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  initialT_type &initialT();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void initialT(const initialT_type &x);
+
+  //@}
+
+  /**
+   * @name targetT
+   *
+   * @brief Accessor and modifier functions for the %targetT
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::double_ targetT_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<targetT_type> targetT_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<targetT_type, char, ::xsd::cxx::tree::schema_type::double_> targetT_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const targetT_optional &targetT() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  targetT_optional &targetT();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void targetT(const targetT_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void targetT(const targetT_optional &x);
+
+  //@}
+
+  /**
+   * @name numberT
+   *
+   * @brief Accessor and modifier functions for the %numberT
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::non_negative_integer numberT_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<numberT_type, char> numberT_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const numberT_type &numberT() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  numberT_type &numberT();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void numberT(const numberT_type &x);
+
+  //@}
+
+  /**
+   * @name deltaT
+   *
+   * @brief Accessor and modifier functions for the %deltaT
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::non_negative_integer deltaT_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<deltaT_type> deltaT_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<deltaT_type, char> deltaT_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const deltaT_optional &deltaT() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  deltaT_optional &deltaT();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void deltaT(const deltaT_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void deltaT(const deltaT_optional &x);
+
+  //@}
+
+  /**
+   * @name Constructors
+   */
+  //@{
+
+  /**
+   * @brief Create an instance from the ultimate base and
+   * initializers for required elements and attributes.
+   */
+  thermostat_t(const initialT_type &, const numberT_type &);
+
+  /**
+   * @brief Create an instance from a DOM element.
+   *
+   * @param e A DOM element to extract the data from.
+   * @param f Flags to create the new instance with.
+   * @param c A pointer to the object that will contain the new
+   * instance.
+   */
+  thermostat_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
+
+  /**
+   * @brief Copy constructor.
+   *
+   * @param x An instance to make a copy of.
+   * @param f Flags to create the copy with.
+   * @param c A pointer to the object that will contain the copy.
+   *
+   * For polymorphic object models use the @c _clone function instead.
+   */
+  thermostat_t(const thermostat_t &x, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
+
+  /**
+   * @brief Copy the instance polymorphically.
+   *
+   * @param f Flags to create the copy with.
+   * @param c A pointer to the object that will contain the copy.
+   * @return A pointer to the dynamically allocated copy.
+   *
+   * This function ensures that the dynamic type of the instance is
+   * used for copying and should be used for polymorphic object
+   * models instead of the copy constructor.
+   */
+  virtual thermostat_t *_clone(::xml_schema::flags f = 0, ::xml_schema::container *c = 0) const;
+
+  /**
+   * @brief Copy assignment operator.
+   *
+   * @param x An instance to make a copy of.
+   * @return A reference to itself.
+   *
+   * For polymorphic object models use the @c _clone function instead.
+   */
+  thermostat_t &operator=(const thermostat_t &x);
+
+  //@}
+
+  /**
+   * @brief Destructor.
+   */
+  virtual
+  ~thermostat_t();
+
+  // Implementation.
+  //
+
+  //@cond
+
+ protected:
+  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::flags);
+
+ protected:
+  ::xsd::cxx::tree::one<initialT_type> initialT_;
+  targetT_optional targetT_;
+  ::xsd::cxx::tree::one<numberT_type> numberT_;
+  deltaT_optional deltaT_;
+
+  //@endcond
+};
+
+/**
  * @brief Class corresponding to the %simulation_t schema type.
  *
  * @nosubgrouping
@@ -3687,6 +4170,77 @@ class simulation_t : public ::xml_schema::type {
    * of making a copy.
    */
   void Strategy(::std::unique_ptr<Strategy_type> p);
+
+  //@}
+
+  /**
+   * @name Thermostat
+   *
+   * @brief Accessor and modifier functions for the %Thermostat
+   * optional element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::thermostat_t Thermostat_type;
+
+  /**
+   * @brief Element optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<Thermostat_type> Thermostat_optional;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<Thermostat_type, char> Thermostat_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const Thermostat_optional &Thermostat() const;
+
+  /**
+   * @brief Return a read-write reference to the element container.
+   *
+   * @return A reference to the optional container.
+   */
+  Thermostat_optional &Thermostat();
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the element.
+   */
+  void Thermostat(const Thermostat_type &x);
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the element.
+   * Otherwise the element container is set the 'not present' state.
+   */
+  void Thermostat(const Thermostat_optional &x);
+
+  /**
+   * @brief Set the element value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly instead
+   * of making a copy.
+   */
+  void Thermostat(::std::unique_ptr<Thermostat_type> p);
 
   //@}
 
@@ -3985,6 +4539,68 @@ class simulation_t : public ::xml_schema::type {
   //@}
 
   /**
+   * @name additionalGravitation
+   *
+   * @brief Accessor and modifier functions for the %additionalGravitation
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::double_ additionalGravitation_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<additionalGravitation_type> additionalGravitation_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<additionalGravitation_type, char, ::xsd::cxx::tree::schema_type::double_>
+      additionalGravitation_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const additionalGravitation_optional &additionalGravitation() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  additionalGravitation_optional &additionalGravitation();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void additionalGravitation(const additionalGravitation_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void additionalGravitation(const additionalGravitation_optional &x);
+
+  //@}
+
+  /**
    * @name Constructors
    */
   //@{
@@ -4060,12 +4676,14 @@ class simulation_t : public ::xml_schema::type {
   Shapes_sequence Shapes_;
   Source_sequence Source_;
   Strategy_optional Strategy_;
+  Thermostat_optional Thermostat_;
   ::xsd::cxx::tree::one<endTime_type> endTime_;
   ::xsd::cxx::tree::one<deltaT_type> deltaT_;
   ::xsd::cxx::tree::one<output_type> output_;
   ::xsd::cxx::tree::one<iteration_type> iteration_;
   ::xsd::cxx::tree::one<physics_type> physics_;
   ::xsd::cxx::tree::one<writer_type> writer_;
+  additionalGravitation_optional additionalGravitation_;
 
   //@endcond
 };
@@ -4330,6 +4948,8 @@ void operator<<(::xml_schema::list_stream &, const directSum_t &);
 void operator<<(::xercesc::DOMElement &, const linkedCell_t &);
 
 void operator<<(::xercesc::DOMElement &, const strategy_t &);
+
+void operator<<(::xercesc::DOMElement &, const thermostat_t &);
 
 void operator<<(::xercesc::DOMElement &, const simulation_t &);
 

@@ -22,9 +22,9 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
   int iteration = 5;
   std::string physics{"gravitation"};
   std::vector<CuboidArgument<dim>>
-      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true}};
+      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5}};
   std::vector<SphereArgument<dim>>
-      sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true}};
+      sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true, 1, 5}};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
   std::optional<std::array<int, dim>> domain{{5, 5, 5}};
@@ -32,10 +32,12 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
       {{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting,
         BoundaryType::Outflow, BoundaryType::Outflow}};
   std::optional<std::array<int, dim>> cellSize{{1, 1, 1}};
+  std::optional<double> additionalGravitation = std::nullopt;
+  std::optional<Thermostat> thermostat = std::nullopt;
 
   XMLArgument<dim> arg
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize};
+       cutoffRadius, domain, boundaries, cellSize, thermostat, additionalGravitation};
 
   // Expect getter und setter to return correct values
   EXPECT_EQ(arg.getFiles(), files);
@@ -52,6 +54,8 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
   EXPECT_EQ(arg.getDomain(), domain);
   EXPECT_EQ(arg.getBoundaries(), boundaries);
   EXPECT_EQ(arg.getCellSize(), cellSize);
+  EXPECT_EQ(arg.getThermostat(), thermostat);
+  EXPECT_EQ(arg.getAdditionalGravitation(), additionalGravitation);
 }
 
 /**
@@ -68,19 +72,21 @@ TEST(XMLArgument_2D, constructor) { // NOLINT(cert-err58-cpp)
   int iteration = 5;
   std::string physics{"gravitation"};
   std::vector<CuboidArgument<dim>>
-      cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true}};
+      cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true, 1, 5}};
   std::vector<SphereArgument<dim>>
-      sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true}};
+      sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true, 1, 5}};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
   std::optional<std::array<int, dim>> domain{{5, 5}};
   std::optional<std::vector<BoundaryType>>
       boundaries{{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting}};
   std::optional<std::array<int, dim>> cellSize{{1, 1}};
+  std::optional<double> additionalGravitation = std::nullopt;
+  std::optional<Thermostat> thermostat = std::nullopt;
 
   XMLArgument<dim> arg
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize};
+       cutoffRadius, domain, boundaries, cellSize, thermostat, additionalGravitation};
 
   // Expect getter und setter to return correct values
   EXPECT_EQ(arg.getFiles(), files);
@@ -97,6 +103,8 @@ TEST(XMLArgument_2D, constructor) { // NOLINT(cert-err58-cpp)
   EXPECT_EQ(arg.getDomain(), domain);
   EXPECT_EQ(arg.getBoundaries(), boundaries);
   EXPECT_EQ(arg.getCellSize(), cellSize);
+  EXPECT_EQ(arg.getThermostat(), thermostat);
+  EXPECT_EQ(arg.getAdditionalGravitation(), additionalGravitation);
 }
 
 /**
@@ -119,10 +127,12 @@ TEST(XMLArgument, compareOperatorEqual) { // NOLINT(cert-err58-cpp)
   std::optional<std::array<int, dim>> domain{{5, 5}};
   std::optional<std::vector<BoundaryType>> boundaries{};
   std::optional<std::array<int, dim>> cellSize{{1, 1}};
+  std::optional<double> additionalGravitation = std::nullopt;
+  std::optional<Thermostat> thermostat = std::nullopt;
 
   XMLArgument<dim> first
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize};
+       cutoffRadius, domain, boundaries, cellSize, thermostat, additionalGravitation};
 
   XMLArgument<dim> second = first;
 
@@ -149,16 +159,18 @@ TEST(XMLArgument, compareOperatorNotEqual) { // NOLINT(cert-err58-cpp)
   std::optional<std::array<int, dim>> domain{{5, 5}};
   std::optional<std::vector<BoundaryType>> boundaries{};
   std::optional<std::array<int, dim>> cellSize{{1, 1}};
+  std::optional<double> additionalGravitation = std::nullopt;
+  std::optional<Thermostat> thermostat = std::nullopt;
 
   XMLArgument<dim> first
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize};
+       cutoffRadius, domain, boundaries, cellSize, thermostat, additionalGravitation};
 
   physics = std::string{"lennard"};
 
   XMLArgument<dim> second
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize};
+       cutoffRadius, domain, boundaries, cellSize, thermostat, additionalGravitation};
 
   EXPECT_NE(first, second);
 }

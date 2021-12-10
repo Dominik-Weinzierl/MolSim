@@ -8,7 +8,7 @@
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0.1" radius="15" packed="true">
+        <Sphere mass="1.0" distance="1.1225" meanValue="0.1" radius="15" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
             <Center x="60.0" y="25.0" z="25.0"/>
             <Velocity x="0.0" y="-10.0" z="0.0"/>
         </Sphere>
