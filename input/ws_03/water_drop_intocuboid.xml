@@ -7,11 +7,11 @@
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0.1" radius="10" packed="true">
+        <Sphere mass="1.0" distance="1.1225" meanValue="0.1" radius="10" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
             <Center x="60.0" y="30.0" z="25.0"/>
             <Velocity x="0.0" y="-10.0" z="0.0"/>
         </Sphere>
-        <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
+        <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
             <Position x="30.0" y="5.0" z="20.0"/>
             <Velocity x="0.0" y="0.0" z="0.0"/>
             <Dimension x="50" y="10" z="10"/>

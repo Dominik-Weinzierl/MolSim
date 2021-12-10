@@ -81,6 +81,20 @@ class Particle {
   }
 
   /**
+   * Constructor which generates a particle with the given parameters.
+   * @param pX Position-Vector.
+   * @param pV Velocity-Vector.
+   * @param pM Mass.
+   * @param pZeroCrossing
+   * @param pPotentialWellDepth
+   */
+  Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth)
+      : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{0}, zeroCrossing{pZeroCrossing},
+        potentialWellDepth{pPotentialWellDepth} {
+    SPDLOG_TRACE("Particle generated");
+  }
+
+  /**
    * Default destructor.
    */
   virtual ~Particle() = default;

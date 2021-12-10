@@ -45,6 +45,16 @@ class CuboidArgument : public GeneratorArguments {
    */
   bool packed;
 
+  /**
+   *
+   */
+  double zeroCrossing;
+
+  /**
+   *
+   */
+  double depthOfPotentialWell;
+
  public:
 
   /**
@@ -103,6 +113,14 @@ class CuboidArgument : public GeneratorArguments {
     return packed;
   }
 
+  [[nodiscard]] double getZeroCrossing() const {
+    return zeroCrossing;
+  }
+
+  [[nodiscard]] double getDepthOfPotentialWell() const {
+    return depthOfPotentialWell;
+  }
+
   /**
    * CuboidArgument used to create Cuboid(s) by the Generator.
    * @param pStartingCoordinates coordinates of the lower left corner
@@ -112,13 +130,16 @@ class CuboidArgument : public GeneratorArguments {
    * @param pMass mass of the Particle(s)
    * @param pMeanValue mean value of the Particle(s)
    * @param pPacked describes if the Cuboid is packed with Particle(s)
+   * @param pZeroCrossing
+   * @param pDepthOfPotentialWell
    */
   CuboidArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
-                 double pDistance, double pMass, double pMeanValue, bool pPacked = true) : startingCoordinates{
-      pStartingCoordinates}, dimensions{std::move(pDimensions)}, initialVelocity{pInitialVelocity}, distance{pDistance},
-                                                                                            mass{pMass},
-                                                                                            meanValue{pMeanValue},
-                                                                                            packed{pPacked} {
+                 double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
+                 double pDepthOfPotentialWell) : startingCoordinates{pStartingCoordinates},
+                                                 dimensions{std::move(pDimensions)}, initialVelocity{pInitialVelocity},
+                                                 distance{pDistance}, mass{pMass}, meanValue{pMeanValue},
+                                                 packed{pPacked}, zeroCrossing{pZeroCrossing},
+                                                 depthOfPotentialWell{pDepthOfPotentialWell} {
 
   }
 
@@ -135,6 +156,8 @@ class CuboidArgument : public GeneratorArguments {
     argument << "\t\t\t\t Mass: " << mass << std::endl;
     argument << "\t\t\t\t Mean value: " << meanValue << std::endl;
     argument << "\t\t\t\t Packed: " << (packed ? "true" : "false") << std::endl;
+    argument << "\t\t\t\t Zero crossing: " << zeroCrossing << std::endl;
+    argument << "\t\t\t\t Depth of potential well: " << depthOfPotentialWell << std::endl;
     return argument.str();
   };
 };
@@ -151,7 +174,9 @@ bool operator==(const CuboidArgument<dim> &left, const CuboidArgument<dim> &righ
   return left.getStartingCoordinates() == right.getStartingCoordinates()
       && left.getDimensions() == right.getDimensions() && left.getInitialVelocity() == right.getInitialVelocity()
       && left.getDistance() == right.getDistance() && left.getMass() == right.getMass()
-      && left.getMeanValue() == right.getMeanValue() && left.getPacked() == right.getPacked();
+      && left.getMeanValue() == right.getMeanValue() && left.getPacked() == right.getPacked()
+      && left.getDepthOfPotentialWell() == right.getDepthOfPotentialWell()
+      && left.getZeroCrossing() == right.getZeroCrossing();
 }
 
 /**

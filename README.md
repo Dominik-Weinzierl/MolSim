@@ -137,12 +137,12 @@ Run `./MolSim` without any arguments to list possible and required arguments.
   ```xml
     <Simulation endTime="5" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="MD">
         <Shapes>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
                 <Position x="0.0" y="0.0" z="0.0"/>
                 <Velocity x="0.0" y="0.0" z="0.0"/>
                 <Dimension x="40" y="8" z="1"/>
             </Cuboid>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
                 <Position x="15.0" y="15.0" z="0.0"/>
                 <Velocity x="0.0" y="-10.0" z="0.0"/>
                 <Dimension x="8" y="8" z="1"/>
@@ -181,15 +181,15 @@ Run `./MolSim` without any arguments to list possible and required arguments.
             </LinkedCell>
         </Strategy>
         <Shapes>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
                 <Position x="20.0" y="20.0" z="1.0"/>
                 <Velocity x="0.0" y="0.0" z="0.0"/>
                 <Dimension x="100" y="20" z="1"/>
             </Cuboid>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.1" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
                 <Position x="70" y="60" z="1.0"/>
                 <Velocity x="0.0" y="-10.0" z="0.0"/>
-                <Dimension x="20" y="20" z="1"/>
+                <Dimension x="20" y="20" z="1.0"/>
             </Cuboid>
         </Shapes>
     </Simulation>
@@ -215,11 +215,11 @@ Run `./MolSim` without any arguments to list possible and required arguments.
                 <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
                 <Domain x="120" y="51" z="51"/>
                 <CellSize x="3" y="3" z="3"/>
-                <Boundary boundary="reflecting"/>
+                <Boundary boundary-bottom="reflecting"/>
             </LinkedCell>
         </Strategy>
         <Shapes>
-            <Sphere mass="1.0" distance="1.1225" meanValue="0.1" radius="15" packed="true">
+            <Sphere mass="1.0" distance="1.1225" meanValue="0.1" radius="15" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
                 <Center x="60.0" y="25.0" z="25.0"/>
                 <Velocity x="0.0" y="-10.0" z="0.0"/>
             </Sphere>
@@ -286,7 +286,10 @@ Additional cmake options:
             <xsd:attribute name="mass" type="xsd:double" use="required"/>
             <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
             <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
+            <xsd:attribute name="depthOfPotentialWell" type="xsd:double" use="required"/>
+            <xsd:attribute name="zeroCrossing" type="xsd:double" use="required"/>
         </xsd:complexType>
+    
         <!-- Spheres - all attributes are required -->
         <xsd:complexType name="sphere_t">
             <xsd:sequence>
@@ -298,6 +301,8 @@ Additional cmake options:
             <xsd:attribute name="mass" type="xsd:double" use="required"/>
             <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
             <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
+            <xsd:attribute name="depthOfPotentialWell" type="xsd:double" use="required"/>
+            <xsd:attribute name="zeroCrossing" type="xsd:double" use="required"/>
         </xsd:complexType>
     
         <!-- Double vector - all attributes are required -->
@@ -362,12 +367,22 @@ Additional cmake options:
             </xsd:choice>
         </xsd:complexType>
     
+        <!-- Thermostat -->
+        <xsd:complexType name="thermostat_t">
+            <!-- cutoffRadius: used for linked cell optimizations -->
+            <xsd:attribute name="initialT" type="xsd:double" use="required"/>
+            <xsd:attribute name="targetT" type="xsd:double"/>
+            <xsd:attribute name="numberT" type="xsd:nonNegativeInteger" use="required"/>
+            <xsd:attribute name="deltaT" type="xsd:nonNegativeInteger"/>
+        </xsd:complexType>
+    
         <!-- Simulation -->
         <xsd:complexType name="simulation_t">
             <xsd:sequence>
                 <xsd:element name="Shapes" type="shape_t" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element name="Source" type="input_t" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element name="Strategy" type="strategy_t" minOccurs="0"/>
+                <xsd:element name="Thermostat" type="thermostat_t" minOccurs="0"/>
             </xsd:sequence>
             <xsd:attribute name="endTime" type="xsd:double" use="required"/>
             <xsd:attribute name="deltaT" type="xsd:double" use="required"/>
@@ -377,6 +392,7 @@ Additional cmake options:
             <xsd:attribute name="physics" type="xsd:string" use="required"/>
             <!-- writer: vtk | xyz -->
             <xsd:attribute name="writer" type="xsd:string" use="required"/>
+            <xsd:attribute name="additionalGravitation" type="xsd:double"/>
         </xsd:complexType>
         <xsd:element name="Simulation" type="simulation_t"/>
     </xsd:schema>
@@ -392,7 +408,7 @@ Additional cmake options:
                 <Velocity x="0.0" y="0.0" z="0.0"/>
                 <Dimension x="5" y="20" z="5"/>
             </Cuboid>
-            <Sphere mass="3.0" distance="1.1225" meanValue="0" radius="10" packed="true">
+            <Sphere mass="3.0" distance="1.1225" meanValue="0" radius="10" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
                 <Center x="25" y="10" z="0"/>
                 <Velocity x="-15" y="0" z="0"/>
             </Sphere>

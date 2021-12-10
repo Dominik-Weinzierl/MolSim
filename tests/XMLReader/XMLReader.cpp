@@ -20,9 +20,9 @@ TEST(XMLReader_3D, test_case_1) { // NOLINT(cert-err58-cpp)
   // Create expected argument
   std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
   std::vector<CuboidArgument<dim>>
-      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true}};
+      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5}};
   std::vector<SphereArgument<dim>>
-      sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true}};
+      sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true, 1, 5}};
   std::vector<std::string> files{};
   double endTime = 5;
   double deltaT = 0.0002;
@@ -33,7 +33,7 @@ TEST(XMLReader_3D, test_case_1) { // NOLINT(cert-err58-cpp)
   std::string algorithm{"DirectSum"};
   XMLArgument<dim> expected
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       std::nullopt, std::nullopt, std::nullopt, std::nullopt};
+       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt};
 
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);
@@ -51,9 +51,9 @@ TEST(XMLReader_2D, test_case_1) { // NOLINT(cert-err58-cpp)
   // Create expected argument
   std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
   std::vector<CuboidArgument<dim>>
-      cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true}};
+      cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true, 1, 5}};
   std::vector<SphereArgument<dim>>
-      sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true}};
+      sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true, 1, 5}};
   std::vector<std::string> files{};
   double endTime = 5;
   double deltaT = 0.0002;
@@ -64,7 +64,7 @@ TEST(XMLReader_2D, test_case_1) { // NOLINT(cert-err58-cpp)
   std::string algorithm{"DirectSum"};
   XMLArgument<dim> expected
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       std::nullopt, std::nullopt, std::nullopt, std::nullopt};
+       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt};
 
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);

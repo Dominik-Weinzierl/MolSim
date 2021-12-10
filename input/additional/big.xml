@@ -7,39 +7,48 @@
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Sphere mass="2.0" distance="1.1225" meanValue="0" radius="6" packed="true">
+        <Sphere mass="2.0" distance="1.1225" meanValue="0" radius="6" packed="true" depthOfPotentialWell="5"
+                zeroCrossing="1">
             <Center x="30" y="15" z="10"/>
             <Velocity x="23.0" y="0" z="0"/>
         </Sphere>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="3" packed="true">
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="3" packed="true" depthOfPotentialWell="5"
+                zeroCrossing="1">
             <Center x="40" y="+10" z="5.0"/>
             <Velocity x="18.0" y="3.0" z="-1.0"/>
         </Sphere>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="3" packed="true">
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="3" packed="true" depthOfPotentialWell="5"
+                zeroCrossing="1">
             <Center x="42" y="10" z="13.0"/>
             <Velocity x="18.0" y="+3.0" z="0"/>
         </Sphere>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="2" packed="true">
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="2" packed="true" depthOfPotentialWell="5"
+                zeroCrossing="1">
             <Center x="48" y="3.0" z="10"/>
             <Velocity x="16.0" y="-1.0" z="0"/>
         </Sphere>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="2" packed="true">
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="2" packed="true" depthOfPotentialWell="5"
+                zeroCrossing="1">
             <Center x="50" y="3.0" z="4.0"/>
             <Velocity x="16.0" y="+1.0" z="-1.0"/>
         </Sphere>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="1" packed="true">
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="1" packed="true" depthOfPotentialWell="5"
+                zeroCrossing="1">
             <Center x="55" y="5.0" z="6.0"/>
             <Velocity x="16.0" y="0.0" z="-2.0"/>
         </Sphere>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="1" packed="true">
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="1" packed="true" depthOfPotentialWell="5"
+                zeroCrossing="1">
             <Center x="58" y="3.0" z="6"/>
             <Velocity x="16.0" y="-1.0" z="0"/>
         </Sphere>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="1" packed="true">
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="1" packed="true" depthOfPotentialWell="5"
+                zeroCrossing="1">
             <Center x="61" y="3.0" z="10"/>
             <Velocity x="15.0" y="-1.0" z="-2"/>
         </Sphere>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="1" packed="true">
+        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="1" packed="true" depthOfPotentialWell="5"
+                zeroCrossing="1">
             <Center x="65" y="3.0" z="10"/>
             <Velocity x="15.0" y="-1.0" z="+2"/>
         </Sphere>

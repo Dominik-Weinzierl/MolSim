@@ -21,7 +21,7 @@ TEST(CuboidGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
   constexpr int dim = 2;
   std::array<int, dim> dimensions = {dim, dim};
 
-  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1};
+  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1, true, 1, 5};
   DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
@@ -47,7 +47,7 @@ TEST(CuboidGenerator_2D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-e
   constexpr int dim = 2;
   std::array<int, dim> dimensions = {4, 4};
 
-  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1, false};
+  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1, false, 1, 5};
   DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
@@ -93,7 +93,7 @@ TEST(CuboidGenerator_3D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-e
   constexpr int dim = 3;
   std::array<int, dim> dimensions = {4, 4, 4};
 
-  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1, false};
+  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1, false, 1, 5};
   DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
@@ -160,7 +160,7 @@ TEST(CuboidGenerator_2D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-
 
   std::array<int, dim> dimensions = {1, 1};
 
-  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, 1.0, 1.0, 0.1};
+  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, 1.0, 1.0, 0.1, true, 1, 5};
   DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
@@ -176,7 +176,7 @@ TEST(CuboidGenerator_2D_DirectSumContainer, applyNoMotion) { // NOLINT(cert-err5
 
   std::array<int, dim> dimensions = {1, 1};
 
-  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, 1.0, 1.0, 0.0};
+  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, 1.0, 1.0, 0.0, true, 1, 5};
   DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
@@ -193,7 +193,7 @@ TEST(CuboidGenerator_3D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
   constexpr int dim = 3;
   std::array<int, dim> dimensions = {dim, dim, dim};
 
-  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, distance, mass, 0.1};
+  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, distance, mass, 0.1, true, 1, 5};
   DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
@@ -218,7 +218,7 @@ TEST(CuboidGenerator_3D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-
 
   std::array<int, dim> dimensions = {1, 1, 1};
 
-  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.1};
+  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.1, true, 1, 5};
   DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
@@ -234,7 +234,7 @@ TEST(CuboidGenerator_3D_DirectSumContainer, applyNoMotion) { // NOLINT(cert-err5
 
   std::array<int, dim> dimensions = {1, 1, 1};
 
-  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.0};
+  CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.0, true, 1, 5};
   DirectSumContainer<dim> p{};
 
   Generator<CuboidArgument<dim>, dim>::generate(c, p);
@@ -251,7 +251,7 @@ TEST(SphereGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
   constexpr int dim = 2;
   int rad = 2;
 
-  SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, rad, {0.0, 0.0}, distance, mass, 0.1};
+  SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, rad, {0.0, 0.0}, distance, mass, 0.1, true, 1, 5};
   DirectSumContainer<dim> pc{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, pc);
@@ -276,7 +276,7 @@ TEST(SphereGenerator_2D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-e
   constexpr int dim = 2;
   int rad = 2;
 
-  SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, rad, {0.0, 0.0}, distance, mass, 0.1, false};
+  SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, rad, {0.0, 0.0}, distance, mass, 0.1, false, 1, 5};
   DirectSumContainer<dim> pc{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, pc);
@@ -299,7 +299,7 @@ TEST(SphereGenerator_2D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-e
 TEST(SpheresGenerator_2D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 2;
 
-  SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, 1, {0.0, 0.0}, 1.0, 1.0, 0.1};
+  SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, 1, {0.0, 0.0}, 1.0, 1.0, 0.1, true, 1, 5};
   DirectSumContainer<dim> p{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, p);
@@ -313,7 +313,7 @@ TEST(SpheresGenerator_2D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58
 TEST(SpheresGenerator_2D_DirectSumContainer, applyNoMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 2;
 
-  SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, 1, {0.0, 0.0}, 1.0, 1.0, 0.0};
+  SphereArgument<dim> s{Vector<dim>{0.0, 0.0}, 1, {0.0, 0.0}, 1.0, 1.0, 0.0, true, 1, 5};
   DirectSumContainer<dim> p{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, p);
@@ -331,7 +331,7 @@ TEST(SpheresGenerator_3D_DirectSumContainer, generate) { // NOLINT(cert-err58-cp
   int rad = 2;
   std::vector dimensions = {dim, dim};
 
-  SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, rad, {0.0, 0.0, 0.0}, distance, mass, 0.1};
+  SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, rad, {0.0, 0.0, 0.0}, distance, mass, 0.1, true, 1, 5};
   DirectSumContainer<dim> pc{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, pc);
@@ -357,7 +357,7 @@ TEST(SpheresGenerator_3D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-
   int rad = 2;
   std::vector dimensions = {dim, dim};
 
-  SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, rad, {0.0, 0.0, 0.0}, distance, mass, 0.1, false};
+  SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, rad, {0.0, 0.0, 0.0}, distance, mass, 0.1, false, 1, 5};
   DirectSumContainer<dim> pc{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, pc);
@@ -380,7 +380,7 @@ TEST(SpheresGenerator_3D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-
 TEST(SpheresGenerator_3D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 3;
 
-  SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, 1, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.1};
+  SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, 1, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.1, true, 1, 5};
   DirectSumContainer<dim> p{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, p);
@@ -394,7 +394,7 @@ TEST(SpheresGenerator_3D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58
 TEST(SpheresGenerator_3D_DirectSumContainer, applyZeroMotion) { // NOLINT(cert-err58-cpp)
   constexpr int dim = 3;
 
-  SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, 1, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.0};
+  SphereArgument<dim> s{Vector<dim>{0.0, 0.0, 0.0}, 1, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.0, true, 1, 5};
   DirectSumContainer<dim> p{};
 
   Generator<SphereArgument<dim>, dim>::generate(s, p);

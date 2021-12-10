@@ -44,6 +44,16 @@ class SphereArgument : public GeneratorArguments {
    */
   bool packed;
 
+  /**
+   *
+   */
+  double zeroCrossing;
+
+  /**
+   *
+   */
+  double depthOfPotentialWell;
+
  public:
 
   /**
@@ -102,6 +112,14 @@ class SphereArgument : public GeneratorArguments {
     return packed;
   }
 
+  [[nodiscard]] double getZeroCrossing() const {
+    return zeroCrossing;
+  }
+
+  [[nodiscard]] double getDepthOfPotentialWell() const {
+    return depthOfPotentialWell;
+  }
+
   /**
    * SphereArgument used to create Sphere(s) by the Generator.
    * @param pCenterCoordinates coordinates of the center
@@ -111,13 +129,14 @@ class SphereArgument : public GeneratorArguments {
    * @param pMass mass of the Particle(s)
    * @param pMeanValue mean value of the Particle(s)
    * @param pPacked describes if the Cuboid is packed with Particle(s)
+   * @param pZeroCrossing
+   * @param pDepthOfPotentialWell
    */
   SphereArgument(Vector<dim> pCenterCoordinates, int pRadius, Vector<dim> pInitialVelocity, double pDistance,
-                 double pMass, double pMeanValue, bool pPacked = true) : centerCoordinates{pCenterCoordinates},
-                                                                          radius{pRadius},
-                                                                          initialVelocity{pInitialVelocity},
-                                                                          distance{pDistance}, mass{pMass},
-                                                                          meanValue{pMeanValue}, packed{pPacked} {
+                 double pMass, double pMeanValue, bool pPacked, double pZeroCrossing, double pDepthOfPotentialWell)
+      : centerCoordinates{pCenterCoordinates}, radius{pRadius}, initialVelocity{pInitialVelocity}, distance{pDistance},
+        mass{pMass}, meanValue{pMeanValue}, packed{pPacked}, zeroCrossing{pZeroCrossing},
+        depthOfPotentialWell{pDepthOfPotentialWell} {
   }
 
   /**
@@ -133,6 +152,8 @@ class SphereArgument : public GeneratorArguments {
     argument << "\t\t\t\t Mass: " << mass << std::endl;
     argument << "\t\t\t\t Mean value: " << meanValue << std::endl;
     argument << "\t\t\t\t Packed: " << (packed ? "true" : "false") << std::endl;
+    argument << "\t\t\t\t Zero crossing: " << zeroCrossing << std::endl;
+    argument << "\t\t\t\t Depth of potential well: " << depthOfPotentialWell << std::endl;
     return argument.str();
   };
 
@@ -150,7 +171,8 @@ bool operator==(const SphereArgument<dim> &left, const SphereArgument<dim> &righ
   return left.getCenterCoordinates() == right.getCenterCoordinates() && left.getRadius() == right.getRadius()
       && left.getInitialVelocity() == right.getInitialVelocity() && left.getDistance() == right.getDistance()
       && left.getMass() == right.getMass() && left.getMeanValue() == right.getMeanValue()
-      && left.getPacked() == right.getPacked();;
+      && left.getPacked() == right.getPacked() && left.getDepthOfPotentialWell() == right.getDepthOfPotentialWell()
+      && left.getZeroCrossing() == right.getZeroCrossing();
 }
 
 /**
