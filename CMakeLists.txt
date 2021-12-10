@@ -59,7 +59,7 @@ endif (BUILD_TESTS)
 FetchContent_Declare(
     spdlog
     GIT_REPOSITORY https://github.com/gabime/spdlog.git
-    GIT_TAG v1.x
+    GIT_TAG 40625f8e2b3eacbe45c852d0463632c1e8604564
 )
 
 FetchContent_GetProperties(spdlog)
