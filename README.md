@@ -387,18 +387,18 @@ Additional cmake options:
     <!-- Example input file -->
     <Simulation endTime="3" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="MD">
         <Shapes>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.0">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.0" packed="true">
                 <Position x="0.0" y="0.0" z="0.0"/>
                 <Velocity x="0.0" y="0.0" z="0.0"/>
                 <Dimension x="5" y="20" z="5"/>
             </Cuboid>
-            <Sphere mass="3.0" distance="1.1225" meanValue="0" radius="10">
+            <Sphere mass="3.0" distance="1.1225" meanValue="0" radius="10" packed="true">
                 <Center x="25" y="10" z="0"/>
                 <Velocity x="-15" y="0" z="0"/>
             </Sphere>
         </Shapes>
-        <Source location="./input/eingabe-sonne.txt"/>
-        <Source location="./input/sun_system.txt"/>
+        <Source path="../../input/ws_01/eingabe-sonne.txt"/>
+        <Source path="../../input/ws_01/sun_system.txt"/>
     </Simulation>
     ```
 
