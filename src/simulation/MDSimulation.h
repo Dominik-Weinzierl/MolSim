@@ -35,10 +35,19 @@ class MDSimulation {
     auto deltaT = arg.getDeltaT();
 
     T physics;
+    std::optional<Thermostat<dim>> thermostat;
+
+    if (XMLArgument<dim> *x = dynamic_cast<XMLArgument<dim> *>(arg)) {
+      thermostat = x->getThermostat();
+    }
 
     // for this loop, we assume: current x, current f and current v are known
     while (current_time < arg.getEndTime()) {
       physics.calculateNextStep(particleContainer, deltaT);
+
+      if (thermostat.has_value() && iteration % thermostat->getNumberT() == 0) {
+        thermostat->applyThermostat(particleContainer);
+      }
 
       if (iteration % arg.getIteration() == 0) {
         writer.writeFile(iteration);

@@ -46,7 +46,7 @@ class XMLReader {
     std::optional<std::vector<BoundaryType>> boundaries = std::nullopt;
     std::optional<std::array<int, dim>> cellSize = std::nullopt;
     std::optional<double> additionalGravitation = std::nullopt;
-    std::optional<Thermostat> thermostat = std::nullopt;
+    std::optional<Thermostat<dim>> thermostat = std::nullopt;
 
     for (auto &it: simulation->Source()) {
       std::string path = it.path();
@@ -78,7 +78,7 @@ class XMLReader {
           simulation->Thermostat()->targetT().present() ? simulation->Thermostat()->targetT().get() : initialT;
       int numberT = static_cast<int>(simulation->Thermostat()->numberT());
       int tDeltaT = simulation->Thermostat()->deltaT().present() ? static_cast<int>(simulation->Thermostat()->deltaT().get()) : -1;
-      thermostat = Thermostat{initialT, targetT, numberT, tDeltaT};
+      thermostat = Thermostat<dim>{initialT, targetT, numberT, tDeltaT};
     }
 
     return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
