@@ -14,9 +14,10 @@ class Inner : public Cell<dim> {
    * @param pPosition position of this Cell in our Mesh
    * @param pAllParticles all Particle(s) used in this simulation
    * @param pCellSize size of this cell (each Cell has the same size)
+   * @param pDomain domain size used during this simulation
    */
-  Inner(std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize)
-      : Cell<dim>(pAllParticles, pPosition, pCellSize) {};
+  Inner(std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize, std::array<int, dim> pDomain)
+      : Cell<dim>(pAllParticles, pPosition, pCellSize, pDomain) {};
 
   /**
    * There is no additional behaviour needed.

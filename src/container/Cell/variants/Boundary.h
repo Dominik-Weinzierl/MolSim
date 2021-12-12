@@ -67,10 +67,11 @@ class Boundary : public Cell<dim> {
    * @param pAllParticles all Particle(s) used in this simulation
    * @param pPosition position of this Cell in our Mesh
    * @param pCellSize size of this cell (each Cell has the same size)
+   * @param pDomain domain size used during this simulation
    */
   Boundary(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection,
-           std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize)
-      : Cell<dim>(pBoundaryType, pBorderDirection, pAllParticles, pPosition, pCellSize) {};
+           std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize, std::array<int, dim> pDomain)
+      : Cell<dim>(pBoundaryType, pBorderDirection, pAllParticles, pPosition, pCellSize, pDomain) {};
 
   /**
    * Apply selected boundary properties.

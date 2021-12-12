@@ -7,7 +7,6 @@
 #include "generator/GeneratorArguments/SphereArgument.h"
 #include "template/input.h"
 
-
 /**
  * XMLReader class reads a xml file and and provides Argument(s) to create Particle(s) via Generator(s)
  * @tparam dim dimension of our simulation.
@@ -77,7 +76,9 @@ class XMLReader {
       double targetT =
           simulation->Thermostat()->targetT().present() ? simulation->Thermostat()->targetT().get() : initialT;
       int numberT = static_cast<int>(simulation->Thermostat()->numberT());
-      int tDeltaT = simulation->Thermostat()->deltaT().present() ? static_cast<int>(simulation->Thermostat()->deltaT().get()) : -1;
+      int tDeltaT =
+          simulation->Thermostat()->deltaT().present() ? static_cast<int>(simulation->Thermostat()->deltaT().get())
+                                                       : -1;
       thermostat = Thermostat{initialT, targetT, numberT, tDeltaT};
     }
 
@@ -171,6 +172,8 @@ class XMLReader {
       return Outflow;
     } else if (s == "reflecting") {
       return Reflecting;
+    } else if (s == "periodic") {
+      return Periodic;
     }
     return Outflow;
   }

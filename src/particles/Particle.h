@@ -297,7 +297,7 @@ class Particle {
    * @param y_arg new y value to add
    * @param z_arg new z value to add
    */
-  void updateForce(double x_arg, double y_arg, double z_arg) {
+  inline void updateForce(double x_arg, double y_arg, double z_arg) {
     f[0] += x_arg;
     f[1] += y_arg;
     f[2] += z_arg;
@@ -308,7 +308,7 @@ class Particle {
    * @param x_arg new x value to add
    * @param y_arg new y value to add
    */
-  void updateForce(double x_arg, double y_arg) {
+  inline void updateForce(double x_arg, double y_arg) {
     f[0] += x_arg;
     f[1] += y_arg;
   }
@@ -317,7 +317,7 @@ class Particle {
    * Methods to update the force.
    * @param force new force to add
    */
-  void updateForce(std::array<double, dim> force) {
+  inline void updateForce(std::array<double, dim> force) {
     for (size_t i = 0; i < dim; ++i) {
       f[i] += force[i];
     }

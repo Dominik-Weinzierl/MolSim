@@ -33,34 +33,70 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
       std::vector<Cell<dim> *> &neighbours = (*cell)->getNeighbours();
       std::vector<Particle<dim> *> &cellParticles = (*cell)->getParticles();
 
-      // calc between particles in cells and relevant neighbours
-      for (auto n = neighbours.begin(); n != neighbours.end(); ++n) {
+      if (!cellParticles.empty()) {
+
+        // calc between particles in cells and relevant neighbours
+        for (auto n = neighbours.begin(); n != neighbours.end(); ++n) {
+          for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
+            for (auto j = (*n)->getParticles().begin(); j != (*n)->getParticles().end(); ++j) {
+              double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
+
+              if (l2Norm > cellContainer.getCutoffRadiusSquare())
+                continue;
+
+              SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
+              Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
+              (*i)->updateForce(force);
+              (*j)->updateForce(-force);
+            }
+          }
+        }
+
+        // calc in the cells
         for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
-          for (auto j = (*n)->getParticles().begin(); j != (*n)->getParticles().end(); ++j) {
+          for (auto j = i + 1; j != cellParticles.end(); ++j) {
+            SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
+
             double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
 
-            if (l2Norm > cellContainer.getCutoffRadiusSquare())
-              continue;
-
-            SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
             Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
+
             (*i)->updateForce(force);
             (*j)->updateForce(-force);
           }
         }
-      }
 
-      // calc in the cells
-      for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
-        for (auto j = i + 1; j != cellParticles.end(); ++j) {
-          SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
+        std::vector<std::tuple<Cell<dim> *, std::array<int, dim>>>
+            &periodicNeighbours = (*cell)->getPeriodicNeighbours();
+        // calc periodic
+        for (std::tuple<Cell<dim> *, std::array<int, dim>> &t: periodicNeighbours) {
+          Cell<dim> *periodicCell = std::get<0>(t);
 
-          double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
+          if (!periodicCell->getParticles().empty()) {
 
-          Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
+            for (auto j = periodicCell->getParticles().begin(); j != periodicCell->getParticles().end(); ++j) {
+              const Vector<dim> oldPos = (*j)->getX();
+              Vector<dim> pos;
+              for (size_t index = 0; index < dim; ++index) {
+                pos[index] = oldPos[index] - periodicCell->getPosition()[index] + std::get<1>(t)[index];
+              }
+              (*j)->setX(pos);
 
-          (*i)->updateForce(force);
-          (*j)->updateForce(-force);
+              for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
+                double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
+
+                if (l2Norm > cellContainer.getCutoffRadiusSquare())
+                  continue;
+
+                SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
+                Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
+                (*i)->updateForce(force);
+                (*j)->updateForce(-force);
+              }
+
+              (*j)->setX(oldPos);
+            }
+          }
         }
       }
     }
@@ -78,18 +114,18 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
     // Update cells
     particleContainer.updateCells();
 
-    // calculate new f
-    Physics<LennardJones, dim>::calculateF(particleContainer);
-
-    // calculate new v
-    Physics<LennardJones, dim>::calculateV(particleContainer, deltaT);
-
     auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
 
     // Apply Halo properties
     for (Halo<dim> &h: cellContainer.getHalosCells()) {
       h.applyCellProperties();
     }
+
+    // calculate new f
+    Physics<LennardJones, dim>::calculateF(particleContainer);
+
+    // calculate new v
+    Physics<LennardJones, dim>::calculateV(particleContainer, deltaT);
 
     // Delete all deleted Particle
     std::vector<Particle<dim>> &particles = particleContainer.getParticles();
