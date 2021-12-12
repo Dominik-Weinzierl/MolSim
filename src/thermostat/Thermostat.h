@@ -59,6 +59,10 @@ class Thermostat {
     return argument.str();
   };
 
+  /**
+   * Apply the specified thermostat behaviour to a ParticleContainer
+   * @param c the ParticleContainer
+   */
   void applyThermostat(ParticleContainer<dim> &c) {
     auto tcur = kineticEnergyTemp(c);
     if (tcur == targetT)
@@ -85,12 +89,20 @@ class Thermostat {
     }
   }
 
+  /**
+   * Sets the initial temperature correctly for particles in the ParticleContainer
+   * @param c the ParticleContainer
+   */
   void setInitialTemperature(ParticleContainer<dim> &c) {
     for (auto &p: c) {
       p.setV(maxwellBoltzmannDistributedVelocity<dim>(std::sqrt(initialT / p.getM())));
     }
   }
 
+  /**
+   * Getter for the number of iterations after which the thermostat should be applied
+   * @return The number of simulation iterations per thermostat step.
+   */
   [[nodiscard]] int getNumberT() const {
     return numberT;
   }
