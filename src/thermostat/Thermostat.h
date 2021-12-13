@@ -1,19 +1,15 @@
 #pragma once
 
+#include <cmath>
+
 template<size_t dim>
 class Thermostat {
   double initialT;
 
-  /**
-   * initialT if not available
-   */
   double targetT;
 
   int numberT;
 
-  /*
-   * -1 if not available...
-   */
   int deltaT;
 
   /**
@@ -21,19 +17,21 @@ class Thermostat {
    * @param c A particle container
    * @return The temperature according to the kinetic energy
    */
-  [[nodiscard]] double kineticEnergyTemp(const ParticleContainer<dim> &c) {
+  [[nodiscard]] double kineticEnergyTemp(ParticleContainer<dim> &c) {
     double ret = 0;
     for (auto &p: c) {
       ret += (p.getM() * p.getV() * p.getV()) / 2;
     }
-    ret /= dim * c.size();
+    ret /= static_cast<double >(dim * c.size());
     ret *= 2;
     return ret;
   }
 
  public:
   Thermostat(double pInitialT, double pTargetT, int pNumberT, int pDeltaT) : initialT(pInitialT), targetT(pTargetT),
-                                                                             numberT(pNumberT), deltaT(pDeltaT) {}
+                                                                             numberT(pNumberT), deltaT(pDeltaT) {};
+
+  virtual ~Thermostat() = default;
 
   bool operator==(const Thermostat &rhs) const {
     return initialT == rhs.initialT && targetT == rhs.targetT && numberT == rhs.numberT && deltaT == rhs.deltaT;
@@ -47,7 +45,7 @@ class Thermostat {
   /**
    * Prints the Thermostat.
    */
-  [[nodiscard]] std::string toString() const {
+  [[nodiscard]] virtual std::string toString() const {
     std::stringstream argument;
     argument << "\tThermostat: " << std::endl;
     argument << "\t\tInitial temperature: " << initialT << std::endl;
@@ -63,7 +61,7 @@ class Thermostat {
    * Apply the specified thermostat behaviour to a ParticleContainer
    * @param c the ParticleContainer
    */
-  void applyThermostat(ParticleContainer<dim> &c) {
+  virtual void applyThermostat(ParticleContainer<dim> &c) {
     auto tcur = kineticEnergyTemp(c);
     if (tcur == targetT)
       return;
@@ -72,14 +70,14 @@ class Thermostat {
       if (deltaT == -1) {
         tnew = targetT;
       } else {
-        tnew = std::min(targetT - tcur, deltaT);
+        tnew = std::min(targetT - tcur, static_cast<double>(deltaT));
       }
     }
     if (tcur > targetT) {
       if (deltaT == -1) {
         tnew = targetT;
       } else {
-        tnew = std::min(tcur - targetT, deltaT);
+        tnew = std::min(tcur - targetT, static_cast<double>(deltaT));
       }
     }
     SPDLOG_TRACE("Current temperature: {}, New temperature: {}", tcur, tnew);
@@ -93,7 +91,7 @@ class Thermostat {
    * Sets the initial temperature correctly for particles in the ParticleContainer
    * @param c the ParticleContainer
    */
-  void setInitialTemperature(ParticleContainer<dim> &c) {
+  virtual void setInitialTemperature(ParticleContainer<dim> &c) {
     for (auto &p: c) {
       p.setV(maxwellBoltzmannDistributedVelocity<dim>(std::sqrt(initialT / p.getM())));
     }

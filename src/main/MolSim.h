@@ -83,7 +83,7 @@ class MolSim {
     if (arg->getStrategy() == "DirectSum") {
       particleContainer = std::make_unique<DirectSumContainer<dim>>();
     } else {
-      XMLArgument<dim> xmlArg = dynamic_cast<XMLArgument<dim> &>(*arg);
+      auto& xmlArg = static_cast<XMLArgument<dim> &>(*arg);
       particleContainer =
           std::make_unique<LinkedCellContainer<dim>>(xmlArg.getBoundaries().value(), xmlArg.getCellSize().value(),
                                                      xmlArg.getDomain().value(), xmlArg.getCutoffRadius().value());

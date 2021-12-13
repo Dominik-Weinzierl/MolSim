@@ -6,7 +6,7 @@
 #include "generator/GeneratorArguments/CuboidArgument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"
 #include "template/input.h"
-
+#include "thermostat/DummyThermostat.h"
 
 /**
  * XMLReader class reads a xml file and and provides Argument(s) to create Particle(s) via Generator(s)
@@ -46,7 +46,7 @@ class XMLReader {
     std::optional<std::vector<BoundaryType>> boundaries = std::nullopt;
     std::optional<std::array<int, dim>> cellSize = std::nullopt;
     std::optional<double> additionalGravitation = std::nullopt;
-    std::optional<Thermostat<dim>> thermostat = std::nullopt;
+    std::unique_ptr<Thermostat<dim>> thermostat;
 
     for (auto &it: simulation->Source()) {
       std::string path = it.path();
@@ -77,13 +77,17 @@ class XMLReader {
       double targetT =
           simulation->Thermostat()->targetT().present() ? simulation->Thermostat()->targetT().get() : initialT;
       int numberT = static_cast<int>(simulation->Thermostat()->numberT());
-      int tDeltaT = simulation->Thermostat()->deltaT().present() ? static_cast<int>(simulation->Thermostat()->deltaT().get()) : -1;
-      thermostat = Thermostat<dim>{initialT, targetT, numberT, tDeltaT};
+      int tDeltaT =
+          simulation->Thermostat()->deltaT().present() ? static_cast<int>(simulation->Thermostat()->deltaT().get())
+                                                       : -1;
+      thermostat = std::make_unique<Thermostat<dim>>(initialT, targetT, numberT, tDeltaT);
+    } else {
+      thermostat = std::make_unique<DummyThermostat<dim>>();
     }
 
     return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
                                               this->loadCuboid(), this->loadSpheres(), strategy, cutoffRadius, domain,
-                                              boundaries, cellSize, thermostat, additionalGravitation);
+                                              boundaries, cellSize, std::move(thermostat), additionalGravitation);
   }
  private:
 

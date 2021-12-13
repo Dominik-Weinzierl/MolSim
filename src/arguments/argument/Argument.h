@@ -1,9 +1,12 @@
 #pragma once
+
 #include <string>
 #include <memory>
-#include <outputWriter/OutputWriter.h>
 #include <iostream>
 #include <utility>
+
+#include "outputWriter/OutputWriter.h"
+#include "thermostat/Thermostat.h"
 
 /**
  * Argument stores the arguments parsed by ArgumentParser for easy access.
@@ -52,6 +55,11 @@ class Argument {
    */
   std::string strategy;
 
+  /**
+   *
+   */
+  std::unique_ptr<Thermostat<dim>> thermostat;
+
  public:
   virtual ~Argument() = default;
 
@@ -66,12 +74,12 @@ class Argument {
    * @param pPhysics defines the used Physics during the simulation
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
-           int pIteration, std::string pPhysics, std::string pStrategy) : files{std::move(pFiles)}, endTime{pEndTime},
+           int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat) : files{std::move(pFiles)}, endTime{pEndTime},
                                                                           deltaT{pDeltaT}, output{std::move(pOutput)},
                                                                           writer{std::move(pWriter)},
                                                                           physics{std::move(pPhysics)},
                                                                           iteration{pIteration},
-                                                                          strategy{std::move(pStrategy)} {};
+                                                                          strategy{std::move(pStrategy)}, thermostat{std::move(pThermostat)} {};
 
   /**
    * Getter for endTime.
@@ -143,6 +151,14 @@ class Argument {
   [[nodiscard]] const std::string &getStrategy() const {
     SPDLOG_TRACE("Argument->getStrategy(): {}", strategy);
     return strategy;
+  }
+
+  /**
+   * Getter for thermostat.
+   * @return thermostat.
+   */
+  [[nodiscard]] std::unique_ptr<Thermostat<dim>> &getThermostat() {
+    return thermostat;
   }
 
   /**
