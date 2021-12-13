@@ -146,9 +146,8 @@ class XMLArgument : public Argument<dim> {
         configuration << s;
       }
     }
-    if (this->thermostat.has_value()) {
-      configuration << this->thermostat.value().toString();
-    }
+
+    configuration << this->thermostat->toString();
 
     return configuration.str();
   }

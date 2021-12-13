@@ -187,7 +187,7 @@ class XMLReader {
       thermostat = std::make_unique<DummyThermostat<dim>>();
     }
 
-    r return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
+    return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
                                                 this->loadCuboid(), this->loadSpheres(), strategy, cutoffRadius, domain,
                                                 boundaries, cellSize, std::move(thermostat), additionalGravitation);
   }
