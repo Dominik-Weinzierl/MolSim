@@ -240,7 +240,7 @@ bool operator==(const XMLArgument<dim> &left, const XMLArgument<dim> &right) {
  * @return true if on value is unequal.
  */
 template<size_t dim>
-bool operator!=(const XMLArgument<dim> &left, const XMLArgument<dim> &right) {
+bool operator!=(XMLArgument<dim> &left, XMLArgument<dim> &right) {
   SPDLOG_TRACE("XMLArgument->operator!=");
   return left.getCuboidArguments() != right.getCuboidArguments()
       || left.getSphereArguments() != left.getSphereArguments() || left.getFiles() != right.getFiles()

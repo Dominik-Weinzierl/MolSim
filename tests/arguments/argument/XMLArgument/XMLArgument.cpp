@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "arguments/argument/XMLArgument/XMLArgument.h"
+#include "thermostat/DummyThermostat.h"
 
 /**
  * ***************************************************
@@ -33,11 +34,10 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
         BoundaryType::Outflow, BoundaryType::Outflow}};
   std::optional<std::array<int, dim>> cellSize{{1, 1, 1}};
   std::optional<double> additionalGravitation = std::nullopt;
-  std::optional<Thermostat> thermostat = std::nullopt;
 
   XMLArgument<dim> arg
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, thermostat, additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, nullptr, additionalGravitation};
 
   // Expect getter und setter to return correct values
   EXPECT_EQ(arg.getFiles(), files);
@@ -54,7 +54,7 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
   EXPECT_EQ(arg.getDomain(), domain);
   EXPECT_EQ(arg.getBoundaries(), boundaries);
   EXPECT_EQ(arg.getCellSize(), cellSize);
-  EXPECT_EQ(arg.getThermostat(), thermostat);
+  EXPECT_EQ(arg.getThermostat(), nullptr);
   EXPECT_EQ(arg.getAdditionalGravitation(), additionalGravitation);
 }
 
@@ -82,11 +82,10 @@ TEST(XMLArgument_2D, constructor) { // NOLINT(cert-err58-cpp)
       boundaries{{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting}};
   std::optional<std::array<int, dim>> cellSize{{1, 1}};
   std::optional<double> additionalGravitation = std::nullopt;
-  std::optional<Thermostat> thermostat = std::nullopt;
 
   XMLArgument<dim> arg
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, thermostat, additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, nullptr, additionalGravitation};
 
   // Expect getter und setter to return correct values
   EXPECT_EQ(arg.getFiles(), files);
@@ -103,7 +102,7 @@ TEST(XMLArgument_2D, constructor) { // NOLINT(cert-err58-cpp)
   EXPECT_EQ(arg.getDomain(), domain);
   EXPECT_EQ(arg.getBoundaries(), boundaries);
   EXPECT_EQ(arg.getCellSize(), cellSize);
-  EXPECT_EQ(arg.getThermostat(), thermostat);
+  EXPECT_EQ(arg.getThermostat(), nullptr);
   EXPECT_EQ(arg.getAdditionalGravitation(), additionalGravitation);
 }
 
@@ -128,13 +127,14 @@ TEST(XMLArgument, compareOperatorEqual) { // NOLINT(cert-err58-cpp)
   std::optional<std::vector<BoundaryType>> boundaries{};
   std::optional<std::array<int, dim>> cellSize{{1, 1}};
   std::optional<double> additionalGravitation = std::nullopt;
-  std::optional<Thermostat> thermostat = std::nullopt;
 
   XMLArgument<dim> first
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, thermostat, additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, nullptr, additionalGravitation};
 
-  XMLArgument<dim> second = first;
+  XMLArgument<dim> second
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
+       cutoffRadius, domain, boundaries, cellSize, nullptr, additionalGravitation};
 
   EXPECT_EQ(first, second);
 }
@@ -160,17 +160,17 @@ TEST(XMLArgument, compareOperatorNotEqual) { // NOLINT(cert-err58-cpp)
   std::optional<std::vector<BoundaryType>> boundaries{};
   std::optional<std::array<int, dim>> cellSize{{1, 1}};
   std::optional<double> additionalGravitation = std::nullopt;
-  std::optional<Thermostat> thermostat = std::nullopt;
+
 
   XMLArgument<dim> first
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, thermostat, additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, nullptr, additionalGravitation};
 
   physics = std::string{"lennard"};
 
   XMLArgument<dim> second
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, thermostat, additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, nullptr, additionalGravitation};
 
   EXPECT_NE(first, second);
 }
