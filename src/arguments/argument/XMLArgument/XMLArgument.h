@@ -9,7 +9,6 @@
 #include "arguments/argument/Argument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"
 #include "boundaryType/BoundaryType.h"
-#include "thermostat/Thermostat.h"
 
 /**
  * XMLArgument stores the arguments parsed by XMLArgumentParser for easy access.
@@ -51,11 +50,6 @@ class XMLArgument : public Argument<dim> {
   /**
    *
    */
-  std::optional<Thermostat> thermostat;
-
-  /**
-   *
-   */
   std::optional<double> additionalGravitation;
 
  public:
@@ -83,21 +77,23 @@ class XMLArgument : public Argument<dim> {
               std::vector<CuboidArgument<dim>> pCuboidArguments, std::vector<SphereArgument<dim>> pSphereArguments,
               std::string pStrategy, std::optional<double> pCutoffRadius, std::optional<std::array<int, dim>> pDomain,
               std::optional<std::vector<BoundaryType>> pBoundaries, std::optional<std::array<int, dim>> pCellSize,
-              std::optional<Thermostat> pThermostat, std::optional<double> pAdditionalGravitation) : Argument<dim>(
-      std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
-      pStrategy), cuboidArguments{std::move(pCuboidArguments)}, sphereArguments{std::move(pSphereArguments)},
-                                                                                                     domain{pDomain},
-                                                                                                     cutoffRadius{
-                                                                                                         pCutoffRadius},
-                                                                                                     boundaries{
-                                                                                                         std::move(
-                                                                                                             pBoundaries)},
-                                                                                                     cellSize{
-                                                                                                         pCellSize},
-                                                                                                     thermostat{
-                                                                                                         pThermostat},
-                                                                                                     additionalGravitation{
-                                                                                                         pAdditionalGravitation} {
+              std::unique_ptr<Thermostat<dim>> pThermostat, std::optional<double> pAdditionalGravitation) : Argument<
+      dim>(std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration,
+           std::move(pPhysics), pStrategy, std::move(pThermostat)), cuboidArguments{std::move(pCuboidArguments)},
+                                                                                                            sphereArguments{
+                                                                                                                std::move(
+                                                                                                                    pSphereArguments)},
+                                                                                                            domain{
+                                                                                                                pDomain},
+                                                                                                            cutoffRadius{
+                                                                                                                pCutoffRadius},
+                                                                                                            boundaries{
+                                                                                                                std::move(
+                                                                                                                    pBoundaries)},
+                                                                                                            cellSize{
+                                                                                                                pCellSize},
+                                                                                                            additionalGravitation{
+                                                                                                                pAdditionalGravitation} {
     SPDLOG_TRACE("XMLArgument created!");
   }
 
@@ -156,14 +152,6 @@ class XMLArgument : public Argument<dim> {
   }
 
   /**
-   * Getter for thermostat.
-   * @return thermostat.
-   */
-  [[nodiscard]] const std::optional<Thermostat> &getThermostat() const {
-    return thermostat;
-  }
-
-  /**
    * Getter for gravitation.
    * @return gravitation.
    */
@@ -217,52 +205,20 @@ class XMLArgument : public Argument<dim> {
         configuration << s;
       }
     }
-    if (this->thermostat.has_value()) {
-      configuration << this->thermostat.value().toString();
-    }
+    configuration << this->thermostat->toString();
 
     return configuration.str();
   }
+
+  bool operator==(const XMLArgument &rhs) const {
+    return static_cast<const Argument<dim> &>(*this) == static_cast<const Argument<dim> &>(rhs)
+        && cuboidArguments == rhs.cuboidArguments && sphereArguments == rhs.sphereArguments
+        && cutoffRadius == rhs.cutoffRadius && domain == rhs.domain && cellSize == rhs.cellSize
+        && boundaries == rhs.boundaries && additionalGravitation == rhs.additionalGravitation;
+  }
+
+  bool operator!=(const XMLArgument &rhs) const {
+    return !(rhs == *this);
+  }
 };
 
-/**
- * Compare operator for XMLArgument(s).
- * @tparam dim dimension of simulation
- * @param left first XMLArgument
- * @param right second XMLArgument
- * @return true if all values are equal
- */
-template<size_t dim>
-bool operator==(const XMLArgument<dim> &left, const XMLArgument<dim> &right) {
-  SPDLOG_TRACE("XMLArgument->operator==");
-  return left.getCuboidArguments() == right.getCuboidArguments()
-      && left.getSphereArguments() == left.getSphereArguments() && left.getFiles() == right.getFiles()
-      && left.getEndTime() == right.getEndTime() && left.getDeltaT() == right.getDeltaT()
-      && left.getOutput() == right.getOutput() && left.getWriter() == right.getWriter()
-      && left.getIteration() == right.getIteration() && left.getPhysics() == right.getPhysics()
-      && left.getStrategy() == right.getStrategy() && left.getCutoffRadius() == right.getCutoffRadius()
-      && left.getDomain() == right.getDomain() && left.getBoundaries() == right.getBoundaries()
-      && left.getCellSize() == right.getCellSize() && left.getThermostat() == right.getThermostat()
-      && left.getAdditionalGravitation() == right.getAdditionalGravitation();
-}
-
-/**
- * Unequal operator for XMLArgument(s).
- * @tparam dim dimension of simulation
- * @param left first XMLArgument
- * @param right second XMLArgument
- * @return true if on value is unequal.
- */
-template<size_t dim>
-bool operator!=(const XMLArgument<dim> &left, const XMLArgument<dim> &right) {
-  SPDLOG_TRACE("XMLArgument->operator!=");
-  return left.getCuboidArguments() != right.getCuboidArguments()
-      || left.getSphereArguments() != left.getSphereArguments() || left.getFiles() != right.getFiles()
-      || left.getEndTime() != right.getEndTime() || left.getDeltaT() != right.getDeltaT()
-      || left.getOutput() != right.getOutput() || left.getWriter() != right.getWriter()
-      || left.getIteration() != right.getIteration() || left.getPhysics() != right.getPhysics()
-      || left.getStrategy() != right.getStrategy() || left.getCutoffRadius() != right.getCutoffRadius()
-      || left.getDomain() != right.getDomain() || left.getBoundaries() != right.getBoundaries()
-      || left.getCellSize() != right.getCellSize() || left.getThermostat() != right.getThermostat()
-      || left.getAdditionalGravitation() != right.getAdditionalGravitation();
-}

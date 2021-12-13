@@ -1,9 +1,12 @@
 #pragma once
+
 #include <string>
 #include <memory>
-#include <outputWriter/OutputWriter.h>
 #include <iostream>
 #include <utility>
+
+#include "outputWriter/OutputWriter.h"
+#include "thermostat/Thermostat.h"
 
 /**
  * Argument stores the arguments parsed by ArgumentParser for easy access.
@@ -52,6 +55,11 @@ class Argument {
    */
   std::string strategy;
 
+  /**
+   *
+   */
+  std::unique_ptr<Thermostat<dim>> thermostat;
+
  public:
   virtual ~Argument() = default;
 
@@ -66,12 +74,10 @@ class Argument {
    * @param pPhysics defines the used Physics during the simulation
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
-           int pIteration, std::string pPhysics, std::string pStrategy) : files{std::move(pFiles)}, endTime{pEndTime},
-                                                                          deltaT{pDeltaT}, output{std::move(pOutput)},
-                                                                          writer{std::move(pWriter)},
-                                                                          physics{std::move(pPhysics)},
-                                                                          iteration{pIteration},
-                                                                          strategy{std::move(pStrategy)} {};
+           int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat)
+      : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT}, output{std::move(pOutput)},
+        writer{std::move(pWriter)}, physics{std::move(pPhysics)}, iteration{pIteration}, strategy{std::move(pStrategy)},
+        thermostat{std::move(pThermostat)} {};
 
   /**
    * Getter for endTime.
@@ -146,6 +152,22 @@ class Argument {
   }
 
   /**
+   * Getter for thermostat.
+   * @return thermostat.
+   */
+  [[nodiscard]] const std::unique_ptr<Thermostat<dim>> &getThermostat() const {
+    return thermostat;
+  }
+
+  /**
+   * Getter for thermostat.
+   * @return thermostat.
+   */
+  [[nodiscard]] std::unique_ptr<Thermostat<dim>> &getThermostat() {
+    return thermostat;
+  }
+
+  /**
    * Used to create additional Particle based on input arguments.
    * @param container modified ParticleContainer.
    */
@@ -169,6 +191,15 @@ class Argument {
     configuration << "\tPhysic: " << this->getPhysics() << std::endl;
     configuration << "\tStrategy: " << this->strategy << std::endl;
     return configuration.str();
+  }
+
+  bool operator==(const Argument &rhs) const {
+    return files == rhs.files && endTime == rhs.endTime && deltaT == rhs.deltaT && output == rhs.output
+        && writer == rhs.writer && physics == rhs.physics && iteration == rhs.iteration && strategy == rhs.strategy
+        && *thermostat.get() == *rhs.thermostat.get();
+  }
+  bool operator!=(const Argument &rhs) const {
+    return !(rhs == *this);
   }
 };
 
