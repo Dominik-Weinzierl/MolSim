@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include "utils/MaxwellBoltzmannDistribution.h"
 
 template<size_t dim>
 class Thermostat {
