@@ -51,17 +51,9 @@ class XMLArgument : public Argument<dim> {
   /**
    *
    */
-  std::optional<Thermostat> thermostat;
-
-  /**
-   *
-   */
   std::optional<double> additionalGravitation;
 
  public:
-
-  //----------------------------------------Constructor----------------------------------------
-
   /**
    * XMLArgument constructor to construct Arguments provided by the ArgumentParser (XMLArgumentParser).
    * @param pFiles additional input files to load additional Particle
@@ -86,21 +78,23 @@ class XMLArgument : public Argument<dim> {
               std::vector<CuboidArgument<dim>> pCuboidArguments, std::vector<SphereArgument<dim>> pSphereArguments,
               std::string pStrategy, std::optional<double> pCutoffRadius, std::optional<std::array<int, dim>> pDomain,
               std::optional<std::vector<BoundaryType>> pBoundaries, std::optional<std::array<int, dim>> pCellSize,
-              std::optional<Thermostat> pThermostat, std::optional<double> pAdditionalGravitation) : Argument<dim>(
-      std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
-      pStrategy), cuboidArguments{std::move(pCuboidArguments)}, sphereArguments{std::move(pSphereArguments)},
-                                                                                                     domain{pDomain},
-                                                                                                     cutoffRadius{
-                                                                                                         pCutoffRadius},
-                                                                                                     boundaries{
-                                                                                                         std::move(
-                                                                                                             pBoundaries)},
-                                                                                                     cellSize{
-                                                                                                         pCellSize},
-                                                                                                     thermostat{
-                                                                                                         pThermostat},
-                                                                                                     additionalGravitation{
-                                                                                                         pAdditionalGravitation} {
+              std::unique_ptr<Thermostat<dim>> pThermostat, std::optional<double> pAdditionalGravitation) : Argument<
+      dim>(std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration,
+           std::move(pPhysics), pStrategy, std::move(pThermostat)), cuboidArguments{std::move(pCuboidArguments)},
+                                                                                                            sphereArguments{
+                                                                                                                std::move(
+                                                                                                                    pSphereArguments)},
+                                                                                                            domain{
+                                                                                                                pDomain},
+                                                                                                            cutoffRadius{
+                                                                                                                pCutoffRadius},
+                                                                                                            boundaries{
+                                                                                                                std::move(
+                                                                                                                    pBoundaries)},
+                                                                                                            cellSize{
+                                                                                                                pCellSize},
+                                                                                                            additionalGravitation{
+                                                                                                                pAdditionalGravitation} {
     SPDLOG_TRACE("XMLArgument created!");
   }
 
@@ -165,8 +159,7 @@ class XMLArgument : public Argument<dim> {
     return static_cast<const Argument<dim> &>(*this) == static_cast<const Argument<dim> &>(rhs)
         && cuboidArguments == rhs.cuboidArguments && sphereArguments == rhs.sphereArguments
         && cutoffRadius == rhs.cutoffRadius && domain == rhs.domain && cellSize == rhs.cellSize
-        && boundaries == rhs.boundaries && thermostat == rhs.thermostat
-        && additionalGravitation == rhs.additionalGravitation;
+        && boundaries == rhs.boundaries && additionalGravitation == rhs.additionalGravitation;
   }
 
   bool operator!=(const XMLArgument &rhs) const {
@@ -229,13 +222,6 @@ class XMLArgument : public Argument<dim> {
     return cellSize;
   }
 
-  /**
-   * Getter for thermostat.
-   * @return thermostat.
-   */
-  [[nodiscard]] const std::optional<Thermostat> &getThermostat() const {
-    return thermostat;
-  }
 
   /**
    * Getter for gravitation.

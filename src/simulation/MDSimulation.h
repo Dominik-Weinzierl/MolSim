@@ -32,16 +32,23 @@ class MDSimulation {
    * @param arg The command line-arguments.
    */
   static void performSimulation([[maybe_unused]] OutputWriter<dim> &writer, ParticleContainer<dim> &particleContainer,
-                                const Argument<dim> &arg) {
+                                Argument<dim> &arg) {
     double current_time = start_time;
     int iteration = 0;
     auto deltaT = arg.getDeltaT();
 
     T physics;
+    std::unique_ptr<Thermostat<dim>>& thermostat = arg.getThermostat();
+
+    thermostat->setInitialTemperature(particleContainer);
 
     // for this loop, we assume: current x, current f and current v are known
     while (current_time < arg.getEndTime()) {
       physics.calculateNextStep(particleContainer, deltaT);
+
+      if (iteration % thermostat->getNumberT() == 0) {
+        thermostat->applyThermostat(particleContainer);
+      }
 
       if (iteration % arg.getIteration() == 0) {
         writer.writeFile(iteration);
