@@ -66,7 +66,7 @@ class Thermostat {
     auto tcur = kineticEnergyTemp(c);
     if (tcur == targetT)
       return;
-    double tnew;
+    double tnew = 0.0;
     if (tcur < targetT) {
       if (deltaT == -1) {
         tnew = targetT;
