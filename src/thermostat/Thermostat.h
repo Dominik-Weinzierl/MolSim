@@ -32,12 +32,8 @@ class Thermostat {
   double calculateBeta(double currentTemp, double targetTemp, double pDeltaT) {
     if (currentTemp == targetTemp)
       return 1;
-    double difference;
-    if (currentTemp < targetTemp) {
-      difference = targetTemp - currentTemp;
-    } else {
-      difference = currentTemp - targetTemp;
-    }
+
+    double difference = currentTemp - targetTemp;
 
     if (pDeltaT != -1) {
       if (difference < 0) {
@@ -46,7 +42,7 @@ class Thermostat {
       difference = std::min(difference, pDeltaT);
     }
 
-    return std::sqrt((currentTemp + difference) / currentTemp);
+    return std::sqrt((currentTemp - difference) / currentTemp);
   }
 
   /**

@@ -13,5 +13,5 @@
             <Velocity x="-15.0" y="-10.0" z="0.0"/>
         </Sphere>
     </Shapes>
-    <Thermostat initialT="800" targetT="450" numberT="2000" deltaT="20"/>
+    <Thermostat initialT="800" targetT="0" numberT="2000" deltaT="10"/>
 </Simulation>
