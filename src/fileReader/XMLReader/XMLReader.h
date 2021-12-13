@@ -188,7 +188,7 @@ class XMLReader {
     }
 
     return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
-                                                this->loadCuboid(), this->loadSpheres(), strategy, cutoffRadius, domain,
-                                                boundaries, cellSize, std::move(thermostat), additionalGravitation);
+                                              this->loadCuboid(), this->loadSpheres(), strategy, cutoffRadius, domain,
+                                              boundaries, cellSize, std::move(thermostat), additionalGravitation);
   }
 };
