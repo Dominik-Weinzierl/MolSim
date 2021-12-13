@@ -34,18 +34,9 @@ class Thermostat {
 
   virtual ~Thermostat() = default;
 
-  bool operator==(const Thermostat &rhs) const {
-    return initialT == rhs.initialT && targetT == rhs.targetT && numberT == rhs.numberT && deltaT == rhs.deltaT;
-
-  }
-
-  bool operator!=(const Thermostat &rhs) const {
-    return !(rhs == *this);
-  }
-
   /**
-   * Prints the Thermostat.
-   */
+ * Prints the Thermostat.
+ */
   [[nodiscard]] virtual std::string toString() const {
     std::stringstream argument;
     argument << "\tThermostat: " << std::endl;
@@ -104,5 +95,13 @@ class Thermostat {
    */
   [[nodiscard]] int getNumberT() const {
     return numberT;
+  }
+
+  bool operator==(const Thermostat &rhs) const {
+    return initialT == rhs.initialT && targetT == rhs.targetT && numberT == rhs.numberT && deltaT == rhs.deltaT;
+  }
+
+  bool operator!=(const Thermostat &rhs) const {
+    return !(rhs == *this);
   }
 };

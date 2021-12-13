@@ -209,46 +209,16 @@ class XMLArgument : public Argument<dim> {
 
     return configuration.str();
   }
+
+  bool operator==(const XMLArgument &rhs) const {
+    return static_cast<const Argument<dim> &>(*this) == static_cast<const Argument<dim> &>(rhs)
+        && cuboidArguments == rhs.cuboidArguments && sphereArguments == rhs.sphereArguments
+        && cutoffRadius == rhs.cutoffRadius && domain == rhs.domain && cellSize == rhs.cellSize
+        && boundaries == rhs.boundaries && additionalGravitation == rhs.additionalGravitation;
+  }
+
+  bool operator!=(const XMLArgument &rhs) const {
+    return !(rhs == *this);
+  }
 };
 
-/**
- * Compare operator for XMLArgument(s).
- * @tparam dim dimension of simulation
- * @param left first XMLArgument
- * @param right second XMLArgument
- * @return true if all values are equal
- */
-template<size_t dim>
-bool operator==(const XMLArgument<dim> &left, const XMLArgument<dim> &right) {
-  SPDLOG_TRACE("XMLArgument->operator==");
-  return left.getCuboidArguments() == right.getCuboidArguments()
-      && left.getSphereArguments() == left.getSphereArguments() && left.getFiles() == right.getFiles()
-      && left.getEndTime() == right.getEndTime() && left.getDeltaT() == right.getDeltaT()
-      && left.getOutput() == right.getOutput() && left.getWriter() == right.getWriter()
-      && left.getIteration() == right.getIteration() && left.getPhysics() == right.getPhysics()
-      && left.getStrategy() == right.getStrategy() && left.getCutoffRadius() == right.getCutoffRadius()
-      && left.getDomain() == right.getDomain() && left.getBoundaries() == right.getBoundaries()
-      && left.getCellSize() == right.getCellSize() && left.getThermostat() == right.getThermostat()
-      && left.getAdditionalGravitation() == right.getAdditionalGravitation();
-}
-
-/**
- * Unequal operator for XMLArgument(s).
- * @tparam dim dimension of simulation
- * @param left first XMLArgument
- * @param right second XMLArgument
- * @return true if on value is unequal.
- */
-template<size_t dim>
-bool operator!=(const XMLArgument<dim> &left, const XMLArgument<dim> &right) {
-  SPDLOG_TRACE("XMLArgument->operator!=");
-  return left.getCuboidArguments() != right.getCuboidArguments()
-      || left.getSphereArguments() != left.getSphereArguments() || left.getFiles() != right.getFiles()
-      || left.getEndTime() != right.getEndTime() || left.getDeltaT() != right.getDeltaT()
-      || left.getOutput() != right.getOutput() || left.getWriter() != right.getWriter()
-      || left.getIteration() != right.getIteration() || left.getPhysics() != right.getPhysics()
-      || left.getStrategy() != right.getStrategy() || left.getCutoffRadius() != right.getCutoffRadius()
-      || left.getDomain() != right.getDomain() || left.getBoundaries() != right.getBoundaries()
-      || left.getCellSize() != right.getCellSize() || left.getThermostat() != right.getThermostat()
-      || left.getAdditionalGravitation() != right.getAdditionalGravitation();
-}
