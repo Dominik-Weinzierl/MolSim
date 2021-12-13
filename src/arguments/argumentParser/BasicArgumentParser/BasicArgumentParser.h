@@ -13,6 +13,9 @@
  */
 class BasicArgumentStatus : public ArgumentStatus {
  public:
+
+  //----------------------------------------Constructor----------------------------------------
+
   BasicArgumentStatus() : ArgumentStatus() {
     flags.insert({"endTime", {false, "", ""}});
     flags.insert({"deltaT", {false, "", ""}});
@@ -38,6 +41,8 @@ class BasicArgumentParser : public ArgumentParser<dim> {
 
  public:
 
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * BasicArgumentsParser is a constructor that takes arguments provided by the main-method.
    * @param args arguments
@@ -45,6 +50,8 @@ class BasicArgumentParser : public ArgumentParser<dim> {
   explicit BasicArgumentParser(const std::vector<std::string> &args) : ArgumentParser<dim>(args) {
     SPDLOG_TRACE("BasicArgumentParser created!");
   };
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * Prints the available flag-options.

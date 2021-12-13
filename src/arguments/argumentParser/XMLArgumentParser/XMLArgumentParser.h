@@ -8,6 +8,9 @@
  */
 class XMLArgumentStatus : public ArgumentStatus {
  public:
+
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * Default constructor.
    */
@@ -27,6 +30,9 @@ class XMLArgumentParser : public ArgumentParser<dim> {
   XMLArgumentStatus status;
 
  public:
+
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * XMLArgumentParser is a constructor that takes arguments provided by the main-method.
    * @param args arguments
@@ -34,6 +40,8 @@ class XMLArgumentParser : public ArgumentParser<dim> {
   explicit XMLArgumentParser(const std::vector<std::string> &args) : ArgumentParser<dim>(args) {
     SPDLOG_TRACE("XMLArgumentParser created!");
   }
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * Validates the arguments.

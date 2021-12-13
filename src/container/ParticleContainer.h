@@ -18,6 +18,9 @@ class ParticleContainer {
   std::vector<Particle<dim>> particles;
 
  public:
+
+  //----------------------------------------Constructor & Destructor----------------------------------------
+
   /**
    * Default Constructor.
    */
@@ -36,35 +39,14 @@ class ParticleContainer {
     SPDLOG_TRACE("ParticleContainer generated");
   }
 
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * Adds the particle to the ParticleContainer.
    * @param p The particle to be added.
    */
   void addParticle(Particle<dim> p) {
     particles.push_back(std::move(p));
-  }
-
-  /**
-   * const getter for the vector of Particle(s).
-   * @return const std::vector<Particle<dim>>
-   */
-  [[nodiscard]] const std::vector<Particle<dim>> &getParticles() const {
-    return particles;
-  }
-
-  /**
-   * Getter for the vector of Particle(s).
-   * @return std::vector<Particle<dim>>
-   */
-  [[nodiscard]] std::vector<Particle<dim>> &getParticles() {
-    return particles;
-  }
-
-  /**
-   * @return Size of the particle-Vector.
-   */
-  [[nodiscard]] unsigned long size() const {
-    return particles.size();
   }
 
   /**
@@ -76,6 +58,13 @@ class ParticleContainer {
    * @return Iterator to the end of the particles-Vector.
    */
   [[nodiscard]] auto end() { return particles.end(); }
+
+  /**
+   * @return Size of the particle-Vector.
+   */
+  [[nodiscard]] unsigned long size() const {
+    return particles.size();
+  }
 
   /**
  * Operator that allows mutable member access.
@@ -104,6 +93,24 @@ class ParticleContainer {
    * Updates the distribution of the particles into the cells
    */
   virtual void updateCells() = 0;
+
+  //----------------------------------------Getter & Setter----------------------------------------
+
+  /**
+   * const getter for the vector of Particle(s).
+   * @return const std::vector<Particle<dim>>
+   */
+  [[nodiscard]] const std::vector<Particle<dim>> &getParticles() const {
+    return particles;
+  }
+
+  /**
+   * Getter for the vector of Particle(s).
+   * @return std::vector<Particle<dim>>
+   */
+  [[nodiscard]] std::vector<Particle<dim>> &getParticles() {
+    return particles;
+  }
 };
 
 /**

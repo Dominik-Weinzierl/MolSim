@@ -18,10 +18,15 @@ class PhysicsType {
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of_v<PhysicsType, T>, bool>::type = true>
 class Physics {
  protected:
+
+  //----------------------------------------Constructor & Destructor----------------------------------------
+
   /**
    * Default destructor.
    */
   virtual ~Physics() = default;
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * Updates the force of the Particle(s).
@@ -96,6 +101,8 @@ class Physics {
     // calculate new v
     calculateV(particleContainer, deltaT);
   }
+
+  //----------------------------------------Helper----------------------------------------
 
   /**
    * Calculates the square of the l2Norm for two given Particles.

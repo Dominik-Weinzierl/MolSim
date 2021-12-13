@@ -10,6 +10,9 @@
 template<size_t dim>
 class DummyWriter : public OutputWriter<dim> {
  public:
+
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * Constructs a XYZWriter to create files based on the XYZ file format.
    * @param pFileName output filename
@@ -17,7 +20,9 @@ class DummyWriter : public OutputWriter<dim> {
    * @param pContainer ParticleContainer with a Vector that contains all Particle(s).
    */
   explicit DummyWriter(std::string pFileName, ParticleContainer<dim> &pContainer) : OutputWriter<dim>(
-      std::move(pFileName), pContainer) {}
+      std::move(pFileName), pContainer) {};
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
   * Writes no information.

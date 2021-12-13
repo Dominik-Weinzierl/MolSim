@@ -7,10 +7,14 @@
 #include "logger/Logger.h"
 #include "utils/ArrayUtils.h"
 
+//----------------------------------------Type alias----------------------------------------
+
 /**
  * Alias for std::array<double, dim>.
  */
 template<size_t dim> using Vector = std::array<double, dim>;
+
+//----------------------------------------Methods----------------------------------------
 
 /**
  * Add two Vector(s).

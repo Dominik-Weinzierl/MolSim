@@ -19,6 +19,8 @@ class ParserStrategy {
   std::unique_ptr<ArgumentParser<dim>> parser;
  public:
 
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * ParserStrategy constructor selects the ArgumentParser used based on the input.
    * @param args arguments
@@ -34,13 +36,7 @@ class ParserStrategy {
     }
   }
 
-  /**
-   * Getter for ArgumentParser.
-   * @return the selected ArgumentParser.
-   */
-  std::unique_ptr<ArgumentParser<dim>> getParser() {
-    return std::move(parser);
-  }
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * Shows usage of available Parser.
@@ -50,5 +46,15 @@ class ParserStrategy {
     std::cout << std::endl;
     XMLArgumentParser<dim>::showUsage();
     std::cout << std::endl;
+  }
+
+  //----------------------------------------Getter & Setter----------------------------------------
+
+  /**
+   * Getter for ArgumentParser.
+   * @return the selected ArgumentParser.
+   */
+  std::unique_ptr<ArgumentParser<dim>> getParser() {
+    return std::move(parser);
   }
 };

@@ -66,6 +66,9 @@ class Cell {
   const std::array<int, dim> domain;
 
  public:
+
+  //----------------------------------------Constructor & Destructor----------------------------------------
+
   /**
    * Constructor to create our Cell(s).
    * @param pBoundaryType default is Outflow (but other types are also possible)
@@ -97,6 +100,8 @@ class Cell {
    */
   virtual ~Cell() = default;
 
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * Each Cell type has different actions they need to perform on Particle(s).
    */
@@ -110,6 +115,8 @@ class Cell {
     SPDLOG_TRACE("Cell->insertParticle(): {}", p->toString());
     particles.push_back(p);
   }
+
+  //----------------------------------------Getter & Setter----------------------------------------
 
   /**
    * @return Iterator to the beginning of the particles-Vector.

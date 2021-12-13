@@ -12,6 +12,8 @@
 template<size_t dim>
 class BasicArgument : public Argument<dim> {
  public:
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * BasicArgument constructor to construct Arguments provided by the ArgumentParser (BasicArgumentParser).
    * @param pFiles additional input files to load additional Particle
@@ -30,6 +32,8 @@ class BasicArgument : public Argument<dim> {
     SPDLOG_TRACE("BasicArgument created!");
   }
 
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * There are no additional ways to create additional particles via the command line.
    * If you want to create additional particles, you must use an xml configuration file.
@@ -40,19 +44,3 @@ class BasicArgument : public Argument<dim> {
     (void) container;
   }
 };
-
-/**
- * Compare operator for BasicArgument(s);
- * @tparam dim dimension of simulation
- * @param left first BasicArgument
- * @param right second BasicArgument
- * @return true if all values are equal
- */
-template<size_t dim>
-bool operator==(const BasicArgument<dim> &left, const BasicArgument<dim> &right) {
-  SPDLOG_TRACE("BasicArgument->operator==");
-  return left.getFiles() == right.getFiles() && left.getEndTime() == right.getEndTime()
-      && left.getDeltaT() == right.getDeltaT() && left.getOutput() == right.getOutput()
-      && left.getWriter() == right.getWriter() && left.getIteration() == right.getIteration()
-      && left.getPhysics() == right.getPhysics() && left.getStrategy() == right.getStrategy();
-}

@@ -54,6 +54,9 @@ class Particle {
   double potentialWellDepth = 5;
 
  public:
+
+  //----------------------------------------Constructor & Destructor----------------------------------------
+
   /**
    * Default constructor.
    * @param type Default value 0.
@@ -98,6 +101,86 @@ class Particle {
    * Default destructor.
    */
   virtual ~Particle() = default;
+
+  //----------------------------------------Methods----------------------------------------
+
+  /**
+   * Methods to update the force.
+   * @param x_arg new x value to add
+   * @param y_arg new y value to add
+   * @param z_arg new z value to add
+   */
+  inline void updateForce(double x_arg, double y_arg, double z_arg) {
+    f[0] += x_arg;
+    f[1] += y_arg;
+    f[2] += z_arg;
+  }
+
+  /**
+   * Methods to update the force.
+   * @param x_arg new x value to add
+   * @param y_arg new y value to add
+   */
+  inline void updateForce(double x_arg, double y_arg) {
+    f[0] += x_arg;
+    f[1] += y_arg;
+  }
+
+  /**
+   * Methods to update the force.
+   * @param force new force to add
+   */
+  inline void updateForce(std::array<double, dim> force) {
+    for (size_t i = 0; i < dim; ++i) {
+      f[i] += force[i];
+    }
+  }
+
+  /**
+   * Operator which allows the comparison of the particle to a given particle.
+   * @param other
+   * @return True, if the given Particle equals this Particle.
+   */
+  bool operator==(const Particle &other) {
+    return (x == other.x) and (v == other.v) and (f == other.f) and (type == other.type) and (m == other.m)
+        and (old_f == other.old_f);
+  }
+
+  /**
+   * Method which returns the properties of the particle as a String.
+   * @return
+   */
+  [[nodiscard]] std::string toString() const {
+    std::stringstream stream;
+    stream << "Particle: X:" << x << " v: " << v << " f: " << f << " old_f: " << old_f << " type: " << type;
+    return stream.str();
+  }
+
+  /**
+   * Stream operator for Particle(s).
+   * @tparam dim dimension of our simulation.
+   * @param stream std::ostream
+   * @param p Particle to print
+   * @return updated stream
+   */
+  friend std::ostream &operator<<(std::ostream &stream, const Particle<dim> &p) {
+    stream << p.toString();
+    return stream;
+  }
+
+  /**
+   * Operator == to compare Particles for testing
+   * @tparam dim Dimension of the given Particles
+   * @param p1 One of the two Particles to compare
+   * @param p2 One of the two Particles to compare
+   * @return True, if both Particles are the same
+   */
+  friend bool operator==(const Particle<dim> &p1, const Particle<dim> &p2) {
+    return p1.getX() == p2.getX() && p1.getV() == p2.getV() && p1.getM() == p2.getM() && p1.getF() == p2.getF()
+        && p1.getOldF() == p2.getOldF() && p1.getType() == p2.getType();
+  }
+
+  //----------------------------------------Getter & Setter----------------------------------------
 
   /**
    * Getter for the position of the Particle.
@@ -290,82 +373,4 @@ class Particle {
   void setType(int pType) {
     type = pType;
   }
-
-  /**
-   * Methods to update the force.
-   * @param x_arg new x value to add
-   * @param y_arg new y value to add
-   * @param z_arg new z value to add
-   */
-  inline void updateForce(double x_arg, double y_arg, double z_arg) {
-    f[0] += x_arg;
-    f[1] += y_arg;
-    f[2] += z_arg;
-  }
-
-  /**
-   * Methods to update the force.
-   * @param x_arg new x value to add
-   * @param y_arg new y value to add
-   */
-  inline void updateForce(double x_arg, double y_arg) {
-    f[0] += x_arg;
-    f[1] += y_arg;
-  }
-
-  /**
-   * Methods to update the force.
-   * @param force new force to add
-   */
-  inline void updateForce(std::array<double, dim> force) {
-    for (size_t i = 0; i < dim; ++i) {
-      f[i] += force[i];
-    }
-  }
-
-  /**
-   * Operator which allows the comparison of the particle to a given particle.
-   * @param other
-   * @return True, if the given Particle equals this Particle.
-   */
-  bool operator==(const Particle &other) {
-    return (x == other.x) and (v == other.v) and (f == other.f) and (type == other.type) and (m == other.m)
-        and (old_f == other.old_f);
-  }
-
-  /**
-   * Method which returns the properties of the particle as a String.
-   * @return
-   */
-  [[nodiscard]] std::string toString() const {
-    std::stringstream stream;
-    stream << "Particle: X:" << x << " v: " << v << " f: " << f << " old_f: " << old_f << " type: " << type;
-    return stream.str();
-  }
 };
-
-/**
- * Stream operator for Particle(s).
- * @tparam dim dimension of our simulation.
- * @param stream std::ostream
- * @param p Particle to print
- * @return updated stream
- */
-template<size_t dim>
-std::ostream &operator<<(std::ostream &stream, const Particle<dim> &p) {
-  stream << p.toString();
-  return stream;
-}
-
-/**
- * Operator == to compare Particles for testing
- * @tparam dim Dimension of the given Particles
- * @param p1 One of the two Particles to compare
- * @param p2 One of the two Particles to compare
- * @return True, if both Particles are the same
- */
-template<size_t dim>
-bool operator==(const Particle<dim> &p1, const Particle<dim> &p2) {
-  return p1.getX() == p2.getX() && p1.getV() == p2.getV() && p1.getM() == p2.getM() && p1.getF() == p2.getF()
-      && p1.getOldF() == p2.getOldF() && p1.getType() == p2.getType();
-}

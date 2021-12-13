@@ -66,6 +66,8 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    */
   std::vector<BoundaryType> boundaries;
 
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * Setup Halo(s) where needed.
    * @param amount amount of Halo(s)
@@ -219,6 +221,9 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   void reserve();
 
  public:
+
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * Constructor for LinkedCellContainer.
    * @param pBoundaries user defined boundaries on all sides
@@ -235,6 +240,8 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     reserve();
     SPDLOG_TRACE("LinkedCellContainer generated");
   };
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * Setup linked cell structure.
@@ -260,6 +267,8 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     }
     insertParticlesInCells();
   }
+
+  //----------------------------------------Getter & Setter----------------------------------------
 
   /**
    * @return Iterator to the beginning of the cell-Vector.

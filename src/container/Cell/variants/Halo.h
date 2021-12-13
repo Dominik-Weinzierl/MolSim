@@ -10,6 +10,9 @@
 template<size_t dim>
 class Halo : public Cell<dim> {
  private:
+
+  //----------------------------------------Methods----------------------------------------
+
   inline void moveParticles() {
     Cell<dim> *neighbour = this->getNeighbours()[0];
     for (Particle<dim> *particle: this->getParticles()) {
@@ -25,6 +28,9 @@ class Halo : public Cell<dim> {
     this->particles.clear();
   }
  public:
+
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * Constructor to create our Halo(s).
    * @param pBoundaryType default is Outflow (but other types are also possible)
@@ -38,6 +44,8 @@ class Halo : public Cell<dim> {
        std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize,
        std::array<int, dim> pDomain) : Cell<dim>(pBoundaryType, pBorderDirection, pAllParticles, pPosition, pCellSize,
                                                  pDomain) {};
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * Used to set the type of the Particle(s) to -1. This means, that these Particle(s) will be removed soon.

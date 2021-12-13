@@ -19,6 +19,8 @@ class Boundary : public Cell<dim> {
    */
   const double sixthSqrtOfTwo = std::pow(2, 1.0 / 6.0);
 
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * Apply the additional force on only the relevant Particle.
    * @param p relevant Particle which will be reflected
@@ -60,6 +62,9 @@ class Boundary : public Cell<dim> {
   }
 
  public:
+
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * Constructor to create our Boundary(s).
    * @param pBoundaryType default is Outflow (but other types are also possible)
@@ -70,8 +75,11 @@ class Boundary : public Cell<dim> {
    * @param pDomain domain size used during this simulation
    */
   Boundary(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection,
-           std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize, std::array<int, dim> pDomain)
-      : Cell<dim>(pBoundaryType, pBorderDirection, pAllParticles, pPosition, pCellSize, pDomain) {};
+           std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize,
+           std::array<int, dim> pDomain) : Cell<dim>(pBoundaryType, pBorderDirection, pAllParticles, pPosition,
+                                                     pCellSize, pDomain) {};
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * Apply selected boundary properties.

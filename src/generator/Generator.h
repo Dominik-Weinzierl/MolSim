@@ -20,6 +20,8 @@ template<typename T, size_t dim, typename std::enable_if<std::is_base_of<Generat
 class Generator {
  public:
 
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * Generates shapes and fills the ParticleContainer accordingly.
    * @param g used GeneratorArgument

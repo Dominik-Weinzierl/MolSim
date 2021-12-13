@@ -7,14 +7,20 @@
 #include "container/ParticleContainer.h"
 #include "particles/Particle.h"
 
-
 /**
  * OutputWriter is an extendable file writer for simulation states.
  * @tparam dim dimension of our simulation.
  */
 template<size_t dim>
 class OutputWriter {
+ protected:
+  const std::string fileName;
+  const std::string path;
+  ParticleContainer<dim> &container;
+
  public:
+
+  //----------------------------------------Constructor & Destructor----------------------------------------
 
   /**
    * Constructs an OutputWriter to create files.
@@ -42,13 +48,11 @@ class OutputWriter {
    */
   virtual ~OutputWriter() = default;
 
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * Writes the information about the given iteration into the file.
    * @param iteration current iteration of the simulation
    */
   virtual void writeFile(int iteration) = 0;
- protected:
-  const std::string fileName;
-  const std::string path;
-  ParticleContainer<dim> &container;
 };

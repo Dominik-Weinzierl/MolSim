@@ -9,6 +9,9 @@
 template<size_t dim>
 class Inner : public Cell<dim> {
  public:
+
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * Constructor to create our Inner(s) cells. In this case our boundary type is always Outflow (unused).
    * @param pPosition position of this Cell in our Mesh
@@ -18,6 +21,8 @@ class Inner : public Cell<dim> {
    */
   Inner(std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize, std::array<int, dim> pDomain)
       : Cell<dim>(pAllParticles, pPosition, pCellSize, pDomain) {};
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * There is no additional behaviour needed.

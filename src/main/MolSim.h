@@ -39,6 +39,9 @@ class MolSim {
   std::unique_ptr<ParticleContainer<dim>> particleContainer;
 
  public:
+
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * Setup project based on selected dimension.
    * @param args input arguments
@@ -191,6 +194,8 @@ class MolSim {
       return value;
     return sim.selectMethod(args);
   };
+
+  //----------------------------------------Getter & Setter----------------------------------------
 
   /**
    * Getter for argument.

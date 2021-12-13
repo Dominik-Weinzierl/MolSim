@@ -8,6 +8,9 @@
  */
 class Gravitation : public PhysicsType {
  public:
+
+  //----------------------------------------Methods----------------------------------------
+
   template<size_t dim>
   static inline Vector<dim> calculateForceBetweenTwoParticles(Particle<dim> &i, Particle<dim> &j) {
     Vector<dim> force{};

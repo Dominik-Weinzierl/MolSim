@@ -4,22 +4,32 @@
 
 template<>
 void LinkedCellContainer<3>::setupHaloColumnWrapper(int cellsPerColumn, std::array<int, 2> pos, BoardDirectionType d) {
-  // Setup bottom halo for this specific column.
+  /**
+   *  Setup a Halo column from Bottom (B) to Top (T)
+   *  T - - - -
+   *  x - - - -
+   *  x - - - -
+   *  x - - - -
+   *  B - - - -
+   */
   setupHalo({d, BoardDirectionType::BOTTOM}, {pos[0] * cellSize[0], -cellSize[1], pos[1] * cellSize[2]});
-  // Setup halos in the middle of a column.
   setupHalos(cellsPerColumn - 2, {d}, {pos[0] * cellSize[0], 0, pos[1] * cellSize[2]});
-  // Setup top halos for this specific column
   setupHalo({d, BoardDirectionType::TOP},
             {pos[0] * cellSize[0], (cellsPerColumn - 2) * cellSize[1], pos[1] * cellSize[2]});
 }
 
 template<>
 void LinkedCellContainer<2>::setupHaloColumnWrapper(int cellsPerColumn, std::array<int, 2> pos, BoardDirectionType d) {
-  // Setup bottom halo for this specific column.
+  /**
+   *  Setup a Halo column from Bottom (B) to Top (T)
+   *  T - - - -
+   *  x - - - -
+   *  x - - - -
+   *  x - - - -
+   *  B - - - -
+   */
   setupHalo({d, BoardDirectionType::BOTTOM}, {pos[0] * cellSize[0], -cellSize[1]});
-  // Setup halos in the middle of a column.
   setupHalos(cellsPerColumn - 2, {d}, {pos[0] * cellSize[0], 0});
-  // Setup top halos for this specific column
   setupHalo({d, BoardDirectionType::TOP}, {pos[0] * cellSize[0], (cellsPerColumn - 2) * cellSize[1]});
 }
 
@@ -450,7 +460,8 @@ void LinkedCellContainer<3>::linkCells() {
                 auto *posPeriodicCell = cells[posPeriodicCellIndex];
 
                 // TODO check if this is too expensive
-                std::tuple<Cell<3> *, std::array<int, 3>> posTuple{posPeriodicCell, std::array<int, 3>{posCellX, posCellY, posCellZ}};
+                std::tuple<Cell<3> *, std::array<int, 3>>
+                    posTuple{posPeriodicCell, std::array<int, 3>{posCellX, posCellY, posCellZ}};
                 if (std::find(posPeriodicCell->getPeriodicNeighbours().begin(),
                               posPeriodicCell->getPeriodicNeighbours().end(), posTuple)
                     == posPeriodicCell->getPeriodicNeighbours().end()) {
@@ -465,8 +476,7 @@ void LinkedCellContainer<3>::linkCells() {
 
               // Get neighbour
               auto posNeighIndex = static_cast<size_t>(getIndexBasedOnCoordinates(
-                  {static_cast<double>(posCellX), static_cast<double>(posCellY),
-                   static_cast<double>(posCellZ)}));
+                  {static_cast<double>(posCellX), static_cast<double>(posCellY), static_cast<double>(posCellZ)}));
               auto *posN = cells[posNeighIndex];
 
               // Filter already calculated cell

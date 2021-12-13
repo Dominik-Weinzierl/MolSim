@@ -1,8 +1,6 @@
 #pragma once
 
-/**
- * Sets global log level during compile time.
- */
+//----------------------------------------GLOBAL LOG LEVEL----------------------------------------
 #ifdef USE_SPD_LOG_OFF
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_OFF
 #endif
@@ -24,6 +22,7 @@
 #ifdef USE_SPD_LOG_CRITICAL
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_CRITICAL
 #endif
+//----------------------------------------GLOBAL LOG LEVEL----------------------------------------
 
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"
@@ -34,6 +33,9 @@
  */
 class Logger {
  public:
+
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * Setup the logger.
    */
