@@ -1,10 +1,11 @@
 #pragma once
 
-#include "particles/Particle.h"
 #include <functional>
-#include <boundaryType/BoundaryType.h>
 #include <iostream>
 #include <utility>
+
+#include "particles/Particle.h"
+#include "boundaryType/BoundaryType.h"
 
 /**
  * Describes the direction of this cell in relation to the board.

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "container/ParticleContainer.h"
-#include "outputWriter/OutputWriter.h"
-
 #include <fstream>
 #include <list>
 #include <sstream>
+
+#include "container/ParticleContainer.h"
+#include "outputWriter/OutputWriter.h"
 
 /**
  * XYZWriter writes files based on the XYZ file format.
@@ -24,7 +24,7 @@ class XYZWriter : public OutputWriter<dim> {
    * Iterates over all Particles and writes their current position into the file.
    */
   void plotParticles() {
-    auto particles = this->container.getParticles();
+    auto particles = XYZWriter<dim>::container.getParticles();
     for (auto &p: particles) {
       auto &x = p.getX();
       file << "Ar ";

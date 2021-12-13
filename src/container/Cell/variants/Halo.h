@@ -13,6 +13,9 @@ class Halo : public Cell<dim> {
 
   //----------------------------------------Methods----------------------------------------
 
+  /**
+   * Move Particle(s) in another Cell.
+   */
   inline void moveParticles() {
     Cell<dim> *neighbour = this->getNeighbours()[0];
     for (Particle<dim> *particle: this->getParticles()) {

@@ -2,16 +2,15 @@
     <Strategy>
         <LinkedCell cutoffRadius="3">
             <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
-            <Domain x="120" y="51" z="51"/>
+            <Domain x="9" y="9" z="9"/>
             <CellSize x="3" y="3" z="3"/>
             <Boundary boundary="periodic"/>
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0.1" radius="15" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
-            <Center x="60.0" y="25.0" z="25.0"/>
-            <Velocity x="-15.0" y="-10.0" z="0.0"/>
+        <Sphere mass="1.0" distance="1.1225" meanValue="2" radius="3" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
+            <Center x="4,5" y="4.5" z="4.5"/>
+            <Velocity x="0.0" y="-10.0" z="0.0"/>
         </Sphere>
     </Shapes>
-    <Thermostat initialT="800" targetT="0" numberT="2000" deltaT="10"/>
 </Simulation>

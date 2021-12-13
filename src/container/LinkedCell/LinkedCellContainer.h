@@ -188,6 +188,21 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     }
   }
 
+  //----------------------------------------Linking methods----------------------------------------
+
+  /**
+   * Link Cell structure.
+   */
+  void linkCells();
+
+  /**
+   * Link Halo cells to support periodic boundaries.
+   */
+  void linkHalosForPeriodic();
+
+  //----------------------------------------Particle operations----------------------------------------
+
+
   /**
    * Insert a pointer to the Particle into the correct Cell.
    */
@@ -209,11 +224,6 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * Setup Cell structure.
    */
   void setupCells();
-
-  /**
-   * Link Cell structure.
-   */
-  void linkCells();
 
   /**
    * Reserve enough space in vectors tro avoid reference issues.

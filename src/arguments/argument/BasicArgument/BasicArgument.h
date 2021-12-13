@@ -39,8 +39,7 @@ class BasicArgument : public Argument<dim> {
    * If you want to create additional particles, you must use an xml configuration file.
    * @param container the ParticleContainer in which the current particles are stored.
    */
-  void createAdditionalParticle(ParticleContainer<dim> &container) const override {
+  void createAdditionalParticle([[maybe_unused]] ParticleContainer<dim> &container) const override {
     SPDLOG_TRACE("BasicArgument->createAdditionalParticle()");
-    (void) container;
   }
 };

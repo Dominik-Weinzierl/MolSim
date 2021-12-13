@@ -56,7 +56,14 @@ void LinkedCellContainer<3>::setupHaloColumnsWrapper(int cellsPerColumn, int cel
 template<>
 void LinkedCellContainer<3>::setupBoundaryColumnWrapper(int cellsPerColumn, std::array<int, 2> pos,
                                                         BoardDirectionType d) {
-
+  /**
+   *  Setup a Boundary column from Bottom (B) to Top (T)
+   *  - - - - -
+   *  - T - - -
+   *  - x - - -
+   *  - B - - -
+   *  - - - - -
+   */
   setupBoundary({d, BoardDirectionType::BOTTOM}, {pos[0] * cellSize[0], 0, pos[1] * cellSize[2]});
   setupBoundaries(cellsPerColumn - 4, {d}, {pos[0] * cellSize[0], cellSize[1], pos[1] * cellSize[2]});
   setupBoundary({d, BoardDirectionType::TOP},
@@ -67,6 +74,14 @@ template<>
 void LinkedCellContainer<2>::setupBoundaryColumnWrapper(int cellsPerColumn, std::array<int, 2> pos,
                                                         BoardDirectionType d) {
 
+  /**
+   *  Setup a Boundary column from Bottom (B) to Top (T)
+   *  - - - - -
+   *  - T - - -
+   *  - x - - -
+   *  - B - - -
+   *  - - - - -
+   */
   setupBoundary({d, BoardDirectionType::BOTTOM}, {pos[0] * cellSize[0], 0});
   setupBoundaries(cellsPerColumn - 4, {d}, {pos[0] * cellSize[0], cellSize[1]});
   setupBoundary({d, BoardDirectionType::TOP}, {pos[0] * cellSize[0], (cellsPerColumn - 3) * cellSize[1]});
@@ -190,14 +205,9 @@ void LinkedCellContainer<2>::setupCells() {
 
 template<>
 int LinkedCellContainer<2>::getIndexBasedOnCoordinates(Vector<2> coords) {
-  //Includes halocells
   int cellsPerColumn = (domain[1] / cellSize[1]) + 2;
-  // first column is halo
   int index = cellsPerColumn;
-
-  // Add columns until index
   index += cellsPerColumn * static_cast<int>(std::floor(coords[0] / cellSize[0]));
-  // Add one halo cell
   index += static_cast<int>(std::floor(coords[1] / cellSize[1])) + 1;
 
   return index;
@@ -208,23 +218,111 @@ int LinkedCellContainer<3>::getIndexBasedOnCoordinates(Vector<3> coords) {
   int cellsPerRow = (domain[0] / cellSize[0]) + 2;
   int cellsPerColumn = (domain[1] / cellSize[1]) + 2;
 
-  // first layers are full
   int index = (static_cast<int>(std::floor(coords[2] / cellSize[2])) + 1) * (cellsPerRow * cellsPerColumn);
-
-  // add halo column
   index += cellsPerColumn;
-  // Add columns until index
   index += cellsPerColumn * static_cast<int>(std::floor(coords[0] / cellSize[0]));
-  // Add one halo cell
   index += static_cast<int>(std::floor(coords[1] / cellSize[1])) + 1;
 
   return index;
 }
 
 template<>
+void LinkedCellContainer<2>::linkHalosForPeriodic() {
+  // Link Halo cells with boundary cells
+  for (Halo<2> &halo: getHalosCells()) {
+    auto &boardDirection = halo.getBorderDirection();
+    auto &neighbours = halo.getNeighbours();
+    auto &position = halo.getPosition();
+
+    Vector<2> pos;
+
+    if (boardDirection.size() == 1) {
+      if (boardDirection[0] == BoardDirectionType::LEFT || boardDirection[0] == BoardDirectionType::RIGHT) {
+        // LEFT: 1, RIGHT: 0 -> LEFT: + domain[0], RIGHT: - domain[0]
+        pos = {static_cast<double>(position[0] + domain[0] * (-1 + 2 * boardDirection[0])),
+               static_cast<double>(position[1])};
+      } else if (boardDirection[0] == BoardDirectionType::TOP || boardDirection[0] == BoardDirectionType::BOTTOM) {
+        // TOP: 2, BOTTOM: 3 -> TOP: - domain[1], BOTTOM: + domain[1]
+        pos = {static_cast<double>(static_cast<double>(position[0])),
+               static_cast<double>(position[1] + domain[1] * (-1 + 2 * (boardDirection[0] % 2)))};
+      }
+    } else {
+      // LEFT: 1, RIGHT: 0, TOP: 2, BOTTOM: 3  -> LEFT: + domain[0], RIGHT: - domain[0], TOP: - domain[1], BOTTOM: + domain[1]
+      pos = {static_cast<double>(position[0] + domain[0] * (-1 + 2 * boardDirection[0])),
+             static_cast<double>(position[1] + domain[1] * (-1 + 2 * (boardDirection[1] % 2)))};
+    }
+
+    auto index = getIndexBasedOnCoordinates(pos);
+    auto *cell = cells[static_cast<unsigned long>(index)];
+    neighbours.push_back(cell);
+  }
+}
+
+template<>
+void LinkedCellContainer<3>::linkHalosForPeriodic() {
+  // Link Halo cells with boundary cells
+  for (Halo<3> &halo: getHalosCells()) {
+    auto &boardDirection = halo.getBorderDirection();
+    auto &neighbours = halo.getNeighbours();
+    auto &position = halo.getPosition();
+
+    Vector<3> pos;
+
+    if (boardDirection.size() == 1) {
+      if (boardDirection[0] == BoardDirectionType::LEFT || boardDirection[0] == BoardDirectionType::RIGHT) {
+        // LEFT: 1, RIGHT: 0 -> LEFT: + domain[0], RIGHT: - domain[0]
+        pos = {static_cast<double>(position[0] + domain[0] * (-1 + 2 * boardDirection[0])),
+               static_cast<double>(position[1]), static_cast<double>(position[2])};
+      } else if (boardDirection[0] == BoardDirectionType::TOP || boardDirection[0] == BoardDirectionType::BOTTOM) {
+        // TOP: 2, BOTTOM: 3 -> TOP: - domain[1], BOTTOM: + domain[1]
+        pos = {static_cast<double>(position[0]),
+               static_cast<double>(position[1] + domain[1] * (-1 + 2 * (boardDirection[0] % 2))),
+               static_cast<double>(position[2])};
+      } else if (boardDirection[0] == BoardDirectionType::FRONT || boardDirection[0] == BoardDirectionType::BACK) {
+        // FRONT: 5, BACK: 4 -> FRONT: + domain[2], BACK: - domain[2]
+        pos = {static_cast<double>(position[0]), static_cast<double>(position[1]),
+               static_cast<double>(position[2] + domain[2] * (-1 + 2 * (boardDirection[0] % 2)))};
+      }
+    } else if (boardDirection.size() == 2) {
+      if ((boardDirection[0] == BoardDirectionType::LEFT || boardDirection[0] == BoardDirectionType::RIGHT)
+          && (boardDirection[1] == BoardDirectionType::TOP || boardDirection[1] == BoardDirectionType::BOTTOM)) {
+        // LEFT: 1, RIGHT: 0, TOP: 2, BOTTOM: 3  -> LEFT: + domain[0], RIGHT: - domain[0], TOP: - domain[1], BOTTOM: + domain[1]
+        pos = {static_cast<double>(position[0] + domain[0] * (-1 + 2 * boardDirection[0])),
+               static_cast<double>(position[1] + domain[1] * (-1 + 2 * (boardDirection[1] % 2))),
+               static_cast<double>(position[2])};
+      } else if ((boardDirection[0] == BoardDirectionType::LEFT || boardDirection[0] == BoardDirectionType::RIGHT)
+          && (boardDirection[1] == BoardDirectionType::FRONT || boardDirection[1] == BoardDirectionType::BACK)) {
+        // LEFT: 1, RIGHT: 0, FRONT: 2, BACK: 3  -> LEFT: + domain[0], RIGHT: - domain[0], FRONT: 5, BACK: 4 -> FRONT: + domain[2], BACK: - domain[2]
+        pos = {static_cast<double>(position[0] + domain[0] * (-1 + 2 * boardDirection[0])),
+               static_cast<double>(position[1]),
+               static_cast<double>(position[2] + domain[2] * (-1 + 2 * (boardDirection[1] % 2)))};
+      } else if ((boardDirection[0] == BoardDirectionType::FRONT || boardDirection[0] == BoardDirectionType::BACK)
+          && (boardDirection[1] == BoardDirectionType::TOP || boardDirection[1] == BoardDirectionType::BOTTOM)) {
+        // TOP: 2, BOTTOM: 3, FRONT: 2, BACK: 3  -> TOP: - domain[1], BOTTOM: + domain[1], FRONT: 5, BACK: 4 -> FRONT: + domain[2], BACK: - domain[2]
+        pos = {static_cast<double>(position[0]),
+               static_cast<double>(position[1] + domain[1] * (-1 + 2 * (boardDirection[0] % 2))),
+               static_cast<double>(position[2] + domain[2] * (-1 + 2 * (boardDirection[1] % 2)))};
+      }
+    } else {
+      pos = {static_cast<double>(position[0] + domain[0] * (-1 + 2 * boardDirection[0])),
+             static_cast<double>(position[1] + domain[1] * (-1 + 2 * (boardDirection[2] % 2))),
+             static_cast<double>(position[2] + domain[2] * (-1 + 2 * (boardDirection[1] % 2)))};
+    }
+
+    auto index = getIndexBasedOnCoordinates(pos);
+    auto *cell = cells[static_cast<unsigned long>(index)];
+    neighbours.push_back(cell);
+  }
+}
+
+template<>
 void LinkedCellContainer<2>::linkCells() {
   int cellsPerRow = (domain[0] / cellSize[0]);
   int cellsPerColumn = (domain[1] / cellSize[1]);
+
+  int maxX = static_cast<int>(std::ceil(cutoffRadius / cellSize[0]));
+  int maxY = static_cast<int>(std::ceil(cutoffRadius / cellSize[1]));
+
   // Link Inner and Boundary Cells
   for (int x = 0; x < cellsPerRow; ++x) {
     for (int y = 0; y < cellsPerColumn; ++y) {
@@ -242,10 +340,8 @@ void LinkedCellContainer<2>::linkCells() {
       auto &periodicCells = cell->getPeriodicNeighbours();
 
       // Check all possible neighbours
-      for (int nX = x - static_cast<int>(std::ceil(cutoffRadius / cellSize[0]));
-           nX <= x + static_cast<int>(std::ceil(cutoffRadius / cellSize[0])); ++nX) {
-        for (int nY = y - static_cast<int>(std::ceil(cutoffRadius / cellSize[1]));
-             nY <= y + static_cast<int>(std::ceil(cutoffRadius / cellSize[1])); ++nY) {
+      for (int nX = x - maxX; nX <= x + maxX; ++nX) {
+        for (int nY = y - maxY; nY <= y + maxY; ++nY) {
 
           // filter oneself
           if (nX == x && nY == y)
@@ -256,35 +352,27 @@ void LinkedCellContainer<2>::linkCells() {
 
           if (((nX < 0 || nX >= cellsPerRow) && this->boundaries[0] == BoundaryType::Periodic)
               || ((nY < 0 || nY >= cellsPerColumn) && this->boundaries[2] == BoundaryType::Periodic)) {
-            auto periodicCellX =
-                ((nX * cellSize[0]) > domain[0] ? (nX * cellSize[0]) - domain[0] : (nX * cellSize[0]) + domain[0])
-                    % domain[0];
-            auto periodicCellY =
-                ((nY * cellSize[1]) > domain[1] ? (nY * cellSize[1]) - domain[1] : (nY * cellSize[1]) + domain[1])
-                    % domain[1];
 
-            if ((nX < 0 || nX >= cellsPerRow) && (nY < 0 || nY >= cellsPerColumn)
-                && (this->boundaries[0] != BoundaryType::Periodic || this->boundaries[2] != BoundaryType::Periodic)) {
-              // Seems like this is only a normal halo cell, and we don't need to link it
+            // Calculate periodic x and periodic y position.
+            auto periodicCellX = nX * cellSize[0];
+            periodicCellX =
+                (periodicCellX > domain[0] ? periodicCellX - domain[0] : periodicCellX + domain[0]) % domain[0];
+
+            auto periodicCellY = nY * cellSize[1];
+            periodicCellY =
+                (periodicCellY > domain[1] ? periodicCellY - domain[1] : periodicCellY + domain[1]) % domain[1];
+
+            if ((nX < 0 || nX >= cellsPerRow) && this->boundaries[0] != BoundaryType::Periodic) {
               continue;
             }
 
-            // left and right is periodic
-            if ((nX < 0 || nX >= cellsPerRow) && (nY >= 0 && nY < cellsPerColumn)
-                && this->boundaries[0] == BoundaryType::Periodic) {
-              periodicCellY = nY * cellSize[1];
-            } else
-
-              // top and bottom is periodic
-            if ((nY < 0 || nY >= cellsPerColumn) && (nX >= 0 && nX < cellsPerRow)
-                && this->boundaries[2] == BoundaryType::Periodic) {
-              periodicCellX = nX * cellSize[0];
+            if ((nY < 0 || nY >= cellsPerColumn) && this->boundaries[2] != BoundaryType::Periodic) {
+              continue;
             }
 
             // Get periodic cell
-            auto posPeriodicCellIndex = static_cast<size_t>(getIndexBasedOnCoordinates(
-                {static_cast<double>(periodicCellX), static_cast<double>(periodicCellY)}));
-            auto *posPeriodicCell = cells[posPeriodicCellIndex];
+            auto *posPeriodicCell = cells[static_cast<unsigned long>(getIndexBasedOnCoordinates(
+                {static_cast<double>(periodicCellX), static_cast<double>(periodicCellY)}))];
 
             // TODO check if this is too expensive
             std::tuple<Cell<2> *, std::array<int, 2>> posTuple{posPeriodicCell, std::array<int, 2>{posCellX, posCellY}};
@@ -316,43 +404,7 @@ void LinkedCellContainer<2>::linkCells() {
   }
 
   // Link Halo cells with boundary cells
-  for (Halo<2> &halo: getHalosCells()) {
-    auto &boardDirection = halo.getBorderDirection();
-    auto &neighbours = halo.getNeighbours();
-    auto &position = halo.getPosition();
-    auto index = 0;
-    if (boardDirection.size() == 1) {
-      if (boardDirection[0] == BoardDirectionType::LEFT) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] + domain[0]), static_cast<double>(position[1])});
-      } else if (boardDirection[0] == BoardDirectionType::RIGHT) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] - domain[0]), static_cast<double>(position[1])});
-      } else if (boardDirection[0] == BoardDirectionType::TOP) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0]), static_cast<double>(position[1] - domain[1])});
-      } else if (boardDirection[0] == BoardDirectionType::BOTTOM) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0]), static_cast<double>(position[1] + domain[1])});
-      }
-    } else {
-      if (boardDirection[0] == BoardDirectionType::LEFT && boardDirection[1] == BoardDirectionType::TOP) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] + domain[0]), static_cast<double>(position[1] - domain[1])});
-      } else if (boardDirection[0] == BoardDirectionType::LEFT && boardDirection[1] == BoardDirectionType::BOTTOM) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] + domain[0]), static_cast<double>(position[1] + domain[1])});
-      } else if (boardDirection[0] == BoardDirectionType::RIGHT && boardDirection[1] == BoardDirectionType::TOP) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] - domain[0]), static_cast<double>(position[1] - domain[1])});
-      } else if (boardDirection[0] == BoardDirectionType::RIGHT && boardDirection[1] == BoardDirectionType::BOTTOM) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] - domain[0]), static_cast<double>(position[1] + domain[1])});
-      }
-    }
-    auto *cell = cells[static_cast<unsigned long>(index)];
-    neighbours.push_back(cell);
-  }
+  LinkedCellContainer<2>::linkHalosForPeriodic();
 }
 
 template<>
@@ -360,6 +412,10 @@ void LinkedCellContainer<3>::linkCells() {
   int cellsPerRow = (domain[0] / cellSize[0]);
   int cellsPerColumn = (domain[1] / cellSize[1]);
   int cellsPerDepth = (domain[2] / cellSize[2]);
+
+  int maxX = static_cast<int>(std::ceil(cutoffRadius / cellSize[0]));
+  int maxY = static_cast<int>(std::ceil(cutoffRadius / cellSize[1]));
+  int maxZ = static_cast<int>(std::ceil(cutoffRadius / cellSize[2]));
 
   for (int x = 0; x < cellsPerRow; ++x) {
     for (int y = 0; y < cellsPerColumn; ++y) {
@@ -378,12 +434,9 @@ void LinkedCellContainer<3>::linkCells() {
         // Link periodic cells if needed
         auto &periodicCells = cell->getPeriodicNeighbours();
 
-        for (int nX = x - static_cast<int>(std::ceil(cutoffRadius / cellSize[0]));
-             nX <= x + static_cast<int>(std::ceil(cutoffRadius / cellSize[0])); ++nX) {
-          for (int nY = y - static_cast<int>(std::ceil(cutoffRadius / cellSize[1]));
-               nY <= y + static_cast<int>(std::ceil(cutoffRadius / cellSize[1])); ++nY) {
-            for (int nZ = z - static_cast<int>(std::ceil(cutoffRadius / cellSize[2]));
-                 nZ <= z + static_cast<int>(std::ceil(cutoffRadius / cellSize[2])); ++nZ) {
+        for (int nX = x - maxX; nX <= x + maxX; ++nX) {
+          for (int nY = y - maxY; nY <= y + maxY; ++nY) {
+            for (int nZ = z - maxZ; nZ <= z + maxZ; ++nZ) {
 
               // filter oneself
               if (nX == x && nY == y && nZ == z)
@@ -396,68 +449,36 @@ void LinkedCellContainer<3>::linkCells() {
               if (((nX < 0 || nX >= cellsPerRow) && this->boundaries[0] == BoundaryType::Periodic)
                   || ((nY < 0 || nY >= cellsPerColumn) && this->boundaries[2] == BoundaryType::Periodic)
                   || ((nZ < 0 || nZ >= cellsPerDepth) && this->boundaries[4] == BoundaryType::Periodic)) {
-                auto periodicCellX =
-                    ((nX * cellSize[0]) > domain[0] ? (nX * cellSize[0]) - domain[0] : (nX * cellSize[0]) + domain[0])
-                        % domain[0];
-                auto periodicCellY =
-                    ((nY * cellSize[1]) > domain[1] ? (nY * cellSize[1]) - domain[1] : (nY * cellSize[1]) + domain[1])
-                        % domain[1];
-                auto periodicCellZ =
-                    ((nZ * cellSize[2]) > domain[2] ? (nZ * cellSize[2]) - domain[2] : (nZ * cellSize[2]) + domain[2])
-                        % domain[2];
 
-                // left/right and top/bottom and back/front
-                if ((nX < 0 || nX >= cellsPerRow) && (nY < 0 || nY >= cellsPerColumn) && (nZ < 0 || nZ >= cellsPerDepth)
-                    && (this->boundaries[0] != BoundaryType::Periodic || this->boundaries[2] != BoundaryType::Periodic
-                        || this->boundaries[4] != BoundaryType::Periodic)) {
-                  // Seems like this is only a normal halo cell, and we don't need to link it
+                // Calculate periodic x and periodic y and periodic z position.
+                auto periodicCellX = nX * cellSize[0];
+                periodicCellX =
+                    (periodicCellX > domain[0] ? periodicCellX - domain[0] : periodicCellX + domain[0]) % domain[0];
+
+                auto periodicCellY = nY * cellSize[1];
+                periodicCellY =
+                    (periodicCellY > domain[1] ? periodicCellY - domain[1] : periodicCellY + domain[1]) % domain[1];
+
+                auto periodicCellZ = nZ * cellSize[2];
+                periodicCellZ =
+                    (periodicCellZ > domain[2] ? periodicCellZ - domain[2] : periodicCellZ + domain[2]) % domain[2];
+
+                if ((nX < 0 || nX >= cellsPerRow) && this->boundaries[0] != BoundaryType::Periodic) {
                   continue;
                 }
 
-                // left and right is periodic
-                if ((nX < 0 || nX >= cellsPerRow) && (nY >= 0 && nY < cellsPerColumn) && (nZ >= 0 && nZ < cellsPerDepth)
-                    && this->boundaries[0] == BoundaryType::Periodic) {
-                  periodicCellY = nY * cellSize[1];
-                  periodicCellZ = nZ * cellSize[2];
-                } else
+                if ((nY < 0 || nY >= cellsPerColumn) && this->boundaries[2] != BoundaryType::Periodic) {
+                  continue;
+                }
 
-                  // top and bottom is periodic
-                if ((nY < 0 || nY >= cellsPerColumn) && (nX >= 0 && nX < cellsPerRow) && (nZ >= 0 && nZ < cellsPerDepth)
-                    && this->boundaries[2] == BoundaryType::Periodic) {
-                  periodicCellX = nX * cellSize[0];
-                  periodicCellZ = nZ * cellSize[2];
-                } else
-
-                  // front and back is periodic
-                if ((nZ < 0 || nZ >= cellsPerDepth) && (nY >= 0 || nY < cellsPerColumn) && (nX >= 0 && nX < cellsPerRow)
-                    && this->boundaries[4] == BoundaryType::Periodic) {
-                  periodicCellX = nX * cellSize[0];
-                  periodicCellY = nY * cellSize[1];
-                } else
-
-                  // top/bottom and left/right
-                if ((nY < 0 || nY >= cellsPerColumn) && (nX < 0 || nX >= cellsPerRow) && (nZ >= 0 && nZ < cellsPerDepth)
-                    && this->boundaries[2] == BoundaryType::Periodic && this->boundaries[0] == BoundaryType::Periodic) {
-                  periodicCellZ = nZ * cellSize[2];
-                } else
-
-                  // top/bottom and front/back
-                if ((nY < 0 || nY >= cellsPerColumn) && (nZ < 0 || nZ >= cellsPerDepth) && (nX >= 0 && nX < cellsPerRow)
-                    && this->boundaries[2] == BoundaryType::Periodic && this->boundaries[4] == BoundaryType::Periodic) {
-                  periodicCellX = nX * cellSize[0];
-                } else
-
-                  // left/right and front/back
-                if ((nX < 0 || nX >= cellsPerRow) && (nZ < 0 || nZ >= cellsPerDepth) && (nY >= 0 && nY < cellsPerColumn)
-                    && this->boundaries[0] == BoundaryType::Periodic && this->boundaries[4] == BoundaryType::Periodic) {
-                  periodicCellY = nY * cellSize[1];
+                if ((nZ < 0 || nZ >= cellsPerDepth) && this->boundaries[4] != BoundaryType::Periodic) {
+                  continue;
                 }
 
                 // Get periodic cell
-                auto posPeriodicCellIndex = static_cast<size_t>(getIndexBasedOnCoordinates(
+                auto *posPeriodicCell = cells[static_cast<size_t>(getIndexBasedOnCoordinates(
                     {static_cast<double>(periodicCellX), static_cast<double>(periodicCellY),
-                     static_cast<double>(periodicCellZ)}));
-                auto *posPeriodicCell = cells[posPeriodicCellIndex];
+                     static_cast<double>(periodicCellZ)}))];
 
                 // TODO check if this is too expensive
                 std::tuple<Cell<3> *, std::array<int, 3>>
@@ -493,134 +514,7 @@ void LinkedCellContainer<3>::linkCells() {
     }
   }
   // Link Halo cells with boundary cells
-  for (Halo<3> &halo: getHalosCells()) {
-    auto &boardDirection = halo.getBorderDirection();
-    auto &neighbours = halo.getNeighbours();
-    auto &position = halo.getPosition();
-    auto index = 0;
-    if (boardDirection.size() == 1) {
-      if (boardDirection[0] == BoardDirectionType::LEFT) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] + domain[0]), static_cast<double>(position[1]),
-             static_cast<double>(position[2])});
-      } else if (boardDirection[0] == BoardDirectionType::RIGHT) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] - domain[0]), static_cast<double>(position[1]),
-             static_cast<double>(position[2])});
-      } else if (boardDirection[0] == BoardDirectionType::TOP) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0]), static_cast<double>(position[1] - domain[1]),
-             static_cast<double>(position[2])});
-      } else if (boardDirection[0] == BoardDirectionType::BOTTOM) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0]), static_cast<double>(position[1] + domain[1]),
-             static_cast<double>(position[2])});
-      } else if (boardDirection[0] == BoardDirectionType::FRONT) {
-        index = getIndexBasedOnCoordinates({static_cast<double>(position[0]), static_cast<double>(position[1]),
-                                            static_cast<double>(position[2] + domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::BACK) {
-        index = getIndexBasedOnCoordinates({static_cast<double>(position[0]), static_cast<double>(position[1]),
-                                            static_cast<double>(position[2] - domain[2])});
-      }
-    } else if (boardDirection.size() == 2) {
-      if (boardDirection[0] == BoardDirectionType::LEFT && boardDirection[1] == BoardDirectionType::TOP) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] + domain[0]), static_cast<double>(position[1] - domain[1]),
-             static_cast<double>(position[2])});
-      } else if (boardDirection[0] == BoardDirectionType::LEFT && boardDirection[1] == BoardDirectionType::BOTTOM) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] + domain[0]), static_cast<double>(position[1] + domain[1]),
-             static_cast<double>(position[2])});
-      } else if (boardDirection[0] == BoardDirectionType::RIGHT && boardDirection[1] == BoardDirectionType::TOP) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] - domain[0]), static_cast<double>(position[1] - domain[1]),
-             static_cast<double>(position[2])});
-      } else if (boardDirection[0] == BoardDirectionType::RIGHT && boardDirection[1] == BoardDirectionType::BOTTOM) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] - domain[0]), static_cast<double>(position[1] + domain[1]),
-             static_cast<double>(position[2])});
-      } else if (boardDirection[0] == BoardDirectionType::LEFT && boardDirection[1] == BoardDirectionType::FRONT) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] + domain[0]), static_cast<double>(position[1]),
-             static_cast<double>(position[2] + domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::RIGHT && boardDirection[1] == BoardDirectionType::FRONT) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] - domain[0]), static_cast<double>(position[1]),
-             static_cast<double>(position[2] + domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::LEFT && boardDirection[1] == BoardDirectionType::BACK) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] + domain[0]), static_cast<double>(position[1]),
-             static_cast<double>(position[2] - domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::RIGHT && boardDirection[1] == BoardDirectionType::BACK) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] - domain[0]), static_cast<double>(position[1]),
-             static_cast<double>(position[2] - domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::FRONT && boardDirection[1] == BoardDirectionType::TOP) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0]), static_cast<double>(position[1] - domain[1]),
-             static_cast<double>(position[2] + domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::FRONT && boardDirection[1] == BoardDirectionType::BOTTOM) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0]), static_cast<double>(position[1] + domain[1]),
-             static_cast<double>(position[2] + domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::BACK && boardDirection[1] == BoardDirectionType::TOP) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0]), static_cast<double>(position[1] - domain[1]),
-             static_cast<double>(position[2] - domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::BACK && boardDirection[1] == BoardDirectionType::BOTTOM) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0]), static_cast<double>(position[1] + domain[1]),
-             static_cast<double>(position[2] - domain[2])});
-      }
-    } else {
-      // front
-      if (boardDirection[0] == BoardDirectionType::LEFT && boardDirection[1] == BoardDirectionType::FRONT
-          && boardDirection[2] == BoardDirectionType::BOTTOM) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] + domain[0]), static_cast<double>(position[1] + domain[1]),
-             static_cast<double>(position[2] + domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::RIGHT && boardDirection[1] == BoardDirectionType::FRONT
-          && boardDirection[2] == BoardDirectionType::BOTTOM) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] - domain[0]), static_cast<double>(position[1] + domain[1]),
-             static_cast<double>(position[2] + domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::LEFT && boardDirection[1] == BoardDirectionType::FRONT
-          && boardDirection[2] == BoardDirectionType::TOP) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] + domain[0]), static_cast<double>(position[1] - domain[1]),
-             static_cast<double>(position[2] + domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::RIGHT && boardDirection[1] == BoardDirectionType::FRONT
-          && boardDirection[2] == BoardDirectionType::TOP) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] - domain[0]), static_cast<double>(position[1] - domain[1]),
-             static_cast<double>(position[2] + domain[2])});
-      } else
-        // back
-      if (boardDirection[0] == BoardDirectionType::LEFT && boardDirection[1] == BoardDirectionType::BACK
-          && boardDirection[2] == BoardDirectionType::BOTTOM) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] + domain[0]), static_cast<double>(position[1] + domain[1]),
-             static_cast<double>(position[2] - domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::RIGHT && boardDirection[1] == BoardDirectionType::BACK
-          && boardDirection[2] == BoardDirectionType::BOTTOM) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] - domain[0]), static_cast<double>(position[1] + domain[1]),
-             static_cast<double>(position[2] - domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::LEFT && boardDirection[1] == BoardDirectionType::BACK
-          && boardDirection[2] == BoardDirectionType::TOP) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] + domain[0]), static_cast<double>(position[1] - domain[1]),
-             static_cast<double>(position[2] - domain[2])});
-      } else if (boardDirection[0] == BoardDirectionType::RIGHT && boardDirection[1] == BoardDirectionType::BACK
-          && boardDirection[2] == BoardDirectionType::TOP) {
-        index = getIndexBasedOnCoordinates(
-            {static_cast<double>(position[0] - domain[0]), static_cast<double>(position[1] - domain[1]),
-             static_cast<double>(position[2] - domain[2])});
-      }
-    }
-    auto *cell = cells[static_cast<unsigned long>(index)];
-    neighbours.push_back(cell);
-  }
+  LinkedCellContainer<3>::linkHalosForPeriodic();
 }
 
 template<>

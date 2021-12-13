@@ -122,11 +122,22 @@ class Argument {
     return stream;
   }
 
+  /**
+   * Equality operator.
+   * @param rhs Argument
+   * @return true if the provided Argument has the same values
+   */
   bool operator==(const Argument &rhs) const {
     return files == rhs.files && endTime == rhs.endTime && deltaT == rhs.deltaT && output == rhs.output
         && writer == rhs.writer && physics == rhs.physics && iteration == rhs.iteration && strategy == rhs.strategy
         && *thermostat.get() == *rhs.thermostat.get();
   }
+
+  /**
+   * Inequality operator.
+   * @param rhs Argument
+   * @return true if the provided Argument has not the same values
+   */
   bool operator!=(const Argument &rhs) const {
     return !(rhs == *this);
   }

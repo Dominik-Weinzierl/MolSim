@@ -106,12 +106,12 @@ class XMLArgument : public Argument<dim> {
    */
   void createAdditionalParticle(ParticleContainer<dim> &container) const override {
     SPDLOG_TRACE("XMLArgument->createAdditionalParticle()");
-    // CuboidGenerator
+    // Generate additional Cuboids
     for (const auto &cuboidArgument: getCuboidArguments()) {
       Generator<CuboidArgument<dim>, dim>::generate(cuboidArgument, container);
     }
 
-    // SphereGenerator
+    // Generate additional Spheres
     for (const auto &sphereArgument: getSphereArguments()) {
       Generator<SphereArgument<dim>, dim>::generate(sphereArgument, container);
     }
@@ -123,23 +123,35 @@ class XMLArgument : public Argument<dim> {
   [[nodiscard]] std::string toString() const override {
     SPDLOG_TRACE("XMLArgument->toString()");
     std::stringstream configuration;
+
+    // Print attributes of parent class
+    configuration << Argument<dim>::toString();
+
+    // Print additional gravitation if available
     if (additionalGravitation.has_value()) {
       configuration << "\tAdditional gravitation: " << additionalGravitation.value() << std::endl;
     }
-    configuration << Argument<dim>::toString();
+
+    // Print additional strategy information if linked cell is used
     if (this->strategy == "LinkedCell") {
       configuration << "\t\tcutoffRadius: " << this->cutoffRadius.value() << std::endl;
       configuration << "\t\tDomain: " << ArrayUtils::to_string(this->domain.value()) << std::endl;
       configuration << "\t\tCell size: " << ArrayUtils::to_string(this->cellSize.value()) << std::endl;
       configuration << "\t\tBoundary: " << ArrayUtils::to_string(this->boundaries.value()) << std::endl;
     };
+
+    // Print additional generators
     configuration << "\tGenerator: " << std::endl;
+
+    // Print used cuboid generator
     if (!this->cuboidArguments.empty()) {
       configuration << "\t\tCuboid generator:" << std::endl;
       for (const auto &g: this->cuboidArguments) {
         configuration << g;
       }
     }
+
+    // Print used sphere generator
     if (!this->sphereArguments.empty()) {
       configuration << "\t\tSphere generator:" << std::endl;
       for (const auto &s: this->sphereArguments) {
@@ -147,13 +159,19 @@ class XMLArgument : public Argument<dim> {
       }
     }
 
-    configuration << this->thermostat->toString();
+    // Print thermostat if available
+    configuration << this->thermostat->toString() << std::endl;
 
     return configuration.str();
   }
 
   //----------------------------------------(Un)-Equality-Operator----------------------------------------
 
+  /**
+   * Equality operator.
+   * @param rhs XMLArgument
+   * @return true if the provided XMLArgument has the same values
+   */
   bool operator==(const XMLArgument &rhs) const {
     return static_cast<const Argument<dim> &>(*this) == static_cast<const Argument<dim> &>(rhs)
         && cuboidArguments == rhs.cuboidArguments && sphereArguments == rhs.sphereArguments
@@ -161,6 +179,11 @@ class XMLArgument : public Argument<dim> {
         && boundaries == rhs.boundaries && additionalGravitation == rhs.additionalGravitation;
   }
 
+  /**
+   * Inequality operator.
+   * @param rhs XMLArgument
+   * @return true if the provided XMLArgument has not the same values
+   */
   bool operator!=(const XMLArgument &rhs) const {
     return !(rhs == *this);
   }
@@ -220,7 +243,6 @@ class XMLArgument : public Argument<dim> {
     SPDLOG_TRACE("XMLArgument->getCellSize(): {}", ArrayUtils::to_string(cellSize.value()));
     return cellSize;
   }
-
 
   /**
    * Getter for gravitation.
