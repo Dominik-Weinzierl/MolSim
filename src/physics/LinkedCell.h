@@ -11,12 +11,11 @@
  */
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of<PhysicsType, T>::value, bool>::type = true>
 class LinkedCell : public Physics<T, dim> {
+ public:
 
   //----------------------------------------Methods----------------------------------------
 
   void performUpdate(ParticleContainer<dim> &particleContainer) const override;
-
- public:
 
   void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT) const override;
 };
@@ -27,6 +26,7 @@ class LinkedCell : public Physics<T, dim> {
  */
 template<size_t dim>
 class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
+ public:
 
   //----------------------------------------Methods----------------------------------------
 
@@ -108,8 +108,6 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
       }
     }
   }
-
- public:
 
   /**
    * Calls the calculate-Methods for the position, force and velocity with the given parameters.
