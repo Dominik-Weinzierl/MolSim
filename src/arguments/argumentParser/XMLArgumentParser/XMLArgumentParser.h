@@ -8,6 +8,9 @@
  */
 class XMLArgumentStatus : public ArgumentStatus {
  public:
+
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * Default constructor.
    */
@@ -27,6 +30,9 @@ class XMLArgumentParser : public ArgumentParser<dim> {
   XMLArgumentStatus status;
 
  public:
+
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * XMLArgumentParser is a constructor that takes arguments provided by the main-method.
    * @param args arguments
@@ -34,6 +40,8 @@ class XMLArgumentParser : public ArgumentParser<dim> {
   explicit XMLArgumentParser(const std::vector<std::string> &args) : ArgumentParser<dim>(args) {
     SPDLOG_TRACE("XMLArgumentParser created!");
   }
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * Validates the arguments.
@@ -93,7 +101,19 @@ class XMLArgumentParser : public ArgumentParser<dim> {
           throw std::invalid_argument("Cutoff radius needs to be at least the size as the cell size");
         }
       }
+
+      // Check boundary conditions
+      for (size_t i = 0; i < dim; ++i) {
+        if ((arg->getBoundaries().value()[i * 2] == BoundaryType::Periodic
+            && arg->getBoundaries().value()[(i * 2) + 1] != BoundaryType::Periodic)
+            || (arg->getBoundaries().value()[i * 2] != BoundaryType::Periodic
+                && arg->getBoundaries().value()[(i * 2) + 1] == BoundaryType::Periodic)) {
+          throw std::invalid_argument(
+              "Opposite sides needs to be both periodic or any other boundary condition! Mixing periodic with other boundary conditions is not possible!");
+        }
+      }
     }
+
     return arg;
   }
 

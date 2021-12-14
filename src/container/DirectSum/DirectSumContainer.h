@@ -9,6 +9,9 @@
 template<size_t dim>
 class DirectSumContainer : public ParticleContainer<dim> {
  public:
+
+  //----------------------------------------Constructor & Destructor----------------------------------------
+
   /**
    * Constructs a DirectSumContainer from the provided vector of particles.
    * @param pParticles vector of particles as initial value.
@@ -22,6 +25,8 @@ class DirectSumContainer : public ParticleContainer<dim> {
    * @param pParticles vector of particles as initial value.
    */
   DirectSumContainer() = default;
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * There is no additional setup needed for direct sum calculations.

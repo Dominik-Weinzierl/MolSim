@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+
 #include "utils/MaxwellBoltzmannDistribution.h"
 
 template<size_t dim>
@@ -28,6 +29,34 @@ class Thermostat {
     return ret;
   }
 
+  double calculateBeta(double currentTemp, double targetTemp, double pDeltaT) {
+    if (currentTemp == targetTemp)
+      return 1;
+
+    double difference = currentTemp - targetTemp;
+
+    if (pDeltaT != -1) {
+      if (difference < 0) {
+        pDeltaT *= -1;
+      }
+      difference = std::min(difference, pDeltaT);
+    }
+
+    return std::sqrt((currentTemp - difference) / currentTemp);
+  }
+
+  /**
+   * Apply the specified thermostat behaviour to a ParticleContainer
+   * @param c the ParticleContainer
+   */
+  void applyInitialThermostat(ParticleContainer<dim> &c) {
+    auto currentTemp = kineticEnergyTemp(c);
+    double beta = calculateBeta(currentTemp, initialT, -1);
+    for (auto &p: c) {
+      p.setV(beta * p.getV());
+    }
+  }
+
  public:
   Thermostat(double pInitialT, double pTargetT, int pNumberT, int pDeltaT) : initialT(pInitialT), targetT(pTargetT),
                                                                              numberT(pNumberT), deltaT(pDeltaT) {};
@@ -35,8 +64,8 @@ class Thermostat {
   virtual ~Thermostat() = default;
 
   /**
- * Prints the Thermostat.
- */
+   * Prints the Thermostat.
+   */
   [[nodiscard]] virtual std::string toString() const {
     std::stringstream argument;
     argument << "\tThermostat: " << std::endl;
@@ -54,26 +83,8 @@ class Thermostat {
    * @param c the ParticleContainer
    */
   virtual void applyThermostat(ParticleContainer<dim> &c) {
-    auto tcur = kineticEnergyTemp(c);
-    if (tcur == targetT)
-      return;
-    double tnew = 0.0;
-    if (tcur < targetT) {
-      if (deltaT == -1) {
-        tnew = targetT;
-      } else {
-        tnew = std::min(targetT - tcur, static_cast<double>(deltaT));
-      }
-    }
-    if (tcur > targetT) {
-      if (deltaT == -1) {
-        tnew = targetT;
-      } else {
-        tnew = std::min(tcur - targetT, static_cast<double>(deltaT));
-      }
-    }
-    SPDLOG_TRACE("Current temperature: {}, New temperature: {}", tcur, tnew);
-    double beta = std::sqrt(tnew / tcur);
+    auto currentTemp = kineticEnergyTemp(c);
+    double beta = calculateBeta(currentTemp, targetT, deltaT);
     for (auto &p: c) {
       p.setV(beta * p.getV());
     }
@@ -84,8 +95,21 @@ class Thermostat {
    * @param c the ParticleContainer
    */
   virtual void setInitialTemperature(ParticleContainer<dim> &c) {
-    for (auto &p: c) {
-      p.setV(maxwellBoltzmannDistributedVelocity<dim>(std::sqrt(initialT / p.getM())));
+    bool allZero = true;
+    for (Particle<dim> &p: c) {
+      for (size_t i = 0; i < dim; ++i) {
+        if (p.getV()[i] != 0) {
+          allZero = false;
+          break;
+        }
+      }
+    }
+    if (allZero) {
+      for (Particle<dim> &p: c) {
+        p.setV(maxwellBoltzmannDistributedVelocity<dim>(std::sqrt(initialT / p.getM())));
+      }
+    } else {
+      applyInitialThermostat(c);
     }
   }
 

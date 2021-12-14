@@ -1,11 +1,11 @@
 #pragma once
 
-#include "container/ParticleContainer.h"
-#include "outputWriter/OutputWriter.h"
-
 #include <fstream>
 #include <list>
 #include <sstream>
+
+#include "container/ParticleContainer.h"
+#include "outputWriter/OutputWriter.h"
 
 /**
  * XYZWriter writes files based on the XYZ file format.
@@ -13,7 +13,32 @@
  */
 template<size_t dim>
 class XYZWriter : public OutputWriter<dim> {
+
+  std::ofstream file;
+
+  std::stringstream strStream;
+
+  //----------------------------------------Methods----------------------------------------
+
+  /**
+   * Iterates over all Particles and writes their current position into the file.
+   */
+  void plotParticles() {
+    auto particles = XYZWriter<dim>::container.getParticles();
+    for (auto &p: particles) {
+      auto &x = p.getX();
+      file << "Ar ";
+      file.setf(std::ios_base::showpoint);
+      for (auto &xi: x) {
+        file << xi << " ";
+      }
+
+      file << std::endl;
+    }
+  }
  public:
+
+  //----------------------------------------Constructor----------------------------------------
 
   /**
    * Constructs a XYZWriter to create files based on the XYZ file format.
@@ -22,7 +47,9 @@ class XYZWriter : public OutputWriter<dim> {
    * @param pContainer ParticleContainer with a Vector that contains all Particle(s).
    */
   explicit XYZWriter(std::string pFileName, std::string pPath, ParticleContainer<dim> &pContainer) : OutputWriter<dim>(
-      std::move(pFileName), std::move(pPath), pContainer) {}
+      std::move(pFileName), std::move(pPath), pContainer) {};
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * Writes the information about the given iteration into the file.
@@ -36,26 +63,5 @@ class XYZWriter : public OutputWriter<dim> {
             "file format doku." << std::endl;
     plotParticles();
     file.close();
-  }
-
- private:
-  std::ofstream file;
-  std::stringstream strStream;
-
-  /**
-   * Iterates over all Particles and writes their current position into the file.
-   */
-  void plotParticles() {
-    auto particles = this->container.getParticles();
-    for (auto &p: particles) {
-      auto &x = p.getX();
-      file << "Ar ";
-      file.setf(std::ios_base::showpoint);
-      for (auto &xi: x) {
-        file << xi << " ";
-      }
-
-      file << std::endl;
-    }
   }
 };

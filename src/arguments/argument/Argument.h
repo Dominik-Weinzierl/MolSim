@@ -61,6 +61,8 @@ class Argument {
   std::unique_ptr<Thermostat<dim>> thermostat;
 
  public:
+  //----------------------------------------Constructor & Destructor----------------------------------------
+
   virtual ~Argument() = default;
 
   /**
@@ -78,6 +80,69 @@ class Argument {
       : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT}, output{std::move(pOutput)},
         writer{std::move(pWriter)}, physics{std::move(pPhysics)}, iteration{pIteration}, strategy{std::move(pStrategy)},
         thermostat{std::move(pThermostat)} {};
+
+  //----------------------------------------Methods----------------------------------------
+
+  /**
+   * Used to create additional Particle based on input arguments.
+   * @param container modified ParticleContainer.
+   */
+  virtual void createAdditionalParticle(ParticleContainer<dim> &container) const = 0;
+
+  /**
+  * Prints the arguments.
+  */
+  [[nodiscard]] virtual std::string toString() const {
+    SPDLOG_TRACE("Argument->toString()");
+    std::stringstream configuration;
+    configuration << "\tAdditional input files:" << std::endl;
+    for (const auto &f: this->files) {
+      configuration << "\t\t" << f << std::endl;
+    }
+    configuration << "\tEnd time: " << this->getEndTime() << std::endl;;
+    configuration << "\tDelta t: " << this->getDeltaT() << std::endl;
+    configuration << "\tOutput file prefix: " << this->getOutput() << std::endl;
+    configuration << "\tFile writer: " << this->getWriter() << std::endl;
+    configuration << "\tIteration: " << this->getIteration() << std::endl;
+    configuration << "\tPhysic: " << this->getPhysics() << std::endl;
+    configuration << "\tStrategy: " << this->strategy << std::endl;
+    return configuration.str();
+  }
+
+  /**
+   * Stream operator for CuboidArgument(s).
+   * @tparam dim dimension of our simulation.
+   * @param stream std::ostream
+   * @param p CuboidArgument to print
+   * @return updated stream
+   */
+  friend std::ostream &operator<<(std::ostream &stream, const Argument<dim> &c) {
+    SPDLOG_TRACE("Argument->operator<<");
+    stream << c.toString();
+    return stream;
+  }
+
+  /**
+   * Equality operator.
+   * @param rhs Argument
+   * @return true if the provided Argument has the same values
+   */
+  bool operator==(const Argument &rhs) const {
+    return files == rhs.files && endTime == rhs.endTime && deltaT == rhs.deltaT && output == rhs.output
+        && writer == rhs.writer && physics == rhs.physics && iteration == rhs.iteration && strategy == rhs.strategy
+        && *thermostat.get() == *rhs.thermostat.get();
+  }
+
+  /**
+   * Inequality operator.
+   * @param rhs Argument
+   * @return true if the provided Argument has not the same values
+   */
+  bool operator!=(const Argument &rhs) const {
+    return !(rhs == *this);
+  }
+
+  //----------------------------------------Getter & Setter----------------------------------------
 
   /**
    * Getter for endTime.
@@ -166,53 +231,4 @@ class Argument {
   [[nodiscard]] std::unique_ptr<Thermostat<dim>> &getThermostat() {
     return thermostat;
   }
-
-  /**
-   * Used to create additional Particle based on input arguments.
-   * @param container modified ParticleContainer.
-   */
-  virtual void createAdditionalParticle(ParticleContainer<dim> &container) const = 0;
-
-  /**
-  * Prints the arguments.
-  */
-  [[nodiscard]] virtual std::string toString() const {
-    SPDLOG_TRACE("Argument->toString()");
-    std::stringstream configuration;
-    configuration << "\tAdditional input files:" << std::endl;
-    for (const auto &f: this->files) {
-      configuration << "\t\t" << f << std::endl;
-    }
-    configuration << "\tEnd time: " << this->getEndTime() << std::endl;;
-    configuration << "\tDelta t: " << this->getDeltaT() << std::endl;
-    configuration << "\tOutput file prefix: " << this->getOutput() << std::endl;
-    configuration << "\tFile writer: " << this->getWriter() << std::endl;
-    configuration << "\tIteration: " << this->getIteration() << std::endl;
-    configuration << "\tPhysic: " << this->getPhysics() << std::endl;
-    configuration << "\tStrategy: " << this->strategy << std::endl;
-    return configuration.str();
-  }
-
-  bool operator==(const Argument &rhs) const {
-    return files == rhs.files && endTime == rhs.endTime && deltaT == rhs.deltaT && output == rhs.output
-        && writer == rhs.writer && physics == rhs.physics && iteration == rhs.iteration && strategy == rhs.strategy
-        && *thermostat.get() == *rhs.thermostat.get();
-  }
-  bool operator!=(const Argument &rhs) const {
-    return !(rhs == *this);
-  }
 };
-
-/**
- * Stream operator for CuboidArgument(s).
- * @tparam dim dimension of our simulation.
- * @param stream std::ostream
- * @param p CuboidArgument to print
- * @return updated stream
- */
-template<size_t dim>
-std::ostream &operator<<(std::ostream &stream, const Argument<dim> &c) {
-  SPDLOG_TRACE("Argument->operator<<");
-  stream << c.toString();
-  return stream;
-}

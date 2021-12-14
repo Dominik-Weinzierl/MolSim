@@ -21,6 +21,9 @@ class MDSimulation {
   static constexpr double start_time = 0;
 
  public:
+
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * Performs the simulation via a default Gravitation.
    * @param writer Defines the writer for the output.

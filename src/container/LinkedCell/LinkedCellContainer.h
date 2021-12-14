@@ -66,6 +66,8 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    */
   std::vector<BoundaryType> boundaries;
 
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * Setup Halo(s) where needed.
    * @param amount amount of Halo(s)
@@ -86,6 +88,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    */
   void setupHalo(std::vector<BoardDirectionType> pBorderDirection, std::array<int, dim> position) {
     std::vector<BoundaryType> boundaryTypes{};
+    // Outflow
     for (BoardDirectionType &b: pBorderDirection) {
       BoundaryType temp = getBoundaries()[b];
       if (temp == BoundaryType::Outflow) {
@@ -94,7 +97,15 @@ class LinkedCellContainer : public ParticleContainer<dim> {
       }
       boundaryTypes.push_back(getBoundaries()[b]);
     }
-    halosCells.emplace_back(boundaryTypes, pBorderDirection, this->particles, position, cellSize);
+
+    // Periodic
+    if (std::all_of(boundaryTypes.cbegin(), boundaryTypes.cend(), [](auto &b) {
+      return b == BoundaryType::Periodic;
+    })) {
+      boundaryTypes = {BoundaryType::Periodic};
+    }
+
+    halosCells.emplace_back(boundaryTypes, pBorderDirection, this->particles, position, cellSize, domain);
     cells.push_back(&halosCells[halosCells.size() - 1]);
   }
 
@@ -139,7 +150,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     for (BoardDirectionType &b: pBorderDirection) {
       boundaryTypes.push_back(getBoundaries()[b]);
     }
-    boundaryCells.emplace_back(boundaryTypes, pBorderDirection, this->particles, position, cellSize);
+    boundaryCells.emplace_back(boundaryTypes, pBorderDirection, this->particles, position, cellSize, domain);
     auto *ptr = &boundaryCells[boundaryCells.size() - 1];
     cells.push_back(ptr);
     boundaryAndInnerCells.push_back(ptr);
@@ -169,13 +180,28 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    */
   void setupInner(int amount, std::array<int, dim> position) {
     for (int y = 0; y < amount; ++y) {
-      innerCells.emplace_back(this->particles, position, cellSize);
+      innerCells.emplace_back(this->particles, position, cellSize, domain);
       auto *ptr = &innerCells[innerCells.size() - 1];
       cells.push_back(ptr);
       boundaryAndInnerCells.push_back(ptr);
       position[1] += cellSize[1];
     }
   }
+
+  //----------------------------------------Linking methods----------------------------------------
+
+  /**
+   * Link Cell structure.
+   */
+  void linkCells();
+
+  /**
+   * Link Halo cells to support periodic boundaries.
+   */
+  void linkHalosForPeriodic();
+
+  //----------------------------------------Particle operations----------------------------------------
+
 
   /**
    * Insert a pointer to the Particle into the correct Cell.
@@ -200,16 +226,14 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   void setupCells();
 
   /**
-   * Link Cell structure.
-   */
-  void linkCells();
-
-  /**
    * Reserve enough space in vectors tro avoid reference issues.
    */
   void reserve();
 
  public:
+
+  //----------------------------------------Constructor----------------------------------------
+
   /**
    * Constructor for LinkedCellContainer.
    * @param pBoundaries user defined boundaries on all sides
@@ -227,18 +251,13 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     SPDLOG_TRACE("LinkedCellContainer generated");
   };
 
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * Setup linked cell structure.
    */
   void init() override {
     SPDLOG_TRACE("LinkedCellContainer->init(): Init structure");
-    cells.clear();
-    boundaryAndInnerCells.clear();
-
-    halosCells.clear();
-    boundaryCells.clear();
-    innerCells.clear();
-
     setupCells();
     insertParticlesInCells();
     linkCells();
@@ -258,6 +277,8 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     }
     insertParticlesInCells();
   }
+
+  //----------------------------------------Getter & Setter----------------------------------------
 
   /**
    * @return Iterator to the beginning of the cell-Vector.
@@ -281,7 +302,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * Getter for Halo(s).
    * @return std::vector<Halo<dim>> halosCells
    */
-  [[nodiscard]] std::vector<Halo<dim>> &getHalosCells(){
+  [[nodiscard]] std::vector<Halo<dim>> &getHalosCells() {
     return halosCells;
   }
 

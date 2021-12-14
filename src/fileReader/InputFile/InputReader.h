@@ -16,6 +16,9 @@
 template<size_t dim>
 class InputReader {
  private:
+
+  //----------------------------------------Methods----------------------------------------
+
   /**
    * Read files based on the dimension and ignores the third value if simulation is 2D.
    * @param particleContainer container in which be store the Particle(s)
