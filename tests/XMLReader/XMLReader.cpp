@@ -268,7 +268,7 @@ TEST(XMLReader_3D, test_case_5) { // NOLINT(cert-err58-cpp)
 * Test that additional force is available.
 */
 TEST(XMLReader_2D, test_case_5) { // NOLINT(cert-err58-cpp)
-  constexpr static size_t dim = 23;
+  constexpr static size_t dim = 2;
 
   // Read input file
   XMLReader<dim> reader("../../tests/XMLReader/input/test_case_5.xml");
