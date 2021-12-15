@@ -163,6 +163,22 @@ void cuboid_t::zeroCrossing(const zeroCrossing_type &x) {
   this->zeroCrossing_.set(x);
 }
 
+const cuboid_t::type_optional &cuboid_t::type() const {
+  return this->type_;
+}
+
+cuboid_t::type_optional &cuboid_t::type() {
+  return this->type_;
+}
+
+void cuboid_t::type(const type_type &x) {
+  this->type_.set(x);
+}
+
+void cuboid_t::type(const type_optional &x) {
+  this->type_ = x;
+}
+
 
 // sphere_t
 //
@@ -281,6 +297,22 @@ sphere_t::zeroCrossing_type &sphere_t::zeroCrossing() {
 
 void sphere_t::zeroCrossing(const zeroCrossing_type &x) {
   this->zeroCrossing_.set(x);
+}
+
+const sphere_t::type_optional &sphere_t::type() const {
+  return this->type_;
+}
+
+sphere_t::type_optional &sphere_t::type() {
+  return this->type_;
+}
+
+void sphere_t::type(const type_type &x) {
+  this->type_.set(x);
+}
+
+void sphere_t::type(const type_optional &x) {
+  this->type_ = x;
 }
 
 
@@ -906,7 +938,7 @@ cuboid_t::cuboid_t(const Position_type &Position, const Velocity_type &Velocity,
                    const zeroCrossing_type &zeroCrossing)
     : ::xml_schema::type(), Position_(Position, this), Velocity_(Velocity, this), Dimension_(Dimension, this),
       distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(packed, this),
-      depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this) {
+      depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this), type_(this) {
 }
 
 cuboid_t::cuboid_t(::std::unique_ptr<Position_type> Position, ::std::unique_ptr<Velocity_type> Velocity,
@@ -915,7 +947,8 @@ cuboid_t::cuboid_t(::std::unique_ptr<Position_type> Position, ::std::unique_ptr<
                    const depthOfPotentialWell_type &depthOfPotentialWell, const zeroCrossing_type &zeroCrossing)
     : ::xml_schema::type(), Position_(std::move(Position), this), Velocity_(std::move(Velocity), this),
       Dimension_(std::move(Dimension), this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this),
-      packed_(packed, this), depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this) {
+      packed_(packed, this), depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this),
+      type_(this) {
 }
 
 cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
@@ -934,12 +967,13 @@ cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::conta
                                                                                            depthOfPotentialWell_(
                                                                                                x.depthOfPotentialWell_,
                                                                                                f, this), zeroCrossing_(
-        x.zeroCrossing_, f, this) {
+        x.zeroCrossing_, f, this), type_(x.type_, f, this) {
 }
 
 cuboid_t::cuboid_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Position_(this), Velocity_(this), Dimension_(this),
-      distance_(this), mass_(this), meanValue_(this), packed_(this), depthOfPotentialWell_(this), zeroCrossing_(this) {
+      distance_(this), mass_(this), meanValue_(this), packed_(this), depthOfPotentialWell_(this), zeroCrossing_(this),
+      type_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -1032,6 +1066,11 @@ void cuboid_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags 
       this->zeroCrossing_.set(zeroCrossing_traits::create(i, f, this));
       continue;
     }
+
+    if (n.name() == "type" && n.namespace_().empty()) {
+      this->type_.set(type_traits::create(i, f, this));
+      continue;
+    }
   }
 
   if (!distance_.present()) {
@@ -1075,6 +1114,7 @@ cuboid_t &cuboid_t::operator=(const cuboid_t &x) {
     this->packed_ = x.packed_;
     this->depthOfPotentialWell_ = x.depthOfPotentialWell_;
     this->zeroCrossing_ = x.zeroCrossing_;
+    this->type_ = x.type_;
   }
 
   return *this;
@@ -1092,7 +1132,7 @@ sphere_t::sphere_t(const Center_type &Center, const Velocity_type &Velocity, con
                    const zeroCrossing_type &zeroCrossing)
     : ::xml_schema::type(), Center_(Center, this), Velocity_(Velocity, this), radius_(radius, this),
       distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(packed, this),
-      depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this) {
+      depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this), type_(this) {
 }
 
 sphere_t::sphere_t(::std::unique_ptr<Center_type> Center, ::std::unique_ptr<Velocity_type> Velocity,
@@ -1101,7 +1141,8 @@ sphere_t::sphere_t(::std::unique_ptr<Center_type> Center, ::std::unique_ptr<Velo
                    const depthOfPotentialWell_type &depthOfPotentialWell, const zeroCrossing_type &zeroCrossing)
     : ::xml_schema::type(), Center_(std::move(Center), this), Velocity_(std::move(Velocity), this),
       radius_(radius, this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this),
-      packed_(packed, this), depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this) {
+      packed_(packed, this), depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this),
+      type_(this) {
 }
 
 sphere_t::sphere_t(const sphere_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
@@ -1118,12 +1159,13 @@ sphere_t::sphere_t(const sphere_t &x, ::xml_schema::flags f, ::xml_schema::conta
                                                                                            depthOfPotentialWell_(
                                                                                                x.depthOfPotentialWell_,
                                                                                                f, this), zeroCrossing_(
-        x.zeroCrossing_, f, this) {
+        x.zeroCrossing_, f, this), type_(x.type_, f, this) {
 }
 
 sphere_t::sphere_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Center_(this), Velocity_(this), radius_(this),
-      distance_(this), mass_(this), meanValue_(this), packed_(this), depthOfPotentialWell_(this), zeroCrossing_(this) {
+      distance_(this), mass_(this), meanValue_(this), packed_(this), depthOfPotentialWell_(this), zeroCrossing_(this),
+      type_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -1206,6 +1248,11 @@ void sphere_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags 
       this->zeroCrossing_.set(zeroCrossing_traits::create(i, f, this));
       continue;
     }
+
+    if (n.name() == "type" && n.namespace_().empty()) {
+      this->type_.set(type_traits::create(i, f, this));
+      continue;
+    }
   }
 
   if (!radius_.present()) {
@@ -1253,6 +1300,7 @@ sphere_t &sphere_t::operator=(const sphere_t &x) {
     this->packed_ = x.packed_;
     this->depthOfPotentialWell_ = x.depthOfPotentialWell_;
     this->zeroCrossing_ = x.zeroCrossing_;
+    this->type_ = x.type_;
   }
 
   return *this;
@@ -2326,6 +2374,14 @@ void operator<<(::xercesc::DOMElement &e, const cuboid_t &i) {
 
     a << ::xml_schema::as_double(i.zeroCrossing());
   }
+
+  // type
+  //
+  if (i.type()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("type", e));
+
+    a << *i.type();
+  }
 }
 
 void operator<<(::xercesc::DOMElement &e, const sphere_t &i) {
@@ -2401,6 +2457,14 @@ void operator<<(::xercesc::DOMElement &e, const sphere_t &i) {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("zeroCrossing", e));
 
     a << ::xml_schema::as_double(i.zeroCrossing());
+  }
+
+  // type
+  //
+  if (i.type()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("type", e));
+
+    a << *i.type();
   }
 }
 

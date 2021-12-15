@@ -55,6 +55,11 @@ class CuboidArgument : public GeneratorArguments {
    */
   double depthOfPotentialWell;
 
+  /**
+   *
+   */
+  int type;
+
  public:
 
   //----------------------------------------Constructor----------------------------------------
@@ -73,11 +78,11 @@ class CuboidArgument : public GeneratorArguments {
    */
   CuboidArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
                  double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
-                 double pDepthOfPotentialWell) : startingCoordinates{pStartingCoordinates},
+                 double pDepthOfPotentialWell, int pType) : startingCoordinates{pStartingCoordinates},
                                                  dimensions{std::move(pDimensions)}, initialVelocity{pInitialVelocity},
                                                  distance{pDistance}, mass{pMass}, meanValue{pMeanValue},
                                                  packed{pPacked}, zeroCrossing{pZeroCrossing},
-                                                 depthOfPotentialWell{pDepthOfPotentialWell} {
+                                                 depthOfPotentialWell{pDepthOfPotentialWell}, type{pType} {
 
   }
 
@@ -98,6 +103,7 @@ class CuboidArgument : public GeneratorArguments {
     argument << "\t\t\t\t Packed: " << (packed ? "true" : "false") << std::endl;
     argument << "\t\t\t\t Zero crossing: " << zeroCrossing << std::endl;
     argument << "\t\t\t\t Depth of potential well: " << depthOfPotentialWell << std::endl;
+    argument << "\t\t\t\t Type: " << type << std::endl;
     return argument.str();
   };
 
@@ -126,7 +132,7 @@ class CuboidArgument : public GeneratorArguments {
         && left.getDistance() == right.getDistance() && left.getMass() == right.getMass()
         && left.getMeanValue() == right.getMeanValue() && left.getPacked() == right.getPacked()
         && left.getDepthOfPotentialWell() == right.getDepthOfPotentialWell()
-        && left.getZeroCrossing() == right.getZeroCrossing();
+        && left.getZeroCrossing() == right.getZeroCrossing() && left.getType() == right.getType();
   }
 
   //----------------------------------------Getter & Setter----------------------------------------
@@ -193,5 +199,9 @@ class CuboidArgument : public GeneratorArguments {
 
   [[nodiscard]] double getDepthOfPotentialWell() const {
     return depthOfPotentialWell;
+  }
+
+  [[nodiscard]] int getType() const {
+    return type;
   }
 };

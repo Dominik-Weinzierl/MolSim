@@ -23,9 +23,9 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
   int iteration = 5;
   std::string physics{"gravitation"};
   std::vector<CuboidArgument<dim>>
-      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5}};
+      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
   std::vector<SphereArgument<dim>>
-      sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true, 1, 5}};
+      sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
   std::optional<std::array<int, dim>> domain{{5, 5, 5}};
@@ -33,7 +33,7 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
       {{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting,
         BoundaryType::Outflow, BoundaryType::Outflow}};
   std::optional<std::array<int, dim>> cellSize{{1, 1, 1}};
-  std::optional<double> additionalGravitation = std::nullopt;
+  double additionalGravitation = 5;
 
   XMLArgument<dim> arg
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
@@ -72,16 +72,16 @@ TEST(XMLArgument_2D, constructor) { // NOLINT(cert-err58-cpp)
   int iteration = 5;
   std::string physics{"gravitation"};
   std::vector<CuboidArgument<dim>>
-      cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true, 1, 5}};
+      cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
   std::vector<SphereArgument<dim>>
-      sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true, 1, 5}};
+      sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
   std::optional<std::array<int, dim>> domain{{5, 5}};
   std::optional<std::vector<BoundaryType>>
       boundaries{{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting}};
   std::optional<std::array<int, dim>> cellSize{{1, 1}};
-  std::optional<double> additionalGravitation = std::nullopt;
+  double additionalGravitation = 5;
 
   XMLArgument<dim> arg
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
@@ -126,7 +126,7 @@ TEST(XMLArgument, compareOperatorEqual) { // NOLINT(cert-err58-cpp)
   std::optional<std::array<int, dim>> domain{{5, 5}};
   std::optional<std::vector<BoundaryType>> boundaries{};
   std::optional<std::array<int, dim>> cellSize{{1, 1}};
-  std::optional<double> additionalGravitation = std::nullopt;
+  double additionalGravitation = 0;
 
   XMLArgument<dim> first
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
@@ -159,8 +159,7 @@ TEST(XMLArgument, compareOperatorNotEqual) { // NOLINT(cert-err58-cpp)
   std::optional<std::array<int, dim>> domain{{5, 5}};
   std::optional<std::vector<BoundaryType>> boundaries{};
   std::optional<std::array<int, dim>> cellSize{{1, 1}};
-  std::optional<double> additionalGravitation = std::nullopt;
-
+  double additionalGravitation = 0;
 
   XMLArgument<dim> first
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,

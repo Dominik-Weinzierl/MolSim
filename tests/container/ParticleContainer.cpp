@@ -60,7 +60,7 @@ TEST(DirectSumContainer_3D, size) { // NOLINT(cert-err58-cpp)
 }
 
 /**
- * Tests correctness of constructors of the ParticleContainer.
+ * Tests correctness of constructors of the DirectSumContainer.
  */
 TEST(DirectSumContainer_2D, constructor) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
@@ -81,7 +81,7 @@ TEST(DirectSumContainer_2D, constructor) { // NOLINT(cert-err58-cpp)
 }
 
 /**
- * Tests correctness of addParticle-Method of the ParticleContainer.
+ * Tests correctness of addParticle-Method of the DirectSumContainer.
  */
 TEST(DirectSumContainer_2D, addParticle) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
@@ -95,7 +95,7 @@ TEST(DirectSumContainer_2D, addParticle) { // NOLINT(cert-err58-cpp)
 }
 
 /**
- * Tests correctness of the size-Method of the ParticleContainer.
+ * Tests correctness of the size-Method of the DirectSumContainer.
  */
 TEST(DirectSumContainer_2D, size) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;

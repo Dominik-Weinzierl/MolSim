@@ -4,6 +4,7 @@
 #include <memory>
 #include <iostream>
 #include <utility>
+#include <optional>
 
 #include "outputWriter/OutputWriter.h"
 #include "thermostat/Thermostat.h"
@@ -60,6 +61,11 @@ class Argument {
    */
   std::unique_ptr<Thermostat<dim>> thermostat;
 
+  /**
+   *
+   */
+  double additionalGravitation;
+
  public:
   //----------------------------------------Constructor & Destructor----------------------------------------
 
@@ -76,10 +82,12 @@ class Argument {
    * @param pPhysics defines the used Physics during the simulation
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
-           int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat)
-      : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT}, output{std::move(pOutput)},
-        writer{std::move(pWriter)}, physics{std::move(pPhysics)}, iteration{pIteration}, strategy{std::move(pStrategy)},
-        thermostat{std::move(pThermostat)} {};
+           int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat,
+           double pAdditionalGravitation) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
+                                            output{std::move(pOutput)}, writer{std::move(pWriter)},
+                                            physics{std::move(pPhysics)}, iteration{pIteration},
+                                            strategy{std::move(pStrategy)}, thermostat{std::move(pThermostat)},
+                                            additionalGravitation{pAdditionalGravitation} {};
 
   //----------------------------------------Methods----------------------------------------
 
@@ -106,6 +114,7 @@ class Argument {
     configuration << "\tIteration: " << this->getIteration() << std::endl;
     configuration << "\tPhysic: " << this->getPhysics() << std::endl;
     configuration << "\tStrategy: " << this->strategy << std::endl;
+    configuration << "\tAdditional gravitation: " << this->additionalGravitation << std::endl;
     return configuration.str();
   }
 
@@ -130,7 +139,7 @@ class Argument {
   bool operator==(const Argument &rhs) const {
     return files == rhs.files && endTime == rhs.endTime && deltaT == rhs.deltaT && output == rhs.output
         && writer == rhs.writer && physics == rhs.physics && iteration == rhs.iteration && strategy == rhs.strategy
-        && *thermostat.get() == *rhs.thermostat.get();
+        && *thermostat.get() == *rhs.thermostat.get() && additionalGravitation == rhs.additionalGravitation;
   }
 
   /**
@@ -230,5 +239,13 @@ class Argument {
    */
   [[nodiscard]] std::unique_ptr<Thermostat<dim>> &getThermostat() {
     return thermostat;
+  }
+
+  /**
+   * Getter for gravitation.
+   * @return gravitation.
+   */
+  [[nodiscard]] const double &getAdditionalGravitation() const {
+    return additionalGravitation;
   }
 };

@@ -1,0 +1,20 @@
+<Simulation endTime="15" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
+            additionalGravitation="-12.44">
+    <Strategy>
+        <LinkedCell cutoffRadius="3">
+            <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
+            <Domain x="303" y="180" z="36"/>
+            <CellSize x="1" y="1" z="1"/>
+            <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
+                      boundary-bottom="reflecting"/>
+        </LinkedCell>
+    </Strategy>
+    <Shapes>
+        <Cuboid mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.2">
+            <Position x="1.5" y="2.0" z="1"/>
+            <Velocity x="0.0" y="0.0" z="0.0"/>
+            <Dimension x="250" y="50" z="1"/>
+        </Cuboid>
+    </Shapes>
+    <Thermostat initialT="0.5" numberT="1000"/>
+</Simulation>

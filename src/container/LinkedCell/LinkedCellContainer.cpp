@@ -135,7 +135,7 @@ void LinkedCellContainer<3>::setupCells() {
           setupHaloColumnWrapper(cellsPerColumn, {x, z}, BoardDirectionType::RIGHT);
         } else {
           // top halo
-          setupHalo({BoardDirectionType::BOTTOM}, {x * cellSize[0], -cellSize[1]});
+          setupHalo({BoardDirectionType::BOTTOM}, {x * cellSize[0], -cellSize[1], z * cellSize[2]});
           if (z == 0) {
             // front boundary
             setupBoundaryColumnsWrapper(cellsPerColumn, cellsPerRow, {x, z}, BoardDirectionType::FRONT);

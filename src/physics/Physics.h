@@ -93,7 +93,8 @@ class Physics {
   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
   * @param deltaT time step of our simulation
   */
-  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT) const {
+  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT,
+                                 [[maybe_unused]]double &force) const {
     // calculate new x
     calculateX(particleContainer, deltaT);
     // calculate new f

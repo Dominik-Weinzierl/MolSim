@@ -7,7 +7,10 @@
  */
 template<size_t dim>
 class Forces {
-  static void additionalGravitation(Particle<dim> &p, double gravitation){
-    p.getF()[1] += p.getMass() * gravitation;
+ public:
+  static inline void additionalGravitation(Particle<dim> &p, double &gravitation) {
+    auto force = p.getF();
+    force[1] += p.getM() * gravitation;
+    p.setF(force);
   }
 };

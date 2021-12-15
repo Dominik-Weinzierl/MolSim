@@ -90,10 +90,11 @@ class Particle {
    * @param pM Mass.
    * @param pZeroCrossing
    * @param pPotentialWellDepth
+   * @param pType
    */
-  Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth)
-      : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{0}, zeroCrossing{pZeroCrossing},
-        potentialWellDepth{pPotentialWellDepth} {
+  Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth,
+           int pType) : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
+                        potentialWellDepth{pPotentialWellDepth} {
     SPDLOG_TRACE("Particle generated");
   }
 

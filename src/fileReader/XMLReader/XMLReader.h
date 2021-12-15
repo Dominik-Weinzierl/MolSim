@@ -56,8 +56,12 @@ class XMLReader {
         auto &pack = sphere.packed();
         auto &zeroCrossing = sphere.zeroCrossing();
         auto &depthOfPotentialWell = sphere.depthOfPotentialWell();
+        int type = 0;
+        if(sphere.type().present()) {
+          type = static_cast<int>(sphere.type().get());
+        }
         sphereArguments.emplace_back(wrapVector_t(pos), rad, wrapVector_t(vel), dis, mass, mean, pack, zeroCrossing,
-                                     depthOfPotentialWell);
+                                     depthOfPotentialWell, type);
       }
     }
 
@@ -82,9 +86,13 @@ class XMLReader {
         auto &pack = cuboid.packed();
         auto &zeroCrossing = cuboid.zeroCrossing();
         auto &depthOfPotentialWell = cuboid.depthOfPotentialWell();
+        int type = 0;
+        if(cuboid.type().present()) {
+          type = static_cast<int>(cuboid.type().get());
+        }
         cuboidArguments
             .emplace_back(wrapVector_t(pos), wrapVector_i(dime), wrapVector_t(vel), dis, mass, mean, pack, zeroCrossing,
-                          depthOfPotentialWell);
+                          depthOfPotentialWell, type);
       }
     }
 
@@ -147,7 +155,7 @@ class XMLReader {
     std::optional<std::array<int, dim>> domain = std::nullopt;
     std::optional<std::vector<BoundaryType>> boundaries = std::nullopt;
     std::optional<std::array<int, dim>> cellSize = std::nullopt;
-    std::optional<double> additionalGravitation = std::nullopt;
+    double additionalGravitation = 0.0;
     std::unique_ptr<Thermostat<dim>> thermostat;
 
     for (auto &it: simulation->Source()) {
