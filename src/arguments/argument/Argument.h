@@ -113,8 +113,8 @@ class Argument {
     configuration << "\tFile writer: " << this->getWriter() << std::endl;
     configuration << "\tIteration: " << this->getIteration() << std::endl;
     configuration << "\tPhysic: " << this->getPhysics() << std::endl;
-    configuration << "\tStrategy: " << this->strategy << std::endl;
     configuration << "\tAdditional gravitation: " << this->additionalGravitation << std::endl;
+    configuration << "\tStrategy: " << this->strategy << std::endl;
     return configuration.str();
   }
 
