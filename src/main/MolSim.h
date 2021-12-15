@@ -86,7 +86,7 @@ class MolSim {
     if (arg->getStrategy() == "DirectSum") {
       particleContainer = std::make_unique<DirectSumContainer<dim>>();
     } else {
-      auto& xmlArg = static_cast<XMLArgument<dim> &>(*arg);
+      auto &xmlArg = static_cast<XMLArgument<dim> &>(*arg);
       particleContainer =
           std::make_unique<LinkedCellContainer<dim>>(xmlArg.getBoundaries().value(), xmlArg.getCellSize().value(),
                                                      xmlArg.getDomain().value(), xmlArg.getCutoffRadius().value());
@@ -147,6 +147,7 @@ class MolSim {
   int benchmark() {
     auto benchWriter = std::make_unique<DummyWriter<dim>>(arg->getOutput(), *particleContainer);
     auto start = std::chrono::high_resolution_clock::now();
+    auto particleAmount = particleContainer->size();
     if (arg->getPhysics() == "gravitation") {
       if (arg->getStrategy() == "DirectSum") {
         MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
@@ -159,9 +160,16 @@ class MolSim {
       }
     }
     auto end = std::chrono::high_resolution_clock::now();
-    std::cout << "Finished benchmarks after " << arg->getEndTime() / arg->getDeltaT() << " iterations..." << std::endl;
-    std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms"
-              << std::endl;
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    auto iterations = std::floor(arg->getEndTime() / arg->getDeltaT());
+    std::cout << "Finished benchmarks after " << iterations << " iterations..." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Details:" << std::endl;
+    std::cout << "\t\tTime: " << duration << " ms" << std::endl;
+    std::cout << "\t\tParticle amount - start: " << particleAmount << " particle" << std::endl;
+    std::cout << "\t\tParticle amount - end: " << particleContainer->size() << " particle" << std::endl;
+    std::cout << "\t\tIterations: " << iterations << std::endl;
+    std::cout << "\t\tMMUPS/s: " << ((iterations * static_cast<double>(particleAmount)) / static_cast<double>(duration)) / 1.0e3 << std::endl;
     return 0;
   };
 

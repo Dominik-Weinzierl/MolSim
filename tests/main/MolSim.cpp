@@ -65,6 +65,48 @@ TEST(Main, setup_ws_03_task_2_3D) { // NOLINT(cert-err58-cpp)
 }
 
 /**
+ * Test correct setup of task 2 of work sheet 4.
+ */
+TEST(Main, setup_ws_04_task_2_small) { // NOLINT(cert-err58-cpp)
+  MolSim<2> sim{};
+  EXPECT_EQ(sim.setup({"-x", "-f", "../../input/ws_04/task_2_small_cell_size_1.xml", "-b", "-2"}), 1);
+  auto &cellContainer = dynamic_cast<LinkedCellContainer<2> &>(*(sim.getParticleContainer()));
+  EXPECT_EQ(cellContainer.size(), 1400);
+  EXPECT_EQ(cellContainer.getBoundaryCells().size(), 194);
+  EXPECT_EQ(cellContainer.getHalosCells().size(), 202);
+  EXPECT_EQ(cellContainer.getInnerCells().size(), 2074);
+  EXPECT_EQ(cellContainer.getCells().size(), 2470);
+}
+
+/**
+ * Test correct setup of task 2 of work sheet 4.
+ */
+TEST(Main, setup_ws_04_task_2_small_3D) { // NOLINT(cert-err58-cpp)
+  MolSim<3> sim{};
+  EXPECT_EQ(sim.setup({"-x", "-f", "../../input/ws_04/task_2_small_cell_size_1.xml", "-b", "-3"}), 1);
+  auto &cellContainer = dynamic_cast<LinkedCellContainer<3> &>(*(sim.getParticleContainer()));
+  EXPECT_EQ(cellContainer.size(), 70000);
+  EXPECT_EQ(cellContainer.getBoundaryCells().size(), 16370);
+  EXPECT_EQ(cellContainer.getHalosCells().size(), 17666);
+  EXPECT_EQ(cellContainer.getInnerCells().size(), 126514);
+  EXPECT_EQ(cellContainer.getCells().size(), 160550);
+}
+
+/**
+ * Test correct setup of task 2 of work sheet 4.
+ */
+TEST(Main, setup_ws_04_task_2_big) { // NOLINT(cert-err58-cpp)
+  MolSim<2> sim{};
+  EXPECT_EQ(sim.setup({"-x", "-f", "../../input/ws_04/task_2_big_cell_size_1.xml", "-b", "-2"}), 1);
+  auto &cellContainer = dynamic_cast<LinkedCellContainer<2> &>(*(sim.getParticleContainer()));
+  EXPECT_EQ(cellContainer.size(), 10000);
+  EXPECT_EQ(cellContainer.getBoundaryCells().size(), 704);
+  EXPECT_EQ(cellContainer.getHalosCells().size(), 712);
+  EXPECT_EQ(cellContainer.getInnerCells().size(), 15496);
+  EXPECT_EQ(cellContainer.getCells().size(), 16912);
+}
+
+/**
  * Test correct setup for loading additional files.
  */
 TEST(Main, setup_loading_additional_files) { // NOLINT(cert-err58-cpp)

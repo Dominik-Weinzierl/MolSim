@@ -49,8 +49,10 @@ TEST(Gravitation_3D_DirectSumContainer, calculateNextStepWithSinglePlanetWithout
 
   Particle sun = container[0];
 
+  double force = 0;
+
   // Perform calculation
-  g.calculateNextStep(container, 1.0);
+  g.calculateNextStep(container, 1.0, force);
 
   EXPECT_EQ(container[0], sun);
 }
@@ -94,8 +96,10 @@ TEST(Gravitation_2D_DirectSumContainer, calculateNextStepWithSinglePlanetWithout
 
   Particle sun = container[0];
 
+  double force = 0;
+
   // Perform calculation
-  g.calculateNextStep(container, 1.0);
+  g.calculateNextStep(container, 1.0, force);
 
   EXPECT_EQ(container[0], sun);
 }

@@ -3,6 +3,7 @@
 #include "Physics.h"
 #include "physics/variants/LennardJones.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
+#include "physics/Forces/Forces.h"
 
 /**
  * This class implements the LinkedCell algorithm.
@@ -114,7 +115,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
   */
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT) const override {
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double& force) const override {
     // calculate new x
     Physics<LennardJones, dim>::calculateX(particleContainer, deltaT);
 
@@ -130,6 +131,10 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
 
     // calculate new f
     Physics<LennardJones, dim>::calculateF(particleContainer);
+
+    for(auto& p: cellContainer.getParticles()){
+      Forces<dim>::additionalGravitation(p, force);
+    }
 
     // calculate new v
     Physics<LennardJones, dim>::calculateV(particleContainer, deltaT);

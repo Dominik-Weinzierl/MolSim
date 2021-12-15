@@ -115,5 +115,5 @@ TEST(XMLArgumentParser, createInvalidArgumentCutoffRadius) { // NOLINT(cert-err5
 
   parser.validateInput();
 
-  EXPECT_THROW(parser.createArgument(), std::invalid_argument);
+  EXPECT_NO_THROW(parser.createArgument());
 }

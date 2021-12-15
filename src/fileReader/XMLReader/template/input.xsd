@@ -13,6 +13,7 @@
         <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
         <xsd:attribute name="depthOfPotentialWell" type="xsd:double" use="required"/>
         <xsd:attribute name="zeroCrossing" type="xsd:double" use="required"/>
+        <xsd:attribute name="type" type="xsd:nonNegativeInteger"/>
     </xsd:complexType>
 
     <!-- Spheres - all attributes are required -->
@@ -28,6 +29,7 @@
         <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
         <xsd:attribute name="depthOfPotentialWell" type="xsd:double" use="required"/>
         <xsd:attribute name="zeroCrossing" type="xsd:double" use="required"/>
+        <xsd:attribute name="type" type="xsd:nonNegativeInteger"/>
     </xsd:complexType>
 
     <!-- Double vector - all attributes are required -->

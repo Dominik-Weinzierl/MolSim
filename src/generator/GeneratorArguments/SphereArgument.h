@@ -54,6 +54,11 @@ class SphereArgument : public GeneratorArguments {
    */
   double depthOfPotentialWell;
 
+  /**
+   *
+   */
+  int type;
+
  public:
 
   //----------------------------------------Constructor----------------------------------------
@@ -71,10 +76,10 @@ class SphereArgument : public GeneratorArguments {
    * @param pDepthOfPotentialWell
    */
   SphereArgument(Vector<dim> pCenterCoordinates, int pRadius, Vector<dim> pInitialVelocity, double pDistance,
-                 double pMass, double pMeanValue, bool pPacked, double pZeroCrossing, double pDepthOfPotentialWell)
-      : centerCoordinates{pCenterCoordinates}, radius{pRadius}, initialVelocity{pInitialVelocity}, distance{pDistance},
-        mass{pMass}, meanValue{pMeanValue}, packed{pPacked}, zeroCrossing{pZeroCrossing},
-        depthOfPotentialWell{pDepthOfPotentialWell} {
+                 double pMass, double pMeanValue, bool pPacked, double pZeroCrossing, double pDepthOfPotentialWell,
+                 int pType) : centerCoordinates{pCenterCoordinates}, radius{pRadius}, initialVelocity{pInitialVelocity},
+                              distance{pDistance}, mass{pMass}, meanValue{pMeanValue}, packed{pPacked},
+                              zeroCrossing{pZeroCrossing}, depthOfPotentialWell{pDepthOfPotentialWell}, type{pType} {
   }
 
   //----------------------------------------Methods----------------------------------------
@@ -94,6 +99,7 @@ class SphereArgument : public GeneratorArguments {
     argument << "\t\t\t\t Packed: " << (packed ? "true" : "false") << std::endl;
     argument << "\t\t\t\t Zero crossing: " << zeroCrossing << std::endl;
     argument << "\t\t\t\t Depth of potential well: " << depthOfPotentialWell << std::endl;
+    argument << "\t\t\t\t Type: " << type << std::endl;
     return argument.str();
   };
 
@@ -109,7 +115,7 @@ class SphereArgument : public GeneratorArguments {
         && left.getInitialVelocity() == right.getInitialVelocity() && left.getDistance() == right.getDistance()
         && left.getMass() == right.getMass() && left.getMeanValue() == right.getMeanValue()
         && left.getPacked() == right.getPacked() && left.getDepthOfPotentialWell() == right.getDepthOfPotentialWell()
-        && left.getZeroCrossing() == right.getZeroCrossing();
+        && left.getZeroCrossing() == right.getZeroCrossing() && left.getType() == right.getType();
   }
 
   /**
@@ -188,5 +194,9 @@ class SphereArgument : public GeneratorArguments {
 
   [[nodiscard]] double getDepthOfPotentialWell() const {
     return depthOfPotentialWell;
+  }
+
+  [[nodiscard]] int getType() const {
+    return type;
   }
 };

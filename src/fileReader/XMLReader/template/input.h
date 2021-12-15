@@ -1074,6 +1074,67 @@ class cuboid_t : public ::xml_schema::type {
   //@}
 
   /**
+   * @name type
+   *
+   * @brief Accessor and modifier functions for the %type
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::non_negative_integer type_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<type_type> type_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<type_type, char> type_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const type_optional &type() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  type_optional &type();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void type(const type_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void type(const type_optional &x);
+
+  //@}
+
+  /**
    * @name Constructors
    */
   //@{
@@ -1168,6 +1229,7 @@ class cuboid_t : public ::xml_schema::type {
   ::xsd::cxx::tree::one<packed_type> packed_;
   ::xsd::cxx::tree::one<depthOfPotentialWell_type> depthOfPotentialWell_;
   ::xsd::cxx::tree::one<zeroCrossing_type> zeroCrossing_;
+  type_optional type_;
 
   //@endcond
 };
@@ -1597,6 +1659,67 @@ class sphere_t : public ::xml_schema::type {
   //@}
 
   /**
+   * @name type
+   *
+   * @brief Accessor and modifier functions for the %type
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::non_negative_integer type_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<type_type> type_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<type_type, char> type_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const type_optional &type() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  type_optional &type();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void type(const type_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void type(const type_optional &x);
+
+  //@}
+
+  /**
    * @name Constructors
    */
   //@{
@@ -1690,6 +1813,7 @@ class sphere_t : public ::xml_schema::type {
   ::xsd::cxx::tree::one<packed_type> packed_;
   ::xsd::cxx::tree::one<depthOfPotentialWell_type> depthOfPotentialWell_;
   ::xsd::cxx::tree::one<zeroCrossing_type> zeroCrossing_;
+  type_optional type_;
 
   //@endcond
 };

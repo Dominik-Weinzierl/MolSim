@@ -20,12 +20,14 @@ TEST(LinkedCellContainer_2D, checkMeshProperties) {
   //Test size
   auto size = static_cast<int>(l.getBoundaryAndInnerCells().size());
   EXPECT_EQ(size, 9);
+
   //Test getIndexBasedOnCoordinates
   auto i = 0;
 
   for (auto x = -1; x < l.getDomain()[0] + 1; x++) {
     for (auto y = -1; y < l.getDomain()[1] + 1; y++) {
       EXPECT_EQ(i, l.getIndexBasedOnCoordinates(Vector<2>{static_cast<double>(x), static_cast<double>(y)}));
+      EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(), (std::array<int, 2>{x, y}));
       i++;
     }
   }
@@ -42,6 +44,7 @@ TEST(SmallLinkedCellContainer_3D, checkMeshProperties) {
   //Test size
   auto size = static_cast<int>(l.getBoundaryAndInnerCells().size());
   EXPECT_EQ(size, 27);
+
   //Test getIndexBasedOnCoordinates
   auto i = 0;
 
@@ -50,6 +53,7 @@ TEST(SmallLinkedCellContainer_3D, checkMeshProperties) {
       for (auto y = -1; y < l.getDomain()[1] + 1; y++) {
         EXPECT_EQ(i, l.getIndexBasedOnCoordinates(
             Vector<3>{static_cast<double>(x), static_cast<double>(y), static_cast<double>(z)}));
+        EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(), (std::array<int, 3>{x, y, z}));
         i++;
       }
     }
@@ -67,6 +71,7 @@ TEST(HugeLinkedCellContainer_3D, checkMeshProperties) {
   //Test size
   auto size = static_cast<int>(l.getBoundaryAndInnerCells().size());
   EXPECT_EQ(size, 2592);
+
   //Test getIndexBasedOnCoordinates
   auto i = 0;
 
@@ -75,6 +80,7 @@ TEST(HugeLinkedCellContainer_3D, checkMeshProperties) {
       for (auto y = -1; y < l.getDomain()[1] + 1; y += 1) {
         EXPECT_EQ(i, l.getIndexBasedOnCoordinates(
             Vector<3>{static_cast<double>(x), static_cast<double>(y), static_cast<double>(z)}));
+        EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(), (std::array<int, 3>{x, y, z}));
         i++;
       }
     }
@@ -86,16 +92,47 @@ TEST(HugeLinkedCellContainer_3D, checkMeshProperties) {
  */
 TEST(Boundary_2D, checkReflection) {
   LinkedCell<LennardJones, 2> linkedCell{};
-  LinkedCellContainer<2> l{{Reflecting, Reflecting, Reflecting, Reflecting}, {2, 1}, {180, 90}, 3.0};
+  LinkedCellContainer<2> l{{Reflecting, Reflecting, Reflecting, Reflecting}, {3, 3}, {9, 9}, 3.0};
   ASSERT_TRUE(l.size() == 0);
 
-  l.addParticle({{20, 20}, {0.0, -10.0}, 1.0});
+  l.addParticle({{1.0, 1.0}, {-10.0, 0}, 1.0});
 
   l.init();
 
-  linkedCell.calculateNextStep(l, 0.0005);
+  double force = 0;
 
-  ASSERT_TRUE(l.size() == 1);
+  for (int i = 0; i < 1000; ++i) {
+    linkedCell.calculateNextStep(l, 0.0005, force);
+    ASSERT_TRUE(l.size() == 1);
+    auto &pos = l.getParticles()[0].getX();
+    ASSERT_TRUE(pos[0] >= 0 && pos[0] < l.getDomain()[0]);
+    ASSERT_TRUE(pos[1] >= 0 && pos[1] < l.getDomain()[1]);
+  }
+}
+
+/**
+ * Checks the reflection of a Particle that moves too close to the border, 3D
+ */
+TEST(Boundary_3D, checkReflection) {
+  LinkedCell<LennardJones, 3> linkedCell{};
+  LinkedCellContainer<3>
+      l{{Reflecting, Reflecting, Reflecting, Reflecting, Reflecting, Reflecting}, {3, 3, 3}, {9, 9, 9}, 3.0};
+  ASSERT_TRUE(l.size() == 0);
+
+  l.addParticle({{1.0, 1.0, 1.0}, {-10.0, -10.0, -10.0}, 1.0});
+
+  l.init();
+
+  double force = 0;
+
+  for (int i = 0; i < 1000; ++i) {
+    linkedCell.calculateNextStep(l, 0.0005, force);
+    ASSERT_TRUE(l.size() == 1);
+    auto &pos = l.getParticles()[0].getX();
+    ASSERT_TRUE(pos[0] >= 0 && pos[0] < l.getDomain()[0]);
+    ASSERT_TRUE(pos[1] >= 0 && pos[1] < l.getDomain()[1]);
+    ASSERT_TRUE(pos[2] >= 0 && pos[2] < l.getDomain()[2]);
+  }
 }
 
 /**
@@ -106,18 +143,38 @@ TEST(Halo_2D, checkOutflow) {
   LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 1.0};
   ASSERT_TRUE(l.size() == 0);
 
-  l.addParticle({{0.1, 0.1}, {-1.0, 0.0}, 1.0});
+  l.addParticle({{0.1, 0.1}, {-1.0, -1.0}, 1.0});
 
   l.init();
 
-  linkedCell.calculateNextStep(l, 0.5);
+  double force = 0;
+
+  linkedCell.calculateNextStep(l, 0.5, force);
+  ASSERT_TRUE(l.size() == 0);
+}
+
+/**
+ * Checks the removal of a Particle that moves out of the domain, 2D
+ */
+TEST(Halo_3D, checkOutflow) {
+  LinkedCell<LennardJones, 3> linkedCell{};
+  LinkedCellContainer<3> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 1.0};
+  ASSERT_TRUE(l.size() == 0);
+
+  l.addParticle({{0.1, 0.1, 0.1}, {-1.0, -1.0, -1.0}, 1.0});
+
+  l.init();
+
+  double force = 0;
+
+  linkedCell.calculateNextStep(l, 0.5, force);
   ASSERT_TRUE(l.size() == 0);
 }
 
 /**
 * Checks behavior when the CutOffRadius is greater than the cell size, 2D
 */
-TEST(LinkedCellContainer_2D, checkCutoffRadius) {
+TEST(LinkedCellContainer_2D, checkCutoffRadiusGreaterThanCellSize) {
   LinkedCell<LennardJones, 2> linkedCell{};
   LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 2};
 
@@ -127,7 +184,9 @@ TEST(LinkedCellContainer_2D, checkCutoffRadius) {
   l.init();
 
   auto force = l.getParticles()[1].getF();
-  linkedCell.calculateNextStep(l, 0.0005);
+
+  double additionalGravitation = 0;
+  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation);
 
   ASSERT_TRUE(force != l.getParticles()[1].getF());
 }
@@ -135,7 +194,7 @@ TEST(LinkedCellContainer_2D, checkCutoffRadius) {
 /**
 * Checks behavior when the CutOffRadius is greater than the cell size, 3D
 */
-TEST(LinkedCellContainer_3D, checkCutoffRadius) {
+TEST(LinkedCellContainer_3D, checkCutoffRadiusGreaterThanCellSize) {
   LinkedCell<LennardJones, 3> linkedCell{};
   LinkedCellContainer<3> l{{Outflow, Outflow, Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 2};
 
@@ -145,9 +204,30 @@ TEST(LinkedCellContainer_3D, checkCutoffRadius) {
   l.init();
 
   auto force = l.getParticles()[1].getF();
-  linkedCell.calculateNextStep(l, 1.0);
+  double additionalGravitation = 0;
+  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation);
 
   ASSERT_TRUE(force == l.getParticles()[1].getF());
+}
+
+/**
+* Checks behavior when the CutOffRadius is smaller than the cell size, 2D
+*/
+TEST(LinkedCellContainer_2D, checkCutoffRadiusLessThanCellSize) {
+  LinkedCell<LennardJones,2> linkedCell{};
+  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {3, 3}, {9,9}, 2};
+
+  l.addParticle({{2.9, 2.9}, {-1.0, 0.0}, 1.0});
+  l.addParticle({{3.1, 3.1}, {-1.0, 0.0}, 1.0});
+
+  l.init();
+
+  auto force = l.getParticles()[1].getF();
+
+  double additionalGravitation = 0;
+  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation);
+
+  ASSERT_TRUE(force != l.getParticles()[1].getF());
 }
 
 /**
