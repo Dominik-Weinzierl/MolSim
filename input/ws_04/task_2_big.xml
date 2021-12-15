@@ -6,7 +6,7 @@
             <Domain x="300" y="54" z="300"/>
             <CellSize x="3" y="3" z="3"/>
             <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
-                      boundary-bottom="reflecting"/>
+                      boundary-bottom="reflecting" boundary-front="periodic" boundary-back="periodic"/>
         </LinkedCell>
     </Strategy>
     <Shapes>
