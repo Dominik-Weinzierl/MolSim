@@ -95,13 +95,6 @@ class XMLArgumentParser : public ArgumentParser<dim> {
         }
       }
 
-      // Check cutoff radius >= cellsize
-      for (size_t i = 0; i < dim; ++i) {
-        if ((arg->getCellSize().value()[i]) > (arg->getCutoffRadius().value())) {
-          throw std::invalid_argument("Cutoff radius needs to be at least the size as the cell size");
-        }
-      }
-
       // Check boundary conditions
       for (size_t i = 0; i < dim; ++i) {
         if ((arg->getBoundaries().value()[i * 2] == BoundaryType::Periodic

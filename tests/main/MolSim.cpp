@@ -107,20 +107,6 @@ TEST(Main, setup_ws_04_task_2_big) { // NOLINT(cert-err58-cpp)
 }
 
 /**
- * Test correct setup of task 2 of work sheet 4.
- */
-TEST(Main, setup_ws_04_task_2_big_3D) { // NOLINT(cert-err58-cpp)
-  MolSim<3> sim{};
-  EXPECT_EQ(sim.setup({"-x", "-f", "../../input/ws_04/task_2_big_cell_size_1.xml", "-b", "-3"}), 1);
-  auto &cellContainer = dynamic_cast<LinkedCellContainer<3> &>(*(sim.getParticleContainer()));
-  EXPECT_EQ(cellContainer.size(), 2500000);
-  EXPECT_EQ(cellContainer.getBoundaryCells().size(), 242192);
-  EXPECT_EQ(cellContainer.getHalosCells().size(), 247424);
-  EXPECT_EQ(cellContainer.getInnerCells().size(), 4617808);
-  EXPECT_EQ(cellContainer.getCells().size(), 5107424);
-}
-
-/**
  * Test correct setup for loading additional files.
  */
 TEST(Main, setup_loading_additional_files) { // NOLINT(cert-err58-cpp)

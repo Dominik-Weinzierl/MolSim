@@ -174,7 +174,7 @@ TEST(Halo_3D, checkOutflow) {
 /**
 * Checks behavior when the CutOffRadius is greater than the cell size, 2D
 */
-TEST(LinkedCellContainer_2D, checkCutoffRadius) {
+TEST(LinkedCellContainer_2D, checkCutoffRadiusGreaterThanCellSize) {
   LinkedCell<LennardJones, 2> linkedCell{};
   LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 2};
 
@@ -194,7 +194,7 @@ TEST(LinkedCellContainer_2D, checkCutoffRadius) {
 /**
 * Checks behavior when the CutOffRadius is greater than the cell size, 3D
 */
-TEST(LinkedCellContainer_3D, checkCutoffRadius) {
+TEST(LinkedCellContainer_3D, checkCutoffRadiusGreaterThanCellSize) {
   LinkedCell<LennardJones, 3> linkedCell{};
   LinkedCellContainer<3> l{{Outflow, Outflow, Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 2};
 
@@ -205,9 +205,29 @@ TEST(LinkedCellContainer_3D, checkCutoffRadius) {
 
   auto force = l.getParticles()[1].getF();
   double additionalGravitation = 0;
-  linkedCell.calculateNextStep(l, 1.0, additionalGravitation);
+  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation);
 
   ASSERT_TRUE(force == l.getParticles()[1].getF());
+}
+
+/**
+* Checks behavior when the CutOffRadius is smaller than the cell size, 2D
+*/
+TEST(LinkedCellContainer_2D, checkCutoffRadiusLessThanCellSize) {
+  LinkedCell<LennardJones,2> linkedCell{};
+  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {3, 3}, {9,9}, 2};
+
+  l.addParticle({{2.9, 2.9}, {-1.0, 0.0}, 1.0});
+  l.addParticle({{3.1, 3.1}, {-1.0, 0.0}, 1.0});
+
+  l.init();
+
+  auto force = l.getParticles()[1].getF();
+
+  double additionalGravitation = 0;
+  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation);
+
+  ASSERT_TRUE(force != l.getParticles()[1].getF());
 }
 
 /**
