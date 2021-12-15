@@ -1,10 +1,10 @@
-<Simulation endTime="50" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
+<Simulation endTime="10" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
             additionalGravitation="-12.44">
     <Strategy>
         <LinkedCell cutoffRadius="3">
             <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
             <Domain x="300" y="54" z="300"/>
-            <CellSize x="1" y="1" z="1"/>
+            <CellSize x="3" y="3" z="3"/>
             <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
                       boundary-bottom="reflecting"/>
         </LinkedCell>
