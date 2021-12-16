@@ -14,10 +14,11 @@ void VTKWriter<3>::plotParticle(const Particle<3> &p) {
   dataIterator->push_back(p.getV()[2]);
   // cout << "Appended velocity data in: " << dataIterator->Name();
 
+  //Changed OldF to F since we need F for the VTKReader
   dataIterator++;
-  dataIterator->push_back(p.getOldF()[0]);
-  dataIterator->push_back(p.getOldF()[1]);
-  dataIterator->push_back(p.getOldF()[2]);
+  dataIterator->push_back(p.getF()[0]);
+  dataIterator->push_back(p.getF()[1]);
+  dataIterator->push_back(p.getF()[2]);
   // cout << "Appended force data in: " << dataIterator->Name();
 
   dataIterator++;
@@ -44,9 +45,10 @@ void VTKWriter<2>::plotParticle(const Particle<2> &p) {
   dataIterator->push_back(0.0);
   // cout << "Appended velocity data in: " << dataIterator->Name();
 
+  //Changed OldF to F since we need F for the VTKReader
   dataIterator++;
-  dataIterator->push_back(p.getOldF()[0]);
-  dataIterator->push_back(p.getOldF()[1]);
+  dataIterator->push_back(p.getF()[0]);
+  dataIterator->push_back(p.getF()[1]);
   dataIterator->push_back(0.0);
   // cout << "Appended force data in: " << dataIterator->Name();
 

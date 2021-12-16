@@ -16,6 +16,7 @@
 #include "container/DirectSum/DirectSumContainer.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
 #include "container/ParticleContainer.h"
+#include "fileReader/VTKReader/VTKReader.h"
 
 /**
  * Provides static functions for simulation and benchmark.
