@@ -1,6 +1,7 @@
 #pragma once
 
 #include "container/ParticleContainer.h"
+#include "Forces/Forces.h"
 
 /**
  * This is the superclass for the different types of physics we implemented.
@@ -77,12 +78,11 @@ class Physics {
    * Calculates and updates the force for all particles in the specified container
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    */
-  void calculateF(ParticleContainer<dim> &particleContainer) const {
-    Vector<dim> temp{};
+  void calculateF(ParticleContainer<dim> &particleContainer, double& additionalForce) const {
     SPDLOG_DEBUG("started calculating forces");
     for (auto &p: particleContainer) {
       p.setOldF(p.getF());
-      p.setF(temp);
+      p.setF(Forces<dim>::additionalGravitation(p, additionalForce));
     }
     performUpdate(particleContainer);
     SPDLOG_DEBUG("ended calculating forces");
@@ -93,12 +93,11 @@ class Physics {
   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
   * @param deltaT time step of our simulation
   */
-  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT,
-                                 [[maybe_unused]]double &force) const {
+  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double& additionalForce) const {
     // calculate new x
     calculateX(particleContainer, deltaT);
     // calculate new f
-    calculateF(particleContainer);
+    calculateF(particleContainer, additionalForce);
     // calculate new v
     calculateV(particleContainer, deltaT);
   }
