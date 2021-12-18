@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cmath>
-
-#include "utils/MaxwellBoltzmannDistribution.h"
+#include <container/ParticleContainer.h>
+#include <utils/MaxwellBoltzmannDistribution.h>
 
 template<size_t dim>
 class Thermostat {
@@ -22,10 +22,10 @@ class Thermostat {
   [[nodiscard]] double kineticEnergyTemp(ParticleContainer<dim> &c) {
     double ret = 0;
     for (auto &p: c) {
-      ret += (p.getM() * p.getV() * p.getV()) / 2;
+      ret += (p.getM() * p.getV() * p.getV());
     }
     ret /= static_cast<double >(dim * c.size());
-    ret *= 2;
+
     return ret;
   }
 
@@ -39,7 +39,10 @@ class Thermostat {
       if (difference < 0) {
         pDeltaT *= -1;
       }
-      difference = std::min(difference, pDeltaT);
+      if (difference < 0)
+        difference = std::max(difference, pDeltaT);
+      else
+        difference = std::min(difference, pDeltaT);
     }
 
     return std::sqrt((currentTemp - difference) / currentTemp);
