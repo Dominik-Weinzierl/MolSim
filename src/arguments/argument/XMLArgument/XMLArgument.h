@@ -36,12 +36,12 @@ class XMLArgument : public Argument<dim> {
   /**
    * Stores the domain used by the linked cell algorithm.
    */
-  std::optional<std::array<int, dim>> domain;
+  std::optional<Vector<dim>> domain;
 
   /**
    * Stores the cell size used by the simulation.
    */
-  std::optional<std::array<int, dim>> cellSize;
+  std::optional<Vector<dim>> cellSize;
 
   /**
    * Stores the boundaries used by the linked cell algorithm.
@@ -71,8 +71,8 @@ class XMLArgument : public Argument<dim> {
   XMLArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
               std::string pWriter, int pIteration, std::string pPhysics,
               std::vector<CuboidArgument<dim>> pCuboidArguments, std::vector<SphereArgument<dim>> pSphereArguments,
-              std::string pStrategy, std::optional<double> pCutoffRadius, std::optional<std::array<int, dim>> pDomain,
-              std::optional<std::vector<BoundaryType>> pBoundaries, std::optional<std::array<int, dim>> pCellSize,
+              std::string pStrategy, std::optional<double> pCutoffRadius, std::optional<Vector<dim>> pDomain,
+              std::optional<std::vector<BoundaryType>> pBoundaries, std::optional<Vector<dim>> pCellSize,
               std::unique_ptr<Thermostat<dim>> pThermostat, double pAdditionalGravitation) : Argument<dim>(
       std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
       pStrategy, std::move(pThermostat), pAdditionalGravitation), cuboidArguments{std::move(pCuboidArguments)},
@@ -174,6 +174,10 @@ class XMLArgument : public Argument<dim> {
 
   //----------------------------------------Getter & Setter----------------------------------------
 
+  void updateCellSizeOnIndex(size_t index, double pCellSize){
+    cellSize.value()[index] = pCellSize;
+  }
+
   /**
    * Getter for CuboidArguments.
    * @return std::vector of CuboidArguments.
@@ -205,7 +209,7 @@ class XMLArgument : public Argument<dim> {
    * Getter for dimension.
    * @return dimension.
    */
-  [[nodiscard]] const std::optional<std::array<int, dim>> &getDomain() const {
+  [[nodiscard]] const std::optional<Vector<dim>> &getDomain() const {
     SPDLOG_TRACE("XMLArgument->getDomain(): {}", ArrayUtils::to_string(domain.value()));
     return domain;
   }
@@ -223,7 +227,7 @@ class XMLArgument : public Argument<dim> {
    * Getter for cell size.
    * @return cellSize.
    */
-  [[nodiscard]] const std::optional<std::array<int, dim>> &getCellSize() const {
+  [[nodiscard]] const std::optional<Vector<dim>> &getCellSize() const {
     SPDLOG_TRACE("XMLArgument->getCellSize(): {}", ArrayUtils::to_string(cellSize.value()));
     return cellSize;
   }
