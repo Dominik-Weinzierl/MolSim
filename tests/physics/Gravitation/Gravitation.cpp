@@ -30,7 +30,8 @@ TEST(Gravitation_3D_DirectSumContainer, calculateForceBetweenSunAndEarth) { // N
   planet_1.setF({0.0, -8.0, 0.0});
 
   // Perform calculation
-  g.calculateF(container);
+  double force = 0.0;
+  g.calculateF(container, force);
 
   EXPECT_EQ(container[0], planet_0);
   EXPECT_EQ(container[1], planet_1);
@@ -77,7 +78,8 @@ TEST(Gravitation_2D_DirectSumContainer, calculateForceBetweenSunAndEarth) { // N
   planet_1.setF({0.0, -8.0});
 
   // Perform calculation
-  g.calculateF(container);
+  double force = 0.0;
+  g.calculateF(container, force);
 
   EXPECT_EQ(container[0], planet_0);
   EXPECT_EQ(container[1], planet_1);
