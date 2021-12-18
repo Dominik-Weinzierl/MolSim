@@ -28,11 +28,11 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
       sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
-  std::optional<std::array<int, dim>> domain{{5, 5, 5}};
+  std::optional<Vector<dim>> domain{{5, 5, 5}};
   std::optional<std::vector<BoundaryType>> boundaries
       {{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting,
         BoundaryType::Outflow, BoundaryType::Outflow}};
-  std::optional<std::array<int, dim>> cellSize{{1, 1, 1}};
+  std::optional<Vector<dim>> cellSize{{1, 1, 1}};
   double additionalGravitation = 5;
 
   XMLArgument<dim> arg
@@ -77,10 +77,10 @@ TEST(XMLArgument_2D, constructor) { // NOLINT(cert-err58-cpp)
       sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
-  std::optional<std::array<int, dim>> domain{{5, 5}};
+  std::optional<Vector<dim>> domain{{5, 5}};
   std::optional<std::vector<BoundaryType>>
       boundaries{{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting}};
-  std::optional<std::array<int, dim>> cellSize{{1, 1}};
+  std::optional<Vector<dim>> cellSize{{1, 1}};
   double additionalGravitation = 5;
 
   XMLArgument<dim> arg
@@ -123,9 +123,9 @@ TEST(XMLArgument, compareOperatorEqual) { // NOLINT(cert-err58-cpp)
   std::vector<SphereArgument<dim>> sphereArguments{};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
-  std::optional<std::array<int, dim>> domain{{5, 5}};
+  std::optional<Vector<dim>> domain{{5, 5}};
   std::optional<std::vector<BoundaryType>> boundaries{};
-  std::optional<std::array<int, dim>> cellSize{{1, 1}};
+  std::optional<Vector<dim>> cellSize{{1, 1}};
   double additionalGravitation = 0;
 
   XMLArgument<dim> first
@@ -156,9 +156,9 @@ TEST(XMLArgument, compareOperatorNotEqual) { // NOLINT(cert-err58-cpp)
   std::vector<SphereArgument<dim>> sphereArguments{};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
-  std::optional<std::array<int, dim>> domain{{5, 5}};
+  std::optional<Vector<dim>> domain{{5, 5}};
   std::optional<std::vector<BoundaryType>> boundaries{};
-  std::optional<std::array<int, dim>> cellSize{{1, 1}};
+  std::optional<Vector<dim>> cellSize{{1, 1}};
   double additionalGravitation = 0;
 
   XMLArgument<dim> first

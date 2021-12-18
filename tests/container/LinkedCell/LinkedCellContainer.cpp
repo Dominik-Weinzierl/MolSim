@@ -27,7 +27,7 @@ TEST(LinkedCellContainer_2D, checkMeshProperties) {
   for (auto x = -1; x < l.getDomain()[0] + 1; x++) {
     for (auto y = -1; y < l.getDomain()[1] + 1; y++) {
       EXPECT_EQ(i, l.getIndexBasedOnCoordinates(Vector<2>{static_cast<double>(x), static_cast<double>(y)}));
-      EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(), (std::array<int, 2>{x, y}));
+      EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(), (Vector<2>{static_cast<double>(x), static_cast<double>(y)}));
       i++;
     }
   }
@@ -53,7 +53,7 @@ TEST(SmallLinkedCellContainer_3D, checkMeshProperties) {
       for (auto y = -1; y < l.getDomain()[1] + 1; y++) {
         EXPECT_EQ(i, l.getIndexBasedOnCoordinates(
             Vector<3>{static_cast<double>(x), static_cast<double>(y), static_cast<double>(z)}));
-        EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(), (std::array<int, 3>{x, y, z}));
+        EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(), (Vector<3>{static_cast<double>(x), static_cast<double>(y), static_cast<double>(z)}));
         i++;
       }
     }
@@ -80,7 +80,7 @@ TEST(HugeLinkedCellContainer_3D, checkMeshProperties) {
       for (auto y = -1; y < l.getDomain()[1] + 1; y += 1) {
         EXPECT_EQ(i, l.getIndexBasedOnCoordinates(
             Vector<3>{static_cast<double>(x), static_cast<double>(y), static_cast<double>(z)}));
-        EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(), (std::array<int, 3>{x, y, z}));
+        EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(), (Vector<3>{static_cast<double>(x), static_cast<double>(y), static_cast<double>(z)}));
         i++;
       }
     }
