@@ -75,9 +75,8 @@ class Boundary : public Cell<dim> {
    * @param pDomain domain size used during this simulation
    */
   Boundary(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection,
-           std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize,
-           std::array<int, dim> pDomain) : Cell<dim>(pBoundaryType, pBorderDirection, pAllParticles, pPosition,
-                                                     pCellSize, pDomain) {};
+           std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain)
+      : Cell<dim>(pBoundaryType, pBorderDirection, pAllParticles, pPosition, pCellSize, pDomain) {};
 
   //----------------------------------------Methods----------------------------------------
 

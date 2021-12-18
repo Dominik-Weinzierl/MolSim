@@ -19,7 +19,7 @@ class Inner : public Cell<dim> {
    * @param pCellSize size of this cell (each Cell has the same size)
    * @param pDomain domain size used during this simulation
    */
-  Inner(std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize, std::array<int, dim> pDomain)
+  Inner(std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain)
       : Cell<dim>(pAllParticles, pPosition, pCellSize, pDomain) {};
 
   //----------------------------------------Methods----------------------------------------

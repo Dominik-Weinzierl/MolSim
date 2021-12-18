@@ -99,12 +99,12 @@ class XMLReader {
     return cuboidArguments;
   }
 
-  std::optional<std::array<int, dim>> loadDomain() const {
-    return wrapVector_i(simulation->Strategy()->LinkedCell().get().Domain());
+  std::optional<Vector<dim>> loadDomain() const {
+    return wrapVector_t(simulation->Strategy()->LinkedCell().get().Domain());
   }
 
-  std::optional<std::array<int, dim>> loadCellSize() const {
-    return wrapVector_i(simulation->Strategy()->LinkedCell().get().CellSize());
+  std::optional<Vector<dim>> loadCellSize() const {
+    return wrapVector_t(simulation->Strategy()->LinkedCell().get().CellSize());
   }
 
   [[nodiscard]] std::optional<std::vector<BoundaryType>> loadBoundaries() const;
@@ -152,9 +152,9 @@ class XMLReader {
     std::string fileName;
     std::string strategy{"DirectSum"};
     std::optional<double> cutoffRadius = std::nullopt;
-    std::optional<std::array<int, dim>> domain = std::nullopt;
+    std::optional<Vector<dim>> domain = std::nullopt;
     std::optional<std::vector<BoundaryType>> boundaries = std::nullopt;
-    std::optional<std::array<int, dim>> cellSize = std::nullopt;
+    std::optional<Vector<dim>> cellSize = std::nullopt;
     double additionalGravitation = 0.0;
     std::unique_ptr<Thermostat<dim>> thermostat;
 

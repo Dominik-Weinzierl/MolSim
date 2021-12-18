@@ -44,7 +44,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   /**
    * Cell size of each Cell. This is fixed and won't change during the simulation.
    */
-  const std::array<int, dim> cellSize;
+  const Vector<dim> cellSize;
 
   /**
    * Cutoff radius used by the linked cell algorithm to optimize calculations.
@@ -59,7 +59,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   /**
    * Domain of our simulation.
    */
-  const std::array<int, dim> domain;
+  const Vector<dim> domain;
 
   /**
    * Boundary type of each side (4/6)
@@ -68,13 +68,25 @@ class LinkedCellContainer : public ParticleContainer<dim> {
 
   //----------------------------------------Methods----------------------------------------
 
+  int cellsPerColumn() {
+    return static_cast<int>(domain[1] / cellSize[1]);
+  }
+
+  int cellsPerRow() {
+    return static_cast<int>(domain[0] / cellSize[0]);
+  }
+
+  int cellsPerDepth() {
+    return static_cast<int>(domain[2] / cellSize[2]);
+  }
+
   /**
    * Setup Halo(s) where needed.
    * @param amount amount of Halo(s)
    * @param pBorderDirection the direction of the Halo(s)
    * @param position the start position of these Halo(s)
    */
-  void setupHalos(int amount, std::vector<BoardDirectionType> pBorderDirection, std::array<int, dim> position) {
+  void setupHalos(int amount, std::vector<BoardDirectionType> pBorderDirection, Vector<dim> position) {
     for (int y = 0; y < amount; ++y) {
       setupHalo(pBorderDirection, position);
       position[1] += cellSize[1];
@@ -86,7 +98,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @param pBorderDirection the direction of the Halo
    * @param position the start position of this Halo
    */
-  void setupHalo(std::vector<BoardDirectionType> pBorderDirection, std::array<int, dim> position) {
+  void setupHalo(std::vector<BoardDirectionType> pBorderDirection, Vector<dim> position) {
     std::vector<BoundaryType> boundaryTypes{};
     // Outflow
     for (BoardDirectionType &b: pBorderDirection) {
@@ -133,7 +145,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @param pBorderDirection the direction of the Boundary(s)
    * @param position the start position of these Boundary(s)
    */
-  void setupBoundaries(int amount, std::vector<BoardDirectionType> pBorderDirection, std::array<int, dim> position) {
+  void setupBoundaries(int amount, std::vector<BoardDirectionType> pBorderDirection, Vector<dim> position) {
     for (int y = 0; y < amount; ++y) {
       setupBoundary(pBorderDirection, position);
       position[1] += cellSize[1];
@@ -145,7 +157,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @param pBorderDirection the direction of the Boundary
    * @param position the start position of this Boundary
    */
-  void setupBoundary(std::vector<BoardDirectionType> pBorderDirection, std::array<int, dim> position) {
+  void setupBoundary(std::vector<BoardDirectionType> pBorderDirection, Vector<dim> position) {
     std::vector<BoundaryType> boundaryTypes{};
     for (BoardDirectionType &b: pBorderDirection) {
       boundaryTypes.push_back(getBoundaries()[b]);
@@ -173,12 +185,13 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @param d describes the position of this row
    */
   inline void setupBoundaryColumnWrapper(int cellsPerColumn, std::array<int, 2> pos, BoardDirectionType d);
+
   /**
    * Setup Inner(s).
    * @param amount amount of Inner(s)
    * @param position the start position of these Inner(s)
    */
-  void setupInner(int amount, std::array<int, dim> position) {
+  void setupInner(int amount, Vector<dim> position) {
     for (int y = 0; y < amount; ++y) {
       innerCells.emplace_back(this->particles, position, cellSize, domain);
       auto *ptr = &innerCells[innerCells.size() - 1];
@@ -241,12 +254,10 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @param pDomain domain size used during this simulation
    * @param pCutoffRadius cutoff radius is used to define the range of our force
    */
-  LinkedCellContainer(std::vector<BoundaryType> pBoundaries, std::array<int, dim> pCellSize,
-                      std::array<int, dim> pDomain, double pCutoffRadius) : boundaries{std::move(pBoundaries)},
-                                                                            cellSize{pCellSize}, domain{pDomain},
-                                                                            cutoffRadius{pCutoffRadius},
-                                                                            cutoffRadiusSquare{
-                                                                                pCutoffRadius * pCutoffRadius} {
+  LinkedCellContainer(std::vector<BoundaryType> pBoundaries, Vector<dim> pCellSize, Vector<dim> pDomain,
+                      double pCutoffRadius) : boundaries{std::move(pBoundaries)}, cellSize{pCellSize}, domain{pDomain},
+                                              cutoffRadius{pCutoffRadius},
+                                              cutoffRadiusSquare{pCutoffRadius * pCutoffRadius} {
     reserve();
     SPDLOG_TRACE("LinkedCellContainer generated");
   };
@@ -334,7 +345,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * Getter for domain.
    * @return domain
    */
-  [[nodiscard]] const std::array<int, dim> &getDomain() const {
+  [[nodiscard]] const Vector<dim> &getDomain() const {
     return domain;
   }
 

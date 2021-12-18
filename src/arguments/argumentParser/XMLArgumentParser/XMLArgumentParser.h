@@ -83,8 +83,14 @@ class XMLArgumentParser : public ArgumentParser<dim> {
     if (arg->getStrategy() == "LinkedCell") {
       // Check Domain is multiple of Cell size
       for (size_t i = 0; i < dim; ++i) {
-        if (arg->getDomain().value()[i] % arg->getCellSize().value()[i] != 0) {
-          throw std::invalid_argument("Domain size should be multiple of cell size");
+        if (std::fmod(arg->getDomain().value()[i], arg->getCellSize().value()[i]) != 0) {
+          int multiple = static_cast<int>(arg->getDomain().value()[i] / arg->getCellSize().value()[i]);
+          double newCellSize = arg->getDomain().value()[i] / static_cast<double>(multiple);
+          arg->updateCellSizeOnIndex(i, newCellSize);
+          std::cout << "Changed cell size [" << i << "] to: " << arg->getCellSize().value()[i] << std::endl;
+          if(arg->getCellSize().value()[i] * multiple != arg->getDomain().value()[i]) {
+            throw std::invalid_argument("Seems like we have a periodic cell size! Please rethink your values!");
+          }
         }
       }
 

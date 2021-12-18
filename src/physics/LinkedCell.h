@@ -74,10 +74,10 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
           }
         }
 
-        std::vector<std::tuple<Cell<dim> *, std::array<int, dim>>>
+        std::vector<std::tuple<Cell<dim> *, Vector<dim>>>
             &periodicNeighbours = (*cell)->getPeriodicNeighbours();
         // calc periodic
-        for (std::tuple<Cell<dim> *, std::array<int, dim>> &t: periodicNeighbours) {
+        for (std::tuple<Cell<dim> *, Vector<dim>> &t: periodicNeighbours) {
           Cell<dim> *periodicCell = std::get<0>(t);
 
           if (!periodicCell->getParticles().empty()) {
