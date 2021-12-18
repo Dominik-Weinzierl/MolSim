@@ -17,6 +17,11 @@ template<size_t dim>
 class LinkedCellContainer : public ParticleContainer<dim> {
  private:
   /**
+   *
+   */
+  const double precision = 0.01;
+
+  /**
    * All cells created and used by this LinkedCellContainer.
    */
   std::vector<Cell<dim> *> cells;

@@ -1,17 +1,26 @@
-<Simulation endTime="10" deltaT="0.00005" iteration="120" physics="lennard" writer="vtk" output="MD">
+<Simulation endTime="25" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
+            additionalGravitation="-12.44">
     <Strategy>
-        <LinkedCell cutoffRadius="3">
-            <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
-            <Domain x="9.9" y="9.9" z="9.9"/>
-            <CellSize x="3" y="3" z="3"/>
-            <Boundary boundary="periodic"/>
+        <LinkedCell cutoffRadius="2.5">
+            <Domain x="65" y="36" z="63"/>
+            <CellSize x="3.25" y="3" z="3"/>
+            <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
+                      boundary-bottom="reflecting" boundary-front="periodic" boundary-back="periodic"/>
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Sphere mass="1.0" distance="1.1225" meanValue="0" radius="2" packed="true" depthOfPotentialWell="5"
-                zeroCrossing="1">
-            <Center x="3.5" y="3.5" z="0"/>
-            <Velocity x="1.5" y="1.5" z="0"/>
-        </Sphere>
+        <Cuboid mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1"
+                type="0">
+            <Position x="0.6" y="2.0" z="0.6"/>
+            <Velocity x="0.0" y="0.0" z="0.0"/>
+            <Dimension x="50" y="14" z="50"/>
+        </Cuboid>
+        <Cuboid mass="2.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="0.9412"
+                type="1">
+            <Position x="0.6" y="19.0" z="0.6"/>
+            <Velocity x="0.0" y="0.0" z="0.0"/>
+            <Dimension x="50" y="14" z="50"/>
+        </Cuboid>
     </Shapes>
+    <Thermostat initialT="40" numberT="1000"/>
 </Simulation>

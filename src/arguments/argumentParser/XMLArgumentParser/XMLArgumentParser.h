@@ -29,6 +29,13 @@ class XMLArgumentParser : public ArgumentParser<dim> {
    */
   XMLArgumentStatus status;
 
+  /**
+   *
+   */
+  double scaleToSelectedPrecision(double d, double &p) {
+    return std::floor(d / p + 0.5) * p;
+  }
+
  public:
 
   //----------------------------------------Constructor----------------------------------------
@@ -81,17 +88,48 @@ class XMLArgumentParser : public ArgumentParser<dim> {
     std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
 
     if (arg->getStrategy() == "LinkedCell") {
+      double precision = 0.01;
+
       // Check Domain is multiple of Cell size
+      std::array<std::vector<double>, dim> possibleCellSizesForAllDimension;
+
       for (size_t i = 0; i < dim; ++i) {
-        if (std::fmod(arg->getDomain().value()[i], arg->getCellSize().value()[i]) != 0) {
+        if (std::fmod(arg->getDomain().value()[i], arg->getCellSize().value()[i]) >= 0.0001) {
           int multiple = static_cast<int>(arg->getDomain().value()[i] / arg->getCellSize().value()[i]);
           double newCellSize = arg->getDomain().value()[i] / static_cast<double>(multiple);
-          arg->updateCellSizeOnIndex(i, newCellSize);
-          std::cout << "Changed cell size [" << i << "] to: " << arg->getCellSize().value()[i] << std::endl;
-          if(arg->getCellSize().value()[i] * multiple != arg->getDomain().value()[i]) {
-            throw std::invalid_argument("Seems like we have a periodic cell size! Please rethink your values!");
+          double preciseNewCellSize = scaleToSelectedPrecision(newCellSize, precision);
+          std::vector<double> possibleCellSizes;
+
+          if (preciseNewCellSize * multiple != arg->getDomain().value()[i]) {
+            for (int m = multiple - 1; m <= multiple + 1; m++) {
+              for (int j = -100; j <= 100; ++j) {
+                double possibleCellSize = scaleToSelectedPrecision(preciseNewCellSize + (j * 0.01), precision);
+                if (scaleToSelectedPrecision(possibleCellSize * m, precision) == arg->getDomain().value()[i]) {
+                  possibleCellSizes.push_back(possibleCellSize);
+                }
+              }
+            }
+            if (possibleCellSizes.empty()) {
+              throw std::invalid_argument(
+                  "Sadly I wasn't able to find a suitable cell size for your domain in dimension "
+                      + std::to_string(i));
+            }
+            possibleCellSizesForAllDimension[i] = possibleCellSizes;
           }
         }
+      }
+
+      if (!std::all_of(possibleCellSizesForAllDimension.begin(), possibleCellSizesForAllDimension.end(), [](auto &v) {
+        return v.empty();
+      })) {
+        for (size_t i = 0; i < dim; ++i) {
+          if (!possibleCellSizesForAllDimension[i].empty()) {
+            std::cout << "Dimension " << i << ": " << ArrayUtils::to_string(possibleCellSizesForAllDimension[i])
+                      << std::endl;
+          }
+        }
+        throw std::invalid_argument(
+            "Please select one of the provided values for your new cell size or check for other suitable cell sizes");
       }
 
       // Check we have at least three Cells per Dimension

@@ -251,8 +251,8 @@ void LinkedCellContainer<2>::linkHalosForPeriodic() {
     }
 
     // TODO
-    pos[0] = floor(pos[0] / 0.0001 + 0.5) * 0.0001;
-    pos[1] = floor(pos[1] / 0.0001 + 0.5) * 0.0001;
+    pos[0] = floor(pos[0] / precision + 0.5) * precision;
+    pos[1] = floor(pos[1] / precision + 0.5) * precision;
     auto index = getIndexBasedOnCoordinates(pos);
     auto *cell = cells[static_cast<unsigned long>(index)];
     neighbours.push_back(cell);
@@ -304,9 +304,9 @@ void LinkedCellContainer<3>::linkHalosForPeriodic() {
     }
 
     // TODO
-    pos[0] = floor(pos[0] / 0.0001 + 0.5) * 0.0001;
-    pos[1] = floor(pos[1] / 0.0001 + 0.5) * 0.0001;
-    pos[2] = floor(pos[2] / 0.0001 + 0.5) * 0.0001;
+    pos[0] = floor(pos[0] / precision + 0.5) * precision;
+    pos[1] = floor(pos[1] / precision + 0.5) * precision;
+    pos[2] = floor(pos[2] / precision + 0.5) * precision;
     auto index = getIndexBasedOnCoordinates(pos);
     auto *cell = cells[static_cast<unsigned long>(index)];
     neighbours.push_back(cell);
@@ -355,12 +355,12 @@ void LinkedCellContainer<2>::linkCells() {
             auto periodicCellX = nX * cellSize[0];
             periodicCellX =
                 std::fmod(periodicCellX > domain[0] ? periodicCellX - domain[0] : periodicCellX + domain[0], domain[0]);
-            periodicCellX = floor(periodicCellX / 0.0001 + 0.5) * 0.0001;
+            periodicCellX = floor(periodicCellX / precision + 0.5) * precision;
 
             auto periodicCellY = nY * cellSize[1];
             periodicCellY =
                 std::fmod(periodicCellY > domain[1] ? periodicCellY - domain[1] : periodicCellY + domain[1], domain[1]);
-            periodicCellY = floor(periodicCellY / 0.0001 + 0.5) * 0.0001;
+            periodicCellY = floor(periodicCellY / precision + 0.5) * precision;
 
             if ((nX < 0 || nX >= cellsPerRow) && this->boundaries[0] != BoundaryType::Periodic) {
               continue;
@@ -453,19 +453,19 @@ void LinkedCellContainer<3>::linkCells() {
                 periodicCellX =
                     std::fmod(periodicCellX > domain[0] ? periodicCellX - domain[0] : periodicCellX + domain[0],
                               domain[0]);
-                periodicCellX = floor(periodicCellX / 0.0001 + 0.5) * 0.0001;
+                periodicCellX = floor(periodicCellX / precision + 0.5) * precision;
 
                 auto periodicCellY = nY * cellSize[1];
                 periodicCellY =
                     std::fmod(periodicCellY > domain[1] ? periodicCellY - domain[1] : periodicCellY + domain[1],
                               domain[1]);
-                periodicCellY = floor(periodicCellY / 0.0001 + 0.5) * 0.0001;
+                periodicCellY = floor(periodicCellY / precision + 0.5) * precision;
 
                 auto periodicCellZ = nZ * cellSize[2];
                 periodicCellZ =
                     std::fmod(periodicCellZ > domain[2] ? periodicCellZ - domain[2] : periodicCellZ + domain[2],
                               domain[2]);
-                periodicCellZ = floor(periodicCellZ / 0.0001 + 0.5) * 0.0001;
+                periodicCellZ = floor(periodicCellZ / precision + 0.5) * precision;
 
                 if ((nX < 0 || nX >= cellsPerRow) && this->boundaries[0] != BoundaryType::Periodic) {
                   continue;
