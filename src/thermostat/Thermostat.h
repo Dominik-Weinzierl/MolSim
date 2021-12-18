@@ -111,9 +111,9 @@ class Thermostat {
       for (Particle<dim> &p: c) {
         p.setV(maxwellBoltzmannDistributedVelocity<dim>(std::sqrt(initialT / p.getM())));
       }
-    } else {
-      applyInitialThermostat(c);
     }
+      applyInitialThermostat(c);
+
   }
 
   /**
