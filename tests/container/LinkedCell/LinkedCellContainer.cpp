@@ -91,17 +91,45 @@ TEST(HugeLinkedCellContainer_3D, checkMeshProperties) {
 }
 
 /**
+ * Test that Newton is used correctly.
+ */
+TEST(LinkedCellContainer_2D, checkNewton) {
+  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 1.0};
+  l.init();
+
+  for (auto *cell: l.getBoundaryAndInnerCells()) {
+    for (auto *n: cell->getNeighbours()) {
+      for (auto *s: n->getNeighbours()) {
+        ASSERT_TRUE(s != cell);
+      }
+    }
+  }
+}
+
+/**
+ * Test that Newton is used correctly.
+ */
+TEST(LinkedCellContainer_3D, checkNewton) {
+  LinkedCellContainer<3> l{{Outflow, Outflow, Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 1.0};
+  l.init();
+
+  for (auto *cell: l.getBoundaryAndInnerCells()) {
+    for (auto *n: cell->getNeighbours()) {
+      for (auto *s: n->getNeighbours()) {
+        ASSERT_TRUE(s != cell);
+      }
+    }
+  }
+}
+
+/**
  * Tests the linked cells which are used to calculate the force.
  */
 TEST(LinkedCellContainer_2D, checkNewtonPeriodic) {
   LinkedCellContainer<2> l{{Periodic, Periodic, Periodic, Periodic}, {1, 1}, {3, 3}, 1.0};
   l.init();
 
-  //Test size
-  auto size = static_cast<int>(l.getBoundaryAndInnerCells().size());
-  EXPECT_EQ(size, 9);
-
-  for (auto cell: l.getCells()) {
+  for (auto *cell: l.getCells()) {
     for (auto &t: cell->getPeriodicNeighbours()) {
       auto *neighbour = std::get<0>(t);
       for (auto &s: neighbour->getPeriodicNeighbours()) {
@@ -118,11 +146,7 @@ TEST(LinkedCellContainer_3D, checkNewtonPeriodic) {
   LinkedCellContainer<3> l{{Periodic, Periodic, Periodic, Periodic, Periodic, Periodic}, {1, 1, 1}, {3, 3, 3}, 1.0};
   l.init();
 
-  // Test size
-  auto size = static_cast<int>(l.getBoundaryAndInnerCells().size());
-  EXPECT_EQ(size, 27);
-
-  for (auto cell: l.getCells()) {
+  for (auto *cell: l.getCells()) {
     for (auto &t: cell->getPeriodicNeighbours()) {
       auto *neighbour = std::get<0>(t);
       for (auto &s: neighbour->getPeriodicNeighbours()) {
