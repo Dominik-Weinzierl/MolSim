@@ -148,3 +148,49 @@ TEST(Boundary_3D, checkPeriodicForce) {
   ASSERT_NEAR(l.getParticles()[0].getF()[2], -l.getParticles()[1].getF()[2], eps);
   ASSERT_TRUE(l.getParticles()[0].getF() != (Vector<3>{0, 0, 0}));
 }
+
+/**
+ * Checks that the periodic force is only applied on the periodic sides.
+ */
+TEST(Boundary_2D, checkPeriodicForceNotAppliedOnSides) {
+  LinkedCell<LennardJones, 2> linkedCell{};
+  LinkedCellContainer<2> l{{Outflow, Outflow, Periodic, Periodic}, {3, 3}, {9, 9}, 3.0};
+  ASSERT_TRUE(l.size() == 0);
+
+  l.addParticle({{0.5, 5.0}, {0.0, 0}, 1.0});
+  l.addParticle({{8.5, 5.0}, {0.0, 0}, 1.0});
+
+  l.init();
+
+  double force = 0;
+
+  linkedCell.calculateNextStep(l, 0.0005, force);
+
+  auto eps = std::numeric_limits<double>::epsilon() * 100;
+  ASSERT_NEAR(l.getParticles()[0].getF()[0], -l.getParticles()[1].getF()[0], eps);
+  ASSERT_NEAR(l.getParticles()[0].getF()[1], -l.getParticles()[1].getF()[1], eps);
+  ASSERT_TRUE(l.getParticles()[0].getF() == (Vector<2>{0, 0}));
+}
+
+/**
+ * Checks that the periodic force is only applied on the periodic sides.
+ */
+TEST(Boundary_2D, checkPeriodicForceNotAppliedOnTopAndBottom) {
+  LinkedCell<LennardJones, 2> linkedCell{};
+  LinkedCellContainer<2> l{{Periodic, Periodic, Outflow, Outflow}, {3, 3}, {9, 9}, 3.0};
+  ASSERT_TRUE(l.size() == 0);
+
+  l.addParticle({{5.0, 0.5}, {0.0, 0}, 1.0});
+  l.addParticle({{5.0, 8.5}, {0.0, 0}, 1.0});
+
+  l.init();
+
+  double force = 0;
+
+  linkedCell.calculateNextStep(l, 0.0005, force);
+
+  auto eps = std::numeric_limits<double>::epsilon() * 100;
+  ASSERT_NEAR(l.getParticles()[0].getF()[0], -l.getParticles()[1].getF()[0], eps);
+  ASSERT_NEAR(l.getParticles()[0].getF()[1], -l.getParticles()[1].getF()[1], eps);
+  ASSERT_TRUE(l.getParticles()[0].getF() == (Vector<2>{0, 0}));
+}

@@ -3,6 +3,13 @@
 #include "container/LinkedCell/LinkedCellContainer.h"
 #include "physics/LinkedCell.h"
 
+
+/**
+ * ***************************************************
+ * Test correct functionality of Halo cells
+ * ******************************************+********
+ */
+
 /**
  * Checks the removal of a Particle that moves out of the domain, 2D
  */

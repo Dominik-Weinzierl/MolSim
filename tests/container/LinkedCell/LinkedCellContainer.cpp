@@ -236,9 +236,35 @@ TEST(LinkedCellContainer_2D, checkCutoffRadiusWithRest) {
 * Checks behavior if Particle gets out of bound.
 */
 TEST(LinkedCellContainer, checkParticleGetsOutOfBounds) {
-  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 36}, 3};
+  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 3};
 
   l.addParticle({{-5, 0}, {-1.0, 0.0}, 1.0});
 
   EXPECT_THROW(l.init(), std::invalid_argument);
 }
+
+/**
+* Checks mixing rule is applied correctly.
+*/
+TEST(LinkedCellContainer, mixingRule) {
+  // Different zeroCrossing and potentialWellDepth
+  Particle<2> p1 {{1, 0}, {-1.0, 0.0}, 1.0, 1.0, 5.0, 1};
+  Particle<2> p2 {{2.5, 0}, {-1.0, 0.0}, 1.0, 2.0, 4.0, 2};
+
+  double l2Norm = Physics<LennardJones, 2>::calcL2NormSquare(p1, p2);
+  Vector<2>  force_1 = LennardJones::calculateForceBetweenTwoParticles(p1, p2, l2Norm);
+
+  // Same zeroCrossing and potentialWellDepth
+  Particle<2> p3 {{1, 0}, {-1.0, 0.0}, 1.0, 1.0, 5.0, 1};
+  Particle<2> p4 {{2.5, 0}, {-1.0, 0.0}, 1.0, 1.0, 5.0, 2};
+
+  l2Norm = Physics<LennardJones, 2>::calcL2NormSquare(p3, p4);
+  Vector<2> force_2 = LennardJones::calculateForceBetweenTwoParticles(p3, p4, l2Norm);
+
+  EXPECT_NE(force_1, force_2);
+
+  auto eps = std::numeric_limits<double>::epsilon() * 100;
+  EXPECT_NEAR(force_1[0], -71.554175279993274, eps);
+  EXPECT_NEAR(force_1[1], 0.0, eps);
+}
+
