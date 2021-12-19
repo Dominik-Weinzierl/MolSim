@@ -1,7 +1,7 @@
-#include <gtest/gtest.h>
+#include "gtest/gtest.h"
 
-#include <thermostat/Thermostat.h>
-#include <container/DirectSum/DirectSumContainer.h>
+#include "thermostat/Thermostat.h"
+#include "container/DirectSum/DirectSumContainer.h"
 
 static double eps = std::numeric_limits<double>::epsilon() * 100;
 

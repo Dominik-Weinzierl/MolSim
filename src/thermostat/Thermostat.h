@@ -1,8 +1,8 @@
 #pragma once
 
-#include <cmath>
-#include <container/ParticleContainer.h>
-#include <utils/MaxwellBoltzmannDistribution.h>
+#include "cmath"
+#include "container/ParticleContainer.h"
+#include "utils/MaxwellBoltzmannDistribution.h"
 
 template<size_t dim>
 class Thermostat {
