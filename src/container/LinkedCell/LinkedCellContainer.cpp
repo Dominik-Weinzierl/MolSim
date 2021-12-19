@@ -376,9 +376,10 @@ void LinkedCellContainer<2>::linkCells() {
 
             // TODO check if this is too expensive
             std::tuple<Cell<2> *, Vector<2>> posTuple{posPeriodicCell, Vector<2>{posCellX, posCellY}};
-            if (std::find(posPeriodicCell->getPeriodicNeighbours().begin(),
-                          posPeriodicCell->getPeriodicNeighbours().end(), posTuple)
-                == posPeriodicCell->getPeriodicNeighbours().end()) {
+            if (std::find_if(posPeriodicCell->getPeriodicNeighbours().begin(),
+                             posPeriodicCell->getPeriodicNeighbours().end(), [&cell](auto &t) {
+                  return std::get<0>(t) == cell;
+                }) == posPeriodicCell->getPeriodicNeighbours().end()) {
 
               periodicCells.emplace_back(posTuple);
             }
@@ -485,9 +486,10 @@ void LinkedCellContainer<3>::linkCells() {
 
                 // TODO check if this is too expensive
                 std::tuple<Cell<3> *, Vector<3>> posTuple{posPeriodicCell, Vector<3>{posCellX, posCellY, posCellZ}};
-                if (std::find(posPeriodicCell->getPeriodicNeighbours().begin(),
-                              posPeriodicCell->getPeriodicNeighbours().end(), posTuple)
-                    == posPeriodicCell->getPeriodicNeighbours().end()) {
+                if (std::find_if(posPeriodicCell->getPeriodicNeighbours().begin(),
+                                 posPeriodicCell->getPeriodicNeighbours().end(), [&cell](auto &t) {
+                      return std::get<0>(t) == cell;
+                    }) == posPeriodicCell->getPeriodicNeighbours().end()) {
 
                   periodicCells.emplace_back(posTuple);
                 }
