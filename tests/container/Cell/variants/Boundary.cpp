@@ -9,6 +9,9 @@
  * ******************************************+********
  */
 
+static auto eps = std::numeric_limits<double>::epsilon() * 100;
+
+
 /**
  * Checks the reflection of a Particle that moves too close to the border, 2D
  */
@@ -119,7 +122,6 @@ TEST(Boundary_2D, checkPeriodicForce) {
 
   linkedCell.calculateNextStep(l, 0.0005, force);
 
-  auto eps = std::numeric_limits<double>::epsilon() * 100;
   ASSERT_NEAR(l.getParticles()[0].getF()[0], -l.getParticles()[1].getF()[0], eps);
   ASSERT_NEAR(l.getParticles()[0].getF()[1], -l.getParticles()[1].getF()[1], eps);
   ASSERT_TRUE(l.getParticles()[0].getF() != (Vector<2>{0, 0}));
@@ -142,7 +144,6 @@ TEST(Boundary_3D, checkPeriodicForce) {
 
   linkedCell.calculateNextStep(l, 0.0005, force);
 
-  auto eps = std::numeric_limits<double>::epsilon() * 100;
   ASSERT_NEAR(l.getParticles()[0].getF()[0], -l.getParticles()[1].getF()[0], eps);
   ASSERT_NEAR(l.getParticles()[0].getF()[1], -l.getParticles()[1].getF()[1], eps);
   ASSERT_NEAR(l.getParticles()[0].getF()[2], -l.getParticles()[1].getF()[2], eps);
@@ -166,7 +167,6 @@ TEST(Boundary_2D, checkPeriodicForceNotAppliedOnSides) {
 
   linkedCell.calculateNextStep(l, 0.0005, force);
 
-  auto eps = std::numeric_limits<double>::epsilon() * 100;
   ASSERT_NEAR(l.getParticles()[0].getF()[0], -l.getParticles()[1].getF()[0], eps);
   ASSERT_NEAR(l.getParticles()[0].getF()[1], -l.getParticles()[1].getF()[1], eps);
   ASSERT_TRUE(l.getParticles()[0].getF() == (Vector<2>{0, 0}));
@@ -189,7 +189,6 @@ TEST(Boundary_2D, checkPeriodicForceNotAppliedOnTopAndBottom) {
 
   linkedCell.calculateNextStep(l, 0.0005, force);
 
-  auto eps = std::numeric_limits<double>::epsilon() * 100;
   ASSERT_NEAR(l.getParticles()[0].getF()[0], -l.getParticles()[1].getF()[0], eps);
   ASSERT_NEAR(l.getParticles()[0].getF()[1], -l.getParticles()[1].getF()[1], eps);
   ASSERT_TRUE(l.getParticles()[0].getF() == (Vector<2>{0, 0}));

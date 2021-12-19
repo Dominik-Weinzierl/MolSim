@@ -9,6 +9,9 @@
  * ******************************************+********
  */
 
+static auto eps = std::numeric_limits<double>::epsilon() * 100;
+
+
 /**
  * Tests the 2d setup of the LinkedCellContainer, the amount of cells that get generated and the
  * function getIndexBasedOnCoordinates, 2D
@@ -263,7 +266,6 @@ TEST(LinkedCellContainer, mixingRule) {
 
   EXPECT_NE(force_1, force_2);
 
-  auto eps = std::numeric_limits<double>::epsilon() * 100;
   EXPECT_NEAR(force_1[0], -71.554175279993274, eps);
   EXPECT_NEAR(force_1[1], 0.0, eps);
 }
