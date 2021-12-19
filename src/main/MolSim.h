@@ -102,8 +102,16 @@ class MolSim {
     }
 
     // Read additional files.
-    for (const auto &file: arg->getFiles()) {
-      InputReader<dim>::readFile(*particleContainer, file);
+    for (std::string &file: arg->getFiles()) {
+      std::string fileEnding = file.substr(file.find('.'));
+      if(fileEnding == "txt"){
+        InputReader<dim>::readFile(*particleContainer, file);
+      } else if(fileEnding == "vtu"){
+        VTKReader<dim>::readFromFile(*particleContainer, file);
+      } else {
+        std::cout << "Unaccpeted file format" << std::endl;
+        return -1;
+      }
     }
 
     // Create Particles (with Generators)
