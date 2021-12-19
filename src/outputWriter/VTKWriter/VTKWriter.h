@@ -33,10 +33,14 @@ class VTKWriter : public OutputWriter<dim> {
     DataArray_t velocity(type::Float32, "velocity", 3);
     DataArray_t forces(type::Float32, "force", 3);
     DataArray_t type(type::Int32, "type", 1);
+    DataArray_t zeroCrossing(type::Float32, "zeroCrossing", 1);
+    DataArray_t potenitalWellDepth(type::Float32, "potenitalWellDepth", 1);
     pointData.DataArray().push_back(mass);
     pointData.DataArray().push_back(velocity);
     pointData.DataArray().push_back(forces);
     pointData.DataArray().push_back(type);
+    pointData.DataArray().push_back(zeroCrossing);
+    pointData.DataArray().push_back(potenitalWellDepth);
 
     CellData cellData; // we don't have cell data => leave it empty
 

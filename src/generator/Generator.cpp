@@ -1,4 +1,4 @@
-#include "generator/GeneratorArguments/SphereArgument.h"
+ #include "generator/GeneratorArguments/SphereArgument.h"
 #include "generator/GeneratorArguments/CuboidArgument.h"
 #include "Generator.h"
 
