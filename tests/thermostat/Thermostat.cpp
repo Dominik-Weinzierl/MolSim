@@ -102,6 +102,10 @@ TEST(Thermostat, heatingDeltaT) {
   EXPECT_NEAR(kineticEnergyTemp(container) - tempBefore, 5, eps);
 }
 
+
+/**
+ * Test that the initial temperature of a system without any motion is set correctly.
+ */
 TEST(Thermostat, initalTNoInitialMotion) {
   constexpr static size_t dim = 2;
   DirectSumContainer<dim> container{};
@@ -114,6 +118,9 @@ TEST(Thermostat, initalTNoInitialMotion) {
   EXPECT_NEAR(kineticEnergyTemp(container), 42, eps);
 }
 
+/**
+ * Test that the initial temperature of a system with motion is set correctly.
+ */
 TEST(Thermostat, initalTInitialMotion) {
   constexpr static size_t dim = 2;
   DirectSumContainer<dim> container{};
