@@ -3341,7 +3341,7 @@ class linkedCell_t : public ::xml_schema::type {
   /**
    * @brief Element type.
    */
-  typedef ::vector_i Domain_type;
+  typedef ::vector_t Domain_type;
 
   /**
    * @brief Element traits type.
@@ -3395,7 +3395,7 @@ class linkedCell_t : public ::xml_schema::type {
   /**
    * @brief Element type.
    */
-  typedef ::vector_i CellSize_type;
+  typedef ::vector_t CellSize_type;
 
   /**
    * @brief Element traits type.

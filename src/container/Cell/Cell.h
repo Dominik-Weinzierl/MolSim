@@ -39,17 +39,17 @@ class Cell {
   /**
    * Vector of cells which are influenced through periodic.
    */
-  std::vector<std::tuple<Cell<dim> *, std::array<int, dim>>> periodicNeighbours{};
+  std::vector<std::tuple<Cell<dim> *, Vector<dim>>> periodicNeighbours{};
 
   /**
    * Current position of this Cell. This is fixed and won't change during the simulation.
    */
-  const std::array<int, dim> position;
+  const Vector<dim> position;
 
   /**
    * Cell size of each Cell. This is fixed and won't change during the simulation.
    */
-  const std::array<int, dim> cellSize;
+  const Vector<dim> cellSize;
 
   /**
    * BoundaryType of this Cell. Used to handle correct boundary options (e.g. Outflow, Reflection, ...)
@@ -64,7 +64,7 @@ class Cell {
   /**
    * Domain of our simulation.
    */
-  const std::array<int, dim> domain;
+  const Vector<dim> domain;
 
  public:
 
@@ -80,8 +80,8 @@ class Cell {
    * @param pDomain domain size used during this simulation
    */
   Cell(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection,
-       std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize,
-       std::array<int, dim> pDomain) : boundaryType{std::move(pBoundaryType)},
+       std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize,
+       Vector<dim> pDomain) : boundaryType{std::move(pBoundaryType)},
                                        borderDirection{std::move(pBorderDirection)}, allParticles{pAllParticles},
                                        position{pPosition}, cellSize{pCellSize}, domain{pDomain} {};
 
@@ -92,8 +92,8 @@ class Cell {
    * @param pCellSize size of this cell (each Cell has the same size)
    * @param pDomain domain size used during this simulation
    */
-  Cell(std::vector<Particle<dim>> &pAllParticles, std::array<int, dim> pPosition, std::array<int, dim> pCellSize,
-       std::array<int, dim> pDomain) : allParticles{pAllParticles}, position{pPosition}, cellSize{pCellSize},
+  Cell(std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize,
+       Vector<dim> pDomain) : allParticles{pAllParticles}, position{pPosition}, cellSize{pCellSize},
                                        domain{pDomain} {};
 
   /**
@@ -159,7 +159,7 @@ class Cell {
    * Getter for the periodic neighbours.
    * @return std::vector<Cell<dim> *> neighbours
    */
-  std::vector<std::tuple<Cell<dim> *, std::array<int, dim>>> &getPeriodicNeighbours() {
+  std::vector<std::tuple<Cell<dim> *, Vector<dim>>> &getPeriodicNeighbours() {
     return periodicNeighbours;
   }
 
@@ -167,11 +167,11 @@ class Cell {
     return borderDirection;
   }
 
-  const std::array<int, dim> &getPosition() const {
+  const Vector<dim> &getPosition() const {
     return position;
   }
 
-  const std::array<int, dim> &getCellSize() const {
+  const Vector<dim> &getCellSize() const {
     return cellSize;
   }
 };

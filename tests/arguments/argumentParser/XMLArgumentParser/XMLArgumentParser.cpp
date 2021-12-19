@@ -88,22 +88,6 @@ TEST(XMLArgumentParser, createInvalidArgumentDomainSize) { // NOLINT(cert-err58-
 }
 
 /**
-* Test with invalid cell amount. At least three cells per dimension are needed.
-*/
-TEST(XMLArgumentParser, createInvalidArgumentCellAmount) { // NOLINT(cert-err58-cpp)
-  const std::vector<std::string>
-      args{"-x", "--filename", "../../tests/arguments/argumentParser/XMLArgumentParser/input/invalid_2.xml"};
-
-  XMLArgumentParser<3> parser_3D{args};
-  parser_3D.validateInput();
-  EXPECT_THROW(parser_3D.createArgument(), std::invalid_argument);
-
-  XMLArgumentParser<2> parser_2D{args};
-  parser_2D.validateInput();
-  EXPECT_NO_THROW(parser_2D.createArgument());
-}
-
-/**
 * Test with invalid cutoff radius size. Cutoff radius needs to be at least the size as the cell size.
 */
 TEST(XMLArgumentParser, createInvalidArgumentCutoffRadius) { // NOLINT(cert-err58-cpp)
