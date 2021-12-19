@@ -796,7 +796,7 @@ operator= (const DataArray_t& x)
 {
   if (this != &x)
   {
-    static_cast< ::DataArrayList_t& > (*this) = x;
+    (*this) = x;
     this->type_ = x.type_;
     this->Name_ = x.Name_;
     this->NumberOfComponents_ = x.NumberOfComponents_;
