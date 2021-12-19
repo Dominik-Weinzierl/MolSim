@@ -1,7 +1,7 @@
 #pragma once
 
-#include <cmath>
-
+#include "cmath"
+#include "container/ParticleContainer.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
 
 template<size_t dim>
@@ -39,7 +39,10 @@ class Thermostat {
       if (difference < 0) {
         pDeltaT *= -1;
       }
-      difference = std::min(difference, pDeltaT);
+      if (difference < 0)
+        difference = std::max(difference, pDeltaT);
+      else
+        difference = std::min(difference, pDeltaT);
     }
 
     return std::sqrt((currentTemp - difference) / currentTemp);
@@ -105,12 +108,14 @@ class Thermostat {
       }
     }
     if (allZero) {
+      SPDLOG_WARN("All velocities were zero. They will be initialized with default values");
+      std::cout << "All velocities were zero. They will be initialized with default values" << std::endl;
       for (Particle<dim> &p: c) {
         p.setV(maxwellBoltzmannDistributedVelocity<dim>(std::sqrt(initialT / p.getM())));
       }
-    } else {
-      applyInitialThermostat(c);
     }
+      applyInitialThermostat(c);
+
   }
 
   /**
