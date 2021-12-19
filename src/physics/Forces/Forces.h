@@ -8,9 +8,7 @@
 template<size_t dim>
 class Forces {
  public:
-  static inline void additionalGravitation(Particle<dim> &p, double &gravitation) {
-    auto force = p.getF();
-    force[1] += p.getM() * gravitation;
-    p.setF(force);
+  static inline double additionalGravitation(Particle<dim> &p, double &gravitation) {
+    return p.getM() * gravitation;
   }
 };

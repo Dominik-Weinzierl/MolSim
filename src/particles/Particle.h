@@ -338,6 +338,17 @@ class Particle {
   }
 
   /**
+   * Setter for the force of the Particle.
+   * @param y_arg new y value
+   */
+  void setF(double y_arg) {
+    f[0] = 0;
+    f[1] = y_arg;
+    if (dim == 3)
+      f[2] = 0;
+  }
+
+  /**
    * Setter for the old force of the Particle.
    * @param oldForce new old force
    */

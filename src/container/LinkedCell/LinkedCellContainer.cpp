@@ -111,9 +111,9 @@ void LinkedCellContainer<3>::setupBoundaryColumnsWrapper(int cellsPerColumn, int
 
 template<>
 void LinkedCellContainer<3>::setupCells() {
-  int cellsPerRow = (domain[0] / cellSize[0]) + 2;
-  int cellsPerColumn = (domain[1] / cellSize[1]) + 2;
-  int cellsPerDepth = (domain[2] / cellSize[2]) + 2;
+  int cellsPerRow = this->cellsPerRow() + 2;
+  int cellsPerColumn = this->cellsPerColumn() + 2;
+  int cellsPerDepth = this->cellsPerDepth() + 2;
   for (int z = -1; z < (cellsPerDepth - 1); ++z) {
     if (z == -1) {
       // front halo
@@ -169,8 +169,8 @@ void LinkedCellContainer<3>::setupCells() {
 
 template<>
 void LinkedCellContainer<2>::setupCells() {
-  int cellsPerRow = (domain[0] / cellSize[0]) + 2;
-  int cellsPerColumn = (domain[1] / cellSize[1]) + 2;
+  int cellsPerRow = this->cellsPerRow() + 2;
+  int cellsPerColumn = this->cellsPerColumn() + 2;
   for (int x = -1; x < (cellsPerRow - 1); ++x) {
     if (x == -1) {
       // left halo
@@ -205,7 +205,7 @@ void LinkedCellContainer<2>::setupCells() {
 
 template<>
 int LinkedCellContainer<2>::getIndexBasedOnCoordinates(Vector<2> coords) {
-  int cellsPerColumn = (domain[1] / cellSize[1]) + 2;
+  int cellsPerColumn = this->cellsPerColumn() + 2;
   int index = cellsPerColumn;
   index += cellsPerColumn * static_cast<int>(std::floor(coords[0] / cellSize[0]));
   index += static_cast<int>(std::floor(coords[1] / cellSize[1])) + 1;
@@ -215,8 +215,8 @@ int LinkedCellContainer<2>::getIndexBasedOnCoordinates(Vector<2> coords) {
 
 template<>
 int LinkedCellContainer<3>::getIndexBasedOnCoordinates(Vector<3> coords) {
-  int cellsPerRow = (domain[0] / cellSize[0]) + 2;
-  int cellsPerColumn = (domain[1] / cellSize[1]) + 2;
+  int cellsPerRow = this->cellsPerRow() + 2;
+  int cellsPerColumn = this->cellsPerColumn() + 2;
 
   int index = (static_cast<int>(std::floor(coords[2] / cellSize[2])) + 1) * (cellsPerRow * cellsPerColumn);
   index += cellsPerColumn;
@@ -239,19 +239,20 @@ void LinkedCellContainer<2>::linkHalosForPeriodic() {
     if (boardDirection.size() == 1) {
       if (boardDirection[0] == BoardDirectionType::LEFT || boardDirection[0] == BoardDirectionType::RIGHT) {
         // LEFT: 1, RIGHT: 0 -> LEFT: + domain[0], RIGHT: - domain[0]
-        pos = {static_cast<double>(position[0] + domain[0] * (-1 + 2 * boardDirection[0])),
-               static_cast<double>(position[1])};
+        pos = {position[0] + domain[0] * (-1 + 2 * boardDirection[0]), position[1]};
       } else if (boardDirection[0] == BoardDirectionType::TOP || boardDirection[0] == BoardDirectionType::BOTTOM) {
         // TOP: 2, BOTTOM: 3 -> TOP: - domain[1], BOTTOM: + domain[1]
-        pos = {static_cast<double>(static_cast<double>(position[0])),
-               static_cast<double>(position[1] + domain[1] * (-1 + 2 * (boardDirection[0] % 2)))};
+        pos = {position[0], position[1] + domain[1] * (-1 + 2 * (boardDirection[0] % 2))};
       }
     } else {
       // LEFT: 1, RIGHT: 0, TOP: 2, BOTTOM: 3  -> LEFT: + domain[0], RIGHT: - domain[0], TOP: - domain[1], BOTTOM: + domain[1]
-      pos = {static_cast<double>(position[0] + domain[0] * (-1 + 2 * boardDirection[0])),
-             static_cast<double>(position[1] + domain[1] * (-1 + 2 * (boardDirection[1] % 2)))};
+      pos = {position[0] + domain[0] * (-1 + 2 * boardDirection[0]),
+             position[1] + domain[1] * (-1 + 2 * (boardDirection[1] % 2))};
     }
 
+    // TODO
+    pos[0] = floor(pos[0] / precision + 0.5) * precision;
+    pos[1] = floor(pos[1] / precision + 0.5) * precision;
     auto index = getIndexBasedOnCoordinates(pos);
     auto *cell = cells[static_cast<unsigned long>(index)];
     neighbours.push_back(cell);
@@ -271,44 +272,41 @@ void LinkedCellContainer<3>::linkHalosForPeriodic() {
     if (boardDirection.size() == 1) {
       if (boardDirection[0] == BoardDirectionType::LEFT || boardDirection[0] == BoardDirectionType::RIGHT) {
         // LEFT: 1, RIGHT: 0 -> LEFT: + domain[0], RIGHT: - domain[0]
-        pos = {static_cast<double>(position[0] + domain[0] * (-1 + 2 * boardDirection[0])),
-               static_cast<double>(position[1]), static_cast<double>(position[2])};
+        pos = {position[0] + domain[0] * (-1 + 2 * boardDirection[0]), position[1], position[2]};
       } else if (boardDirection[0] == BoardDirectionType::TOP || boardDirection[0] == BoardDirectionType::BOTTOM) {
         // TOP: 2, BOTTOM: 3 -> TOP: - domain[1], BOTTOM: + domain[1]
-        pos = {static_cast<double>(position[0]),
-               static_cast<double>(position[1] + domain[1] * (-1 + 2 * (boardDirection[0] % 2))),
-               static_cast<double>(position[2])};
+        pos = {position[0], position[1] + domain[1] * (-1 + 2 * (boardDirection[0] % 2)), position[2]};
       } else if (boardDirection[0] == BoardDirectionType::FRONT || boardDirection[0] == BoardDirectionType::BACK) {
         // FRONT: 5, BACK: 4 -> FRONT: + domain[2], BACK: - domain[2]
-        pos = {static_cast<double>(position[0]), static_cast<double>(position[1]),
-               static_cast<double>(position[2] + domain[2] * (-1 + 2 * (boardDirection[0] % 2)))};
+        pos = {position[0], position[1], position[2] + domain[2] * (-1 + 2 * (boardDirection[0] % 2))};
       }
     } else if (boardDirection.size() == 2) {
       if ((boardDirection[0] == BoardDirectionType::LEFT || boardDirection[0] == BoardDirectionType::RIGHT)
           && (boardDirection[1] == BoardDirectionType::TOP || boardDirection[1] == BoardDirectionType::BOTTOM)) {
         // LEFT: 1, RIGHT: 0, TOP: 2, BOTTOM: 3  -> LEFT: + domain[0], RIGHT: - domain[0], TOP: - domain[1], BOTTOM: + domain[1]
-        pos = {static_cast<double>(position[0] + domain[0] * (-1 + 2 * boardDirection[0])),
-               static_cast<double>(position[1] + domain[1] * (-1 + 2 * (boardDirection[1] % 2))),
-               static_cast<double>(position[2])};
+        pos = {position[0] + domain[0] * (-1 + 2 * boardDirection[0]),
+               position[1] + domain[1] * (-1 + 2 * (boardDirection[1] % 2)), position[2]};
       } else if ((boardDirection[0] == BoardDirectionType::LEFT || boardDirection[0] == BoardDirectionType::RIGHT)
           && (boardDirection[1] == BoardDirectionType::FRONT || boardDirection[1] == BoardDirectionType::BACK)) {
         // LEFT: 1, RIGHT: 0, FRONT: 2, BACK: 3  -> LEFT: + domain[0], RIGHT: - domain[0], FRONT: 5, BACK: 4 -> FRONT: + domain[2], BACK: - domain[2]
-        pos = {static_cast<double>(position[0] + domain[0] * (-1 + 2 * boardDirection[0])),
-               static_cast<double>(position[1]),
-               static_cast<double>(position[2] + domain[2] * (-1 + 2 * (boardDirection[1] % 2)))};
+        pos = {position[0] + domain[0] * (-1 + 2 * boardDirection[0]), position[1],
+               position[2] + domain[2] * (-1 + 2 * (boardDirection[1] % 2))};
       } else if ((boardDirection[0] == BoardDirectionType::FRONT || boardDirection[0] == BoardDirectionType::BACK)
           && (boardDirection[1] == BoardDirectionType::TOP || boardDirection[1] == BoardDirectionType::BOTTOM)) {
         // TOP: 2, BOTTOM: 3, FRONT: 2, BACK: 3  -> TOP: - domain[1], BOTTOM: + domain[1], FRONT: 5, BACK: 4 -> FRONT: + domain[2], BACK: - domain[2]
-        pos = {static_cast<double>(position[0]),
-               static_cast<double>(position[1] + domain[1] * (-1 + 2 * (boardDirection[0] % 2))),
-               static_cast<double>(position[2] + domain[2] * (-1 + 2 * (boardDirection[1] % 2)))};
+        pos = {position[0], position[1] + domain[1] * (-1 + 2 * (boardDirection[0] % 2)),
+               position[2] + domain[2] * (-1 + 2 * (boardDirection[1] % 2))};
       }
     } else {
-      pos = {static_cast<double>(position[0] + domain[0] * (-1 + 2 * boardDirection[0])),
-             static_cast<double>(position[1] + domain[1] * (-1 + 2 * (boardDirection[2] % 2))),
-             static_cast<double>(position[2] + domain[2] * (-1 + 2 * (boardDirection[1] % 2)))};
+      pos = {position[0] + domain[0] * (-1 + 2 * boardDirection[0]),
+             position[1] + domain[1] * (-1 + 2 * (boardDirection[2] % 2)),
+             position[2] + domain[2] * (-1 + 2 * (boardDirection[1] % 2))};
     }
 
+    // TODO
+    pos[0] = floor(pos[0] / precision + 0.5) * precision;
+    pos[1] = floor(pos[1] / precision + 0.5) * precision;
+    pos[2] = floor(pos[2] / precision + 0.5) * precision;
     auto index = getIndexBasedOnCoordinates(pos);
     auto *cell = cells[static_cast<unsigned long>(index)];
     neighbours.push_back(cell);
@@ -317,8 +315,8 @@ void LinkedCellContainer<3>::linkHalosForPeriodic() {
 
 template<>
 void LinkedCellContainer<2>::linkCells() {
-  int cellsPerRow = (domain[0] / cellSize[0]);
-  int cellsPerColumn = (domain[1] / cellSize[1]);
+  int cellsPerRow = this->cellsPerRow();
+  int cellsPerColumn = this->cellsPerColumn();
 
   int maxX = static_cast<int>(std::ceil(cutoffRadius / cellSize[0]));
   int maxY = static_cast<int>(std::ceil(cutoffRadius / cellSize[1]));
@@ -327,8 +325,7 @@ void LinkedCellContainer<2>::linkCells() {
   for (int x = 0; x < cellsPerRow; ++x) {
     for (int y = 0; y < cellsPerColumn; ++y) {
       // Calculate index
-      auto index = static_cast<size_t>(getIndexBasedOnCoordinates(
-          {static_cast<double>(x * cellSize[0]), static_cast<double>(y * cellSize[1])}));
+      auto index = static_cast<size_t>(getIndexBasedOnCoordinates({x * cellSize[0], y * cellSize[1]}));
 
       // Get cell
       auto *cell = cells[index];
@@ -354,13 +351,16 @@ void LinkedCellContainer<2>::linkCells() {
               || ((nY < 0 || nY >= cellsPerColumn) && this->boundaries[2] == BoundaryType::Periodic)) {
 
             // Calculate periodic x and periodic y position.
+            // TODO
             auto periodicCellX = nX * cellSize[0];
             periodicCellX =
-                (periodicCellX > domain[0] ? periodicCellX - domain[0] : periodicCellX + domain[0]) % domain[0];
+                std::fmod(periodicCellX > domain[0] ? periodicCellX - domain[0] : periodicCellX + domain[0], domain[0]);
+            periodicCellX = floor(periodicCellX / precision + 0.5) * precision;
 
             auto periodicCellY = nY * cellSize[1];
             periodicCellY =
-                (periodicCellY > domain[1] ? periodicCellY - domain[1] : periodicCellY + domain[1]) % domain[1];
+                std::fmod(periodicCellY > domain[1] ? periodicCellY - domain[1] : periodicCellY + domain[1], domain[1]);
+            periodicCellY = floor(periodicCellY / precision + 0.5) * precision;
 
             if ((nX < 0 || nX >= cellsPerRow) && this->boundaries[0] != BoundaryType::Periodic) {
               continue;
@@ -371,14 +371,15 @@ void LinkedCellContainer<2>::linkCells() {
             }
 
             // Get periodic cell
-            auto *posPeriodicCell = cells[static_cast<unsigned long>(getIndexBasedOnCoordinates(
-                {static_cast<double>(periodicCellX), static_cast<double>(periodicCellY)}))];
+            auto *posPeriodicCell =
+                cells[static_cast<unsigned long>(getIndexBasedOnCoordinates({periodicCellX, periodicCellY}))];
 
             // TODO check if this is too expensive
-            std::tuple<Cell<2> *, std::array<int, 2>> posTuple{posPeriodicCell, std::array<int, 2>{posCellX, posCellY}};
-            if (std::find(posPeriodicCell->getPeriodicNeighbours().begin(),
-                          posPeriodicCell->getPeriodicNeighbours().end(), posTuple)
-                == posPeriodicCell->getPeriodicNeighbours().end()) {
+            std::tuple<Cell<2> *, Vector<2>> posTuple{posPeriodicCell, Vector<2>{posCellX, posCellY}};
+            if (std::find_if(posPeriodicCell->getPeriodicNeighbours().begin(),
+                             posPeriodicCell->getPeriodicNeighbours().end(), [&cell](auto &t) {
+                  return std::get<0>(t) == cell;
+                }) == posPeriodicCell->getPeriodicNeighbours().end()) {
 
               periodicCells.emplace_back(posTuple);
             }
@@ -388,8 +389,7 @@ void LinkedCellContainer<2>::linkCells() {
             continue;
 
           // Get neighbours
-          auto posNeighIndex = static_cast<size_t>(getIndexBasedOnCoordinates(
-              {static_cast<double>(posCellX), static_cast<double>(posCellY)}));
+          auto posNeighIndex = static_cast<size_t>(getIndexBasedOnCoordinates({posCellX, posCellY}));
           auto *posN = cells[posNeighIndex];
 
           // Filter already calculated cell
@@ -409,9 +409,9 @@ void LinkedCellContainer<2>::linkCells() {
 
 template<>
 void LinkedCellContainer<3>::linkCells() {
-  int cellsPerRow = (domain[0] / cellSize[0]);
-  int cellsPerColumn = (domain[1] / cellSize[1]);
-  int cellsPerDepth = (domain[2] / cellSize[2]);
+  int cellsPerRow = this->cellsPerRow();
+  int cellsPerColumn = this->cellsPerColumn();
+  int cellsPerDepth = this->cellsPerDepth();
 
   int maxX = static_cast<int>(std::ceil(cutoffRadius / cellSize[0]));
   int maxY = static_cast<int>(std::ceil(cutoffRadius / cellSize[1]));
@@ -421,9 +421,8 @@ void LinkedCellContainer<3>::linkCells() {
     for (int y = 0; y < cellsPerColumn; ++y) {
       for (int z = 0; z < cellsPerDepth; ++z) {
         // Calculate index
-        auto index = static_cast<size_t>(getIndexBasedOnCoordinates(
-            {static_cast<double>(x * cellSize[0]), static_cast<double>(y * cellSize[1]),
-             static_cast<double>(z * cellSize[2])}));
+        auto index =
+            static_cast<size_t>(getIndexBasedOnCoordinates({x * cellSize[0], y * cellSize[1], z * cellSize[2]}));
 
         // Get Cell
         auto *cell = cells[index];
@@ -453,15 +452,21 @@ void LinkedCellContainer<3>::linkCells() {
                 // Calculate periodic x and periodic y and periodic z position.
                 auto periodicCellX = nX * cellSize[0];
                 periodicCellX =
-                    (periodicCellX > domain[0] ? periodicCellX - domain[0] : periodicCellX + domain[0]) % domain[0];
+                    std::fmod(periodicCellX > domain[0] ? periodicCellX - domain[0] : periodicCellX + domain[0],
+                              domain[0]);
+                periodicCellX = floor(periodicCellX / precision + 0.5) * precision;
 
                 auto periodicCellY = nY * cellSize[1];
                 periodicCellY =
-                    (periodicCellY > domain[1] ? periodicCellY - domain[1] : periodicCellY + domain[1]) % domain[1];
+                    std::fmod(periodicCellY > domain[1] ? periodicCellY - domain[1] : periodicCellY + domain[1],
+                              domain[1]);
+                periodicCellY = floor(periodicCellY / precision + 0.5) * precision;
 
                 auto periodicCellZ = nZ * cellSize[2];
                 periodicCellZ =
-                    (periodicCellZ > domain[2] ? periodicCellZ - domain[2] : periodicCellZ + domain[2]) % domain[2];
+                    std::fmod(periodicCellZ > domain[2] ? periodicCellZ - domain[2] : periodicCellZ + domain[2],
+                              domain[2]);
+                periodicCellZ = floor(periodicCellZ / precision + 0.5) * precision;
 
                 if ((nX < 0 || nX >= cellsPerRow) && this->boundaries[0] != BoundaryType::Periodic) {
                   continue;
@@ -477,15 +482,14 @@ void LinkedCellContainer<3>::linkCells() {
 
                 // Get periodic cell
                 auto *posPeriodicCell = cells[static_cast<size_t>(getIndexBasedOnCoordinates(
-                    {static_cast<double>(periodicCellX), static_cast<double>(periodicCellY),
-                     static_cast<double>(periodicCellZ)}))];
+                    {periodicCellX, periodicCellY, periodicCellZ}))];
 
                 // TODO check if this is too expensive
-                std::tuple<Cell<3> *, std::array<int, 3>>
-                    posTuple{posPeriodicCell, std::array<int, 3>{posCellX, posCellY, posCellZ}};
-                if (std::find(posPeriodicCell->getPeriodicNeighbours().begin(),
-                              posPeriodicCell->getPeriodicNeighbours().end(), posTuple)
-                    == posPeriodicCell->getPeriodicNeighbours().end()) {
+                std::tuple<Cell<3> *, Vector<3>> posTuple{posPeriodicCell, Vector<3>{posCellX, posCellY, posCellZ}};
+                if (std::find_if(posPeriodicCell->getPeriodicNeighbours().begin(),
+                                 posPeriodicCell->getPeriodicNeighbours().end(), [&cell](auto &t) {
+                      return std::get<0>(t) == cell;
+                    }) == posPeriodicCell->getPeriodicNeighbours().end()) {
 
                   periodicCells.emplace_back(posTuple);
                 }
@@ -496,8 +500,7 @@ void LinkedCellContainer<3>::linkCells() {
                 continue;
 
               // Get neighbour
-              auto posNeighIndex = static_cast<size_t>(getIndexBasedOnCoordinates(
-                  {static_cast<double>(posCellX), static_cast<double>(posCellY), static_cast<double>(posCellZ)}));
+              auto posNeighIndex = static_cast<size_t>(getIndexBasedOnCoordinates({posCellX, posCellY, posCellZ}));
               auto *posN = cells[posNeighIndex];
 
               // Filter already calculated cell
@@ -519,8 +522,8 @@ void LinkedCellContainer<3>::linkCells() {
 
 template<>
 void LinkedCellContainer<2>::reserve() {
-  int cellsPerRow = (domain[0] / cellSize[0]);
-  int cellsPerColumn = (domain[1] / cellSize[1]);
+  int cellsPerRow = this->cellsPerRow();
+  int cellsPerColumn = this->cellsPerColumn();
 
   auto reserveCell = (cellsPerRow + 2) * (cellsPerColumn + 2);
   auto reserveHalo = reserveCell - cellsPerRow * cellsPerColumn;
@@ -539,9 +542,9 @@ void LinkedCellContainer<2>::reserve() {
 
 template<>
 void LinkedCellContainer<3>::reserve() {
-  int cellsPerRow = (domain[0] / cellSize[0]);
-  int cellsPerColumn = (domain[1] / cellSize[1]);
-  int cellsPerDepth = (domain[2] / cellSize[2]);
+  int cellsPerRow = this->cellsPerRow();
+  int cellsPerColumn = this->cellsPerColumn();
+  int cellsPerDepth = this->cellsPerDepth();
 
   auto reserveCell = (cellsPerRow + 2) * (cellsPerColumn + 2) * (cellsPerDepth + 2);
   auto reserveHalo = reserveCell - cellsPerRow * cellsPerColumn * cellsPerDepth;

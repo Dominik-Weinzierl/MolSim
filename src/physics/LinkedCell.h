@@ -74,10 +74,10 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
           }
         }
 
-        std::vector<std::tuple<Cell<dim> *, std::array<int, dim>>>
+        std::vector<std::tuple<Cell<dim> *, Vector<dim>>>
             &periodicNeighbours = (*cell)->getPeriodicNeighbours();
         // calc periodic
-        for (std::tuple<Cell<dim> *, std::array<int, dim>> &t: periodicNeighbours) {
+        for (std::tuple<Cell<dim> *, Vector<dim>> &t: periodicNeighbours) {
           Cell<dim> *periodicCell = std::get<0>(t);
 
           if (!periodicCell->getParticles().empty()) {
@@ -115,7 +115,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
   */
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double& force) const override {
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &force) const override {
     // calculate new x
     Physics<LennardJones, dim>::calculateX(particleContainer, deltaT);
 
@@ -130,11 +130,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
     }
 
     // calculate new f
-    Physics<LennardJones, dim>::calculateF(particleContainer);
-
-    for(auto& p: cellContainer.getParticles()){
-      Forces<dim>::additionalGravitation(p, force);
-    }
+    Physics<LennardJones, dim>::calculateF(particleContainer, force);
 
     // calculate new v
     Physics<LennardJones, dim>::calculateV(particleContainer, deltaT);

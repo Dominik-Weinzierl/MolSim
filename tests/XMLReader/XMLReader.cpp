@@ -84,8 +84,8 @@ TEST(XMLReader_3D, test_case_2) { // NOLINT(cert-err58-cpp)
 
   std::string strategy{"LinkedCell"};
   double cutoffRadius = 20.0;
-  std::array<int, dim> domain{20, 20, 20};
-  std::array<int, dim> cellSize{1, 1, 1};
+  Vector<dim> domain{20, 20, 20};
+  Vector<dim> cellSize{1, 1, 1};
   std::vector<BoundaryType> boundary
       {BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting,
        BoundaryType::Outflow, BoundaryType::Outflow};
@@ -112,8 +112,8 @@ TEST(XMLReader_2D, test_case_2) { // NOLINT(cert-err58-cpp)
 
   std::string strategy{"LinkedCell"};
   double cutoffRadius = 20.0;
-  std::array<int, dim> domain{20, 20};
-  std::array<int, dim> cellSize{1, 1};
+  Vector<dim> domain{20, 20};
+  Vector<dim> cellSize{1, 1};
   std::vector<BoundaryType>
       boundary{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting};
 

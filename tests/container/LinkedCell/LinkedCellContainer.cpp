@@ -9,6 +9,9 @@
  * ******************************************+********
  */
 
+static auto eps = std::numeric_limits<double>::epsilon() * 100;
+
+
 /**
  * Tests the 2d setup of the LinkedCellContainer, the amount of cells that get generated and the
  * function getIndexBasedOnCoordinates, 2D
@@ -27,7 +30,8 @@ TEST(LinkedCellContainer_2D, checkMeshProperties) {
   for (auto x = -1; x < l.getDomain()[0] + 1; x++) {
     for (auto y = -1; y < l.getDomain()[1] + 1; y++) {
       EXPECT_EQ(i, l.getIndexBasedOnCoordinates(Vector<2>{static_cast<double>(x), static_cast<double>(y)}));
-      EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(), (std::array<int, 2>{x, y}));
+      EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(),
+                (Vector<2>{static_cast<double>(x), static_cast<double>(y)}));
       i++;
     }
   }
@@ -53,7 +57,8 @@ TEST(SmallLinkedCellContainer_3D, checkMeshProperties) {
       for (auto y = -1; y < l.getDomain()[1] + 1; y++) {
         EXPECT_EQ(i, l.getIndexBasedOnCoordinates(
             Vector<3>{static_cast<double>(x), static_cast<double>(y), static_cast<double>(z)}));
-        EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(), (std::array<int, 3>{x, y, z}));
+        EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(),
+                  (Vector<3>{static_cast<double>(x), static_cast<double>(y), static_cast<double>(z)}));
         i++;
       }
     }
@@ -80,7 +85,8 @@ TEST(HugeLinkedCellContainer_3D, checkMeshProperties) {
       for (auto y = -1; y < l.getDomain()[1] + 1; y += 1) {
         EXPECT_EQ(i, l.getIndexBasedOnCoordinates(
             Vector<3>{static_cast<double>(x), static_cast<double>(y), static_cast<double>(z)}));
-        EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(), (std::array<int, 3>{x, y, z}));
+        EXPECT_EQ(l.getCells()[static_cast<unsigned long>(i)]->getPosition(),
+                  (Vector<3>{static_cast<double>(x), static_cast<double>(y), static_cast<double>(z)}));
         i++;
       }
     }
@@ -88,87 +94,69 @@ TEST(HugeLinkedCellContainer_3D, checkMeshProperties) {
 }
 
 /**
- * Checks the reflection of a Particle that moves too close to the border, 2D
+ * Test that Newton is used correctly.
  */
-TEST(Boundary_2D, checkReflection) {
-  LinkedCell<LennardJones, 2> linkedCell{};
-  LinkedCellContainer<2> l{{Reflecting, Reflecting, Reflecting, Reflecting}, {3, 3}, {9, 9}, 3.0};
-  ASSERT_TRUE(l.size() == 0);
-
-  l.addParticle({{1.0, 1.0}, {-10.0, 0}, 1.0});
-
-  l.init();
-
-  double force = 0;
-
-  for (int i = 0; i < 1000; ++i) {
-    linkedCell.calculateNextStep(l, 0.0005, force);
-    ASSERT_TRUE(l.size() == 1);
-    auto &pos = l.getParticles()[0].getX();
-    ASSERT_TRUE(pos[0] >= 0 && pos[0] < l.getDomain()[0]);
-    ASSERT_TRUE(pos[1] >= 0 && pos[1] < l.getDomain()[1]);
-  }
-}
-
-/**
- * Checks the reflection of a Particle that moves too close to the border, 3D
- */
-TEST(Boundary_3D, checkReflection) {
-  LinkedCell<LennardJones, 3> linkedCell{};
-  LinkedCellContainer<3>
-      l{{Reflecting, Reflecting, Reflecting, Reflecting, Reflecting, Reflecting}, {3, 3, 3}, {9, 9, 9}, 3.0};
-  ASSERT_TRUE(l.size() == 0);
-
-  l.addParticle({{1.0, 1.0, 1.0}, {-10.0, -10.0, -10.0}, 1.0});
-
-  l.init();
-
-  double force = 0;
-
-  for (int i = 0; i < 1000; ++i) {
-    linkedCell.calculateNextStep(l, 0.0005, force);
-    ASSERT_TRUE(l.size() == 1);
-    auto &pos = l.getParticles()[0].getX();
-    ASSERT_TRUE(pos[0] >= 0 && pos[0] < l.getDomain()[0]);
-    ASSERT_TRUE(pos[1] >= 0 && pos[1] < l.getDomain()[1]);
-    ASSERT_TRUE(pos[2] >= 0 && pos[2] < l.getDomain()[2]);
-  }
-}
-
-/**
- * Checks the removal of a Particle that moves out of the domain, 2D
- */
-TEST(Halo_2D, checkOutflow) {
-  LinkedCell<LennardJones, 2> linkedCell{};
+TEST(LinkedCellContainer_2D, checkNewton) {
   LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 1.0};
-  ASSERT_TRUE(l.size() == 0);
-
-  l.addParticle({{0.1, 0.1}, {-1.0, -1.0}, 1.0});
-
   l.init();
 
-  double force = 0;
-
-  linkedCell.calculateNextStep(l, 0.5, force);
-  ASSERT_TRUE(l.size() == 0);
+  for (auto *cell: l.getBoundaryAndInnerCells()) {
+    for (auto *n: cell->getNeighbours()) {
+      for (auto *s: n->getNeighbours()) {
+        ASSERT_TRUE(s != cell);
+      }
+    }
+  }
 }
 
 /**
- * Checks the removal of a Particle that moves out of the domain, 2D
+ * Test that Newton is used correctly.
  */
-TEST(Halo_3D, checkOutflow) {
-  LinkedCell<LennardJones, 3> linkedCell{};
-  LinkedCellContainer<3> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 1.0};
-  ASSERT_TRUE(l.size() == 0);
-
-  l.addParticle({{0.1, 0.1, 0.1}, {-1.0, -1.0, -1.0}, 1.0});
-
+TEST(LinkedCellContainer_3D, checkNewton) {
+  LinkedCellContainer<3> l{{Outflow, Outflow, Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 1.0};
   l.init();
 
-  double force = 0;
+  for (auto *cell: l.getBoundaryAndInnerCells()) {
+    for (auto *n: cell->getNeighbours()) {
+      for (auto *s: n->getNeighbours()) {
+        ASSERT_TRUE(s != cell);
+      }
+    }
+  }
+}
 
-  linkedCell.calculateNextStep(l, 0.5, force);
-  ASSERT_TRUE(l.size() == 0);
+/**
+ * Tests the linked cells which are used to calculate the force.
+ */
+TEST(LinkedCellContainer_2D, checkNewtonPeriodic) {
+  LinkedCellContainer<2> l{{Periodic, Periodic, Periodic, Periodic}, {1, 1}, {3, 3}, 1.0};
+  l.init();
+
+  for (auto *cell: l.getCells()) {
+    for (auto &t: cell->getPeriodicNeighbours()) {
+      auto *neighbour = std::get<0>(t);
+      for (auto &s: neighbour->getPeriodicNeighbours()) {
+        ASSERT_TRUE(std::get<0>(s) != cell);
+      }
+    }
+  }
+}
+
+/**
+ * Tests the linked cells which are used to calculate the force.
+ */
+TEST(LinkedCellContainer_3D, checkNewtonPeriodic) {
+  LinkedCellContainer<3> l{{Periodic, Periodic, Periodic, Periodic, Periodic, Periodic}, {1, 1, 1}, {3, 3, 3}, 1.0};
+  l.init();
+
+  for (auto *cell: l.getCells()) {
+    for (auto &t: cell->getPeriodicNeighbours()) {
+      auto *neighbour = std::get<0>(t);
+      for (auto &s: neighbour->getPeriodicNeighbours()) {
+        ASSERT_TRUE(std::get<0>(s) != cell);
+      }
+    }
+  }
 }
 
 /**
@@ -214,8 +202,8 @@ TEST(LinkedCellContainer_3D, checkCutoffRadiusGreaterThanCellSize) {
 * Checks behavior when the CutOffRadius is smaller than the cell size, 2D
 */
 TEST(LinkedCellContainer_2D, checkCutoffRadiusLessThanCellSize) {
-  LinkedCell<LennardJones,2> linkedCell{};
-  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {3, 3}, {9,9}, 2};
+  LinkedCell<LennardJones, 2> linkedCell{};
+  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {3, 3}, {9, 9}, 2};
 
   l.addParticle({{2.9, 2.9}, {-1.0, 0.0}, 1.0});
   l.addParticle({{3.1, 3.1}, {-1.0, 0.0}, 1.0});
@@ -251,9 +239,34 @@ TEST(LinkedCellContainer_2D, checkCutoffRadiusWithRest) {
 * Checks behavior if Particle gets out of bound.
 */
 TEST(LinkedCellContainer, checkParticleGetsOutOfBounds) {
-  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 36}, 3};
+  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 3};
 
   l.addParticle({{-5, 0}, {-1.0, 0.0}, 1.0});
 
   EXPECT_THROW(l.init(), std::invalid_argument);
 }
+
+/**
+* Checks mixing rule is applied correctly.
+*/
+TEST(LinkedCellContainer, mixingRule) {
+  // Different zeroCrossing and potentialWellDepth
+  Particle<2> p1 {{1, 0}, {-1.0, 0.0}, 1.0, 1.0, 5.0, 1};
+  Particle<2> p2 {{2.5, 0}, {-1.0, 0.0}, 1.0, 2.0, 4.0, 2};
+
+  double l2Norm = Physics<LennardJones, 2>::calcL2NormSquare(p1, p2);
+  Vector<2>  force_1 = LennardJones::calculateForceBetweenTwoParticles(p1, p2, l2Norm);
+
+  // Same zeroCrossing and potentialWellDepth
+  Particle<2> p3 {{1, 0}, {-1.0, 0.0}, 1.0, 1.0, 5.0, 1};
+  Particle<2> p4 {{2.5, 0}, {-1.0, 0.0}, 1.0, 1.0, 5.0, 2};
+
+  l2Norm = Physics<LennardJones, 2>::calcL2NormSquare(p3, p4);
+  Vector<2> force_2 = LennardJones::calculateForceBetweenTwoParticles(p3, p4, l2Norm);
+
+  EXPECT_NE(force_1, force_2);
+
+  EXPECT_NEAR(force_1[0], -71.554175279993274, eps);
+  EXPECT_NEAR(force_1[1], 0.0, eps);
+}
+

@@ -16,8 +16,8 @@
 TEST(LinkedCell_2D, oneParticle) { // NOLINT(cert-err58-cpp)
   std::vector<BoundaryType>
       boundaries{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow};
-  std::array<int, 2> cellSize{1, 1};
-  std::array<int, 2> domain{3, 3};
+  Vector<2> cellSize{1, 1};
+  Vector<2> domain{3, 3};
   double cutoffRadius = 2;
   LinkedCellContainer<2> container{boundaries, cellSize, domain, cutoffRadius};
   Vector<2> x{1, 1};
@@ -39,8 +39,8 @@ TEST(LinkedCell_2D, oneParticle) { // NOLINT(cert-err58-cpp)
 TEST(LinkedCell_2D, twoParticlesFar) {
   std::vector<BoundaryType>
       boundaries{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow};
-  std::array<int, 2> cellSize{1, 1};
-  std::array<int, 2> domain{3, 3};
+  Vector<2>  cellSize{1, 1};
+  Vector<2>  domain{3, 3};
   double cutoffRadius = 2;
   LinkedCellContainer<2> container{boundaries, cellSize, domain, cutoffRadius};
   Vector<2> x{0, 0};
@@ -66,8 +66,8 @@ TEST(LinkedCell_2D, twoParticlesFar) {
 TEST(LinkedCell_2D, twoParticlesClose) {
   std::vector<BoundaryType>
       boundaries{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow};
-  std::array<int, 2> cellSize{1, 1};
-  std::array<int, 2> domain{8, 9};
+  Vector<2>  cellSize{1, 1};
+  Vector<2>  domain{8, 9};
   double cutoffRadius = 6;
   LinkedCellContainer<2> container{boundaries, cellSize, domain, cutoffRadius};
   container.addParticle({{2.0, 2.0}, {0.0, 0.0}, 1});
@@ -99,8 +99,8 @@ TEST(LinkedCell_3D, oneParticle) { // NOLINT(cert-err58-cpp)
   std::vector<BoundaryType> boundaries
       {BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow,
        BoundaryType::Outflow, BoundaryType::Outflow};
-  std::array<int, 3> cellSize{1, 1, 1};
-  std::array<int, 3> domain{3, 3, 3};
+  Vector<3>  cellSize{1, 1, 1};
+  Vector<3>  domain{3, 3, 3};
   double cutoffRadius = 2;
   LinkedCellContainer<3> container{boundaries, cellSize, domain, cutoffRadius};
   Vector<3> x{1, 1, 1};
@@ -123,8 +123,8 @@ TEST(LinkedCell_3D, twoParticlesFar) {
   std::vector<BoundaryType> boundaries
       {BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow,
        BoundaryType::Outflow, BoundaryType::Outflow};
-  std::array<int, 3> cellSize{1, 1, 1};
-  std::array<int, 3> domain{3, 3, 3};
+  Vector<3>  cellSize{1, 1, 1};
+  Vector<3>  domain{3, 3, 3};
   double cutoffRadius = 2;
   LinkedCellContainer<3> container{boundaries, cellSize, domain, cutoffRadius};
   Vector<3> x{1, 1, 1};
@@ -150,8 +150,8 @@ TEST(LinkedCell_3D, twoParticlesClose) {
   std::vector<BoundaryType> boundaries
       {BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Outflow,
        BoundaryType::Outflow, BoundaryType::Outflow};
-  std::array<int, 3> cellSize{1, 1, 1};
-  std::array<int, 3> domain{9, 9, 9};
+  Vector<3>  cellSize{1, 1, 1};
+  Vector<3>  domain{9, 9, 9};
   double cutoffRadius = 4;
   LinkedCellContainer<3> container{boundaries, cellSize, domain, cutoffRadius};
   // Particle 1
