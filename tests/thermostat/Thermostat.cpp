@@ -113,3 +113,15 @@ TEST(Thermostat, initalTNoInitialMotion) {
 
   EXPECT_NEAR(kineticEnergyTemp(container), 42, eps);
 }
+
+TEST(Thermostat, initalTInitialMotion) {
+  constexpr static size_t dim = 2;
+  DirectSumContainer<dim> container{};
+  container.addParticle({{0.5, 0.5}, {1, 1}, 2});
+  container.addParticle({{1.5, 0.5}, {2, 3}, 2});
+
+  Thermostat<dim> thermostat{42, 897150, 0, 5};
+  thermostat.setInitialTemperature(container);
+
+  EXPECT_NEAR(kineticEnergyTemp(container), 42, eps);
+}

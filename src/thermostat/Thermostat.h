@@ -22,10 +22,10 @@ class Thermostat {
   [[nodiscard]] double kineticEnergyTemp(ParticleContainer<dim> &c) {
     double ret = 0;
     for (auto &p: c) {
-      ret += (p.getM() * p.getV() * p.getV());
+      ret += (p.getM() * p.getV() * p.getV()) / 2;
     }
     ret /= static_cast<double >(dim * c.size());
-
+    ret *= 2;
     return ret;
   }
 
@@ -108,6 +108,8 @@ class Thermostat {
       }
     }
     if (allZero) {
+      SPDLOG_WARN("All velocities were zero. They will be initialized with default values");
+      std::cout << "All velocities were zero. They will be initialized with default values" << std::endl;
       for (Particle<dim> &p: c) {
         p.setV(maxwellBoltzmannDistributedVelocity<dim>(std::sqrt(initialT / p.getM())));
       }
