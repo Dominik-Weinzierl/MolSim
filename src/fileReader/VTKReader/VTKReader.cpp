@@ -7,9 +7,11 @@ void VTKReader<2>::readFromFile(ParticleContainer<2> &particleContainer, std::st
 
   int numberOfPoints = static_cast<int>(vtkFile->UnstructuredGrid()->Piece().NumberOfPoints());
   PointData::DataArray_iterator dataIterator;
+  PointData::DataArray_iterator pointIterator;
 
   for(auto i = 0; i < numberOfPoints; i++) {
     dataIterator = vtkFile->UnstructuredGrid()->Piece().PointData().DataArray().begin();
+    pointIterator = vtkFile->UnstructuredGrid()->Piece().Points().DataArray().begin();
 
     double m = dataIterator->back();
     dataIterator->pop_back();
@@ -34,12 +36,12 @@ void VTKReader<2>::readFromFile(ParticleContainer<2> &particleContainer, std::st
     dataIterator++;
     double potentialWellDepth = dataIterator->back();
     dataIterator->pop_back();
-    dataIterator++;
-    dataIterator->pop_back();
-    double x1 = dataIterator->back();
-    dataIterator->pop_back();
-    double x0 = dataIterator->back();
-    dataIterator->pop_back();
+
+    pointIterator->pop_back();
+    double x1 = pointIterator->back();
+    pointIterator->pop_back();
+    double x0 = pointIterator->back();
+    pointIterator->pop_back();
 
     Particle<2> p{{x0,x1}, {v0,v1}, {f0,f1}, {0,0}, m, zeroCrossing, potentialWellDepth, type};
     particleContainer.addParticle(p);
@@ -53,9 +55,11 @@ void VTKReader<3>::readFromFile(ParticleContainer<3> &particleContainer, std::st
 
   int numberOfPoints = static_cast<int>(vtkFile->UnstructuredGrid()->Piece().NumberOfPoints());
   PointData::DataArray_iterator dataIterator;
+  PointData::DataArray_iterator pointIterator;
 
   for(auto i = 0; i < numberOfPoints; i++) {
-  dataIterator = vtkFile->UnstructuredGrid()->Piece().PointData().DataArray().begin();
+    dataIterator = vtkFile->UnstructuredGrid()->Piece().PointData().DataArray().begin();
+    pointIterator = vtkFile->UnstructuredGrid()->Piece().Points().DataArray().begin();
 
   double m = dataIterator->back();
   dataIterator->pop_back();
@@ -82,13 +86,13 @@ void VTKReader<3>::readFromFile(ParticleContainer<3> &particleContainer, std::st
   dataIterator++;
   double potentialWellDepth = dataIterator->back();
   dataIterator->pop_back();
-  dataIterator++;
-  double x2 = dataIterator->back();
-  dataIterator->pop_back();
-  double x1 = dataIterator->back();
-  dataIterator->pop_back();
-  double x0 = dataIterator->back();
-  dataIterator->pop_back();
+
+  double x2 = pointIterator->back();
+  pointIterator->pop_back();
+  double x1 = pointIterator->back();
+  pointIterator->pop_back();
+  double x0 = pointIterator->back();
+  pointIterator->pop_back();
 
   particleContainer.addParticle({{x0,x1,x2}, {v0,v1,v2}, {f0,f1,f2}, {0,0,0}, m, zeroCrossing, potentialWellDepth, type});
   }

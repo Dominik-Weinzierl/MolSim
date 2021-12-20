@@ -103,13 +103,13 @@ class MolSim {
 
     // Read additional files.
     for (std::string &file: arg->getFiles()) {
-      std::string fileEnding = file.substr(file.find('.'));
+      std::string fileEnding = file.substr(file.size() - 3);
       if(fileEnding == "txt"){
         InputReader<dim>::readFile(*particleContainer, file);
       } else if(fileEnding == "vtu"){
         VTKReader<dim>::readFromFile(*particleContainer, file);
       } else {
-        std::cout << "Unaccpeted file format" << std::endl;
+        std::cout << "Unaccepted file format" << std::endl;
         return -1;
       }
     }
