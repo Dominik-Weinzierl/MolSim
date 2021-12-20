@@ -1,18 +1,37 @@
 #pragma once
 
-#include "cmath"
+#include <cmath>
+
 #include "container/ParticleContainer.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
 
+/**
+ *
+ * @tparam dim
+ */
 template<size_t dim>
 class Thermostat {
+  /**
+   *
+   */
   double initialT;
 
+  /**
+   *
+   */
   double targetT;
 
+  /**
+   *
+   */
   int numberT;
 
+  /**
+   *
+   */
   int deltaT;
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * Calculates the temperature from the kinetic energy of the container.
@@ -61,10 +80,23 @@ class Thermostat {
   }
 
  public:
+
+  //----------------------------------------Constructor & Destructor----------------------------------------
+
+  /**
+   *
+   * @param pInitialT
+   * @param pTargetT
+   * @param pNumberT
+   * @param pDeltaT
+   */
   Thermostat(double pInitialT, double pTargetT, int pNumberT, int pDeltaT) : initialT(pInitialT), targetT(pTargetT),
                                                                              numberT(pNumberT), deltaT(pDeltaT) {};
 
   virtual ~Thermostat() = default;
+
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * Prints the Thermostat.
@@ -114,9 +146,32 @@ class Thermostat {
         p.setV(maxwellBoltzmannDistributedVelocity<dim>(std::sqrt(initialT / p.getM())));
       }
     }
-      applyInitialThermostat(c);
+    applyInitialThermostat(c);
 
   }
+
+  //----------------------------------------(Un)-Equality operator----------------------------------------
+
+  /**
+   *
+   * @param rhs
+   * @return
+   */
+  bool operator==(const Thermostat &rhs) const {
+    return initialT == rhs.initialT && targetT == rhs.targetT && numberT == rhs.numberT && deltaT == rhs.deltaT;
+  }
+
+  /**
+   *
+   * @param rhs
+   * @return
+   */
+  bool operator!=(const Thermostat &rhs) const {
+    return !(rhs == *this);
+  }
+
+  //----------------------------------------Getter & Setter----------------------------------------
+
 
   /**
    * Getter for the number of iterations after which the thermostat should be applied
@@ -124,13 +179,5 @@ class Thermostat {
    */
   [[nodiscard]] int getNumberT() const {
     return numberT;
-  }
-
-  bool operator==(const Thermostat &rhs) const {
-    return initialT == rhs.initialT && targetT == rhs.targetT && numberT == rhs.numberT && deltaT == rhs.deltaT;
-  }
-
-  bool operator!=(const Thermostat &rhs) const {
-    return !(rhs == *this);
   }
 };

@@ -6,7 +6,15 @@ template<size_t dim>
 class DummyThermostat : public Thermostat<dim> {
  public:
 
+  //----------------------------------------Constructor----------------------------------------
+
+  /**
+   *
+   */
   DummyThermostat() : Thermostat<dim>(-1.0, -1.0, -1, -1) {};
+
+
+  //----------------------------------------Methods----------------------------------------
 
   /**
    * Apply the specified thermostat behaviour to a ParticleContainer
@@ -20,5 +28,9 @@ class DummyThermostat : public Thermostat<dim> {
    */
   void setInitialTemperature([[maybe_unused]] ParticleContainer<dim> &c) override {}
 
+  /**
+   *
+   * @return
+   */
   [[nodiscard]] std::string toString() const override { return ""; };
 };

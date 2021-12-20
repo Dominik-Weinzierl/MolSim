@@ -45,17 +45,17 @@ class SphereArgument : public GeneratorArguments {
   bool packed;
 
   /**
-   *
+   * A zero-crossing is a point where the sign of a mathematical function changes.
    */
   double zeroCrossing;
 
   /**
-   *
+   * A potential well is the region surrounding a local minimum of potential energy.
    */
   double depthOfPotentialWell;
 
   /**
-   *
+   * Type of all particles generated with this specific generator argument.
    */
   int type;
 
@@ -72,8 +72,9 @@ class SphereArgument : public GeneratorArguments {
    * @param pMass mass of the Particle(s)
    * @param pMeanValue mean value of the Particle(s)
    * @param pPacked describes if the Cuboid is packed with Particle(s)
-   * @param pZeroCrossing
-   * @param pDepthOfPotentialWell
+   * @param pZeroCrossing is a point where the sign of a mathematical function changes.
+   * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
+   * @param pType of all particles generated with this specific generator argument.
    */
   SphereArgument(Vector<dim> pCenterCoordinates, int pRadius, Vector<dim> pInitialVelocity, double pDistance,
                  double pMass, double pMeanValue, bool pPacked, double pZeroCrossing, double pDepthOfPotentialWell,
@@ -188,14 +189,26 @@ class SphereArgument : public GeneratorArguments {
     return packed;
   }
 
+  /**
+   * Getter for the zero crossing of all generated particles.
+   * @return double zeroCrossing
+   */
   [[nodiscard]] double getZeroCrossing() const {
     return zeroCrossing;
   }
 
+  /**
+   * Getter for the potential well.
+   * @return double depthOfPotentialWell
+   */
   [[nodiscard]] double getDepthOfPotentialWell() const {
     return depthOfPotentialWell;
   }
 
+  /**
+   * Getter for the type of the generated Particle(s).
+   * @return int type
+   */
   [[nodiscard]] int getType() const {
     return type;
   }

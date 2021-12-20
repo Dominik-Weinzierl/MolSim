@@ -250,7 +250,7 @@ void LinkedCellContainer<2>::linkHalosForPeriodic() {
              position[1] + domain[1] * (-1 + 2 * (boardDirection[1] % 2))};
     }
 
-    // TODO
+    // Since we calculate with double, we need to limit our precision to avoid unexpected behavior.
     pos[0] = floor(pos[0] / precision + 0.5) * precision;
     pos[1] = floor(pos[1] / precision + 0.5) * precision;
     auto index = getIndexBasedOnCoordinates(pos);
@@ -303,7 +303,7 @@ void LinkedCellContainer<3>::linkHalosForPeriodic() {
              position[2] + domain[2] * (-1 + 2 * (boardDirection[1] % 2))};
     }
 
-    // TODO
+    // Since we calculate with double, we need to limit our precision to avoid unexpected behavior.
     pos[0] = floor(pos[0] / precision + 0.5) * precision;
     pos[1] = floor(pos[1] / precision + 0.5) * precision;
     pos[2] = floor(pos[2] / precision + 0.5) * precision;
@@ -351,7 +351,6 @@ void LinkedCellContainer<2>::linkCells() {
               || ((nY < 0 || nY >= cellsPerColumn) && this->boundaries[2] == BoundaryType::Periodic)) {
 
             // Calculate periodic x and periodic y position.
-            // TODO
             auto periodicCellX = nX * cellSize[0];
             periodicCellX =
                 std::fmod(periodicCellX > domain[0] ? periodicCellX - domain[0] : periodicCellX + domain[0], domain[0]);
@@ -374,7 +373,7 @@ void LinkedCellContainer<2>::linkCells() {
             auto *posPeriodicCell =
                 cells[static_cast<unsigned long>(getIndexBasedOnCoordinates({periodicCellX, periodicCellY}))];
 
-            // TODO check if this is too expensive
+            // Since we need to build this only once and want to use the benefits of the Newtons law as we need to avoid duplicates, this isn't to expensive
             std::tuple<Cell<2> *, Vector<2>> posTuple{posPeriodicCell, Vector<2>{posCellX, posCellY}};
             if (std::find_if(posPeriodicCell->getPeriodicNeighbours().begin(),
                              posPeriodicCell->getPeriodicNeighbours().end(), [&cell](auto &t) {
@@ -484,7 +483,7 @@ void LinkedCellContainer<3>::linkCells() {
                 auto *posPeriodicCell = cells[static_cast<size_t>(getIndexBasedOnCoordinates(
                     {periodicCellX, periodicCellY, periodicCellZ}))];
 
-                // TODO check if this is too expensive
+                // Since we need to build this only once and want to use the benefits of the Newtons law as we need to avoid duplicates, this isn't to expensive
                 std::tuple<Cell<3> *, Vector<3>> posTuple{posPeriodicCell, Vector<3>{posCellX, posCellY, posCellZ}};
                 if (std::find_if(posPeriodicCell->getPeriodicNeighbours().begin(),
                                  posPeriodicCell->getPeriodicNeighbours().end(), [&cell](auto &t) {

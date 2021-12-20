@@ -80,10 +80,9 @@ class Cell {
    * @param pDomain domain size used during this simulation
    */
   Cell(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection,
-       std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize,
-       Vector<dim> pDomain) : boundaryType{std::move(pBoundaryType)},
-                                       borderDirection{std::move(pBorderDirection)}, allParticles{pAllParticles},
-                                       position{pPosition}, cellSize{pCellSize}, domain{pDomain} {};
+       std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain)
+      : boundaryType{std::move(pBoundaryType)}, borderDirection{std::move(pBorderDirection)},
+        allParticles{pAllParticles}, position{pPosition}, cellSize{pCellSize}, domain{pDomain} {};
 
   /**
    * Constructor to create our Cell(s). In this case our boundary type is always Outflow.
@@ -92,9 +91,8 @@ class Cell {
    * @param pCellSize size of this cell (each Cell has the same size)
    * @param pDomain domain size used during this simulation
    */
-  Cell(std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize,
-       Vector<dim> pDomain) : allParticles{pAllParticles}, position{pPosition}, cellSize{pCellSize},
-                                       domain{pDomain} {};
+  Cell(std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain)
+      : allParticles{pAllParticles}, position{pPosition}, cellSize{pCellSize}, domain{pDomain} {};
 
   /**
    * Default destructor used for inheritance.
@@ -163,14 +161,26 @@ class Cell {
     return periodicNeighbours;
   }
 
+  /**
+   * Getter for the border directions.
+   * @return std::vector<BoardDirectionType> borderDirection
+   */
   [[nodiscard]] const std::vector<BoardDirectionType> &getBorderDirection() const {
     return borderDirection;
   }
 
+  /**
+   * Getter for the position of the cell in the mesh.
+   * @return Vector<dim> position
+   */
   const Vector<dim> &getPosition() const {
     return position;
   }
 
+  /**
+   * Getter for the cell size of the current cell.
+   * @return Vector<dim> cellSize
+   */
   const Vector<dim> &getCellSize() const {
     return cellSize;
   }
