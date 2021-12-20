@@ -12,50 +12,54 @@ void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, Parti
           Vector<3> pos
               {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1],
                z * c.getDistance() + c.getStartingCoordinates()[2]};
-          Particle<3> p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+          Particle<3> p
+              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
       }
     }
   } else {
-    std::array<int, 2> xminmax{0, c.getDimensions()[0] - 1};
-    std::array<int, 2> yminmax{0, c.getDimensions()[1] - 1};
-    std::array<int, 2> zminmax{0, c.getDimensions()[2] - 1};
+    std::array<int, 2> xMinMax{0, c.getDimensions()[0] - 1};
+    std::array<int, 2> yMinMax{0, c.getDimensions()[1] - 1};
+    std::array<int, 2> zMinMax{0, c.getDimensions()[2] - 1};
 
-    for (auto x: xminmax) {
+    for (auto x: xMinMax) {
       for (auto y = 0; y < c.getDimensions()[1]; ++y) {
         for (auto z = 0; z < c.getDimensions()[2]; ++z) {
           Vector<3> pos
               {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1],
                z * c.getDistance() + c.getStartingCoordinates()[2]};
-          Particle<3> p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+          Particle<3> p
+              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
       }
     }
 
-    for (auto y: yminmax) {
+    for (auto y: yMinMax) {
       for (auto x = 1; x < c.getDimensions()[0] - 1; ++x) {
         for (auto z = 0; z < c.getDimensions()[2]; ++z) {
           Vector<3> pos
               {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1],
                z * c.getDistance() + c.getStartingCoordinates()[2]};
-          Particle<3> p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+          Particle<3> p
+              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
       }
     }
 
-    for (auto z: zminmax) {
+    for (auto z: zMinMax) {
       for (auto x = 1; x < c.getDimensions()[0] - 1; ++x) {
         for (auto y = 1; y < c.getDimensions()[1] - 1; ++y) {
           Vector<3> pos
               {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1],
                z * c.getDistance() + c.getStartingCoordinates()[2]};
-          Particle<3> p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+          Particle<3> p
+              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -72,30 +76,33 @@ void Generator<CuboidArgument<2>, 2>::generate(const CuboidArgument<2> &c, Parti
       for (auto y = 0; y < c.getDimensions()[1]; ++y) {
         Vector<2> pos
             {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1]};
-        Particle<2> p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+        Particle<2>
+            p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
     }
   } else {
-    std::array<int, 2> xminmax{0, c.getDimensions()[0] - 1};
-    std::array<int, 2> yminmax{0, c.getDimensions()[1] - 1};
+    std::array<int, 2> xMinMax{0, c.getDimensions()[0] - 1};
+    std::array<int, 2> yMinMax{0, c.getDimensions()[1] - 1};
 
-    for (auto x: xminmax) {
+    for (auto x: xMinMax) {
       for (int y = 0; y < c.getDimensions()[1]; ++y) {
         Vector<2> pos
             {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1]};
-        Particle<2> p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+        Particle<2>
+            p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
     }
 
-    for (auto y: yminmax) {
+    for (auto y: yMinMax) {
       for (int x = 1; x < c.getDimensions()[0] - 1; ++x) {
         Vector<2> pos
             {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1]};
-        Particle<2> p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+        Particle<2>
+            p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -120,7 +127,8 @@ void Generator<SphereArgument<3>, 3>::generate(const SphereArgument<3> &c, Parti
             || (!c.getPacked() && ArrayUtils::L2Norm(pos - c.getCenterCoordinates()) < rad - 0.6 * c.getDistance()))
           continue;
 
-        Particle<3> p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+        Particle<3>
+            p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -142,7 +150,8 @@ void Generator<SphereArgument<2>, 2>::generate(const SphereArgument<2> &c, Parti
           || (!c.getPacked() && ArrayUtils::L2Norm(pos - c.getCenterCoordinates()) < rad - 0.6 * c.getDistance()))
         continue;
 
-      Particle<2> p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+      Particle<2>
+          p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
       applyMotion(c.getMeanValue(), p);
       container.addParticle(p);
     }

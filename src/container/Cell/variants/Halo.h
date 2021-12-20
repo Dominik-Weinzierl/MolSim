@@ -21,7 +21,6 @@ class Halo : public Cell<dim> {
     for (Particle<dim> *particle: this->getParticles()) {
       const Vector<dim> pos = particle->getX();
       Vector<dim> newPos;
-      // TODO FIX!!
       for (size_t i = 0; i < dim; ++i) {
         newPos[i] = pos[i] - this->getPosition()[i] + neighbour->getPosition()[i];
       }

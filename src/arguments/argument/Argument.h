@@ -80,6 +80,9 @@ class Argument {
    * @param pWriter used writer to write in the output files
    * @param pIteration defines the writing iteration
    * @param pPhysics defines the used Physics during the simulation
+   * @param pStrategy defines the used strategy for this simulation (direct vs linked cell)
+   * @param pThermostat optional thermostat which is applied during the simulation
+   * @param pAdditionalGravitation optional additional gravitation
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
            int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat,

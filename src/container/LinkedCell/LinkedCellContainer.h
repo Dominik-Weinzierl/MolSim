@@ -73,14 +73,26 @@ class LinkedCellContainer : public ParticleContainer<dim> {
 
   //----------------------------------------Methods----------------------------------------
 
+  /**
+   * Helper function to calculate the amount of Cell(s) per column.
+   * @return amount of Cell(s) per column as int
+   */
   int cellsPerColumn() {
     return static_cast<int>(domain[1] / cellSize[1]);
   }
 
+  /**
+   * Helper function to calculate the amount of Cell(s) per row.
+   * @return amount of Cell(s) per row as int
+   */
   int cellsPerRow() {
     return static_cast<int>(domain[0] / cellSize[0]);
   }
 
+  /**
+   * Helper function to calculate the amount of Cell(s) per depth.
+   * @return amount of Cell(s) per depth as int
+   */
   int cellsPerDepth() {
     return static_cast<int>(domain[2] / cellSize[2]);
   }

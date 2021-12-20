@@ -2,8 +2,9 @@
             additionalGravitation="-12.44">
     <Strategy>
         <LinkedCell cutoffRadius="2.5">
-            <Domain x="65" y="36" z="63"/>
-            <CellSize x="3.25" y="3" z="3"/>
+            <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
+            <Domain x="63" y="36" z="63"/>
+            <CellSize x="3" y="3" z="3"/>
             <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
                       boundary-bottom="reflecting" boundary-front="periodic" boundary-back="periodic"/>
         </LinkedCell>
@@ -18,7 +19,7 @@
         <Cuboid mass="2.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="0.9412"
                 type="1">
             <Position x="0.6" y="19.0" z="0.6"/>
-            <Velocity x="0.0" y="0.0" z="0.0"/>
+            <Velocity x="0.0" y="-40.0" z="0.0"/>
             <Dimension x="50" y="14" z="50"/>
         </Cuboid>
     </Shapes>
