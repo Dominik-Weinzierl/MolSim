@@ -12,22 +12,22 @@
 template<size_t dim>
 class Thermostat {
   /**
-   *
+   * initial temperature
    */
   double initialT;
 
   /**
-   *
+   * target temperature
    */
   double targetT;
 
   /**
-   *
+   * number of timesteps, after which the thermostat should be applied
    */
   int numberT;
 
   /**
-   *
+   * maixmal absolute temperature difference per timestep
    */
   int deltaT;
 
@@ -179,5 +179,13 @@ class Thermostat {
    */
   [[nodiscard]] int getNumberT() const {
     return numberT;
+  }
+
+  /**
+   * Getter for the target temperature.
+   * @return The targetTemperature
+   */
+  [[nodiscard]] double getTargetT() const {
+    return targetT;
   }
 };
