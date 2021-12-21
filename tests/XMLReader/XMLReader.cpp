@@ -280,9 +280,9 @@ TEST(XMLReader_2D, test_case_5) { // NOLINT(cert-err58-cpp)
 }
 
 /**
-* Test that targetT is set to initialT if not specified
+* Test that targetT is set to initialT if not specified.
 */
-TEST(XMLReader_2D, test_case_6) {
+TEST(XMLReader_2D, test_case_6) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
 
   // Read input file
@@ -295,8 +295,9 @@ TEST(XMLReader_2D, test_case_6) {
 }
 
 /**
-* Test that thermostat properties are set correctly
-*/TEST(XMLReader_2D, test_case_7) {
+* Test that thermostat properties are set correctly.
+*/
+TEST(XMLReader_2D, test_case_7) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
 
   // Read input file
@@ -310,8 +311,9 @@ TEST(XMLReader_2D, test_case_6) {
 }
 
 /**
-* Test that thermostat properties are set correctly with no specified deltaT
-*/TEST(XMLReader_2D, test_case_8) {
+* Test that thermostat properties are set correctly with no specified deltaT.
+*/
+TEST(XMLReader_2D, test_case_8) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
 
   // Read input file
@@ -325,9 +327,9 @@ TEST(XMLReader_2D, test_case_6) {
 }
 
 /**
-* Test that targetT is set to initialT if not specified
+* Test that targetT is set to initialT if not specified.
 */
-TEST(XMLReader_3D, test_case_6) {
+TEST(XMLReader_3D, test_case_6) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
 
   // Read input file
@@ -340,8 +342,9 @@ TEST(XMLReader_3D, test_case_6) {
 }
 
 /**
-* Test that thermostat properties are set correctly
-*/TEST(XMLReader_3D, test_case_7) {
+* Test that thermostat properties are set correctly.
+*/
+TEST(XMLReader_3D, test_case_7) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
 
   // Read input file
@@ -356,7 +359,8 @@ TEST(XMLReader_3D, test_case_6) {
 
 /**
 * Test that thermostat properties are set correctly with no specified deltaT
-*/TEST(XMLReader_3D, test_case_8) {
+*/
+TEST(XMLReader_3D, test_case_8) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
 
   // Read input file

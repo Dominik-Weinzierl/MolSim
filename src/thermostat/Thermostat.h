@@ -12,22 +12,22 @@
 template<size_t dim>
 class Thermostat {
   /**
-   * initial temperature
+   * Initial temperature
    */
   double initialT;
 
   /**
-   * target temperature
+   * Target temperature
    */
   double targetT;
 
   /**
-   * number of timesteps, after which the thermostat should be applied
+   * number of time steps, after which the thermostat should be applied
    */
   int numberT;
 
   /**
-   * maixmal absolute temperature difference per timestep
+   * Maximal absolute temperature difference per time step
    */
   int deltaT;
 
