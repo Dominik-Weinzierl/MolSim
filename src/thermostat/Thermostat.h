@@ -12,22 +12,22 @@
 template<size_t dim>
 class Thermostat {
   /**
-   *
+   * Initial temperature
    */
   double initialT;
 
   /**
-   *
+   * Target temperature
    */
   double targetT;
 
   /**
-   *
+   * number of time steps, after which the thermostat should be applied
    */
   int numberT;
 
   /**
-   *
+   * Maximal absolute temperature difference per time step
    */
   int deltaT;
 
@@ -48,6 +48,13 @@ class Thermostat {
     return ret;
   }
 
+  /**
+   * Calculate the scaling factor
+   * @param currentTemp The current temperature of the system
+   * @param targetTemp The target temperature of the system
+   * @param pDeltaT The absolute maximum temperature difference per timestep
+   * @return
+   */
   double calculateBeta(double currentTemp, double targetTemp, double pDeltaT) {
     if (currentTemp == targetTemp)
       return 1;
@@ -179,5 +186,13 @@ class Thermostat {
    */
   [[nodiscard]] int getNumberT() const {
     return numberT;
+  }
+
+  /**
+   * Getter for the target temperature.
+   * @return The targetTemperature
+   */
+  [[nodiscard]] double getTargetT() const {
+    return targetT;
   }
 };

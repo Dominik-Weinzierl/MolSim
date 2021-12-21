@@ -279,3 +279,96 @@ TEST(XMLReader_2D, test_case_5) { // NOLINT(cert-err58-cpp)
   EXPECT_EQ((*arg).getAdditionalGravitation(), 9.81);
 }
 
+/**
+* Test that targetT is set to initialT if not specified.
+*/
+TEST(XMLReader_2D, test_case_6) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 2;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_6.xml");
+
+  // Create argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+
+  EXPECT_EQ((*arg).getThermostat()->getTargetT(), 42);
+}
+
+/**
+* Test that thermostat properties are set correctly.
+*/
+TEST(XMLReader_2D, test_case_7) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 2;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_7.xml");
+
+  // Create argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+  Thermostat<dim> expected{40, 69, 1000, 42};
+
+  EXPECT_EQ(*(*arg).getThermostat(), expected);
+}
+
+/**
+* Test that thermostat properties are set correctly with no specified deltaT.
+*/
+TEST(XMLReader_2D, test_case_8) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 2;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_8.xml");
+
+  // Create argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+  Thermostat<dim> expected{40, 69, 1000, -1};
+
+  EXPECT_EQ(*(*arg).getThermostat(), expected);
+}
+
+/**
+* Test that targetT is set to initialT if not specified.
+*/
+TEST(XMLReader_3D, test_case_6) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 3;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_6.xml");
+
+  // Create argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+
+  EXPECT_EQ((*arg).getThermostat()->getTargetT(), 42);
+}
+
+/**
+* Test that thermostat properties are set correctly.
+*/
+TEST(XMLReader_3D, test_case_7) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 3;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_7.xml");
+
+  // Create argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+  Thermostat<dim> expected{40, 69, 1000, 42};
+
+  EXPECT_EQ(*(*arg).getThermostat(), expected);
+}
+
+/**
+* Test that thermostat properties are set correctly with no specified deltaT
+*/
+TEST(XMLReader_3D, test_case_8) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 3;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_8.xml");
+
+  // Create argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+  Thermostat<dim> expected{40, 69, 1000, -1};
+
+  EXPECT_EQ(*(*arg).getThermostat(), expected);
+}
