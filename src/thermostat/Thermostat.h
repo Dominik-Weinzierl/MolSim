@@ -38,7 +38,7 @@ class Thermostat {
    * @param c A particle container
    * @return The temperature according to the kinetic energy
    */
-  [[nodiscard]] double kineticEnergyTemp(ParticleContainer<dim> &c) {
+  [[nodiscard]] inline double kineticEnergyTemp(ParticleContainer<dim> &c) {
     double ret = 0;
     for (auto &p: c) {
       ret += (p.getM() * p.getV() * p.getV()) / 2;
@@ -55,7 +55,7 @@ class Thermostat {
    * @param pDeltaT The absolute maximum temperature difference per timestep
    * @return
    */
-  double calculateBeta(double currentTemp, double targetTemp, double pDeltaT) {
+  [[nodiscard]] inline double calculateBeta(double currentTemp, double targetTemp, double pDeltaT) {
     if (currentTemp == targetTemp)
       return 1;
 
@@ -91,11 +91,11 @@ class Thermostat {
   //----------------------------------------Constructor & Destructor----------------------------------------
 
   /**
-   *
-   * @param pInitialT
-   * @param pTargetT
-   * @param pNumberT
-   * @param pDeltaT
+   * Constructor for the thermostat.
+   * @param pInitialT initial temperature
+   * @param pTargetT target temperature
+   * @param pNumberT number of time steps after which the thermostat should be applied
+   * @param pDeltaT maximal absolute difference per time step
    */
   Thermostat(double pInitialT, double pTargetT, int pNumberT, int pDeltaT) : initialT(pInitialT), targetT(pTargetT),
                                                                              numberT(pNumberT), deltaT(pDeltaT) {};
@@ -160,18 +160,18 @@ class Thermostat {
   //----------------------------------------(Un)-Equality operator----------------------------------------
 
   /**
-   *
-   * @param rhs
-   * @return
+   * Equality operator
+   * @param rhs an other thermostat
+   * @return true iff the two thermostats are identical
    */
   bool operator==(const Thermostat &rhs) const {
     return initialT == rhs.initialT && targetT == rhs.targetT && numberT == rhs.numberT && deltaT == rhs.deltaT;
   }
 
   /**
-   *
-   * @param rhs
-   * @return
+   * Inequality operator
+   * @param rhs an other thermostat
+   * @return true iff the two thermostats are not identical
    */
   bool operator!=(const Thermostat &rhs) const {
     return !(rhs == *this);
