@@ -1,4 +1,4 @@
-<Simulation endTime="10" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
+<Simulation endTime="50" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
             additionalGravitation="-12.44">
     <Strategy>
         <LinkedCell cutoffRadius="3">

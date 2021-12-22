@@ -197,7 +197,7 @@ void LinkedCellContainer<2>::setupCells() {
         // top boundary
         setupBoundary({BoardDirectionType::TOP}, {x * cellSize[0], (cellsPerColumn - 3) * cellSize[1]});
       }
-      // bottom halo
+      // top halo
       setupHalo({BoardDirectionType::TOP}, {x * cellSize[0], (cellsPerColumn - 2) * cellSize[1]});
     }
   }

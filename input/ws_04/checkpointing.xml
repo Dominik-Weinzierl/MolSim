@@ -3,7 +3,6 @@
     <Source path="../../input/ws_04/task_3_fluid_calm.vtu"/>
     <Strategy>
         <LinkedCell cutoffRadius="3">
-            <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
             <Domain x="303" y="180" z="36"/>
             <CellSize x="1" y="1" z="1"/>
             <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
@@ -11,7 +10,7 @@
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Sphere mass="1.0" distance="1.2" meanValue="0.0" radius="20" packed="true" depthOfPotentialWell="1.0" zeroCrossing="1.2">
+        <Sphere mass="1.0" distance="1.2" meanValue="0.0" radius="20" packed="true" depthOfPotentialWell="1.0" zeroCrossing="1.2" type="1">
             <Center x="150.0" y="150.0" z="12.0"/>
             <Velocity x="0.0" y="0.0" z="0.0"/>
         </Sphere>

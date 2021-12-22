@@ -116,7 +116,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * @param deltaT time step of our simulation
   */
   void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &force) const override {
-    // calculate new x
+    // Calculate new x
     Physics<LennardJones, dim>::calculateX(particleContainer, deltaT);
 
     // Update cells
@@ -129,10 +129,10 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
       h.applyCellProperties();
     }
 
-    // calculate new f
+    // Calculate new f
     Physics<LennardJones, dim>::calculateF(particleContainer, force);
 
-    // calculate new v
+    // Calculate new v
     Physics<LennardJones, dim>::calculateV(particleContainer, deltaT);
 
     // Delete all deleted Particle
@@ -140,6 +140,5 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
     particles.erase(std::remove_if(particles.begin(), particles.end(), [](auto &p) {
       return p.getType() == -1;
     }), particles.end());
-
   }
 };

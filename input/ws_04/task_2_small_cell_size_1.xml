@@ -2,7 +2,6 @@
             additionalGravitation="-12.44">
     <Strategy>
         <LinkedCell cutoffRadius="2.5">
-            <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
             <Domain x="63" y="36" z="63"/>
             <CellSize x="1" y="1" z="1"/>
             <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
