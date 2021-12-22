@@ -17,5 +17,5 @@ class VTKReader {
    * @param particleContainer Particle Container to add particles given through the VTk file to.
    * @param path Path to the VTK file.
    */
-  static void readFromFile(ParticleContainer<dim> &particleContainer, std::string &path);
+  static void readFromFile(ParticleContainer<dim> &particleContainer, const std::string &path);
 };

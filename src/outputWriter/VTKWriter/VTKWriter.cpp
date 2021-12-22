@@ -24,6 +24,12 @@ void VTKWriter<3>::plotParticle(const Particle<3> &p) {
   dataIterator++;
   dataIterator->push_back(p.getType());
 
+  dataIterator++;
+  dataIterator->push_back(p.getZeroCrossing());
+
+  dataIterator++;
+  dataIterator->push_back(p.getPotentialWellDepth());
+
   Points::DataArray_sequence &pointsSequence = vtkFile->UnstructuredGrid()->Piece().Points().DataArray();
   Points::DataArray_iterator pointsIterator = pointsSequence.begin();
   pointsIterator->push_back(p.getX()[0]);

@@ -1,7 +1,7 @@
 #include "VTKReader.h"
 
 template<>
-void VTKReader<2>::readFromFile(ParticleContainer<2> &particleContainer, std::string &path) {
+void VTKReader<2>::readFromFile(ParticleContainer<2> &particleContainer, const std::string &path) {
   std::unique_ptr<VTKFile_t> vtkFile = VTKFile(path, xml_schema::flags::dont_validate);
   vtkFile->UnstructuredGrid()->Piece().PointData().DataArray();
 
@@ -49,7 +49,7 @@ void VTKReader<2>::readFromFile(ParticleContainer<2> &particleContainer, std::st
 }
 
 template<>
-void VTKReader<3>::readFromFile(ParticleContainer<3> &particleContainer, std::string &path){
+void VTKReader<3>::readFromFile(ParticleContainer<3> &particleContainer, const std::string &path){
   std::unique_ptr<VTKFile_t> vtkFile = VTKFile(path, xml_schema::flags::dont_validate);
   vtkFile->UnstructuredGrid()->Piece().PointData().DataArray();
 
