@@ -64,7 +64,7 @@ void VTKReader<3>::readFromFile(ParticleContainer<3> &particleContainer, const s
   double m = dataIterator->back();
   dataIterator->pop_back();
   dataIterator++;
-  double v2 = dataIterator->back();;
+  double v2 = dataIterator->back();
   dataIterator->pop_back();
   double v1 = dataIterator->back();
   dataIterator->pop_back();
