@@ -91,11 +91,11 @@ class Thermostat {
   //----------------------------------------Constructor & Destructor----------------------------------------
 
   /**
-   *
-   * @param pInitialT
-   * @param pTargetT
-   * @param pNumberT
-   * @param pDeltaT
+   * Constructor for the thermostat.
+   * @param pInitialT initial temperature
+   * @param pTargetT target temperature
+   * @param pNumberT number of time steps after which the thermostat should be applied
+   * @param pDeltaT maximal absolute difference per time step
    */
   Thermostat(double pInitialT, double pTargetT, int pNumberT, int pDeltaT) : initialT(pInitialT), targetT(pTargetT),
                                                                              numberT(pNumberT), deltaT(pDeltaT) {};
