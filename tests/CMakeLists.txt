@@ -7,6 +7,8 @@ file(GLOB_RECURSE MY_TESTS
     # header don't need to be included but this might be necessary for some IDEs
     "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 
+message(STATUS "${MY_TESTS}")
+
 # Create make target
 add_executable(Test ${MY_TESTS})
 

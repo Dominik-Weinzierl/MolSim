@@ -14,14 +14,21 @@ void VTKWriter<3>::plotParticle(const Particle<3> &p) {
   dataIterator->push_back(p.getV()[2]);
   // cout << "Appended velocity data in: " << dataIterator->Name();
 
+  //Changed OldF to F since we need F for the VTKReader
   dataIterator++;
-  dataIterator->push_back(p.getOldF()[0]);
-  dataIterator->push_back(p.getOldF()[1]);
-  dataIterator->push_back(p.getOldF()[2]);
+  dataIterator->push_back(p.getF()[0]);
+  dataIterator->push_back(p.getF()[1]);
+  dataIterator->push_back(p.getF()[2]);
   // cout << "Appended force data in: " << dataIterator->Name();
 
   dataIterator++;
   dataIterator->push_back(p.getType());
+
+  dataIterator++;
+  dataIterator->push_back(p.getZeroCrossing());
+
+  dataIterator++;
+  dataIterator->push_back(p.getPotentialWellDepth());
 
   Points::DataArray_sequence &pointsSequence = vtkFile->UnstructuredGrid()->Piece().Points().DataArray();
   Points::DataArray_iterator pointsIterator = pointsSequence.begin();
@@ -44,14 +51,21 @@ void VTKWriter<2>::plotParticle(const Particle<2> &p) {
   dataIterator->push_back(0.0);
   // cout << "Appended velocity data in: " << dataIterator->Name();
 
+  //Changed OldF to F since we need F for the VTKReader
   dataIterator++;
-  dataIterator->push_back(p.getOldF()[0]);
-  dataIterator->push_back(p.getOldF()[1]);
+  dataIterator->push_back(p.getF()[0]);
+  dataIterator->push_back(p.getF()[1]);
   dataIterator->push_back(0.0);
   // cout << "Appended force data in: " << dataIterator->Name();
 
   dataIterator++;
   dataIterator->push_back(p.getType());
+
+  dataIterator++;
+  dataIterator->push_back(p.getZeroCrossing());
+
+  dataIterator++;
+  dataIterator->push_back(p.getPotentialWellDepth());
 
   Points::DataArray_sequence &pointsSequence = vtkFile->UnstructuredGrid()->Piece().Points().DataArray();
   Points::DataArray_iterator pointsIterator = pointsSequence.begin();

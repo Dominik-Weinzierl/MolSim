@@ -16,6 +16,7 @@
 #include "container/DirectSum/DirectSumContainer.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
 #include "container/ParticleContainer.h"
+#include "fileReader/VTKReader/VTKReader.h"
 
 /**
  * Provides static functions for simulation and benchmark.
@@ -101,8 +102,16 @@ class MolSim {
     }
 
     // Read additional files.
-    for (const auto &file: arg->getFiles()) {
-      InputReader<dim>::readFile(*particleContainer, file);
+    for (std::string &file: arg->getFiles()) {
+      std::string fileEnding = file.substr(file.size() - 3);
+      if(fileEnding == "txt"){
+        InputReader<dim>::readFile(*particleContainer, file);
+      } else if(fileEnding == "vtu"){
+        VTKReader<dim>::readFromFile(*particleContainer, file);
+      } else {
+        std::cout << "Unaccepted file format" << std::endl;
+        return -1;
+      }
     }
 
     // Create Particles (with Generators)

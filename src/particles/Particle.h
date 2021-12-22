@@ -76,7 +76,7 @@ class Particle {
    * @param pX Position-Vector.
    * @param pV Velocity-Vector.
    * @param pM Mass.
-   * @param type
+   * @param type Type.
    */
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, int pType = 0) : x{pX}, v{pV}, f{}, old_f{}, m{pM},
                                                                                      type{pType} {
@@ -84,16 +84,33 @@ class Particle {
   }
 
   /**
+  * Constructor which generates a particle with the given parameters.
+  * @param pX Position-Vector.
+  * @param pV Velocity-Vector.
+  * @param pM Mass.
+  * @param pZeroCrossing Zero Crossing.
+  * @param pPotentialWellDepth Potential Well Depth.
+  * @param pType Type.
+  */
+  Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth,
+           int pType) : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
+                        potentialWellDepth{pPotentialWellDepth} {
+    SPDLOG_TRACE("Particle generated");
+  }
+
+  /**
    * Constructor which generates a particle with the given parameters.
    * @param pX Position-Vector.
    * @param pV Velocity-Vector.
+   * @param pF Force-Vector.
+   * @param pOldF Old-Force-Vector.
    * @param pM Mass.
-   * @param pZeroCrossing
-   * @param pPotentialWellDepth
-   * @param pType
+   * @param pZeroCrossing Zero Crossing.
+   * @param pPotentialWellDepth Potential Well Depth.
+   * @param pType Type.
    */
-  Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth,
-           int pType) : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
+  Particle(const Vector<dim> &pX, const Vector<dim> &pV, const Vector<dim> &pF, const Vector<dim> &pOldF, double pM, double pZeroCrossing, double pPotentialWellDepth,
+           int pType) : x{pX}, v{pV}, f{pF}, old_f{pOldF}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
                         potentialWellDepth{pPotentialWellDepth} {
     SPDLOG_TRACE("Particle generated");
   }

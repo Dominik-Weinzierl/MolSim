@@ -512,7 +512,7 @@ type (const type& v,
 type& type::
 operator= (value v)
 {
-  static_cast< ::xml_schema::string& > (*this) =
+  static_cast< ::xml_schema::string& > (*this) = 
   ::xml_schema::string (_xsd_type_literals_[v]);
 
   return *this;
@@ -796,7 +796,7 @@ operator= (const DataArray_t& x)
 {
   if (this != &x)
   {
-    dynamic_cast< ::DataArrayList_t& > (*this) = x;
+    (*this) = x;
     this->type_ = x.type_;
     this->Name_ = x.Name_;
     this->NumberOfComponents_ = x.NumberOfComponents_;

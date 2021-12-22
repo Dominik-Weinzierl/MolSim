@@ -1,0 +1,3 @@
+<Simulation endTime="3" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="output">
+    <Source path="../../tests/VTKReader/input/simple_test.vtu"/>
+</Simulation>
