@@ -169,7 +169,7 @@ class Thermostat {
   }
 
   /**
-   * Unequality operator
+   * Inequality operator
    * @param rhs an other thermostat
    * @return true iff the two thermostats are not identical
    */
