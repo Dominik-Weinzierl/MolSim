@@ -181,14 +181,6 @@ TEST(Main, ws_04_task_3_2D_01) { // NOLINT(cert-err58-cpp)
 /**
  * In this test we test the setup for simulation from worksheet 4.
  */
-TEST(Main, ws_04_task_3_3D_01) { // NOLINT(cert-err58-cpp)
-  MolSim<3> sim{};
-  EXPECT_EQ(sim.setup({"-x", "-f", "../../input/ws_04/task_3_fluid.xml", "-b", "-3"}), 1);
-}
-
-/**
- * In this test we test the setup for simulation from worksheet 4.
- */
 TEST(Main, ws_04_task_3_2D_02) { // NOLINT(cert-err58-cpp)
   MolSim<2> sim{};
   EXPECT_EQ(sim.setup({"-x", "-f", "../../input/ws_04/task_3_checkpointing.xml", "-b", "-2"}), 1);
