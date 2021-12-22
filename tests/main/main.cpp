@@ -115,6 +115,23 @@ TEST(Main, ws_03_task_2_2D) { // NOLINT(cert-err58-cpp)
 }
 
 /**
+ * In this test we test the setup for non existing file.
+ */
+TEST(Main, nonExistingFile_2D) { // NOLINT(cert-err58-cpp)
+  MolSim<2> sim{};
+  EXPECT_NE(sim.setup({"-x", "-f", "../../input/ws_04/no_existing_file.xml", "-b", "-2"}), 1);
+}
+
+/**
+ * In this test we test the setup for non existing file.
+ */
+TEST(Main, nonExistingFile_3D) { // NOLINT(cert-err58-cpp)
+  MolSim<3> sim{};
+  EXPECT_NE(sim.setup({"-x", "-f", "../../input/ws_04/no_existing_file.xml", "-b", "-3"}), 1);
+}
+
+
+/**
  * In this test we test the setup for simulation from worksheet 3.
  */
 TEST(Main, ws_03_task_2_3D) { // NOLINT(cert-err58-cpp)
