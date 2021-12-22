@@ -14,7 +14,7 @@
 /**
  * Test to check if the additional force actually acts on the particle
  */
-TEST(Forces_2D, checkAdditionalGravitation) {
+TEST(Forces, checkAdditionalGravitation) {
   const size_t dim = 2;
   double force = -9.81;
 
