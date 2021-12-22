@@ -38,7 +38,7 @@ class Thermostat {
    * @param c A particle container
    * @return The temperature according to the kinetic energy
    */
-  [[nodiscard]] double kineticEnergyTemp(ParticleContainer<dim> &c) {
+  [[nodiscard]] inline double kineticEnergyTemp(ParticleContainer<dim> &c) {
     double ret = 0;
     for (auto &p: c) {
       ret += (p.getM() * p.getV() * p.getV()) / 2;
@@ -55,7 +55,7 @@ class Thermostat {
    * @param pDeltaT The absolute maximum temperature difference per timestep
    * @return
    */
-  double calculateBeta(double currentTemp, double targetTemp, double pDeltaT) {
+  [[nodiscard]] inline double calculateBeta(double currentTemp, double targetTemp, double pDeltaT) {
     if (currentTemp == targetTemp)
       return 1;
 
