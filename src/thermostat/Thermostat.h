@@ -160,18 +160,18 @@ class Thermostat {
   //----------------------------------------(Un)-Equality operator----------------------------------------
 
   /**
-   *
-   * @param rhs
-   * @return
+   * Equality operator
+   * @param rhs an other thermostat
+   * @return true iff the two thermostats are identical
    */
   bool operator==(const Thermostat &rhs) const {
     return initialT == rhs.initialT && targetT == rhs.targetT && numberT == rhs.numberT && deltaT == rhs.deltaT;
   }
 
   /**
-   *
-   * @param rhs
-   * @return
+   * Unequality operator
+   * @param rhs an other thermostat
+   * @return true iff the two thermostats are not identical
    */
   bool operator!=(const Thermostat &rhs) const {
     return !(rhs == *this);
