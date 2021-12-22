@@ -370,7 +370,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/ws_04/task_3_checkpointing.xml -3
    ```
-  > Note that you may need to recreate the `task_3_fluid_calm.vtu' file.
+  > Note that you may need to recreate the `task_3_fluid_calm.vtu` file.
   
   ![task_3](pics/task_3_3D_01.png)
 - Input file used for simulation of `Task 3`.
