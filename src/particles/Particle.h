@@ -76,7 +76,7 @@ class Particle {
    * @param pX Position-Vector.
    * @param pV Velocity-Vector.
    * @param pM Mass.
-   * @param type
+   * @param type Type.
    */
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, int pType = 0) : x{pX}, v{pV}, f{}, old_f{}, m{pM},
                                                                                      type{pType} {
@@ -88,9 +88,9 @@ class Particle {
   * @param pX Position-Vector.
   * @param pV Velocity-Vector.
   * @param pM Mass.
-  * @param pZeroCrossing
-  * @param pPotentialWellDepth
-  * @param pType
+  * @param pZeroCrossing Zero Crossing.
+  * @param pPotentialWellDepth Potential Well Depth.
+  * @param pType Type.
   */
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth,
            int pType) : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
