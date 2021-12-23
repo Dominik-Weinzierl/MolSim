@@ -197,7 +197,7 @@ void LinkedCellContainer<2>::setupCells() {
         // top boundary
         setupBoundary({BoardDirectionType::TOP}, {x * cellSize[0], (cellsPerColumn - 3) * cellSize[1]});
       }
-      // bottom halo
+      // top halo
       setupHalo({BoardDirectionType::TOP}, {x * cellSize[0], (cellsPerColumn - 2) * cellSize[1]});
     }
   }
@@ -373,7 +373,7 @@ void LinkedCellContainer<2>::linkCells() {
             auto *posPeriodicCell =
                 cells[static_cast<unsigned long>(getIndexBasedOnCoordinates({periodicCellX, periodicCellY}))];
 
-            // Since we need to build this only once and want to use the benefits of the Newtons law as we need to avoid duplicates, this isn't to expensive
+            // Since we only need to build this once and want to take advantage of Newton's Law to avoid duplicates, this is not too expensive.
             std::tuple<Cell<2> *, Vector<2>> posTuple{posPeriodicCell, Vector<2>{posCellX, posCellY}};
             if (std::find_if(posPeriodicCell->getPeriodicNeighbours().begin(),
                              posPeriodicCell->getPeriodicNeighbours().end(), [&cell](auto &t) {
@@ -483,7 +483,7 @@ void LinkedCellContainer<3>::linkCells() {
                 auto *posPeriodicCell = cells[static_cast<size_t>(getIndexBasedOnCoordinates(
                     {periodicCellX, periodicCellY, periodicCellZ}))];
 
-                // Since we need to build this only once and want to use the benefits of the Newtons law as we need to avoid duplicates, this isn't to expensive
+                // Since we only need to build this once and want to take advantage of Newton's Law to avoid duplicates, this is not too expensive.
                 std::tuple<Cell<3> *, Vector<3>> posTuple{posPeriodicCell, Vector<3>{posCellX, posCellY, posCellZ}};
                 if (std::find_if(posPeriodicCell->getPeriodicNeighbours().begin(),
                                  posPeriodicCell->getPeriodicNeighbours().end(), [&cell](auto &t) {

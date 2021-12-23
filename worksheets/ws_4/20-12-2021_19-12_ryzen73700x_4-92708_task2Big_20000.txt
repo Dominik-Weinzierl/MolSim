@@ -1,0 +1,104 @@
+# To display the perf.data header info, please use --header/--header-only options.
+#
+#
+# Total Lost Samples: 0
+#
+# Samples: 162K of event 'cpu-clock'
+# Event count (approx.): 40602750000
+#
+# Overhead  Command  Shared Object        Symbol                                                                                                                       
+# ........  .......  ...................  .............................................................................................................................
+#
+    92.07%  MolSim   MolSim               [.] LinkedCell<LennardJones, 2ul, true>::performUpdate
+     3.34%  MolSim   MolSim               [.] LinkedCell<LennardJones, 2ul, true>::calculateNextStep
+     2.27%  MolSim   MolSim               [.] LinkedCellContainer<2ul>::updateCells
+     1.64%  MolSim   MolSim               [.] LinkedCellContainer<2ul>::getIndexBasedOnCoordinates
+     0.42%  MolSim   MolSim               [.] Boundary<2ul>::applyCellProperties
+     0.13%  MolSim   [kernel.vmlinux]     [k] __do_softirq
+     0.06%  MolSim   [kernel.vmlinux]     [k] _raw_spin_unlock_irqrestore
+     0.01%  MolSim   ld-2.33.so           [.] do_lookup_x
+     0.00%  MolSim   MolSim               [.] std::normal_distribution<double>::operator()<std::linear_congruential_engine<unsigned long, 16807ul, 0ul, 2147483647ul> >
+     0.00%  MolSim   [kernel.vmlinux]     [k] hidinput_hid_event
+     0.00%  MolSim   ld-2.33.so           [.] _dl_lookup_symbol_x
+     0.00%  MolSim   MolSim               [.] MDSimulation<LinkedCell<LennardJones, 2ul, true>, 2ul>::performSimulation
+     0.00%  MolSim   MolSim               [.] Thermostat<2ul>::applyThermostat
+     0.00%  MolSim   [kernel.vmlinux]     [k] __kmalloc
+     0.00%  MolSim   [kernel.vmlinux]     [k] __napi_build_skb
+     0.00%  MolSim   [kernel.vmlinux]     [k] dma_sync_single_for_cpu
+     0.00%  MolSim   [kernel.vmlinux]     [k] tcp_event_data_recv
+     0.00%  MolSim   [kernel.vmlinux]     [k] tcp_v6_rcv
+     0.00%  MolSim   ld-2.33.so           [.] _dl_relocate_object
+     0.00%  MolSim   libc-2.33.so         [.] _int_malloc
+     0.00%  MolSim   libstdc++.so.6.0.29  [.] operator new
+     0.00%  MolSim   libxerces-c-3.2.so   [.] xercesc_3_2::RangeToken::addRange
+     0.00%  MolSim   MolSim               [.] LinkedCellContainer<2ul>::init
+     0.00%  MolSim   MolSim               [.] maxwellBoltzmannDistributedVelocity<2ul>
+     0.00%  MolSim   MolSim               [.] std::vector<Particle<2ul>*, std::allocator<Particle<2ul>*> >::_M_realloc_insert<Particle<2ul>* const&>
+     0.00%  MolSim   MolSim               [.] std::vector<Particle<2ul>, std::allocator<Particle<2ul> > >::emplace_back<Particle<2ul> >
+     0.00%  MolSim   MolSim               [.] xsd::cxx::tree::traits<double, char, (xsd::cxx::tree::schema_type::value)1>::create
+     0.00%  MolSim   [kernel.vmlinux]     [k] __cgroup_bpf_run_filter_skb
+     0.00%  MolSim   [kernel.vmlinux]     [k] __memcpy
+     0.00%  MolSim   [kernel.vmlinux]     [k] __memset
+     0.00%  MolSim   [kernel.vmlinux]     [k] __rcu_read_unlock
+     0.00%  MolSim   [kernel.vmlinux]     [k] __tcp_send_ack.part.0
+     0.00%  MolSim   [kernel.vmlinux]     [k] __tcp_transmit_skb
+     0.00%  MolSim   [kernel.vmlinux]     [k] __wake_up_common_lock
+     0.00%  MolSim   [kernel.vmlinux]     [k] _raw_spin_lock_irqsave
+     0.00%  MolSim   [kernel.vmlinux]     [k] bpf_lsm_socket_sock_rcv_skb
+     0.00%  MolSim   [kernel.vmlinux]     [k] bpf_skops_write_hdr_opt.isra.0
+     0.00%  MolSim   [kernel.vmlinux]     [k] current_umask
+     0.00%  MolSim   [kernel.vmlinux]     [k] do_filp_open
+     0.00%  MolSim   [kernel.vmlinux]     [k] do_user_addr_fault
+     0.00%  MolSim   [kernel.vmlinux]     [k] exit_to_user_mode_prepare
+     0.00%  MolSim   [kernel.vmlinux]     [k] fib_validate_source
+     0.00%  MolSim   [kernel.vmlinux]     [k] hid_input_report
+     0.00%  MolSim   [kernel.vmlinux]     [k] hid_report_raw_event
+     0.00%  MolSim   [kernel.vmlinux]     [k] input_event
+     0.00%  MolSim   [kernel.vmlinux]     [k] iommu_dma_sync_single_for_cpu
+     0.00%  MolSim   [kernel.vmlinux]     [k] iommu_v1_iova_to_phys
+     0.00%  MolSim   [kernel.vmlinux]     [k] iommu_v1_map_page
+     0.00%  MolSim   [kernel.vmlinux]     [k] ip6_finish_output2
+     0.00%  MolSim   [kernel.vmlinux]     [k] ip6_sublist_rcv_finish
+     0.00%  MolSim   [kernel.vmlinux]     [k] kfree
+     0.00%  MolSim   [kernel.vmlinux]     [k] native_flush_tlb_one_user
+     0.00%  MolSim   [kernel.vmlinux]     [k] next_uptodate_page
+     0.00%  MolSim   [kernel.vmlinux]     [k] page_frag_alloc_align
+     0.00%  MolSim   [kernel.vmlinux]     [k] pty_write
+     0.00%  MolSim   [kernel.vmlinux]     [k] raw6_local_deliver
+     0.00%  MolSim   [kernel.vmlinux]     [k] rebalance_domains
+     0.00%  MolSim   [kernel.vmlinux]     [k] refill_stock
+     0.00%  MolSim   [kernel.vmlinux]     [k] release_pages
+     0.00%  MolSim   [kernel.vmlinux]     [k] set_root
+     0.00%  MolSim   [kernel.vmlinux]     [k] skb_defer_rx_timestamp
+     0.00%  MolSim   [kernel.vmlinux]     [k] tcp_grow_window
+     0.00%  MolSim   [kernel.vmlinux]     [k] tcp_v6_inbound_md5_hash
+     0.00%  MolSim   [kernel.vmlinux]     [k] unlock_page
+     0.00%  MolSim   [kernel.vmlinux]     [k] unmap_page_range
+     0.00%  MolSim   [kernel.vmlinux]     [k] usb_giveback_urb_bh
+     0.00%  MolSim   [kernel.vmlinux]     [k] usb_hcd_submit_urb
+     0.00%  MolSim   [kernel.vmlinux]     [k] validate_xmit_skb
+     0.00%  MolSim   [kernel.vmlinux]     [k] vma_interval_tree_insert
+     0.00%  MolSim   [kernel.vmlinux]     [k] vma_interval_tree_remove
+     0.00%  MolSim   [r8169]              [k] 0x00000000000011f3
+     0.00%  MolSim   [usbhid]             [k] 0x0000000000002bad
+     0.00%  MolSim   [usbhid]             [k] 0x0000000000002d2a
+     0.00%  MolSim   [usbhid]             [k] 0x00000000000036db
+     0.00%  MolSim   [uvcvideo]           [k] 0x000000000000af15
+     0.00%  MolSim   ld-2.33.so           [.] memset
+     0.00%  MolSim   libc-2.33.so         [.] malloc
+     0.00%  MolSim   libcrypto.so.1.1     [.] OPENSSL_LH_free
+     0.00%  MolSim   libcrypto.so.1.1     [.] 0x000000000017ecf6
+     0.00%  MolSim   libcrypto.so.1.1     [.] 0x000000000017ed4b
+     0.00%  MolSim   libstdc++.so.6.0.29  [.] std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::do_put
+     0.00%  MolSim   libxerces-c-3.2.so   [.] xercesc_3_2::RangeToken::compactRanges
+     0.00%  MolSim   libxerces-c-3.2.so   [.] xercesc_3_2::RangeToken::sortRanges
+     0.00%  MolSim   libxerces-c-3.2.so   [.] xercesc_3_2::UnicodeRangeFactory::getUniCategory
+     0.00%  MolSim   libxerces-c-3.2.so   [.] xercesc_3_2::XMLUniCharacter::getType
+     0.00%  MolSim   libxerces-c-3.2.so   [.] 0x000000000015fff7
+     0.00%  MolSim   libxerces-c-3.2.so   [.] 0x000000000015fffa
+     0.00%  MolSim   [unknown]            [k] 0xffffffffc041e124
+
+
+#
+# (Tip: Use parent filter to see specific call path: perf report -p <regex>)
+#

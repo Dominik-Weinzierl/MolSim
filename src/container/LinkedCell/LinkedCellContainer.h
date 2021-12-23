@@ -17,7 +17,7 @@ template<size_t dim>
 class LinkedCellContainer : public ParticleContainer<dim> {
  private:
   /**
-   *
+   * Precision we use to build our mesh, as we want to avoid holes.
    */
   const double precision = 0.01;
 

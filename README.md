@@ -28,6 +28,7 @@ $ cd MolSim
 ## Run application
 
 ### Build
+
 > The building process can take a while! Please be patient.
 
 #### Available build options:
@@ -157,7 +158,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/task_2_linked.xml -2
    ```
-  ![task_3](pics/ws_03_task_2.gif)
+  ![task_2](pics/ws_03_task_2.gif)
 - _(optional)_ Run example simulation of `Task 2` as direct sum simulation.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/task_2_direct.xml -2
@@ -198,7 +199,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/water_drop.xml -2
    ```
-  ![task_3](pics/ws_03_task_4.gif)
+  ![task_4](pics/ws_03_task_4.gif)
 - _(optional)_ Run example simulation of `Task 4` as benchmark.
    ```bash
    $ ./MolSim -x -f ../../input/ws_03/water_drop.xml -b -2
@@ -226,6 +227,174 @@ Run `./MolSim` without any arguments to list possible and required arguments.
         </Shapes>
     </Simulation>
     ```
+
+#### Worksheet 4:
+
+#### Task 2
+
+- Run example simulation of `Task 2` (small).
+   ```bash
+   $ ./MolSim -x -f ../../input/ws_04/task_2_small.xml -2
+   ```
+  ![task_2](pics/ws_04_task_2_small_2D.gif)
+- _(optional)_ Run example simulation of `Task 2` as benchmark.
+   ```bash
+   $ ./MolSim -x -f ../../input/ws_04/task_2_small.xml -b -2
+   ```
+- _(optional)_ Run example simulation of `Task 2` as `3D` simulation.
+   ```bash
+   $ ./MolSim -x -f ../../input/ws_04/task_2_small.xml -3
+   ```
+  ![task_2](pics/ws_04_task_2_small_3D.gif)
+- Input file used for simulation of `Task 2`.
+    ```xml
+    <Simulation endTime="25" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
+                additionalGravitation="-12.44">
+        <Strategy>
+            <LinkedCell cutoffRadius="2.5">
+                <Domain x="63" y="36" z="63"/>
+                <CellSize x="3" y="3" z="3"/>
+                <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
+                          boundary-bottom="reflecting" boundary-front="periodic" boundary-back="periodic"/>
+            </LinkedCell>
+        </Strategy>
+        <Shapes>
+            <Cuboid mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1"
+                    type="0">
+                <Position x="0.6" y="2.0" z="0.6"/>
+                <Velocity x="0.0" y="0.0" z="0.0"/>
+                <Dimension x="50" y="14" z="50"/>
+            </Cuboid>
+            <Cuboid mass="2.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="0.9412"
+                    type="1">
+                <Position x="0.6" y="19.0" z="0.6"/>
+                <Velocity x="0.0" y="0.0" z="0.0"/>
+                <Dimension x="50" y="14" z="50"/>
+            </Cuboid>
+        </Shapes>
+        <Thermostat initialT="40" numberT="1000"/>
+    </Simulation>
+    ```
+- Run example simulation of `Task 2` (big).
+   ```bash
+   $ ./MolSim -x -f ../../input/ws_04/task_2_big.xml -2
+   ```
+  ![task_2](pics/ws_04_task_2_big_2D.gif)
+- _(optional)_ Run example simulation of `Task 2` as benchmark.
+   ```bash
+   $ ./MolSim -x -f ../../input/ws_04/task_2_big.xml -b -2
+   ```
+- _(optional)_ Run example simulation of `Task 2` as `3D` simulation.
+   ```bash
+   $ ./MolSim -x -f ../../input/ws_04/task_2_big.xml -3
+   ```
+  ![task_3](pics/task_2_big_3D_01.png)
+- Input file used for simulation of `Task 2`.
+    ```xml
+    <Simulation endTime="10" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
+                additionalGravitation="-12.44">
+        <Strategy>
+            <LinkedCell cutoffRadius="3">
+                <Domain x="300" y="54" z="300"/>
+                <CellSize x="3" y="3" z="3"/>
+                <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
+                          boundary-bottom="reflecting" boundary-front="periodic" boundary-back="periodic"/>
+            </LinkedCell>
+        </Strategy>
+        <Shapes>
+            <Cuboid mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.2"
+                    type="0">
+                <Position x="0.6" y="2.0" z="0.6"/>
+                <Velocity x="0.0" y="0.0" z="0.0"/>
+                <Dimension x="250" y="20" z="250"/>
+            </Cuboid>
+            <Cuboid mass="2.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.1"
+                    type="1">
+                <Position x="0.6" y="27.0" z="0.6"/>
+                <Velocity x="0.0" y="0.0" z="0.0"/>
+                <Dimension x="250" y="20" z="250"/>
+            </Cuboid>
+        </Shapes>
+        <Thermostat initialT="40" numberT="1000"/>
+    </Simulation>
+    ```
+
+#### Task 3
+
+- Run example simulation of `Task 3`.
+   ```bash
+   $ ./MolSim -x -f ../../input/ws_04/task_3_fluid.xml -2
+   ```
+  ![task_3](pics/ws_04_task_3_fluid_2D.gif)
+- _(optional)_ Run example simulation of `Task 3` as benchmark.
+   ```bash
+   $ ./MolSim -x -f ../../input/ws_04/task_3_fluid.xml -b -2
+   ```
+- _(optional)_ Run example simulation of `Task 3` as `3D` simulation.
+   ```bash
+   $ ./MolSim -x -f ../../input/ws_04/task_3_fluid.xml -3
+   ```
+- Input file used for simulation of `Task 3`.
+  ```xml
+  <Simulation endTime="15" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
+              additionalGravitation="-12.44">
+      <Strategy>
+          <LinkedCell cutoffRadius="3">
+              <Domain x="303" y="180" z="70"/>
+              <CellSize x="1" y="1" z="1"/>
+              <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
+                        boundary-bottom="reflecting" boundary-front="periodic" boundary-back="periodic"/>
+          </LinkedCell>
+      </Strategy>
+      <Shapes>
+          <Cuboid mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.2"
+                  type="1">
+              <Position x="1.5" y="2.0" z="1.5"/>
+              <Velocity x="0.0" y="0.0" z="0.0"/>
+              <Dimension x="250" y="50" z="50"/>
+          </Cuboid>
+      </Shapes>
+      <Thermostat initialT="0.5" numberT="1000"/>
+  </Simulation>
+  ``` 
+- Run example simulation of `Task 3`.
+   ```bash
+   $ ./MolSim -x -f ../../input/ws_04/task_3_checkpointing.xml -2
+   ```
+  ![task_3](pics/ws_04_task_3_2D.gif)
+- _(optional)_ Run example simulation of `Task 3` as benchmark.
+   ```bash
+   $ ./MolSim -x -f ../../input/ws_04/task_3_checkpointing.xml -b -2
+   ```
+- _(optional)_ Run example simulation of `Task 3` as `3D` simulation.
+   ```bash
+   $ ./MolSim -x -f ../../input/ws_04/task_3_checkpointing.xml -3
+   ```
+  > Note that you may need to recreate the `task_3_fluid_calm.vtu` file.
+  
+  ![task_3](pics/task_3_3D_01.png)
+- Input file used for simulation of `Task 3`.
+  ```xml
+  <Simulation endTime="40" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
+              additionalGravitation="-12.44">
+      <Source path="../../input/ws_04/task_3_fluid_calm.vtu"/>
+      <Strategy>
+          <LinkedCell cutoffRadius="3">
+              <Domain x="303" y="180" z="70"/>
+              <CellSize x="1" y="1" z="1"/>
+              <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
+                        boundary-bottom="reflecting" boundary-front="periodic" boundary-back="periodic"/>
+          </LinkedCell>
+      </Strategy>
+      <Shapes>
+          <Sphere mass="1.0" distance="1.2" meanValue="0.0" radius="20" packed="true" depthOfPotentialWell="1.0"
+                  zeroCrossing="1.2" type="1">
+              <Center x="150.0" y="150.0" z="35"/>
+              <Velocity x="0.0" y="0.0" z="0.0"/>
+          </Sphere>
+      </Shapes>
+  </Simulation>
+  ```  
 
 ### Benchmarks
 
@@ -263,158 +432,160 @@ Additional cmake options:
     ```bash
     $ ctest
     [...]
-    100% tests passed, 0 tests failed out of 108
+    100% tests passed, 0 tests failed out of 155
     
-    Total Test time (real) =   38.84 sec
+    Total Test time (real) =   29.29 sec
     ```
 
 ### Input file format
 
 - XSD - Definition of xml file structure
-
-    ```xml
-    <?xml version="1.0"?>
-    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-        <!-- Cuboids - all attributes are required -->
-        <xsd:complexType name="cuboid_t">
-            <xsd:sequence>
-                <xsd:element name="Position" type="vector_t"/>
-                <xsd:element name="Velocity" type="vector_t"/>
-                <xsd:element name="Dimension" type="vector_i"/>
-            </xsd:sequence>
-            <xsd:attribute name="distance" type="xsd:double" use="required"/>
-            <xsd:attribute name="mass" type="xsd:double" use="required"/>
-            <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
-            <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
-            <xsd:attribute name="depthOfPotentialWell" type="xsd:double" use="required"/>
-            <xsd:attribute name="zeroCrossing" type="xsd:double" use="required"/>
-        </xsd:complexType>
-    
-        <!-- Spheres - all attributes are required -->
-        <xsd:complexType name="sphere_t">
-            <xsd:sequence>
-                <xsd:element name="Center" type="vector_t"/>
-                <xsd:element name="Velocity" type="vector_t"/>
-            </xsd:sequence>
-            <xsd:attribute name="radius" type="xsd:nonNegativeInteger" use="required"/>
-            <xsd:attribute name="distance" type="xsd:double" use="required"/>
-            <xsd:attribute name="mass" type="xsd:double" use="required"/>
-            <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
-            <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
-            <xsd:attribute name="depthOfPotentialWell" type="xsd:double" use="required"/>
-            <xsd:attribute name="zeroCrossing" type="xsd:double" use="required"/>
-        </xsd:complexType>
-    
-        <!-- Double vector - all attributes are required -->
-        <xsd:complexType name="vector_t">
-            <xsd:attribute name="x" type="xsd:double" use="required"/>
-            <xsd:attribute name="y" type="xsd:double" use="required"/>
-            <xsd:attribute name="z" type="xsd:double" use="required"/>
-        </xsd:complexType>
-    
-        <!-- Integer vector - all attributes are required -->
-        <xsd:complexType name="vector_i">
-            <xsd:attribute name="x" type="xsd:nonNegativeInteger" use="required"/>
-            <xsd:attribute name="y" type="xsd:nonNegativeInteger" use="required"/>
-            <xsd:attribute name="z" type="xsd:nonNegativeInteger" use="required"/>
-        </xsd:complexType>
-    
-        <!-- Sources - additional files -->
-        <xsd:complexType name="input_t">
-            <xsd:attribute name="path" type="xsd:string" use="required"/>
-        </xsd:complexType>
-    
-        <!-- boundary_t - boundary options -->
-        <xsd:complexType name="boundary_t">
-            <xsd:attribute name="boundary" type="xsd:string"/>
-            <xsd:attribute name="boundary-right" type="xsd:string"/>
-            <xsd:attribute name="boundary-left" type="xsd:string"/>
-            <xsd:attribute name="boundary-top" type="xsd:string"/>
-            <xsd:attribute name="boundary-bottom" type="xsd:string"/>
-            <xsd:attribute name="boundary-back" type="xsd:string"/>
-            <xsd:attribute name="boundary-front" type="xsd:string"/>
-        </xsd:complexType>
-    
-        <!-- List of Shapes (Cuboids/Spheres) -->
-        <xsd:complexType name="shape_t">
-            <xsd:sequence>
-                <xsd:element name="Cuboid" type="cuboid_t" minOccurs="0" maxOccurs="unbounded"/>
-                <xsd:element name="Sphere" type="sphere_t" minOccurs="0" maxOccurs="unbounded"/>
-            </xsd:sequence>
-        </xsd:complexType>
-    
-        <!-- Direct sum simulation -->
-        <xsd:complexType name="directSum_t"/>
-    
-        <!-- Linked cell simulation -->
-        <xsd:complexType name="linkedCell_t">
-            <xsd:sequence>
-                <!-- Boundary: specify at which boundary of the domain which type of condition is applied -->
-                <xsd:element name="Boundary" type="boundary_t"/>
-                <!-- Domain: size of the domain -->
-                <xsd:element name="Domain" type="vector_i"/>
-                <!-- Domain: size of the domain -->
-                <xsd:element name="CellSize" type="vector_i"/>
-            </xsd:sequence>
-            <!-- cutoffRadius: used for linked cell optimizations -->
-            <xsd:attribute name="cutoffRadius" type="xsd:double" use="required"/>
-        </xsd:complexType>
-    
-        <xsd:complexType name="strategy_t">
-            <xsd:choice>
-                <xsd:element name="LinkedCell" type="linkedCell_t"/>
-                <xsd:element name="DirectSum" type="directSum_t"/>
-            </xsd:choice>
-        </xsd:complexType>
-    
-        <!-- Thermostat -->
-        <xsd:complexType name="thermostat_t">
-            <!-- cutoffRadius: used for linked cell optimizations -->
-            <xsd:attribute name="initialT" type="xsd:double" use="required"/>
-            <xsd:attribute name="targetT" type="xsd:double"/>
-            <xsd:attribute name="numberT" type="xsd:nonNegativeInteger" use="required"/>
-            <xsd:attribute name="deltaT" type="xsd:nonNegativeInteger"/>
-        </xsd:complexType>
-    
-        <!-- Simulation -->
-        <xsd:complexType name="simulation_t">
-            <xsd:sequence>
-                <xsd:element name="Shapes" type="shape_t" minOccurs="0" maxOccurs="unbounded"/>
-                <xsd:element name="Source" type="input_t" minOccurs="0" maxOccurs="unbounded"/>
-                <xsd:element name="Strategy" type="strategy_t" minOccurs="0"/>
-                <xsd:element name="Thermostat" type="thermostat_t" minOccurs="0"/>
-            </xsd:sequence>
-            <xsd:attribute name="endTime" type="xsd:double" use="required"/>
-            <xsd:attribute name="deltaT" type="xsd:double" use="required"/>
-            <xsd:attribute name="output" type="xsd:string" use="required"/>
-            <xsd:attribute name="iteration" type="xsd:nonNegativeInteger" use="required"/>
-            <!-- writer: gravitation | lennard -->
-            <xsd:attribute name="physics" type="xsd:string" use="required"/>
-            <!-- writer: vtk | xyz -->
-            <xsd:attribute name="writer" type="xsd:string" use="required"/>
-            <xsd:attribute name="additionalGravitation" type="xsd:double"/>
-        </xsd:complexType>
-        <xsd:element name="Simulation" type="simulation_t"/>
-    </xsd:schema>
-    ```
+  ```xml
+  <?xml version="1.0"?>
+  <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+      <!-- Cuboids - all attributes are required -->
+      <xsd:complexType name="cuboid_t">
+          <xsd:sequence>
+              <xsd:element name="Position" type="vector_t"/>
+              <xsd:element name="Velocity" type="vector_t"/>
+              <xsd:element name="Dimension" type="vector_i"/>
+          </xsd:sequence>
+          <xsd:attribute name="distance" type="xsd:double" use="required"/>
+          <xsd:attribute name="mass" type="xsd:double" use="required"/>
+          <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
+          <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
+          <xsd:attribute name="depthOfPotentialWell" type="xsd:double" use="required"/>
+          <xsd:attribute name="zeroCrossing" type="xsd:double" use="required"/>
+          <xsd:attribute name="type" type="xsd:nonNegativeInteger"/>
+      </xsd:complexType>
+  
+      <!-- Spheres - all attributes are required -->
+      <xsd:complexType name="sphere_t">
+          <xsd:sequence>
+              <xsd:element name="Center" type="vector_t"/>
+              <xsd:element name="Velocity" type="vector_t"/>
+          </xsd:sequence>
+          <xsd:attribute name="radius" type="xsd:nonNegativeInteger" use="required"/>
+          <xsd:attribute name="distance" type="xsd:double" use="required"/>
+          <xsd:attribute name="mass" type="xsd:double" use="required"/>
+          <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
+          <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
+          <xsd:attribute name="depthOfPotentialWell" type="xsd:double" use="required"/>
+          <xsd:attribute name="zeroCrossing" type="xsd:double" use="required"/>
+          <xsd:attribute name="type" type="xsd:nonNegativeInteger"/>
+      </xsd:complexType>
+  
+      <!-- Double vector - all attributes are required -->
+      <xsd:complexType name="vector_t">
+          <xsd:attribute name="x" type="xsd:double" use="required"/>
+          <xsd:attribute name="y" type="xsd:double" use="required"/>
+          <xsd:attribute name="z" type="xsd:double" use="required"/>
+      </xsd:complexType>
+  
+      <!-- Integer vector - all attributes are required -->
+      <xsd:complexType name="vector_i">
+          <xsd:attribute name="x" type="xsd:nonNegativeInteger" use="required"/>
+          <xsd:attribute name="y" type="xsd:nonNegativeInteger" use="required"/>
+          <xsd:attribute name="z" type="xsd:nonNegativeInteger" use="required"/>
+      </xsd:complexType>
+  
+      <!-- Sources - additional files -->
+      <xsd:complexType name="input_t">
+          <xsd:attribute name="path" type="xsd:string" use="required"/>
+      </xsd:complexType>
+  
+      <!-- boundary_t - boundary options -->
+      <xsd:complexType name="boundary_t">
+          <xsd:attribute name="boundary" type="xsd:string"/>
+          <xsd:attribute name="boundary-right" type="xsd:string"/>
+          <xsd:attribute name="boundary-left" type="xsd:string"/>
+          <xsd:attribute name="boundary-top" type="xsd:string"/>
+          <xsd:attribute name="boundary-bottom" type="xsd:string"/>
+          <xsd:attribute name="boundary-back" type="xsd:string"/>
+          <xsd:attribute name="boundary-front" type="xsd:string"/>
+      </xsd:complexType>
+  
+      <!-- List of Shapes (Cuboids/Spheres) -->
+      <xsd:complexType name="shape_t">
+          <xsd:sequence>
+              <xsd:element name="Cuboid" type="cuboid_t" minOccurs="0" maxOccurs="unbounded"/>
+              <xsd:element name="Sphere" type="sphere_t" minOccurs="0" maxOccurs="unbounded"/>
+          </xsd:sequence>
+      </xsd:complexType>
+  
+      <!-- Direct sum simulation -->
+      <xsd:complexType name="directSum_t"/>
+  
+      <!-- Linked cell simulation -->
+      <xsd:complexType name="linkedCell_t">
+          <xsd:sequence>
+              <!-- Boundary: specify at which boundary of the domain which type of condition is applied -->
+              <xsd:element name="Boundary" type="boundary_t"/>
+              <!-- Domain: size of the domain -->
+              <xsd:element name="Domain" type="vector_t"/>
+              <!-- Domain: size of the domain -->
+              <xsd:element name="CellSize" type="vector_t"/>
+          </xsd:sequence>
+          <!-- cutoffRadius: used for linked cell optimizations -->
+          <xsd:attribute name="cutoffRadius" type="xsd:double" use="required"/>
+      </xsd:complexType>
+  
+      <xsd:complexType name="strategy_t">
+          <xsd:choice>
+              <xsd:element name="LinkedCell" type="linkedCell_t"/>
+              <xsd:element name="DirectSum" type="directSum_t"/>
+          </xsd:choice>
+      </xsd:complexType>
+  
+      <!-- Thermostat -->
+      <xsd:complexType name="thermostat_t">
+          <!-- cutoffRadius: used for linked cell optimizations -->
+          <xsd:attribute name="initialT" type="xsd:double" use="required"/>
+          <xsd:attribute name="targetT" type="xsd:double"/>
+          <xsd:attribute name="numberT" type="xsd:nonNegativeInteger" use="required"/>
+          <xsd:attribute name="deltaT" type="xsd:nonNegativeInteger"/>
+      </xsd:complexType>
+  
+      <!-- Simulation -->
+      <xsd:complexType name="simulation_t">
+          <xsd:sequence>
+              <xsd:element name="Shapes" type="shape_t" minOccurs="0" maxOccurs="unbounded"/>
+              <xsd:element name="Source" type="input_t" minOccurs="0" maxOccurs="unbounded"/>
+              <xsd:element name="Strategy" type="strategy_t" minOccurs="0"/>
+              <xsd:element name="Thermostat" type="thermostat_t" minOccurs="0"/>
+          </xsd:sequence>
+          <xsd:attribute name="endTime" type="xsd:double" use="required"/>
+          <xsd:attribute name="deltaT" type="xsd:double" use="required"/>
+          <xsd:attribute name="output" type="xsd:string" use="required"/>
+          <xsd:attribute name="iteration" type="xsd:nonNegativeInteger" use="required"/>
+          <!-- writer: gravitation | lennard -->
+          <xsd:attribute name="physics" type="xsd:string" use="required"/>
+          <!-- writer: vtk | xyz -->
+          <xsd:attribute name="writer" type="xsd:string" use="required"/>
+          <xsd:attribute name="additionalGravitation" type="xsd:double"/>
+      </xsd:complexType>
+      <xsd:element name="Simulation" type="simulation_t"/>
+  </xsd:schema>
+  ```
 
 - XML - Example input file
     ```xml
     <!-- Example input file -->
     <Simulation endTime="3" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="MD">
         <Shapes>
-            <Cuboid mass="1.0" distance="1.1225" meanValue="0.0" packed="true">
+            <Cuboid mass="1.0" distance="1.1225" meanValue="0.0" packed="true" depthOfPotentialWell="5" zeroCrossing="1.2" type="1">
                 <Position x="0.0" y="0.0" z="0.0"/>
                 <Velocity x="0.0" y="0.0" z="0.0"/>
                 <Dimension x="5" y="20" z="5"/>
             </Cuboid>
-            <Sphere mass="3.0" distance="1.1225" meanValue="0" radius="10" packed="true" depthOfPotentialWell="5" zeroCrossing="1">
+            <Sphere mass="3.0" distance="1.1225" meanValue="0" radius="10" packed="true" depthOfPotentialWell="5" zeroCrossing="1" type="2">
                 <Center x="25" y="10" z="0"/>
                 <Velocity x="-15" y="0" z="0"/>
             </Sphere>
         </Shapes>
         <Source path="../../input/ws_01/eingabe-sonne.txt"/>
         <Source path="../../input/ws_01/sun_system.txt"/>
+        <Source path="../../input/ws_04/task_3_fluid_calm.vtu"/>
     </Simulation>
     ```
 
@@ -469,7 +640,6 @@ MolSim is released under the [MIT license](https://github.com/Dominik-Weinzierl/
 ![ws_03_task_4_3D_all_reflecting](pics/ws_03_task_4_3D_all_reflecting.gif)
 ![ws_03_two_spheres_3D_outflow_01](pics/ws_03_two_spheres_3D_outflow_01.gif)
 ![ws_03_two_spheres_3D_outflow_02](pics/ws_03_two_spheres_3D_outflow_02.gif)
-
 
 ## Linked Cells vs. Direct Sums
 
