@@ -2,18 +2,17 @@
             additionalGravitation="-9.81">
     <Strategy>
         <LinkedCell cutoffRadius="3">
-            <Domain x="9.6" y="9" z="9"/>
-            <CellSize x="3.2" y="3" z="3"/>
+            <Domain x="80" y="102" z="80"/>
+            <CellSize x="3.2" y="3" z="3.2"/>
             <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="periodic"
                       boundary-bottom="periodic" boundary-front="periodic" boundary-back="periodic"/>
         </LinkedCell>
     </Strategy>
     <Shapes>
         <Sphere mass="3.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.2"
-                type="0" radius="0">
-            <Center x="2" y="2" z="2"/>
+                type="0" radius="10">
+            <Center x="20" y="20" z="40"/>
             <Velocity x="15.0" y="20.0" z="0.0"/>
         </Sphere>
     </Shapes>
-    <Thermostat initialT="40" numberT="1000"/>
 </Simulation>

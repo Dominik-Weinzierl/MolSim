@@ -78,7 +78,8 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @return amount of Cell(s) per column as int
    */
   int cellsPerColumn() {
-    return static_cast<int>(domain[1] / cellSize[1]);
+    double amount = floor((domain[1] / cellSize[1]) / precision + 0.5) * precision;
+    return static_cast<int>(amount);
   }
 
   /**
@@ -86,7 +87,8 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @return amount of Cell(s) per row as int
    */
   int cellsPerRow() {
-    return static_cast<int>(domain[0] / cellSize[0]);
+    double amount = floor((domain[0] / cellSize[0]) / precision + 0.5) * precision;
+    return static_cast<int>(amount);
   }
 
   /**
@@ -94,7 +96,8 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @return amount of Cell(s) per depth as int
    */
   int cellsPerDepth() {
-    return static_cast<int>(domain[2] / cellSize[2]);
+    double amount = floor((domain[2] / cellSize[2]) / precision + 0.5) * precision;
+    return static_cast<int>(amount);
   }
 
   /**

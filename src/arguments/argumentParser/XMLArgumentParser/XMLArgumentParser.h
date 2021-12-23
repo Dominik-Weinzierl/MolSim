@@ -94,7 +94,7 @@ class XMLArgumentParser : public ArgumentParser<dim> {
       std::array<std::vector<double>, dim> possibleCellSizesForAllDimension;
 
       for (size_t i = 0; i < dim; ++i) {
-        if (std::fmod(arg->getDomain().value()[i], arg->getCellSize().value()[i]) >= 0.0001) {
+        if (std::fmod(arg->getDomain().value()[i], arg->getCellSize().value()[i]) >= 0.000001) {
           int multiple = static_cast<int>(arg->getDomain().value()[i] / arg->getCellSize().value()[i]);
           double newCellSize = arg->getDomain().value()[i] / static_cast<double>(multiple);
           double preciseNewCellSize = scaleToSelectedPrecision(newCellSize, precision);
@@ -134,7 +134,7 @@ class XMLArgumentParser : public ArgumentParser<dim> {
 
       // Check we have at least three Cells per Dimension
       for (size_t i = 0; i < dim; ++i) {
-        if (arg->getDomain().value()[i] / arg->getCellSize().value()[i] < 3) {
+        if (arg->getDomain().value()[i] / arg->getCellSize().value()[i] < 3 - 0.000001) {
           throw std::invalid_argument("At least three cells per dimension are needed");
         }
       }
