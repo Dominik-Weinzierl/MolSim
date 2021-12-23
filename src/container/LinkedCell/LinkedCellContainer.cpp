@@ -207,8 +207,8 @@ template<>
 int LinkedCellContainer<2>::getIndexBasedOnCoordinates(Vector<2> coords) {
   int cellsPerColumn = this->cellsPerColumn() + 2;
   int index = cellsPerColumn;
-  index += cellsPerColumn * static_cast<int>(std::floor(coords[0] / cellSize[0]));
-  index += static_cast<int>(std::floor(coords[1] / cellSize[1])) + 1;
+  index += cellsPerColumn * static_cast<int>(setDoublePrecision(coords[0] / cellSize[0]));
+  index += static_cast<int>(setDoublePrecision(coords[1] / cellSize[1])) + 1;
 
   return index;
 }
@@ -218,10 +218,10 @@ int LinkedCellContainer<3>::getIndexBasedOnCoordinates(Vector<3> coords) {
   int cellsPerRow = this->cellsPerRow() + 2;
   int cellsPerColumn = this->cellsPerColumn() + 2;
 
-  int index = (static_cast<int>(std::floor(coords[2] / cellSize[2])) + 1) * (cellsPerRow * cellsPerColumn);
+  int index = (static_cast<int>(setDoublePrecision(coords[2] / cellSize[2])) + 1) * (cellsPerRow * cellsPerColumn);
   index += cellsPerColumn;
-  index += cellsPerColumn * static_cast<int>(std::floor(coords[0] / cellSize[0]));
-  index += static_cast<int>(std::floor(coords[1] / cellSize[1])) + 1;
+  index += cellsPerColumn * static_cast<int>(setDoublePrecision(coords[0] / cellSize[0]));
+  index += static_cast<int>(setDoublePrecision(coords[1] / cellSize[1])) + 1;
 
   return index;
 }
@@ -251,8 +251,8 @@ void LinkedCellContainer<2>::linkHalosForPeriodic() {
     }
 
     // Since we calculate with double, we need to limit our precision to avoid unexpected behavior.
-    pos[0] = floor(pos[0] / precision + 0.5) * precision;
-    pos[1] = floor(pos[1] / precision + 0.5) * precision;
+    pos[0] = setDoublePrecision(pos[0]);
+    pos[1] = setDoublePrecision(pos[1]);
     auto index = getIndexBasedOnCoordinates(pos);
     auto *cell = cells[static_cast<unsigned long>(index)];
     neighbours.push_back(cell);
@@ -304,9 +304,9 @@ void LinkedCellContainer<3>::linkHalosForPeriodic() {
     }
 
     // Since we calculate with double, we need to limit our precision to avoid unexpected behavior.
-    pos[0] = floor(pos[0] / precision + 0.5) * precision;
-    pos[1] = floor(pos[1] / precision + 0.5) * precision;
-    pos[2] = floor(pos[2] / precision + 0.5) * precision;
+    pos[0] = setDoublePrecision(pos[0]);
+    pos[1] = setDoublePrecision(pos[1]);
+    pos[2] = setDoublePrecision(pos[2]);
     auto index = getIndexBasedOnCoordinates(pos);
     auto *cell = cells[static_cast<unsigned long>(index)];
     neighbours.push_back(cell);
@@ -354,12 +354,12 @@ void LinkedCellContainer<2>::linkCells() {
             auto periodicCellX = nX * cellSize[0];
             periodicCellX =
                 std::fmod(periodicCellX > domain[0] ? periodicCellX - domain[0] : periodicCellX + domain[0], domain[0]);
-            periodicCellX = floor(periodicCellX / precision + 0.5) * precision;
+            periodicCellX = setDoublePrecision(periodicCellX);
 
             auto periodicCellY = nY * cellSize[1];
             periodicCellY =
                 std::fmod(periodicCellY > domain[1] ? periodicCellY - domain[1] : periodicCellY + domain[1], domain[1]);
-            periodicCellY = floor(periodicCellY / precision + 0.5) * precision;
+            periodicCellY = setDoublePrecision(periodicCellY);
 
             if ((nX < 0 || nX >= cellsPerRow) && this->boundaries[0] != BoundaryType::Periodic) {
               continue;
@@ -453,19 +453,19 @@ void LinkedCellContainer<3>::linkCells() {
                 periodicCellX =
                     std::fmod(periodicCellX > domain[0] ? periodicCellX - domain[0] : periodicCellX + domain[0],
                               domain[0]);
-                periodicCellX = floor(periodicCellX / precision + 0.5) * precision;
+                periodicCellX = setDoublePrecision(periodicCellX);
 
                 auto periodicCellY = nY * cellSize[1];
                 periodicCellY =
                     std::fmod(periodicCellY > domain[1] ? periodicCellY - domain[1] : periodicCellY + domain[1],
                               domain[1]);
-                periodicCellY = floor(periodicCellY / precision + 0.5) * precision;
+                periodicCellY = setDoublePrecision(periodicCellY);
 
                 auto periodicCellZ = nZ * cellSize[2];
                 periodicCellZ =
                     std::fmod(periodicCellZ > domain[2] ? periodicCellZ - domain[2] : periodicCellZ + domain[2],
                               domain[2]);
-                periodicCellZ = floor(periodicCellZ / precision + 0.5) * precision;
+                periodicCellZ = setDoublePrecision(periodicCellZ);
 
                 if ((nX < 0 || nX >= cellsPerRow) && this->boundaries[0] != BoundaryType::Periodic) {
                   continue;
