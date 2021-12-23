@@ -74,11 +74,20 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   //----------------------------------------Methods----------------------------------------
 
   /**
+   * Set the precision for this double (round up and down)
+   * @param value which needs to be adapted
+   */
+  double setDoublePrecision(double value) {
+    return std::floor(value / precision + 0.5) * precision;
+  }
+
+  /**
    * Helper function to calculate the amount of Cell(s) per column.
    * @return amount of Cell(s) per column as int
    */
   int cellsPerColumn() {
-    return static_cast<int>(domain[1] / cellSize[1]);
+    double amount = setDoublePrecision(domain[1] / cellSize[1]);
+    return static_cast<int>(amount);
   }
 
   /**
@@ -86,7 +95,8 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @return amount of Cell(s) per row as int
    */
   int cellsPerRow() {
-    return static_cast<int>(domain[0] / cellSize[0]);
+    double amount = setDoublePrecision(domain[0] / cellSize[0]);
+    return static_cast<int>(amount);
   }
 
   /**
@@ -94,7 +104,8 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @return amount of Cell(s) per depth as int
    */
   int cellsPerDepth() {
-    return static_cast<int>(domain[2] / cellSize[2]);
+    double amount = setDoublePrecision(domain[2] / cellSize[2]);
+    return static_cast<int>(amount);
   }
 
   /**
