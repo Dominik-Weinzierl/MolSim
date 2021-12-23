@@ -30,7 +30,7 @@ class XMLArgumentParser : public ArgumentParser<dim> {
   XMLArgumentStatus status;
 
   /**
-   *
+   * Sets the precision for our doubles we use to create the mesh.
    */
   double scaleToSelectedPrecision(double d, double &p) {
     return std::floor(d / p + 0.5) * p;

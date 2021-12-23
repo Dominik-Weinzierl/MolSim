@@ -73,10 +73,10 @@ class Particle {
 
   /**
    * Constructor which generates a particle with the given parameters.
-   * @param pX Position-Vector.
-   * @param pV Velocity-Vector.
-   * @param pM Mass.
-   * @param type Type.
+   * @param pX position vector
+   * @param pV velocity vector
+   * @param pM mass
+   * @param pType type of the Particle
    */
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, int pType = 0) : x{pX}, v{pV}, f{}, old_f{}, m{pM},
                                                                                      type{pType} {
@@ -85,13 +85,13 @@ class Particle {
 
   /**
   * Constructor which generates a particle with the given parameters.
-  * @param pX Position-Vector.
-  * @param pV Velocity-Vector.
-  * @param pM Mass.
-  * @param pZeroCrossing Zero Crossing.
-  * @param pPotentialWellDepth Potential Well Depth.
-  * @param pType Type.
-  */
+   * @param pX position vector
+   * @param pV velocity vector
+   * @param pM mass
+   * @param pZeroCrossing zero crossing
+   * @param pPotentialWellDepth potential well depth
+   * @param pType type of the Particle
+   */
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth,
            int pType) : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
                         potentialWellDepth{pPotentialWellDepth} {
@@ -100,18 +100,19 @@ class Particle {
 
   /**
    * Constructor which generates a particle with the given parameters.
-   * @param pX Position-Vector.
-   * @param pV Velocity-Vector.
-   * @param pF Force-Vector.
-   * @param pOldF Old-Force-Vector.
-   * @param pM Mass.
-   * @param pZeroCrossing Zero Crossing.
-   * @param pPotentialWellDepth Potential Well Depth.
-   * @param pType Type.
+   * @param pX position vector
+   * @param pV velocity vector
+   * @param pF force vector
+   * @param pOldF old force vector
+   * @param pM mass
+   * @param pZeroCrossing zero crossing
+   * @param pPotentialWellDepth potential well depth
+   * @param pType type of the Particle
    */
-  Particle(const Vector<dim> &pX, const Vector<dim> &pV, const Vector<dim> &pF, const Vector<dim> &pOldF, double pM, double pZeroCrossing, double pPotentialWellDepth,
-           int pType) : x{pX}, v{pV}, f{pF}, old_f{pOldF}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
-                        potentialWellDepth{pPotentialWellDepth} {
+  Particle(const Vector<dim> &pX, const Vector<dim> &pV, const Vector<dim> &pF, const Vector<dim> &pOldF, double pM,
+           double pZeroCrossing, double pPotentialWellDepth, int pType) : x{pX}, v{pV}, f{pF}, old_f{pOldF}, m{pM},
+                                                                          type{pType}, zeroCrossing{pZeroCrossing},
+                                                                          potentialWellDepth{pPotentialWellDepth} {
     SPDLOG_TRACE("Particle generated");
   }
 
