@@ -3,8 +3,8 @@
     <Source path="../../input/ws_04/task_3_fluid_calm.vtu"/>
     <Strategy>
         <LinkedCell cutoffRadius="3">
-            <Domain x="303" y="180" z="70"/>
-            <CellSize x="1" y="1" z="1"/>
+            <Domain x="303" y="180" z="72"/>
+            <CellSize x="3" y="3" z="3"/>
             <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
                       boundary-bottom="reflecting" boundary-front="periodic" boundary-back="periodic"/>
         </LinkedCell>
