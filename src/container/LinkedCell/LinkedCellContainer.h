@@ -78,7 +78,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * @param value which needs to be adapted
    */
   double setDoublePrecision(double value) {
-    return floor(value / precision + 0.5) * precision;
+    return std::floor(value / precision + 0.5) * precision;
   }
 
   /**
