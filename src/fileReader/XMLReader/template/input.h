@@ -809,6 +809,67 @@ class cuboid_t : public ::xml_schema::type {
   //@}
 
   /**
+   * @name static
+   *
+   * @brief Accessor and modifier functions for the %static
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::boolean static_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<static_type> static_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<static_type, char> static_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const static_optional &static_() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  static_optional &static_();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void static_(const static_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void static_(const static_optional &x);
+
+  //@}
+
+  /**
    * @name distance
    *
    * @brief Accessor and modifier functions for the %distance
@@ -1223,6 +1284,7 @@ class cuboid_t : public ::xml_schema::type {
   ::xsd::cxx::tree::one<Position_type> Position_;
   ::xsd::cxx::tree::one<Velocity_type> Velocity_;
   ::xsd::cxx::tree::one<Dimension_type> Dimension_;
+  static_optional static__;
   ::xsd::cxx::tree::one<distance_type> distance_;
   ::xsd::cxx::tree::one<mass_type> mass_;
   ::xsd::cxx::tree::one<meanValue_type> meanValue_;
@@ -1346,6 +1408,67 @@ class sphere_t : public ::xml_schema::type {
    * instead of making a copy.
    */
   void Velocity(::std::unique_ptr<Velocity_type> p);
+
+  //@}
+
+  /**
+   * @name static
+   *
+   * @brief Accessor and modifier functions for the %static
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::boolean static_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<static_type> static_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<static_type, char> static_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const static_optional &static_() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  static_optional &static_();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void static_(const static_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void static_(const static_optional &x);
 
   //@}
 
@@ -1806,6 +1929,7 @@ class sphere_t : public ::xml_schema::type {
  protected:
   ::xsd::cxx::tree::one<Center_type> Center_;
   ::xsd::cxx::tree::one<Velocity_type> Velocity_;
+  static_optional static__;
   ::xsd::cxx::tree::one<radius_type> radius_;
   ::xsd::cxx::tree::one<distance_type> distance_;
   ::xsd::cxx::tree::one<mass_type> mass_;

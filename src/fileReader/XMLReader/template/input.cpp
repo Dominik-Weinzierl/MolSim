@@ -91,6 +91,22 @@ void cuboid_t::Dimension(::std::unique_ptr<Dimension_type> x) {
   this->Dimension_.set(std::move(x));
 }
 
+const cuboid_t::static_optional &cuboid_t::static_() const {
+  return this->static__;
+}
+
+cuboid_t::static_optional &cuboid_t::static_() {
+  return this->static__;
+}
+
+void cuboid_t::static_(const static_type &x) {
+  this->static__.set(x);
+}
+
+void cuboid_t::static_(const static_optional &x) {
+  this->static__ = x;
+}
+
 const cuboid_t::distance_type &cuboid_t::distance() const {
   return this->distance_.get();
 }
@@ -213,6 +229,22 @@ void sphere_t::Velocity(const Velocity_type &x) {
 
 void sphere_t::Velocity(::std::unique_ptr<Velocity_type> x) {
   this->Velocity_.set(std::move(x));
+}
+
+const sphere_t::static_optional &sphere_t::static_() const {
+  return this->static__;
+}
+
+sphere_t::static_optional &sphere_t::static_() {
+  return this->static__;
+}
+
+void sphere_t::static_(const static_type &x) {
+  this->static__.set(x);
+}
+
+void sphere_t::static_(const static_optional &x) {
+  this->static__ = x;
 }
 
 const sphere_t::radius_type &sphere_t::radius() const {
@@ -927,6 +959,7 @@ void simulation_t::additionalGravitation(const additionalGravitation_optional &x
   this->additionalGravitation_ = x;
 }
 
+
 #include <xsd/cxx/xml/dom/parsing-source.hxx>
 
 // cuboid_t
@@ -937,7 +970,7 @@ cuboid_t::cuboid_t(const Position_type &Position, const Velocity_type &Velocity,
                    const packed_type &packed, const depthOfPotentialWell_type &depthOfPotentialWell,
                    const zeroCrossing_type &zeroCrossing)
     : ::xml_schema::type(), Position_(Position, this), Velocity_(Velocity, this), Dimension_(Dimension, this),
-      distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(packed, this),
+      static__(this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(packed, this),
       depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this), type_(this) {
 }
 
@@ -946,9 +979,9 @@ cuboid_t::cuboid_t(::std::unique_ptr<Position_type> Position, ::std::unique_ptr<
                    const meanValue_type &meanValue, const packed_type &packed,
                    const depthOfPotentialWell_type &depthOfPotentialWell, const zeroCrossing_type &zeroCrossing)
     : ::xml_schema::type(), Position_(std::move(Position), this), Velocity_(std::move(Velocity), this),
-      Dimension_(std::move(Dimension), this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this),
-      packed_(packed, this), depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this),
-      type_(this) {
+      Dimension_(std::move(Dimension), this), static__(this), distance_(distance, this), mass_(mass, this),
+      meanValue_(meanValue, this), packed_(packed, this), depthOfPotentialWell_(depthOfPotentialWell, this),
+      zeroCrossing_(zeroCrossing, this), type_(this) {
 }
 
 cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
@@ -958,6 +991,8 @@ cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::conta
                                                                                                      this),
                                                                                            Dimension_(x.Dimension_, f,
                                                                                                       this),
+                                                                                           static__(x.static__, f,
+                                                                                                    this),
                                                                                            distance_(x.distance_, f,
                                                                                                      this),
                                                                                            mass_(x.mass_, f, this),
@@ -972,8 +1007,8 @@ cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::conta
 
 cuboid_t::cuboid_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Position_(this), Velocity_(this), Dimension_(this),
-      distance_(this), mass_(this), meanValue_(this), packed_(this), depthOfPotentialWell_(this), zeroCrossing_(this),
-      type_(this) {
+      static__(this), distance_(this), mass_(this), meanValue_(this), packed_(this), depthOfPotentialWell_(this),
+      zeroCrossing_(this), type_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -1036,6 +1071,11 @@ void cuboid_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags 
   while (p.more_attributes()) {
     const ::xercesc::DOMAttr &i(p.next_attribute());
     const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    if (n.name() == "static" && n.namespace_().empty()) {
+      this->static__.set(static_traits::create(i, f, this));
+      continue;
+    }
 
     if (n.name() == "distance" && n.namespace_().empty()) {
       this->distance_.set(distance_traits::create(i, f, this));
@@ -1108,6 +1148,7 @@ cuboid_t &cuboid_t::operator=(const cuboid_t &x) {
     this->Position_ = x.Position_;
     this->Velocity_ = x.Velocity_;
     this->Dimension_ = x.Dimension_;
+    this->static__ = x.static__;
     this->distance_ = x.distance_;
     this->mass_ = x.mass_;
     this->meanValue_ = x.meanValue_;
@@ -1130,7 +1171,7 @@ sphere_t::sphere_t(const Center_type &Center, const Velocity_type &Velocity, con
                    const distance_type &distance, const mass_type &mass, const meanValue_type &meanValue,
                    const packed_type &packed, const depthOfPotentialWell_type &depthOfPotentialWell,
                    const zeroCrossing_type &zeroCrossing)
-    : ::xml_schema::type(), Center_(Center, this), Velocity_(Velocity, this), radius_(radius, this),
+    : ::xml_schema::type(), Center_(Center, this), Velocity_(Velocity, this), static__(this), radius_(radius, this),
       distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(packed, this),
       depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this), type_(this) {
 }
@@ -1139,7 +1180,7 @@ sphere_t::sphere_t(::std::unique_ptr<Center_type> Center, ::std::unique_ptr<Velo
                    const radius_type &radius, const distance_type &distance, const mass_type &mass,
                    const meanValue_type &meanValue, const packed_type &packed,
                    const depthOfPotentialWell_type &depthOfPotentialWell, const zeroCrossing_type &zeroCrossing)
-    : ::xml_schema::type(), Center_(std::move(Center), this), Velocity_(std::move(Velocity), this),
+    : ::xml_schema::type(), Center_(std::move(Center), this), Velocity_(std::move(Velocity), this), static__(this),
       radius_(radius, this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this),
       packed_(packed, this), depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this),
       type_(this) {
@@ -1149,6 +1190,8 @@ sphere_t::sphere_t(const sphere_t &x, ::xml_schema::flags f, ::xml_schema::conta
                                                                                            Center_(x.Center_, f, this),
                                                                                            Velocity_(x.Velocity_, f,
                                                                                                      this),
+                                                                                           static__(x.static__, f,
+                                                                                                    this),
                                                                                            radius_(x.radius_, f, this),
                                                                                            distance_(x.distance_, f,
                                                                                                      this),
@@ -1163,9 +1206,9 @@ sphere_t::sphere_t(const sphere_t &x, ::xml_schema::flags f, ::xml_schema::conta
 }
 
 sphere_t::sphere_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Center_(this), Velocity_(this), radius_(this),
-      distance_(this), mass_(this), meanValue_(this), packed_(this), depthOfPotentialWell_(this), zeroCrossing_(this),
-      type_(this) {
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Center_(this), Velocity_(this), static__(this),
+      radius_(this), distance_(this), mass_(this), meanValue_(this), packed_(this), depthOfPotentialWell_(this),
+      zeroCrossing_(this), type_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -1213,6 +1256,11 @@ void sphere_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags 
   while (p.more_attributes()) {
     const ::xercesc::DOMAttr &i(p.next_attribute());
     const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    if (n.name() == "static" && n.namespace_().empty()) {
+      this->static__.set(static_traits::create(i, f, this));
+      continue;
+    }
 
     if (n.name() == "radius" && n.namespace_().empty()) {
       this->radius_.set(radius_traits::create(i, f, this));
@@ -1293,6 +1341,7 @@ sphere_t &sphere_t::operator=(const sphere_t &x) {
     static_cast< ::xml_schema::type & > (*this) = x;
     this->Center_ = x.Center_;
     this->Velocity_ = x.Velocity_;
+    this->static__ = x.static__;
     this->radius_ = x.radius_;
     this->distance_ = x.distance_;
     this->mass_ = x.mass_;
@@ -2327,6 +2376,14 @@ void operator<<(::xercesc::DOMElement &e, const cuboid_t &i) {
     s << i.Dimension();
   }
 
+  // static
+  //
+  if (i.static_()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("static", e));
+
+    a << *i.static_();
+  }
+
   // distance
   //
   {
@@ -2401,6 +2458,14 @@ void operator<<(::xercesc::DOMElement &e, const sphere_t &i) {
     ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Velocity", e));
 
     s << i.Velocity();
+  }
+
+  // static
+  //
+  if (i.static_()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("static", e));
+
+    a << *i.static_();
   }
 
   // radius

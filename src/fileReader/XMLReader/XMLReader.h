@@ -57,11 +57,15 @@ class XMLReader {
         auto &zeroCrossing = sphere.zeroCrossing();
         auto &depthOfPotentialWell = sphere.depthOfPotentialWell();
         int type = 0;
-        if(sphere.type().present()) {
+        if (sphere.type().present()) {
           type = static_cast<int>(sphere.type().get());
         }
+        bool isStatic = false;
+        if (sphere.static_().present()) {
+          isStatic = sphere.static_().get();
+        }
         sphereArguments.emplace_back(wrapVector_t(pos), rad, wrapVector_t(vel), dis, mass, mean, pack, zeroCrossing,
-                                     depthOfPotentialWell, type);
+                                     depthOfPotentialWell, type, isStatic);
       }
     }
 
@@ -87,12 +91,16 @@ class XMLReader {
         auto &zeroCrossing = cuboid.zeroCrossing();
         auto &depthOfPotentialWell = cuboid.depthOfPotentialWell();
         int type = 0;
-        if(cuboid.type().present()) {
+        if (cuboid.type().present()) {
           type = static_cast<int>(cuboid.type().get());
+        }
+        bool isStatic = false;
+        if (cuboid.static_().present()) {
+          isStatic = cuboid.static_().get();
         }
         cuboidArguments
             .emplace_back(wrapVector_t(pos), wrapVector_i(dime), wrapVector_t(vel), dis, mass, mean, pack, zeroCrossing,
-                          depthOfPotentialWell, type);
+                          depthOfPotentialWell, type, isStatic);
       }
     }
 

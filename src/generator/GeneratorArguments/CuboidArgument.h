@@ -11,6 +11,11 @@ template<size_t dim>
 class CuboidArgument : public GeneratorArguments {
 
   /**
+   * Should the particles be static
+   */
+  bool isStatic;
+
+  /**
    * Coordinates of the lower left corner.
    */
   Vector<dim> startingCoordinates;
@@ -76,15 +81,18 @@ class CuboidArgument : public GeneratorArguments {
    * @param pZeroCrossing is a point where the sign of a mathematical function changes.
    * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
    * @param pType of all particles generated with this specific generator argument.
+   * @param pStatic whether the particles should be static.
    */
   CuboidArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
                  double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
-                 double pDepthOfPotentialWell, int pType) : startingCoordinates{pStartingCoordinates},
-                                                            dimensions{std::move(pDimensions)},
-                                                            initialVelocity{pInitialVelocity}, distance{pDistance},
-                                                            mass{pMass}, meanValue{pMeanValue}, packed{pPacked},
-                                                            zeroCrossing{pZeroCrossing},
-                                                            depthOfPotentialWell{pDepthOfPotentialWell}, type{pType} {
+                 double pDepthOfPotentialWell, int pType, bool pStatic) : startingCoordinates{pStartingCoordinates},
+                                                                          dimensions{std::move(pDimensions)},
+                                                                          initialVelocity{pInitialVelocity},
+                                                                          distance{pDistance}, mass{pMass},
+                                                                          meanValue{pMeanValue}, packed{pPacked},
+                                                                          zeroCrossing{pZeroCrossing},
+                                                                          depthOfPotentialWell{pDepthOfPotentialWell},
+                                                                          type{pType}, isStatic{pStatic} {
 
   }
 
@@ -169,6 +177,14 @@ class CuboidArgument : public GeneratorArguments {
    */
   [[nodiscard]] double getDistance() const {
     return distance;
+  }
+
+  /**
+ * Getter for isStatic
+ * @return isStatic
+ */
+  [[nodiscard]] bool getIsStatic() const {
+    return isStatic;
   }
 
   /**

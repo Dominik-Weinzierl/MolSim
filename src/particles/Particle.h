@@ -53,6 +53,11 @@ class Particle {
    */
   double potentialWellDepth = 5;
 
+  /**
+    * Whether the particle should be considered static (aka fixed, aka does not move)
+    */
+  bool isStatic;
+
  public:
 
   //----------------------------------------Constructor & Destructor----------------------------------------
@@ -61,7 +66,7 @@ class Particle {
    * Default constructor.
    * @param type Default value 0.
    */
-  explicit Particle(int type_arg) : x{}, v{}, f{}, old_f{}, m{}, type{type_arg} {
+  explicit Particle(int type_arg) : x{}, v{}, f{}, old_f{}, m{}, type{type_arg}, isStatic{false} {
     SPDLOG_TRACE("Particle generated");
   }
 
@@ -79,7 +84,7 @@ class Particle {
    * @param pType type of the Particle
    */
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, int pType = 0) : x{pX}, v{pV}, f{}, old_f{}, m{pM},
-                                                                                     type{pType} {
+                                                                                     type{pType}, isStatic{false} {
     SPDLOG_TRACE("Particle generated");
   }
 
@@ -94,7 +99,23 @@ class Particle {
    */
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth,
            int pType) : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
-                        potentialWellDepth{pPotentialWellDepth} {
+                        potentialWellDepth{pPotentialWellDepth}, isStatic{false} {
+    SPDLOG_TRACE("Particle generated");
+  }
+
+  /**
+* Constructor which generates a particle with the given parameters.
+ * @param pX position vector
+ * @param pV velocity vector
+ * @param pM mass
+ * @param pZeroCrossing zero crossing
+ * @param pPotentialWellDepth potential well depth
+ * @param pType type of the Particle
+   * @param pStatic if the particle should be static
+ */
+  Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth,
+           int pType, bool pStatic) : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
+                                      potentialWellDepth{pPotentialWellDepth}, isStatic{pStatic} {
     SPDLOG_TRACE("Particle generated");
   }
 
@@ -112,7 +133,8 @@ class Particle {
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, const Vector<dim> &pF, const Vector<dim> &pOldF, double pM,
            double pZeroCrossing, double pPotentialWellDepth, int pType) : x{pX}, v{pV}, f{pF}, old_f{pOldF}, m{pM},
                                                                           type{pType}, zeroCrossing{pZeroCrossing},
-                                                                          potentialWellDepth{pPotentialWellDepth} {
+                                                                          potentialWellDepth{pPotentialWellDepth},
+                                                                          isStatic{false} {
     SPDLOG_TRACE("Particle generated");
   }
 
@@ -130,6 +152,8 @@ class Particle {
    * @param z_arg new z value to add
    */
   inline void updateForce(double x_arg, double y_arg, double z_arg) {
+    if (isStatic)
+      return;
     f[0] += x_arg;
     f[1] += y_arg;
     f[2] += z_arg;
@@ -141,6 +165,8 @@ class Particle {
    * @param y_arg new y value to add
    */
   inline void updateForce(double x_arg, double y_arg) {
+    if (isStatic)
+      return;
     f[0] += x_arg;
     f[1] += y_arg;
   }
@@ -150,6 +176,8 @@ class Particle {
    * @param force new force to add
    */
   inline void updateForce(std::array<double, dim> force) {
+    if (isStatic)
+      return;
     for (size_t i = 0; i < dim; ++i) {
       f[i] += force[i];
     }
@@ -280,6 +308,8 @@ class Particle {
    * @param z_arg new z value
    */
   void setX(double x_arg, double y_arg, double z_arg) {
+    if (isStatic)
+      return;
     x[0] = x_arg;
     x[1] = y_arg;
     x[2] = z_arg;
@@ -291,6 +321,8 @@ class Particle {
    * @param y_arg new y value
    */
   void setX(double x_arg, double y_arg) {
+    if (isStatic)
+      return;
     x[0] = x_arg;
     x[1] = y_arg;
   }
@@ -300,6 +332,8 @@ class Particle {
    * @param velocity new velocity
    */
   void setV(const Vector<dim> &velocity) {
+    if (isStatic)
+      return;
     v = velocity;
   }
 
@@ -310,6 +344,8 @@ class Particle {
    * @param z_arg new z value
    */
   void setV(double x_arg, double y_arg, double z_arg) {
+    if (isStatic)
+      return;
     v[0] = x_arg;
     v[1] = y_arg;
     v[2] = z_arg;
@@ -321,6 +357,8 @@ class Particle {
    * @param y_arg new y value
    */
   void setV(double x_arg, double y_arg) {
+    if (isStatic)
+      return;
     v[0] = x_arg;
     v[1] = y_arg;
   }
@@ -330,6 +368,8 @@ class Particle {
    * @param force new force
    */
   void setF(const Vector<dim> &force) {
+    if (isStatic)
+      return;
     f = force;
   }
 
@@ -340,6 +380,8 @@ class Particle {
    * @param z_arg new z value
    */
   void setF(double x_arg, double y_arg, double z_arg) {
+    if (isStatic)
+      return;
     f[0] = x_arg;
     f[1] = y_arg;
     f[2] = z_arg;
@@ -351,6 +393,8 @@ class Particle {
    * @param y_arg new y value
    */
   void setF(double x_arg, double y_arg) {
+    if (isStatic)
+      return;
     f[0] = x_arg;
     f[1] = y_arg;
   }
@@ -360,6 +404,8 @@ class Particle {
    * @param y_arg new y value
    */
   void setF(double y_arg) {
+    if (isStatic)
+      return;
     f[0] = 0;
     f[1] = y_arg;
     if (dim == 3)
@@ -371,6 +417,8 @@ class Particle {
    * @param oldForce new old force
    */
   void setOldF(const Vector<dim> &oldForce) {
+    if (isStatic)
+      return;
     old_f = oldForce;
   }
 
@@ -381,6 +429,8 @@ class Particle {
    * @param z_arg new z value
    */
   void setOldF(double x_arg, double y_arg, double z_arg) {
+    if (isStatic)
+      return;
     old_f[0] = x_arg;
     old_f[1] = y_arg;
     old_f[2] = z_arg;
@@ -392,6 +442,8 @@ class Particle {
    * @param y_arg new y value
    */
   void setOldF(double x_arg, double y_arg) {
+    if (isStatic)
+      return;
     old_f[0] = x_arg;
     old_f[1] = y_arg;
   }

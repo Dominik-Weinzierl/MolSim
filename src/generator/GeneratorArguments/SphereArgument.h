@@ -9,6 +9,12 @@
  */
 template<size_t dim>
 class SphereArgument : public GeneratorArguments {
+
+  /**
+   * Should the particles be static
+   */
+  bool isStatic;
+
   /**
    * Coordinates of the center.
    */
@@ -75,12 +81,15 @@ class SphereArgument : public GeneratorArguments {
    * @param pZeroCrossing is a point where the sign of a mathematical function changes.
    * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
    * @param pType of all particles generated with this specific generator argument.
+   * @param pStatic whether the particles should be static.
    */
   SphereArgument(Vector<dim> pCenterCoordinates, int pRadius, Vector<dim> pInitialVelocity, double pDistance,
                  double pMass, double pMeanValue, bool pPacked, double pZeroCrossing, double pDepthOfPotentialWell,
-                 int pType) : centerCoordinates{pCenterCoordinates}, radius{pRadius}, initialVelocity{pInitialVelocity},
-                              distance{pDistance}, mass{pMass}, meanValue{pMeanValue}, packed{pPacked},
-                              zeroCrossing{pZeroCrossing}, depthOfPotentialWell{pDepthOfPotentialWell}, type{pType} {
+                 int pType, bool pStatic) : centerCoordinates{pCenterCoordinates}, radius{pRadius},
+                                            initialVelocity{pInitialVelocity}, distance{pDistance}, mass{pMass},
+                                            meanValue{pMeanValue}, packed{pPacked}, zeroCrossing{pZeroCrossing},
+                                            depthOfPotentialWell{pDepthOfPotentialWell}, type{pType},
+                                            isStatic{pStatic} {
   }
 
   //----------------------------------------Methods----------------------------------------
@@ -163,6 +172,14 @@ class SphereArgument : public GeneratorArguments {
    */
   [[nodiscard]] double getDistance() const {
     return distance;
+  }
+
+  /**
+* Getter for isStatic
+* @return isStatic
+*/
+  [[nodiscard]] bool getIsStatic() const {
+    return isStatic;
   }
 
   /**

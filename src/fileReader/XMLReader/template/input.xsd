@@ -7,6 +7,7 @@
             <xsd:element name="Velocity" type="vector_t"/>
             <xsd:element name="Dimension" type="vector_i"/>
         </xsd:sequence>
+        <xsd:attribute name="static" type="xsd:boolean"/>
         <xsd:attribute name="distance" type="xsd:double" use="required"/>
         <xsd:attribute name="mass" type="xsd:double" use="required"/>
         <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
@@ -22,6 +23,7 @@
             <xsd:element name="Center" type="vector_t"/>
             <xsd:element name="Velocity" type="vector_t"/>
         </xsd:sequence>
+        <xsd:attribute name="static" type="xsd:boolean"/>
         <xsd:attribute name="radius" type="xsd:nonNegativeInteger" use="required"/>
         <xsd:attribute name="distance" type="xsd:double" use="required"/>
         <xsd:attribute name="mass" type="xsd:double" use="required"/>
