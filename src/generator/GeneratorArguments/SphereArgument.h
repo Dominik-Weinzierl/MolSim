@@ -11,9 +11,9 @@ template<size_t dim>
 class SphereArgument : public GeneratorArguments {
 
   /**
-   * Should the particles be static
+   * Should the particles be fixed
    */
-  bool isStatic;
+  bool fixed;
 
   /**
    * Coordinates of the center.
@@ -81,15 +81,14 @@ class SphereArgument : public GeneratorArguments {
    * @param pZeroCrossing is a point where the sign of a mathematical function changes.
    * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
    * @param pType of all particles generated with this specific generator argument.
-   * @param pStatic whether the particles should be static.
+   * @param pFixed whether the particles should be static.
    */
   SphereArgument(Vector<dim> pCenterCoordinates, int pRadius, Vector<dim> pInitialVelocity, double pDistance,
                  double pMass, double pMeanValue, bool pPacked, double pZeroCrossing, double pDepthOfPotentialWell,
-                 int pType, bool pStatic) : centerCoordinates{pCenterCoordinates}, radius{pRadius},
-                                            initialVelocity{pInitialVelocity}, distance{pDistance}, mass{pMass},
-                                            meanValue{pMeanValue}, packed{pPacked}, zeroCrossing{pZeroCrossing},
-                                            depthOfPotentialWell{pDepthOfPotentialWell}, type{pType},
-                                            isStatic{pStatic} {
+                 int pType, bool pFixed) : centerCoordinates{pCenterCoordinates}, radius{pRadius},
+                                           initialVelocity{pInitialVelocity}, distance{pDistance}, mass{pMass},
+                                           meanValue{pMeanValue}, packed{pPacked}, zeroCrossing{pZeroCrossing},
+                                           depthOfPotentialWell{pDepthOfPotentialWell}, type{pType}, fixed{pFixed} {
   }
 
   //----------------------------------------Methods----------------------------------------
@@ -175,11 +174,11 @@ class SphereArgument : public GeneratorArguments {
   }
 
   /**
-* Getter for isStatic
-* @return isStatic
+* Getter for fixed
+* @return fixed
 */
-  [[nodiscard]] bool getIsStatic() const {
-    return isStatic;
+  [[nodiscard]] bool isFixed() const {
+    return fixed;
   }
 
   /**

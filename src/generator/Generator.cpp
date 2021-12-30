@@ -14,7 +14,7 @@ void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, Parti
                z * c.getDistance() + c.getStartingCoordinates()[2]};
           Particle<3> p
               {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
-               c.getIsStatic()};
+               c.isFixed()};
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -33,7 +33,7 @@ void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, Parti
                z * c.getDistance() + c.getStartingCoordinates()[2]};
           Particle<3> p
               {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
-               c.getIsStatic()};
+               c.isFixed()};
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -48,7 +48,7 @@ void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, Parti
                z * c.getDistance() + c.getStartingCoordinates()[2]};
           Particle<3> p
               {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
-               c.getIsStatic()};
+               c.isFixed()};
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -63,7 +63,7 @@ void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, Parti
                z * c.getDistance() + c.getStartingCoordinates()[2]};
           Particle<3> p
               {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
-               c.getIsStatic()};
+               c.isFixed()};
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -82,7 +82,7 @@ void Generator<CuboidArgument<2>, 2>::generate(const CuboidArgument<2> &c, Parti
             {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1]};
         Particle<2> p
             {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
-             c.getIsStatic()};
+             c.isFixed()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -97,7 +97,7 @@ void Generator<CuboidArgument<2>, 2>::generate(const CuboidArgument<2> &c, Parti
             {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1]};
         Particle<2> p
             {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
-             c.getIsStatic()};
+             c.isFixed()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -109,7 +109,7 @@ void Generator<CuboidArgument<2>, 2>::generate(const CuboidArgument<2> &c, Parti
             {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1]};
         Particle<2> p
             {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
-             c.getIsStatic()};
+             c.isFixed()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -136,7 +136,7 @@ void Generator<SphereArgument<3>, 3>::generate(const SphereArgument<3> &c, Parti
 
         Particle<3> p
             {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
-             c.getIsStatic()};
+             c.isFixed()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -160,7 +160,7 @@ void Generator<SphereArgument<2>, 2>::generate(const SphereArgument<2> &c, Parti
 
       Particle<2> p
           {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
-           c.getIsStatic()};
+           c.isFixed()};
       applyMotion(c.getMeanValue(), p);
       container.addParticle(p);
     }

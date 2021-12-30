@@ -809,9 +809,9 @@ class cuboid_t : public ::xml_schema::type {
   //@}
 
   /**
-   * @name static
+   * @name fixed
    *
-   * @brief Accessor and modifier functions for the %static
+   * @brief Accessor and modifier functions for the %fixed
    * optional attribute.
    */
   //@{
@@ -819,17 +819,17 @@ class cuboid_t : public ::xml_schema::type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::boolean static_type;
+  typedef ::xml_schema::boolean fixed_type;
 
   /**
    * @brief Attribute optional container type.
    */
-  typedef ::xsd::cxx::tree::optional<static_type> static_optional;
+  typedef ::xsd::cxx::tree::optional<fixed_type> fixed_optional;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<static_type, char> static_traits;
+  typedef ::xsd::cxx::tree::traits<fixed_type, char> fixed_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute
@@ -837,14 +837,14 @@ class cuboid_t : public ::xml_schema::type {
    *
    * @return A constant reference to the optional container.
    */
-  const static_optional &static_() const;
+  const fixed_optional &fixed() const;
 
   /**
    * @brief Return a read-write reference to the attribute container.
    *
    * @return A reference to the optional container.
    */
-  static_optional &static_();
+  fixed_optional &fixed();
 
   /**
    * @brief Set the attribute value.
@@ -854,7 +854,7 @@ class cuboid_t : public ::xml_schema::type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void static_(const static_type &x);
+  void fixed(const fixed_type &x);
 
   /**
    * @brief Set the attribute value.
@@ -865,7 +865,7 @@ class cuboid_t : public ::xml_schema::type {
    * of this value and sets it as the new value of the attribute.
    * Otherwise the attribute container is set the 'not present' state.
    */
-  void static_(const static_optional &x);
+  void fixed(const fixed_optional &x);
 
   //@}
 
@@ -1284,7 +1284,7 @@ class cuboid_t : public ::xml_schema::type {
   ::xsd::cxx::tree::one<Position_type> Position_;
   ::xsd::cxx::tree::one<Velocity_type> Velocity_;
   ::xsd::cxx::tree::one<Dimension_type> Dimension_;
-  static_optional static__;
+  fixed_optional fixed_;
   ::xsd::cxx::tree::one<distance_type> distance_;
   ::xsd::cxx::tree::one<mass_type> mass_;
   ::xsd::cxx::tree::one<meanValue_type> meanValue_;
@@ -1412,9 +1412,9 @@ class sphere_t : public ::xml_schema::type {
   //@}
 
   /**
-   * @name static
+   * @name fixed
    *
-   * @brief Accessor and modifier functions for the %static
+   * @brief Accessor and modifier functions for the %fixed
    * optional attribute.
    */
   //@{
@@ -1422,17 +1422,17 @@ class sphere_t : public ::xml_schema::type {
   /**
    * @brief Attribute type.
    */
-  typedef ::xml_schema::boolean static_type;
+  typedef ::xml_schema::boolean fixed_type;
 
   /**
    * @brief Attribute optional container type.
    */
-  typedef ::xsd::cxx::tree::optional<static_type> static_optional;
+  typedef ::xsd::cxx::tree::optional<fixed_type> fixed_optional;
 
   /**
    * @brief Attribute traits type.
    */
-  typedef ::xsd::cxx::tree::traits<static_type, char> static_traits;
+  typedef ::xsd::cxx::tree::traits<fixed_type, char> fixed_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the attribute
@@ -1440,14 +1440,14 @@ class sphere_t : public ::xml_schema::type {
    *
    * @return A constant reference to the optional container.
    */
-  const static_optional &static_() const;
+  const fixed_optional &fixed() const;
 
   /**
    * @brief Return a read-write reference to the attribute container.
    *
    * @return A reference to the optional container.
    */
-  static_optional &static_();
+  fixed_optional &fixed();
 
   /**
    * @brief Set the attribute value.
@@ -1457,7 +1457,7 @@ class sphere_t : public ::xml_schema::type {
    * This function makes a copy of its argument and sets it as
    * the new value of the attribute.
    */
-  void static_(const static_type &x);
+  void fixed(const fixed_type &x);
 
   /**
    * @brief Set the attribute value.
@@ -1468,7 +1468,7 @@ class sphere_t : public ::xml_schema::type {
    * of this value and sets it as the new value of the attribute.
    * Otherwise the attribute container is set the 'not present' state.
    */
-  void static_(const static_optional &x);
+  void fixed(const fixed_optional &x);
 
   //@}
 
@@ -1929,7 +1929,7 @@ class sphere_t : public ::xml_schema::type {
  protected:
   ::xsd::cxx::tree::one<Center_type> Center_;
   ::xsd::cxx::tree::one<Velocity_type> Velocity_;
-  static_optional static__;
+  fixed_optional fixed_;
   ::xsd::cxx::tree::one<radius_type> radius_;
   ::xsd::cxx::tree::one<distance_type> distance_;
   ::xsd::cxx::tree::one<mass_type> mass_;
