@@ -297,7 +297,9 @@ class Particle {
    * Setter for the position of the Particle.
    * @param position new position
    */
-  void setX(const Vector<dim> &position) {
+  inline void setX(const Vector<dim> &position) {
+    if (isStatic)
+      return;
     x = position;
   }
 
@@ -307,7 +309,7 @@ class Particle {
    * @param y_arg new y value
    * @param z_arg new z value
    */
-  void setX(double x_arg, double y_arg, double z_arg) {
+  inline void setX(double x_arg, double y_arg, double z_arg) {
     if (isStatic)
       return;
     x[0] = x_arg;
@@ -320,7 +322,7 @@ class Particle {
    * @param x_arg new x value
    * @param y_arg new y value
    */
-  void setX(double x_arg, double y_arg) {
+  inline void setX(double x_arg, double y_arg) {
     if (isStatic)
       return;
     x[0] = x_arg;
@@ -331,9 +333,7 @@ class Particle {
    * Setter for the velocity of the Particle.
    * @param velocity new velocity
    */
-  void setV(const Vector<dim> &velocity) {
-    if (isStatic)
-      return;
+  inline void setV(const Vector<dim> &velocity) {
     v = velocity;
   }
 
@@ -343,9 +343,7 @@ class Particle {
    * @param y_arg new y value
    * @param z_arg new z value
    */
-  void setV(double x_arg, double y_arg, double z_arg) {
-    if (isStatic)
-      return;
+  inline void setV(double x_arg, double y_arg, double z_arg) {
     v[0] = x_arg;
     v[1] = y_arg;
     v[2] = z_arg;
@@ -356,9 +354,7 @@ class Particle {
    * @param x_arg new x value
    * @param y_arg new y value
    */
-  void setV(double x_arg, double y_arg) {
-    if (isStatic)
-      return;
+  inline void setV(double x_arg, double y_arg) {
     v[0] = x_arg;
     v[1] = y_arg;
   }
@@ -367,9 +363,7 @@ class Particle {
    * Setter for the force of the Particle.
    * @param force new force
    */
-  void setF(const Vector<dim> &force) {
-    if (isStatic)
-      return;
+  inline void setF(const Vector<dim> &force) {
     f = force;
   }
 
@@ -379,9 +373,7 @@ class Particle {
    * @param y_arg new y value
    * @param z_arg new z value
    */
-  void setF(double x_arg, double y_arg, double z_arg) {
-    if (isStatic)
-      return;
+  inline void setF(double x_arg, double y_arg, double z_arg) {
     f[0] = x_arg;
     f[1] = y_arg;
     f[2] = z_arg;
@@ -392,9 +384,7 @@ class Particle {
    * @param x_arg new x value
    * @param y_arg new y value
    */
-  void setF(double x_arg, double y_arg) {
-    if (isStatic)
-      return;
+  inline void setF(double x_arg, double y_arg) {
     f[0] = x_arg;
     f[1] = y_arg;
   }
@@ -403,9 +393,7 @@ class Particle {
    * Setter for the force of the Particle.
    * @param y_arg new y value
    */
-  void setF(double y_arg) {
-    if (isStatic)
-      return;
+  inline void setF(double y_arg) {
     f[0] = 0;
     f[1] = y_arg;
     if (dim == 3)
@@ -416,9 +404,7 @@ class Particle {
    * Setter for the old force of the Particle.
    * @param oldForce new old force
    */
-  void setOldF(const Vector<dim> &oldForce) {
-    if (isStatic)
-      return;
+  inline void setOldF(const Vector<dim> &oldForce) {
     old_f = oldForce;
   }
 
@@ -428,9 +414,7 @@ class Particle {
    * @param y_arg new y value
    * @param z_arg new z value
    */
-  void setOldF(double x_arg, double y_arg, double z_arg) {
-    if (isStatic)
-      return;
+  inline void setOldF(double x_arg, double y_arg, double z_arg) {
     old_f[0] = x_arg;
     old_f[1] = y_arg;
     old_f[2] = z_arg;
@@ -441,9 +425,7 @@ class Particle {
    * @param x_arg new x value
    * @param y_arg new y value
    */
-  void setOldF(double x_arg, double y_arg) {
-    if (isStatic)
-      return;
+  inline void setOldF(double x_arg, double y_arg) {
     old_f[0] = x_arg;
     old_f[1] = y_arg;
   }
@@ -452,7 +434,7 @@ class Particle {
    * Setter the type of the Particle
    * @param pType new type
    */
-  void setType(int pType) {
+  inline void setType(int pType) {
     type = pType;
   }
 };
