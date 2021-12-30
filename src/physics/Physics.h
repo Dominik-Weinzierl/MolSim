@@ -46,7 +46,9 @@ class Physics {
     const auto deltaTPow = deltaT * deltaT;
     Vector<dim> temp{};
 
-    for (auto &p: particleContainer) {
+#pragma omp parallel for shared(particleContainer, deltaT, deltaTPow, std::cout) private(temp) default(none)
+    for (size_t t = 0; t < particleContainer.size(); ++t) {
+      Particle<dim> &p = particleContainer.getParticles()[t];
       SPDLOG_TRACE("Calculating position for {}", p.toString());
       for (size_t i = 0; i < dim; ++i) {
         temp[i] = p.getX()[i] + deltaT * p.getV()[i] + deltaTPow * (p.getF()[i] / (2 * p.getM()));
@@ -64,7 +66,9 @@ class Physics {
   static void calculateV(ParticleContainer<dim> &particleContainer, double deltaT) {
     SPDLOG_DEBUG("started calculating velocities");
     Vector<dim> temp{};
-    for (auto &p: particleContainer) {
+#pragma omp parallel for shared(particleContainer, deltaT) private(temp) default(none)
+    for (size_t t = 0; t < particleContainer.size(); ++t) {
+      Particle<dim> &p = particleContainer.getParticles()[t];
       SPDLOG_TRACE("Calculating velocity for {}", p.toString());
       for (size_t i = 0; i < dim; ++i) {
         temp[i] = p.getV()[i] + deltaT * (p.getOldF()[i] + p.getF()[i]) / (2 * p.getM());
@@ -78,9 +82,11 @@ class Physics {
    * Calculates and updates the force for all particles in the specified container
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    */
-  void calculateF(ParticleContainer<dim> &particleContainer, double& additionalForce) const {
+  void calculateF(ParticleContainer<dim> &particleContainer, double &additionalForce) const {
     SPDLOG_DEBUG("started calculating forces");
-    for (auto &p: particleContainer) {
+#pragma omp parallel for shared(particleContainer, additionalForce) default(none)
+    for (size_t t = 0; t < particleContainer.size(); ++t) {
+      Particle<dim> &p = particleContainer.getParticles()[t];
       p.setOldF(p.getF());
       p.setF(Forces<dim>::additionalGravitation(p, additionalForce));
     }
@@ -93,7 +99,8 @@ class Physics {
   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
   * @param deltaT time step of our simulation
   */
-  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double& additionalForce) const {
+  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT,
+                                 double &additionalForce) const {
     // calculate new x
     calculateX(particleContainer, deltaT);
     // calculate new f
