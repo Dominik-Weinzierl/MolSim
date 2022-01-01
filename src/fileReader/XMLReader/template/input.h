@@ -4142,6 +4142,67 @@ class thermostat_t : public ::xml_schema::type {
   //@}
 
   /**
+   * @name flow
+   *
+   * @brief Accessor and modifier functions for the %flow
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::boolean flow_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<flow_type> flow_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<flow_type, char> flow_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const flow_optional &flow() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  flow_optional &flow();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void flow(const flow_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void flow(const flow_optional &x);
+
+  //@}
+
+  /**
    * @name Constructors
    */
   //@{
@@ -4217,6 +4278,7 @@ class thermostat_t : public ::xml_schema::type {
   targetT_optional targetT_;
   ::xsd::cxx::tree::one<numberT_type> numberT_;
   deltaT_optional deltaT_;
+  flow_optional flow_;
 
   //@endcond
 };

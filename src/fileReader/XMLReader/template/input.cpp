@@ -791,6 +791,22 @@ void thermostat_t::deltaT(const deltaT_optional &x) {
   this->deltaT_ = x;
 }
 
+const thermostat_t::flow_optional &thermostat_t::flow() const {
+  return this->flow_;
+}
+
+thermostat_t::flow_optional &thermostat_t::flow() {
+  return this->flow_;
+}
+
+void thermostat_t::flow(const flow_type &x) {
+  this->flow_.set(x);
+}
+
+void thermostat_t::flow(const flow_optional &x) {
+  this->flow_ = x;
+}
+
 
 // simulation_t
 //
@@ -1941,17 +1957,18 @@ strategy_t::~strategy_t() {
 //
 
 thermostat_t::thermostat_t(const initialT_type &initialT, const numberT_type &numberT)
-    : ::xml_schema::type(), initialT_(initialT, this), targetT_(this), numberT_(numberT, this), deltaT_(this) {
+    : ::xml_schema::type(), initialT_(initialT, this), targetT_(this), numberT_(numberT, this), deltaT_(this),
+      flow_(this) {
 }
 
 thermostat_t::thermostat_t(const thermostat_t &x, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(x, f, c), initialT_(x.initialT_, f, this), targetT_(x.targetT_, f, this),
-      numberT_(x.numberT_, f, this), deltaT_(x.deltaT_, f, this) {
+      numberT_(x.numberT_, f, this), deltaT_(x.deltaT_, f, this), flow_(x.flow_, f, this) {
 }
 
 thermostat_t::thermostat_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), initialT_(this), targetT_(this), numberT_(this),
-      deltaT_(this) {
+      deltaT_(this), flow_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, false, false, true);
     this->parse(p, f);
@@ -1982,6 +1999,11 @@ void thermostat_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
       this->deltaT_.set(deltaT_traits::create(i, f, this));
       continue;
     }
+
+    if (n.name() == "flow" && n.namespace_().empty()) {
+      this->flow_.set(flow_traits::create(i, f, this));
+      continue;
+    }
   }
 
   if (!initialT_.present()) {
@@ -2004,6 +2026,7 @@ thermostat_t &thermostat_t::operator=(const thermostat_t &x) {
     this->targetT_ = x.targetT_;
     this->numberT_ = x.numberT_;
     this->deltaT_ = x.deltaT_;
+    this->flow_ = x.flow_;
   }
 
   return *this;
@@ -2778,6 +2801,14 @@ void operator<<(::xercesc::DOMElement &e, const thermostat_t &i) {
     ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("deltaT", e));
 
     a << *i.deltaT();
+  }
+
+  // flow
+  //
+  if (i.flow()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("flow", e));
+
+    a << *i.flow();
   }
 }
 

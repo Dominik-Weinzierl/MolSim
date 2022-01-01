@@ -7,6 +7,7 @@
 #include "generator/GeneratorArguments/SphereArgument.h"
 #include "template/input.h"
 #include "thermostat/DummyThermostat.h"
+#include "thermostat/FlowThermostat.h"
 
 /**
  * XMLReader class reads a xml file and and provides Argument(s) to create Particle(s) via Generator(s)
@@ -198,7 +199,10 @@ class XMLReader {
       int tDeltaT =
           simulation->Thermostat()->deltaT().present() ? static_cast<int>(simulation->Thermostat()->deltaT().get())
                                                        : -1;
-      thermostat = std::make_unique<Thermostat<dim>>(initialT, targetT, numberT, tDeltaT);
+      if (simulation->Thermostat()->flow().present() && simulation->Thermostat()->flow().get())
+        thermostat = std::make_unique<FlowThermostat<dim>>(initialT, targetT, numberT, tDeltaT);
+      else
+        thermostat = std::make_unique<Thermostat<dim>>(initialT, targetT, numberT, tDeltaT);
     } else {
       thermostat = std::make_unique<DummyThermostat<dim>>();
     }
