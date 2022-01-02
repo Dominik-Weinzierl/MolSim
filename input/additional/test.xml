@@ -1,12 +1,26 @@
-<Simulation endTime="0.25" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
+<Simulation endTime="10" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
             additionalGravitation="-12.44">
     <Strategy>
-        <LinkedCell cutoffRadius="3.0">
-            <Domain x="9" y="9" z="9"/>
+        <LinkedCell cutoffRadius="3" parallel="lock-free">
+            <Domain x="300" y="54" z="300"/>
             <CellSize x="3" y="3" z="3"/>
-            <Boundary boundary-left="reflecting" boundary-right="reflecting" boundary-top="reflecting"
-                      boundary-bottom="reflecting" boundary-front="reflecting" boundary-back="reflecting"/>
+            <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
+                      boundary-bottom="reflecting" boundary-front="periodic" boundary-back="periodic"/>
         </LinkedCell>
     </Strategy>
+    <Shapes>
+        <Cuboid mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.2"
+                type="0">
+            <Position x="0.6" y="2.0" z="0.6"/>
+            <Velocity x="0.0" y="0.0" z="0.0"/>
+            <Dimension x="250" y="20" z="250"/>
+        </Cuboid>
+        <Cuboid mass="2.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.1"
+                type="1">
+            <Position x="0.6" y="27.0" z="0.6"/>
+            <Velocity x="0.0" y="0.0" z="0.0"/>
+            <Dimension x="250" y="20" z="250"/>
+        </Cuboid>
+    </Shapes>
     <Thermostat initialT="40" numberT="1000"/>
 </Simulation>

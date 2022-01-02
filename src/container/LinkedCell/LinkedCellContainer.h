@@ -74,41 +74,6 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   //----------------------------------------Methods----------------------------------------
 
   /**
-   * Set the precision for this double (round up and down)
-   * @param value which needs to be adapted
-   */
-  double setDoublePrecision(double value) {
-    return std::floor(value / precision + 0.5) * precision;
-  }
-
-  /**
-   * Helper function to calculate the amount of Cell(s) per column.
-   * @return amount of Cell(s) per column as int
-   */
-  int cellsPerColumn() {
-    double amount = setDoublePrecision(domain[1] / cellSize[1]);
-    return static_cast<int>(amount);
-  }
-
-  /**
-   * Helper function to calculate the amount of Cell(s) per row.
-   * @return amount of Cell(s) per row as int
-   */
-  int cellsPerRow() {
-    double amount = setDoublePrecision(domain[0] / cellSize[0]);
-    return static_cast<int>(amount);
-  }
-
-  /**
-   * Helper function to calculate the amount of Cell(s) per depth.
-   * @return amount of Cell(s) per depth as int
-   */
-  int cellsPerDepth() {
-    double amount = setDoublePrecision(domain[2] / cellSize[2]);
-    return static_cast<int>(amount);
-  }
-
-  /**
    * Setup Halo(s) where needed.
    * @param amount amount of Halo(s)
    * @param pBorderDirection the direction of the Halo(s)
@@ -317,6 +282,41 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     insertParticlesInCells();
   }
 
+  /**
+   * Set the precision for this double (round up and down)
+   * @param value which needs to be adapted
+   */
+  double setDoublePrecision(double value) {
+    return std::floor(value / precision + 0.5) * precision;
+  }
+
+  /**
+   * Helper function to calculate the amount of Cell(s) per column.
+   * @return amount of Cell(s) per column as int
+   */
+  int cellsPerColumn() {
+    double amount = setDoublePrecision(domain[1] / cellSize[1]);
+    return static_cast<int>(amount);
+  }
+
+  /**
+   * Helper function to calculate the amount of Cell(s) per row.
+   * @return amount of Cell(s) per row as int
+   */
+  int cellsPerRow() {
+    double amount = setDoublePrecision(domain[0] / cellSize[0]);
+    return static_cast<int>(amount);
+  }
+
+  /**
+   * Helper function to calculate the amount of Cell(s) per depth.
+   * @return amount of Cell(s) per depth as int
+   */
+  int cellsPerDepth() {
+    double amount = setDoublePrecision(domain[2] / cellSize[2]);
+    return static_cast<int>(amount);
+  }
+
   //----------------------------------------Getter & Setter----------------------------------------
 
   /**
@@ -367,6 +367,14 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    */
   [[nodiscard]] const double &getCutoffRadiusSquare() const {
     return cutoffRadiusSquare;
+  }
+
+  /**
+   * Getter for cutoffRadius(s).
+   * @return cutoffRadius
+   */
+  [[nodiscard]] const Vector<dim> &getCellSize() const {
+    return cellSize;
   }
 
   /**

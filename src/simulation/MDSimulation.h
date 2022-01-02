@@ -1,12 +1,14 @@
 #pragma once
 
 #include <iostream>
+#include <type_traits>
 
 #include "logger/Logger.h"
 #include "outputWriter/VTKWriter/VTKWriter.h"
 #include "arguments/argument/Argument.h"
 #include "arguments/argumentParser/BasicArgumentParser/BasicArgumentParser.h"
 #include "physics/Physics.h"
+#include "physics/LinkedCell/LinkedCellParallelLockFree.h"
 
 /**
  * Simulation class which contains a start time and a method to run a simulation.
@@ -38,6 +40,13 @@ class MDSimulation {
     auto deltaT = arg.getDeltaT();
 
     T physics;
+
+    if constexpr(std::is_same<T, LinkedCellParallelLockFree<LennardJones,dim>>::value) {
+      // TODO Fix cast with check
+      auto &xmlArg = static_cast<XMLArgument<dim> &>(arg);
+      physics = T(xmlArg.getCutoffRadius().value(), xmlArg.getCellSize().value(), particleContainer);
+    }
+
     std::unique_ptr<Thermostat<dim>>& thermostat = arg.getThermostat();
 
     thermostat->setInitialTemperature(particleContainer);

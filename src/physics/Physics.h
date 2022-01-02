@@ -46,7 +46,7 @@ class Physics {
     const auto deltaTPow = deltaT * deltaT;
     Vector<dim> temp{};
 
-#pragma omp parallel for shared(particleContainer, deltaT, deltaTPow, std::cout) private(temp) default(none)
+//#pragma omp parallel for shared(particleContainer, deltaT, deltaTPow, std::cout) private(temp) default(none)
     for (size_t t = 0; t < particleContainer.size(); ++t) {
       Particle<dim> &p = particleContainer.getParticles()[t];
       SPDLOG_TRACE("Calculating position for {}", p.toString());
@@ -66,7 +66,7 @@ class Physics {
   static void calculateV(ParticleContainer<dim> &particleContainer, double deltaT) {
     SPDLOG_DEBUG("started calculating velocities");
     Vector<dim> temp{};
-#pragma omp parallel for shared(particleContainer, deltaT) private(temp) default(none)
+//#pragma omp parallel for shared(particleContainer, deltaT) private(temp) default(none)
     for (size_t t = 0; t < particleContainer.size(); ++t) {
       Particle<dim> &p = particleContainer.getParticles()[t];
       SPDLOG_TRACE("Calculating velocity for {}", p.toString());
@@ -84,7 +84,7 @@ class Physics {
    */
   void calculateF(ParticleContainer<dim> &particleContainer, double &additionalForce) const {
     SPDLOG_DEBUG("started calculating forces");
-#pragma omp parallel for shared(particleContainer, additionalForce) default(none)
+//#pragma omp parallel for shared(particleContainer, additionalForce) default(none)
     for (size_t t = 0; t < particleContainer.size(); ++t) {
       Particle<dim> &p = particleContainer.getParticles()[t];
       p.setOldF(p.getF());

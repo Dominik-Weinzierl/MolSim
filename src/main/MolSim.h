@@ -17,7 +17,7 @@
 #include "container/LinkedCell/LinkedCellContainer.h"
 #include "container/ParticleContainer.h"
 #include "fileReader/VTKReader/VTKReader.h"
-#include "physics/LinkedCell/LinkedCellParallelMesh.h"
+#include "physics/LinkedCell/LinkedCellParallelLockFree.h"
 
 /**
  * Provides static functions for simulation and benchmark.
@@ -105,9 +105,9 @@ class MolSim {
     // Read additional files.
     for (std::string &file: arg->getFiles()) {
       std::string fileEnding = file.substr(file.size() - 3);
-      if(fileEnding == "txt"){
+      if (fileEnding == "txt") {
         InputReader<dim>::readFile(*particleContainer, file);
-      } else if(fileEnding == "vtu"){
+      } else if (fileEnding == "vtu") {
         VTKReader<dim>::readFromFile(*particleContainer, file);
       } else {
         std::cout << "Unaccepted file format" << std::endl;
@@ -137,7 +137,14 @@ class MolSim {
       }
     } else if (arg->getPhysics() == "lennard") {
       if (arg->getStrategy() == "LinkedCell") {
-        MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
+        // TODO Fix cast with check
+        auto &xmlArg = static_cast<XMLArgument<dim> &>(*arg);
+        if (xmlArg.getParallel() == "lock-free") {
+          MDSimulation<LinkedCellParallelLockFree<LennardJones, dim>, dim>::performSimulation(*writer,
+                                                                                              *particleContainer, *arg);
+        } else {
+          MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
+        }
       } else {
         MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
       }
@@ -166,8 +173,9 @@ class MolSim {
       if (arg->getStrategy() == "LinkedCell") {
         // TODO Fix cast with check
         auto &xmlArg = static_cast<XMLArgument<dim> &>(*arg);
-        if(xmlArg.getParallel() == "mesh"){
-          MDSimulation<LinkedCellParallelMesh<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
+        if (xmlArg.getParallel() == "lock-free") {
+          MDSimulation<LinkedCellParallelLockFree<LennardJones, dim>, dim>::performSimulation(*benchWriter,
+                                                                                              *particleContainer, *arg);
         } else {
           MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
         }
@@ -185,7 +193,9 @@ class MolSim {
     std::cout << "\t\tParticle amount - start: " << particleAmount << " particle" << std::endl;
     std::cout << "\t\tParticle amount - end: " << particleContainer->size() << " particle" << std::endl;
     std::cout << "\t\tIterations: " << iterations << std::endl;
-    std::cout << "\t\tMMUPS/s: " << ((iterations * static_cast<double>(particleAmount)) / static_cast<double>(duration)) / 1.0e3 << std::endl;
+    std::cout << "\t\tMMUPS/s: "
+              << ((iterations * static_cast<double>(particleAmount)) / static_cast<double>(duration)) / 1.0e3
+              << std::endl;
     return 0;
   };
 

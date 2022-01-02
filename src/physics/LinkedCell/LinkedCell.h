@@ -124,7 +124,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
     auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
 
     // Apply Halo properties
-#pragma omp parallel for shared(cellContainer) default(none)
+//#pragma omp parallel for shared(cellContainer) default(none)
     for (size_t i = 0; i < cellContainer.getHalosCells().size(); ++i) {
       Halo<dim> &h = cellContainer.getHalosCells()[i];
       h.applyCellProperties();
