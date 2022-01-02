@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Physics.h"
+#include "physics/Physics.h"
 #include "physics/variants/LennardJones.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
 #include "physics/Forces/Forces.h"
+#include "LinkedCell.h"
 
 /**
  * This class implements the LinkedCell algorithm.
@@ -11,35 +12,26 @@
  * @tparam dim The dimension of our simulation
  */
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of<PhysicsType, T>::value, bool>::type = true>
-class LinkedCell : public Physics<T, dim> {
- public:
-
-  //----------------------------------------Methods----------------------------------------
-
-  void performUpdate(ParticleContainer<dim> &particleContainer) const override;
-
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT) const override;
-};
-
-/**
- * Implements LinkedCell for LennardJones
- * @tparam dim The dimension of our simulation
- */
-template<size_t dim>
-class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
+class LinkedCellParallelMesh : LinkedCell<T, dim> {
  public:
 
   //----------------------------------------Methods----------------------------------------
 
   void performUpdate(ParticleContainer<dim> &particleContainer) const override {
     auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
-    for (Boundary<dim> &b: cellContainer.getBoundaryCells()) {
+
+#pragma omp parallel for shared(cellContainer) default(none)
+    for (size_t i = 0; i < cellContainer.getBoundaryCells().size(); ++i) {
+      Boundary<dim> &b = cellContainer.getBoundaryCells()[i];
       b.applyCellProperties();
     }
 
-    for (auto cell = cellContainer.cellBegin(); cell != cellContainer.cellEnd(); ++cell) {
-      std::vector<Cell<dim> *> &neighbours = (*cell)->getNeighbours();
-      std::vector<Particle<dim> *> &cellParticles = (*cell)->getParticles();
+
+    for (size_t c = 0; c < cellContainer.getBoundaryAndInnerCells().size(); ++c) {
+
+      Cell<dim>* cell = cellContainer.getBoundaryAndInnerCells()[c];
+      std::vector<Cell<dim> *> &neighbours = cell->getNeighbours();
+      std::vector<Particle<dim> *> &cellParticles = cell->getParticles();
 
       if (!cellParticles.empty()) {
 
@@ -74,8 +66,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
           }
         }
 
-        std::vector<std::tuple<Cell<dim> *, Vector<dim>>>
-            &periodicNeighbours = (*cell)->getPeriodicNeighbours();
+        std::vector<std::tuple<Cell<dim> *, Vector<dim>>> &periodicNeighbours = cell->getPeriodicNeighbours();
         // calc periodic
         for (std::tuple<Cell<dim> *, Vector<dim>> &t: periodicNeighbours) {
           Cell<dim> *periodicCell = std::get<0>(t);
@@ -116,29 +107,6 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * @param deltaT time step of our simulation
   */
   void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &force) const override {
-    // Calculate new x
-    Physics<LennardJones, dim>::calculateX(particleContainer, deltaT);
-
-    // Update cells
-    particleContainer.updateCells();
-
-    auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
-
-    // Apply Halo properties
-    for (Halo<dim> &h: cellContainer.getHalosCells()) {
-      h.applyCellProperties();
-    }
-
-    // Calculate new f
-    Physics<LennardJones, dim>::calculateF(particleContainer, force);
-
-    // Calculate new v
-    Physics<LennardJones, dim>::calculateV(particleContainer, deltaT);
-
-    // Delete all deleted Particle
-    std::vector<Particle<dim>> &particles = particleContainer.getParticles();
-    particles.erase(std::remove_if(particles.begin(), particles.end(), [](auto &p) {
-      return p.getType() == -1;
-    }), particles.end());
+    LinkedCell<T, dim>::calculateNextStep(particleContainer, deltaT, force);
   }
 };

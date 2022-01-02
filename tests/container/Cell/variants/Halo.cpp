@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "container/LinkedCell/LinkedCellContainer.h"
-#include "physics/LinkedCell.h"
+#include "physics/LinkedCell/LinkedCell.h"
 
 
 /**

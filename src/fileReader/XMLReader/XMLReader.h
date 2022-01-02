@@ -57,7 +57,7 @@ class XMLReader {
         auto &zeroCrossing = sphere.zeroCrossing();
         auto &depthOfPotentialWell = sphere.depthOfPotentialWell();
         int type = 0;
-        if(sphere.type().present()) {
+        if (sphere.type().present()) {
           type = static_cast<int>(sphere.type().get());
         }
         sphereArguments.emplace_back(wrapVector_t(pos), rad, wrapVector_t(vel), dis, mass, mean, pack, zeroCrossing,
@@ -87,7 +87,7 @@ class XMLReader {
         auto &zeroCrossing = cuboid.zeroCrossing();
         auto &depthOfPotentialWell = cuboid.depthOfPotentialWell();
         int type = 0;
-        if(cuboid.type().present()) {
+        if (cuboid.type().present()) {
           type = static_cast<int>(cuboid.type().get());
         }
         cuboidArguments
@@ -155,6 +155,7 @@ class XMLReader {
     std::optional<Vector<dim>> domain = std::nullopt;
     std::optional<std::vector<BoundaryType>> boundaries = std::nullopt;
     std::optional<Vector<dim>> cellSize = std::nullopt;
+    std::optional<std::string> parallel = std::nullopt;
     double additionalGravitation = 0.0;
     std::unique_ptr<Thermostat<dim>> thermostat;
 
@@ -180,6 +181,9 @@ class XMLReader {
       domain = this->loadDomain();
       boundaries = this->loadBoundaries();
       cellSize = this->loadCellSize();
+      if (simulation->Strategy()->LinkedCell()->parallel().present()) {
+        parallel = simulation->Strategy()->LinkedCell()->parallel().get();
+      }
     }
 
     if (simulation->Thermostat().present()) {
@@ -197,6 +201,7 @@ class XMLReader {
 
     return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
                                               this->loadCuboid(), this->loadSpheres(), strategy, cutoffRadius, domain,
-                                              boundaries, cellSize, std::move(thermostat), additionalGravitation);
+                                              boundaries, cellSize, parallel, std::move(thermostat),
+                                              additionalGravitation);
   }
 };

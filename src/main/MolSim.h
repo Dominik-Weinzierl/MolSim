@@ -12,11 +12,12 @@
 #include "physics/variants/Gravitation.h"
 #include "simulation/MDSimulation.h"
 #include "physics/DirectSum.h"
-#include "physics/LinkedCell.h"
+#include "physics/LinkedCell/LinkedCell.h"
 #include "container/DirectSum/DirectSumContainer.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
 #include "container/ParticleContainer.h"
 #include "fileReader/VTKReader/VTKReader.h"
+#include "physics/LinkedCell/LinkedCellParallelMesh.h"
 
 /**
  * Provides static functions for simulation and benchmark.
@@ -163,7 +164,13 @@ class MolSim {
       }
     } else if (arg->getPhysics() == "lennard") {
       if (arg->getStrategy() == "LinkedCell") {
-        MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
+        // TODO Fix cast with check
+        auto &xmlArg = static_cast<XMLArgument<dim> &>(*arg);
+        if(xmlArg.getParallel() == "mesh"){
+          MDSimulation<LinkedCellParallelMesh<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
+        } else {
+          MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
+        }
       } else {
         MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
       }

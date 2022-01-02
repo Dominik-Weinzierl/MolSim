@@ -2,7 +2,7 @@
 
 #include "physics/variants/LennardJones.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
-#include "physics/LinkedCell.h"
+#include "physics/LinkedCell/LinkedCell.h"
 
 /**
  * ***************************************************
