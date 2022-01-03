@@ -37,7 +37,7 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
 
   XMLArgument<dim> arg
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, nullptr, additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, std::nullopt,nullptr, additionalGravitation};
 
   // Expect getter und setter to return correct values
   EXPECT_EQ(arg.getFiles(), files);
@@ -85,7 +85,7 @@ TEST(XMLArgument_2D, constructor) { // NOLINT(cert-err58-cpp)
 
   XMLArgument<dim> arg
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, nullptr, additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize,std::nullopt, nullptr, additionalGravitation};
 
   // Expect getter und setter to return correct values
   EXPECT_EQ(arg.getFiles(), files);
@@ -130,11 +130,11 @@ TEST(XMLArgument, compareOperatorEqual) { // NOLINT(cert-err58-cpp)
 
   XMLArgument<dim> first
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, std::nullopt, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
 
   XMLArgument<dim> second
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, std::nullopt, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
 
   EXPECT_EQ(first, second);
 }
@@ -163,13 +163,13 @@ TEST(XMLArgument, compareOperatorNotEqual) { // NOLINT(cert-err58-cpp)
 
   XMLArgument<dim> first
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, std::nullopt, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
 
   physics = std::string{"lennard"};
 
   XMLArgument<dim> second
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, std::nullopt, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
 
   EXPECT_NE(first, second);
 }

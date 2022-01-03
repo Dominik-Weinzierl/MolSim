@@ -13,12 +13,18 @@ message(STATUS "${MY_TESTS}")
 add_executable(Test ${MY_TESTS})
 
 # Link libs
-target_link_libraries(Test gtest_main lib::Sim spdlog::spdlog)
+target_link_libraries(Test PRIVATE gtest_main lib::Sim spdlog::spdlog)
 
 # Require C++20
 target_compile_features(Test PUBLIC cxx_std_20)
 
 # Activate all compiler warnings
-target_compile_options(Test PUBLIC -W -Wall -Wextra -Wnon-virtual-dtor -pedantic -Wold-style-cast -Wpedantic -Wconversion -Werror -Wdouble-promotion -Wshadow -Wno-reorder)
+target_compile_options(Test PUBLIC -W -Wall -Wextra -Wnon-virtual-dtor -pedantic -Wold-style-cast -Wpedantic -Wconversion -Werror -Wdouble-promotion -Wshadow -Wno-reorder -fopenmp)
 
 gtest_discover_tests(Test)
+
+# Link OpenMP
+find_package(OpenMP)
+if(OpenMP_CXX_FOUND)
+  target_link_libraries(Test PUBLIC OpenMP::OpenMP_CXX)
+endif()
