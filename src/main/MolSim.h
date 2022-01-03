@@ -18,6 +18,7 @@
 #include "container/ParticleContainer.h"
 #include "fileReader/VTKReader/VTKReader.h"
 #include "physics/LinkedCell/LinkedCellParallelLockFree.h"
+#include "physics/LinkedCell/LinkedCellParallelBuffer.h"
 
 /**
  * Provides static functions for simulation and benchmark.
@@ -142,6 +143,9 @@ class MolSim {
         if (xmlArg.getParallel() == "lock-free") {
           MDSimulation<LinkedCellParallelLockFree<LennardJones, dim>, dim>::performSimulation(*writer,
                                                                                               *particleContainer, *arg);
+        } else if (xmlArg.getParallel() == "buffer") {
+          MDSimulation<LinkedCellParallelBuffer<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer,
+                                                                                            *arg);
         } else {
           MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
         }
@@ -176,6 +180,9 @@ class MolSim {
         if (xmlArg.getParallel() == "lock-free") {
           MDSimulation<LinkedCellParallelLockFree<LennardJones, dim>, dim>::performSimulation(*benchWriter,
                                                                                               *particleContainer, *arg);
+        } else if (xmlArg.getParallel() == "buffer") {
+          MDSimulation<LinkedCellParallelBuffer<LennardJones, dim>, dim>::performSimulation(*benchWriter,
+                                                                                            *particleContainer, *arg);
         } else {
           MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
         }
