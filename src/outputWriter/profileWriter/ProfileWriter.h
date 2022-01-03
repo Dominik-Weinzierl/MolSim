@@ -55,8 +55,8 @@ class ProfileWriter {
       return 0;
     return (ArrayUtils::L2Norm(ret) / static_cast<double>(count));
   }
-  double computeDensity(std::vector<Particle<dim>> &b) {
-    return b.size();
+  double computeDensity([[maybe_unused]] std::vector<Particle<dim>> &b) {
+    return 0; //todo
   }
 
  public:
