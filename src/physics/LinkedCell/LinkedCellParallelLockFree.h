@@ -39,6 +39,53 @@ class LinkedCellParallelLockFree<LennardJones, dim> : public LinkedCell<LennardJ
  private:
   std::vector<std::vector<Cell<dim> *>> cells;
 
+  inline void checkCorrectness(LinkedCellContainer<dim> &cellContainer) {
+    for (auto &cellVector: cells) {
+      for (auto &other: cells) {
+        if (other == cellVector)
+          continue;
+        for (Cell<dim> *cell: cellVector) {
+          if (std::find(other.begin(), other.end(), cell) != other.end()) {
+            // We evaluate one cell twice -> bad
+            throw std::invalid_argument("One cell twice!");
+          }
+          for (Cell<dim> *otherCell: cellVector) {
+            if (otherCell == cell)
+              continue;
+
+            if (std::find(cell->getNeighbours().begin(), cell->getNeighbours().end(), otherCell)
+                != cell->getNeighbours().end()) {
+              // Access one the same cell can cause issues
+              throw std::invalid_argument("Neighbour is other cell -> bad!");
+            }
+
+            for (Cell<dim> *n: otherCell->getNeighbours()) {
+              if (std::find(cell->getNeighbours().begin(), cell->getNeighbours().end(), n)
+                  != cell->getNeighbours().end()) {
+                // Access one the same cell can cause issues
+                throw std::invalid_argument("Access on the same neighbour -> bad!");
+              }
+            }
+          }
+        }
+      }
+    }
+
+    for (auto *boundaryAndInner: cellContainer.getBoundaryAndInnerCells()) {
+      bool found = false;
+      for (auto &cellVector: cells) {
+        if (std::find(cellVector.begin(), cellVector.end(), boundaryAndInner) != cellVector.end()) {
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        throw std::invalid_argument("Missing cell!");
+      }
+    }
+  }
+
  public:
   LinkedCellParallelLockFree() = default;
   LinkedCellParallelLockFree(double cutoffRadius, Vector<dim> cellSize, ParticleContainer<dim> &particleContainer);
@@ -64,36 +111,9 @@ class LinkedCellParallelLockFree<LennardJones, dim> : public LinkedCell<LennardJ
 
         if (!cellParticles.empty()) {
 
-          // calc between particles in cells and relevant neighbours
-          for (auto n = neighbours.begin(); n != neighbours.end(); ++n) {
-            for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
-              for (auto j = (*n)->getParticles().begin(); j != (*n)->getParticles().end(); ++j) {
-                double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
+          LinkedCell<LennardJones, dim>::calcBetweenNeighboursAndCell(neighbours, cellParticles, cellContainer);
 
-                if (l2Norm > cellContainer.getCutoffRadiusSquare())
-                  continue;
-
-                SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
-                Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
-                (*i)->updateForce(force);
-                (*j)->updateForce(-force);
-              }
-            }
-          }
-
-          // calc in the cells
-          for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
-            for (auto j = i + 1; j != cellParticles.end(); ++j) {
-              SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
-
-              double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
-
-              Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
-
-              (*i)->updateForce(force);
-              (*j)->updateForce(-force);
-            }
-          }
+          LinkedCell<LennardJones, dim>::calcInTheCell(cellParticles);
         }
       }
     }
@@ -103,37 +123,7 @@ class LinkedCellParallelLockFree<LennardJones, dim> : public LinkedCell<LennardJ
       Boundary<dim> &cell = cellContainer.getBoundaryCells()[c];
       std::vector<Particle<dim> *> &cellParticles = cell.getParticles();
 
-      std::vector<std::tuple<Cell<dim> *, Vector<dim>>> &periodicNeighbours = cell.getPeriodicNeighbours();
-      // calc periodic
-      for (std::tuple<Cell<dim> *, Vector<dim>> &t: periodicNeighbours) {
-        Cell<dim> *periodicCell = std::get<0>(t);
-
-        if (!periodicCell->getParticles().empty()) {
-
-          for (auto j = periodicCell->getParticles().begin(); j != periodicCell->getParticles().end(); ++j) {
-            const Vector<dim> oldPos = (*j)->getX();
-            Vector<dim> pos;
-            for (size_t index = 0; index < dim; ++index) {
-              pos[index] = oldPos[index] - periodicCell->getPosition()[index] + std::get<1>(t)[index];
-            }
-            (*j)->setX(pos);
-
-            for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
-              double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
-
-              if (l2Norm > cellContainer.getCutoffRadiusSquare())
-                continue;
-
-              SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
-              Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
-              (*i)->updateForce(force);
-              (*j)->updateForce(-force);
-            }
-
-            (*j)->setX(oldPos);
-          }
-        }
-      }
+      LinkedCell<LennardJones, dim>::calcPeriodic(cellParticles, cellContainer, cell);
     }
   }
 
