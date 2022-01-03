@@ -35,16 +35,20 @@ class ProfileWriter {
 
   std::vector<std::vector<Particle<dim>>> particlesIntoBins(ParticleContainer<dim> &c) {
     std::vector<std::vector<Particle<dim>>> bins;
+    std::vector<Particle<dim>> empty = {};
+    for (int i = 0; i < numOfBins; ++i) {
+      bins.emplace_back(empty);
+    }
     double xPerBin = dom[0] / static_cast<double>(numOfBins);
     for (auto &p: c) {
-      bins[static_cast<int>(p.getX()[0] / xPerBin)].emplace_back(p);
+      bins[static_cast<unsigned long>(p.getX()[0] / xPerBin)].emplace_back(p);
     }
     return bins;
   }
 
   double computeAverageSpeed(std::vector<Particle<dim>> &b) {
     Vector<dim> ret;
-    unsigned long count;
+    unsigned long count = 0;
     for (auto &p: b) {
       if (!p.isFixed()) {
         ret = ret + p.getV();
@@ -56,7 +60,7 @@ class ProfileWriter {
     return (ArrayUtils::L2Norm(ret) / static_cast<double>(count));
   }
   double computeDensity([[maybe_unused]] std::vector<Particle<dim>> &b) {
-    return 0; //todo
+    return static_cast<double>(b.size()) / (dom[0] / static_cast<double>(numOfBins) * dom[1] * dom[2]); //todo
   }
 
  public:
@@ -87,8 +91,9 @@ class ProfileWriter {
     std::vector<std::vector<Particle<dim>>> bins = particlesIntoBins(c);
 
     if (velocity) {
-      file.open("output/velprofile.csv");
+      file.open("output/velprofile.csv", std::ios::app);
       file << iteration << ";";
+      file.setf(std::ios_base::showpoint);
       for (auto &b: bins) {
         file << computeAverageSpeed(b) << ";";
       }
@@ -97,8 +102,9 @@ class ProfileWriter {
     }
 
     if (density) {
-      file.open("output/denprofile.csv");
+      file.open("output/denprofile.csv", std::ios::app);
       file << iteration << ";";
+      file.setf(std::ios_base::showpoint);
       for (auto &b: bins) {
         file << computeDensity(b) << ";";
       }

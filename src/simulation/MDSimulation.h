@@ -53,7 +53,7 @@ class MDSimulation {
         thermostat->applyThermostat(particleContainer);
       }
 
-      if (iteration % profile_writer->getNumOfIterations()) {
+      if (iteration % profile_writer->getNumOfIterations() == 0) {
         profile_writer->generateProfiles(particleContainer, iteration);
       }
 
