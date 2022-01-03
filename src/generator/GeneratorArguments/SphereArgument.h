@@ -9,6 +9,7 @@
  */
 template<size_t dim>
 class SphereArgument : public GeneratorArguments {
+
   /**
    * Coordinates of the center.
    */

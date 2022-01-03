@@ -1,66 +1,68 @@
 #include "generator/GeneratorArguments/SphereArgument.h"
-#include "generator/GeneratorArguments/CuboidArgument.h"
+#include "generator/GeneratorArguments/RectangularArgument.h"
+#include "generator/GeneratorArguments/variants/CuboidArgument.h"
+#include "generator/GeneratorArguments/variants/MembraneArgument.h"
 #include "Generator.h"
 
-template<>
-void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, ParticleContainer<3> &container) {
-  SPDLOG_TRACE("Cuboid generated!");
-  if (c.getPacked()) {
-    for (auto x = 0; x < c.getDimensions()[0]; ++x) {
-      for (auto y = 0; y < c.getDimensions()[1]; ++y) {
-        for (auto z = 0; z < c.getDimensions()[2]; ++z) {
+template<typename T, typename std::enable_if<std::is_base_of<RectangularArgument<T, 3>, T>::value,
+                                             bool>::type = true>
+void generateRectangular(const RectangularArgument<T, 3> &t, ParticleContainer<3> &container){
+  if (t.getPacked()) {
+    for (auto x = 0; x < t.getDimensions()[0]; ++x) {
+      for (auto y = 0; y < t.getDimensions()[1]; ++y) {
+        for (auto z = 0; z < t.getDimensions()[2]; ++z) {
           Vector<3> pos
-              {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1],
-               z * c.getDistance() + c.getStartingCoordinates()[2]};
+              {x * t.getDistance() + t.getStartingCoordinates()[0], y * t.getDistance() + t.getStartingCoordinates()[1],
+               z * t.getDistance() + t.getStartingCoordinates()[2]};
           Particle<3> p
-              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
-          applyMotion(c.getMeanValue(), p);
+              {pos, t.getInitialVelocity(), t.getMass(), t.getZeroCrossing(), t.getDepthOfPotentialWell(), t.getType()};
+          Generator<T, 3>::applyMotion(t.getMeanValue(), p);
           container.addParticle(p);
         }
       }
     }
   } else {
-    std::array<int, 2> xMinMax{0, c.getDimensions()[0] - 1};
-    std::array<int, 2> yMinMax{0, c.getDimensions()[1] - 1};
-    std::array<int, 2> zMinMax{0, c.getDimensions()[2] - 1};
+    std::array<int, 2> xMinMax{0, t.getDimensions()[0] - 1};
+    std::array<int, 2> yMinMax{0, t.getDimensions()[1] - 1};
+    std::array<int, 2> zMinMax{0, t.getDimensions()[2] - 1};
 
     for (auto x: xMinMax) {
-      for (auto y = 0; y < c.getDimensions()[1]; ++y) {
-        for (auto z = 0; z < c.getDimensions()[2]; ++z) {
+      for (auto y = 0; y < t.getDimensions()[1]; ++y) {
+        for (auto z = 0; z < t.getDimensions()[2]; ++z) {
           Vector<3> pos
-              {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1],
-               z * c.getDistance() + c.getStartingCoordinates()[2]};
+              {x * t.getDistance() + t.getStartingCoordinates()[0], y * t.getDistance() + t.getStartingCoordinates()[1],
+               z * t.getDistance() + t.getStartingCoordinates()[2]};
           Particle<3> p
-              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
-          applyMotion(c.getMeanValue(), p);
+              {pos, t.getInitialVelocity(), t.getMass(), t.getZeroCrossing(), t.getDepthOfPotentialWell(), t.getType()};
+          Generator<T, 3>::applyMotion(t.getMeanValue(), p);
           container.addParticle(p);
         }
       }
     }
 
     for (auto y: yMinMax) {
-      for (auto x = 1; x < c.getDimensions()[0] - 1; ++x) {
-        for (auto z = 0; z < c.getDimensions()[2]; ++z) {
+      for (auto x = 1; x < t.getDimensions()[0] - 1; ++x) {
+        for (auto z = 0; z < t.getDimensions()[2]; ++z) {
           Vector<3> pos
-              {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1],
-               z * c.getDistance() + c.getStartingCoordinates()[2]};
+              {x * t.getDistance() + t.getStartingCoordinates()[0], y * t.getDistance() + t.getStartingCoordinates()[1],
+               z * t.getDistance() + t.getStartingCoordinates()[2]};
           Particle<3> p
-              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
-          applyMotion(c.getMeanValue(), p);
+              {pos, t.getInitialVelocity(), t.getMass(), t.getZeroCrossing(), t.getDepthOfPotentialWell(), t.getType()};
+          Generator<T, 3>::applyMotion(t.getMeanValue(), p);
           container.addParticle(p);
         }
       }
     }
 
     for (auto z: zMinMax) {
-      for (auto x = 1; x < c.getDimensions()[0] - 1; ++x) {
-        for (auto y = 1; y < c.getDimensions()[1] - 1; ++y) {
+      for (auto x = 1; x < t.getDimensions()[0] - 1; ++x) {
+        for (auto y = 1; y < t.getDimensions()[1] - 1; ++y) {
           Vector<3> pos
-              {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1],
-               z * c.getDistance() + c.getStartingCoordinates()[2]};
+              {x * t.getDistance() + t.getStartingCoordinates()[0], y * t.getDistance() + t.getStartingCoordinates()[1],
+               z * t.getDistance() + t.getStartingCoordinates()[2]};
           Particle<3> p
-              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
-          applyMotion(c.getMeanValue(), p);
+              {pos, t.getInitialVelocity(), t.getMass(), t.getZeroCrossing(), t.getDepthOfPotentialWell(), t.getType()};
+          Generator<T, 3>::applyMotion(t.getMeanValue(), p);
           container.addParticle(p);
         }
       }
@@ -68,46 +70,70 @@ void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, Parti
   }
 }
 
-template<>
-void Generator<CuboidArgument<2>, 2>::generate(const CuboidArgument<2> &c, ParticleContainer<2> &container) {
-  SPDLOG_TRACE("Cuboid generated!");
-  if (c.getPacked()) {
-    for (auto x = 0; x < c.getDimensions()[0]; ++x) {
-      for (auto y = 0; y < c.getDimensions()[1]; ++y) {
+template<typename T, typename std::enable_if<std::is_base_of<RectangularArgument<T, 2>, T>::value,
+                                             bool>::type = true>
+void generateRectangular(const RectangularArgument<T, 2> &t, ParticleContainer<2> &container){
+  if (t.getPacked()) {
+    for (auto x = 0; x < t.getDimensions()[0]; ++x) {
+      for (auto y = 0; y < t.getDimensions()[1]; ++y) {
         Vector<2> pos
-            {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1]};
+            {x * t.getDistance() + t.getStartingCoordinates()[0], y * t.getDistance() + t.getStartingCoordinates()[1]};
         Particle<2>
-            p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
-        applyMotion(c.getMeanValue(), p);
+            p{pos, t.getInitialVelocity(), t.getMass(), t.getZeroCrossing(), t.getDepthOfPotentialWell(), t.getType()};
+        Generator<T, 2>::applyMotion(t.getMeanValue(), p);
         container.addParticle(p);
       }
     }
   } else {
-    std::array<int, 2> xMinMax{0, c.getDimensions()[0] - 1};
-    std::array<int, 2> yMinMax{0, c.getDimensions()[1] - 1};
+    std::array<int, 2> xMinMax{0, t.getDimensions()[0] - 1};
+    std::array<int, 2> yMinMax{0, t.getDimensions()[1] - 1};
 
     for (auto x: xMinMax) {
-      for (int y = 0; y < c.getDimensions()[1]; ++y) {
+      for (int y = 0; y < t.getDimensions()[1]; ++y) {
         Vector<2> pos
-            {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1]};
+            {x * t.getDistance() + t.getStartingCoordinates()[0], y * t.getDistance() + t.getStartingCoordinates()[1]};
         Particle<2>
-            p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
-        applyMotion(c.getMeanValue(), p);
+            p{pos, t.getInitialVelocity(), t.getMass(), t.getZeroCrossing(), t.getDepthOfPotentialWell(), t.getType()};
+        Generator<T, 2>::applyMotion(t.getMeanValue(), p);
         container.addParticle(p);
       }
     }
 
     for (auto y: yMinMax) {
-      for (int x = 1; x < c.getDimensions()[0] - 1; ++x) {
+      for (int x = 1; x < t.getDimensions()[0] - 1; ++x) {
         Vector<2> pos
-            {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1]};
+            {x * t.getDistance() + t.getStartingCoordinates()[0], y * t.getDistance() + t.getStartingCoordinates()[1]};
         Particle<2>
-            p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
-        applyMotion(c.getMeanValue(), p);
+            p{pos, t.getInitialVelocity(), t.getMass(), t.getZeroCrossing(), t.getDepthOfPotentialWell(), t.getType()};
+        Generator<T, 2>::applyMotion(t.getMeanValue(), p);
         container.addParticle(p);
       }
     }
   }
+}
+
+template<>
+void Generator<RectangularArgument<CuboidArgument<3>, 3>, 3>::generate(const RectangularArgument<CuboidArgument<3>, 3> &c, ParticleContainer<3> &container) {
+  SPDLOG_TRACE("Cuboid generated!");
+  generateRectangular(c, container);
+}
+
+template<>
+void Generator<RectangularArgument<CuboidArgument<2>, 2>, 2>::generate(const RectangularArgument<CuboidArgument<2>, 2> &c, ParticleContainer<2> &container) {
+  SPDLOG_TRACE("Cuboid generated!");
+  generateRectangular(c, container);
+}
+
+template<>
+void Generator<RectangularArgument<MembraneArgument<3>, 3>, 3>::generate(const RectangularArgument<MembraneArgument<3>, 3> &m, ParticleContainer<3> &container) {
+  SPDLOG_TRACE("Membrane generated!");
+  generateRectangular(m, container);
+}
+
+template<>
+void Generator<RectangularArgument<MembraneArgument<2>, 2>, 2>::generate(const RectangularArgument<MembraneArgument<2>, 2> &m, ParticleContainer<2> &container) {
+  SPDLOG_TRACE("Membrane generated!");
+  generateRectangular(m, container);
 }
 
 template<>

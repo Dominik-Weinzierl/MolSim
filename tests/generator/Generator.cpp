@@ -1,8 +1,9 @@
 #include <gtest/gtest.h>
 
 #include "generator/Generator.h"
-#include "generator/GeneratorArguments/CuboidArgument.h"
+#include "generator/GeneratorArguments/variants/CuboidArgument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"
+#include "generator/GeneratorArguments/RectangularArgument.h"
 #include "particles/Particle.h"
 #include "container/DirectSum/DirectSumContainer.h"
 
@@ -24,7 +25,7 @@ TEST(CuboidGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1, true, 1, 5, 2};
   DirectSumContainer<dim> p{};
 
-  Generator<CuboidArgument<dim>, dim>::generate(c, p);
+  Generator<RectangularArgument<CuboidArgument<dim>, dim>, dim>::generate(c, p);
   EXPECT_EQ(p.size(), 4);
 
   for (unsigned long i = 0; i < dim; i++) {
@@ -53,7 +54,7 @@ TEST(CuboidGenerator_2D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-e
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1, false, 1, 5, 2};
   DirectSumContainer<dim> p{};
 
-  Generator<CuboidArgument<dim>, dim>::generate(c, p);
+  Generator<RectangularArgument<CuboidArgument<dim>, dim>, dim>::generate(c, p);
   EXPECT_EQ(p.size(), 12);
 
   for (unsigned long i = 0; i < 4; i++) {
@@ -108,7 +109,7 @@ TEST(CuboidGenerator_3D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, distance, mass, 0.1, true, 1, 5, 0};
   DirectSumContainer<dim> p{};
 
-  Generator<CuboidArgument<dim>, dim>::generate(c, p);
+  Generator<RectangularArgument<CuboidArgument<dim>, dim>, dim>::generate(c, p);
   EXPECT_EQ(p.size(), 27);
 
   for (unsigned long i = 0; i < dim; i++) {
@@ -137,7 +138,7 @@ TEST(CuboidGenerator_3D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-e
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, distance, mass, 0.1, false, 1, 5, 2};
   DirectSumContainer<dim> p{};
 
-  Generator<CuboidArgument<dim>, dim>::generate(c, p);
+  Generator<RectangularArgument<CuboidArgument<dim>, dim>, dim>::generate(c, p);
   EXPECT_EQ(p.size(), 56);
 
   for (unsigned long i = 0; i < 4; i++) {
@@ -216,7 +217,7 @@ TEST(CuboidGenerator_2D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, 1.0, 1.0, 0.1, true, 1, 5, 0};
   DirectSumContainer<dim> p{};
 
-  Generator<CuboidArgument<dim>, dim>::generate(c, p);
+  Generator<RectangularArgument<CuboidArgument<dim>, dim>, dim>::generate(c, p);
 
   EXPECT_FALSE(p.getParticles()[0].getV() == (Vector<dim>{0, 0}));
 }
@@ -232,7 +233,7 @@ TEST(CuboidGenerator_2D_DirectSumContainer, applyNoMotion) { // NOLINT(cert-err5
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0}, dimensions, {0.0, 0.0}, 1.0, 1.0, 0.0, true, 1, 5, 0};
   DirectSumContainer<dim> p{};
 
-  Generator<CuboidArgument<dim>, dim>::generate(c, p);
+  Generator<RectangularArgument<CuboidArgument<dim>, dim>, dim>::generate(c, p);
 
   EXPECT_TRUE(p.getParticles()[0].getV() == (Vector<dim>{0, 0}));
 }
@@ -248,7 +249,7 @@ TEST(CuboidGenerator_3D_DirectSumContainer, applyMotion) { // NOLINT(cert-err58-
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.1, true, 1, 5, 0};
   DirectSumContainer<dim> p{};
 
-  Generator<CuboidArgument<dim>, dim>::generate(c, p);
+  Generator<RectangularArgument<CuboidArgument<dim>, dim>, dim>::generate(c, p);
 
   EXPECT_FALSE(p.getParticles()[0].getV() == (Vector<dim>{0, 0, 0}));
 }
@@ -264,7 +265,7 @@ TEST(CuboidGenerator_3D_DirectSumContainer, applyNoMotion) { // NOLINT(cert-err5
   CuboidArgument<dim> c{Vector<dim>{0.0, 0.0, 0.0}, dimensions, {0.0, 0.0, 0.0}, 1.0, 1.0, 0.0, true, 1, 5, 0};
   DirectSumContainer<dim> p{};
 
-  Generator<CuboidArgument<dim>, dim>::generate(c, p);
+  Generator<RectangularArgument<CuboidArgument<dim>, dim>, dim>::generate(c, p);
 
   EXPECT_TRUE(p.getParticles()[0].getV() == (Vector<dim>{0, 0, 0}));
 }

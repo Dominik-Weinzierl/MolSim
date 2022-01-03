@@ -64,7 +64,7 @@ class Argument {
   /**
    *
    */
-  double additionalGravitation;
+  Vector<dim> additionalGravitation;
 
  public:
   //----------------------------------------Constructor & Destructor----------------------------------------
@@ -82,11 +82,11 @@ class Argument {
    * @param pPhysics defines the used Physics during the simulation
    * @param pStrategy defines the used strategy for this simulation (direct vs linked cell)
    * @param pThermostat optional thermostat which is applied during the simulation
-   * @param pAdditionalGravitation optional additional gravitation
+   * @param pAdditionalGravitation Vector with optional additional gravitation
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
            int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat,
-           double pAdditionalGravitation) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
+           Vector<dim> pAdditionalGravitation) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
                                             output{std::move(pOutput)}, writer{std::move(pWriter)},
                                             physics{std::move(pPhysics)}, iteration{pIteration},
                                             strategy{std::move(pStrategy)}, thermostat{std::move(pThermostat)},
@@ -248,7 +248,7 @@ class Argument {
    * Getter for gravitation.
    * @return gravitation.
    */
-  [[nodiscard]] const double &getAdditionalGravitation() const {
+  [[nodiscard]] const Vector<dim> &getAdditionalGravitation() const {
     return additionalGravitation;
   }
 };

@@ -18,7 +18,7 @@ class LinkedCell : public Physics<T, dim> {
 
   void performUpdate(ParticleContainer<dim> &particleContainer) const override;
 
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT) const override;
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &force) const override;
 };
 
 /**
@@ -114,8 +114,9 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * Calls the calculate-Methods for the position, force and velocity with the given parameters.
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
+   * @param force Vector that contains the additional force
   */
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &force) const override {
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &force) const override {
     // Calculate new x
     Physics<LennardJones, dim>::calculateX(particleContainer, deltaT);
 

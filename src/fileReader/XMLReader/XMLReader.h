@@ -3,8 +3,9 @@
 #include <memory>
 
 #include "arguments/argument/XMLArgument/XMLArgument.h"
-#include "generator/GeneratorArguments/CuboidArgument.h"
+#include "generator/GeneratorArguments/variants/CuboidArgument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"
+#include "generator/GeneratorArguments/variants/MembraneArgument.h"
 #include "template/input.h"
 #include "thermostat/DummyThermostat.h"
 
@@ -99,6 +100,37 @@ class XMLReader {
     return cuboidArguments;
   }
 
+  /**
+   * Used to load the MembraneArgument(s) from the xml file.
+   * @return std::vector<MembraneArgument<dim>>
+   */
+  std::vector<MembraneArgument<dim>> loadMembrane() const {
+
+    std::vector<MembraneArgument<dim>> membraneArguments;
+
+    for(auto &it: simulation->Shapes()) {
+      for(auto &membrane: it.Membrane()) {
+        auto &pos = membrane.Position();
+        auto &dime = membrane.Dimension();
+        auto &vel = membrane.Velocity();
+        auto &dis = membrane.distance();
+        auto &mass = membrane.mass();
+        auto &mean = membrane.meanValue();
+        auto &pack = membrane.packed();
+        auto &zeroCrossing = membrane.zeroCrossing();
+        auto &depthOfPotentialWell = membrane.depthOfPotentialWell();
+        int type = 0;
+        if(membrane.type().present()) {
+          type = static_cast<int>(membrane.type().get());
+        }
+        membraneArguments.template emplace_back(wrapVector_t(pos), wrapVector_i(dime), wrapVector_t(vel), dis, mass, mean, pack, zeroCrossing,
+                          depthOfPotentialWell, type);
+      }
+    }
+
+    return membraneArguments;
+  }
+
   std::optional<Vector<dim>> loadDomain() const {
     return wrapVector_t(simulation->Strategy()->LinkedCell().get().Domain());
   }
@@ -155,8 +187,12 @@ class XMLReader {
     std::optional<Vector<dim>> domain = std::nullopt;
     std::optional<std::vector<BoundaryType>> boundaries = std::nullopt;
     std::optional<Vector<dim>> cellSize = std::nullopt;
-    double additionalGravitation = 0.0;
     std::unique_ptr<Thermostat<dim>> thermostat;
+    Vector<dim> additionalGravitation{};
+    std::vector<Vector<dim>> indices{};
+    Vector<dim> force{};
+    unsigned long long forceStart;
+    unsigned long long forceEnd;
 
     for (auto &it: simulation->Source()) {
       std::string path = it.path();
@@ -169,10 +205,6 @@ class XMLReader {
     deltaT = simulation->deltaT();
     fileName = simulation->output();
     iteration = static_cast<int>(simulation->iteration());
-
-    if (simulation->additionalGravitation().present()) {
-      additionalGravitation = simulation->additionalGravitation().get();
-    }
 
     if (simulation->Strategy().present() && simulation->Strategy()->LinkedCell().present()) {
       strategy = std::string{"LinkedCell"};
@@ -195,8 +227,21 @@ class XMLReader {
       thermostat = std::make_unique<DummyThermostat<dim>>();
     }
 
+    if(simulation->AdditionalGravitation().present()){
+      additionalGravitation = wrapVector_t(simulation->AdditionalGravitation().get());
+    }
+
+    for(auto &i: simulation->Force()){
+      for(auto &j: i.Index()){
+        indices.template emplace_back({j.x(), j.y(), j.z()});
+      }
+      force = {i.forceX(), i.forceY(), i.forceZ()};
+      forceStart = i.start();
+      forceEnd = i.end();
+    }
+
     return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
-                                              this->loadCuboid(), this->loadSpheres(), strategy, cutoffRadius, domain,
-                                              boundaries, cellSize, std::move(thermostat), additionalGravitation);
+                                              this->loadCuboid(), this->loadSpheres(), this->loadMembrane(), strategy, cutoffRadius, domain,
+                                              boundaries, cellSize, std::move(thermostat), additionalGravitation, indices, force, forceStart, forceEnd);
   }
 };

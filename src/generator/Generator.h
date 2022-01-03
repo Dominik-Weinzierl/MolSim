@@ -30,8 +30,6 @@ class Generator {
   static void generate(const T &g, ParticleContainer<dim> &container);
   // If we provide a default implementation, the default implementation is used in all cases. Therefore we have no default implementation here.
 
- private:
-
   /**
    * Applies additional temperature/motion to the Particle(s)
    * @param meanValue mean value of the molecules

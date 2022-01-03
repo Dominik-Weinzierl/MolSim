@@ -32,6 +32,22 @@
         <xsd:attribute name="type" type="xsd:nonNegativeInteger"/>
     </xsd:complexType>
 
+    <!-- Membrane - all attributes are required -->
+    <xsd:complexType name="membrane_t">
+        <xsd:sequence>
+            <xsd:element name="Position" type="vector_t"/>
+            <xsd:element name="Velocity" type="vector_t"/>
+            <xsd:element name="Dimension" type="vector_i"/>
+        </xsd:sequence>
+        <xsd:attribute name="distance" type="xsd:double" use="required"/>
+        <xsd:attribute name="mass" type="xsd:double" use="required"/>
+        <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
+        <xsd:attribute name="packed" type="xsd:boolean" use="required"/>
+        <xsd:attribute name="depthOfPotentialWell" type="xsd:double" use="required"/>
+        <xsd:attribute name="zeroCrossing" type="xsd:double" use="required"/>
+        <xsd:attribute name="type" type="xsd:nonNegativeInteger"/>
+    </xsd:complexType>
+
     <!-- Double vector - all attributes are required -->
     <xsd:complexType name="vector_t">
         <xsd:attribute name="x" type="xsd:double" use="required"/>
@@ -44,6 +60,18 @@
         <xsd:attribute name="x" type="xsd:nonNegativeInteger" use="required"/>
         <xsd:attribute name="y" type="xsd:nonNegativeInteger" use="required"/>
         <xsd:attribute name="z" type="xsd:nonNegativeInteger" use="required"/>
+    </xsd:complexType>
+
+    <!-- Force vector - all attributes are required -->
+    <xsd:complexType name="force_t">
+        <xsd:sequence>
+            <xsd:element name="Index" type="vector_i" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="forceX" type="xsd:double" use="required"/>
+        <xsd:attribute name="forceY" type="xsd:double" use="required"/>
+        <xsd:attribute name="forceZ" type="xsd:double" use="required"/>
+        <xsd:attribute name="start" type="xsd:nonNegativeInteger" use="required"/>
+        <xsd:attribute name="end" type="xsd:nonNegativeInteger" use="required"/>
     </xsd:complexType>
 
     <!-- Sources - additional files -->
@@ -67,6 +95,7 @@
         <xsd:sequence>
             <xsd:element name="Cuboid" type="cuboid_t" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="Sphere" type="sphere_t" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="Membrane" type="membrane_t" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
 
@@ -110,6 +139,8 @@
             <xsd:element name="Source" type="input_t" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="Strategy" type="strategy_t" minOccurs="0"/>
             <xsd:element name="Thermostat" type="thermostat_t" minOccurs="0"/>
+            <xsd:element name="AdditionalGravitation" type="vector_t" minOccurs="0"/>
+            <xsd:element name="Force" type="force_t" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
         <xsd:attribute name="endTime" type="xsd:double" use="required"/>
         <xsd:attribute name="deltaT" type="xsd:double" use="required"/>
@@ -119,7 +150,6 @@
         <xsd:attribute name="physics" type="xsd:string" use="required"/>
         <!-- writer: vtk | xyz -->
         <xsd:attribute name="writer" type="xsd:string" use="required"/>
-        <xsd:attribute name="additionalGravitation" type="xsd:double"/>
     </xsd:complexType>
     <xsd:element name="Simulation" type="simulation_t"/>
 </xsd:schema>

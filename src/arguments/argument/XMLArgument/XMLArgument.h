@@ -5,9 +5,11 @@
 #include <utility>
 #include <optional>
 
-#include "generator/GeneratorArguments/CuboidArgument.h"
+#include "generator/GeneratorArguments/variants/CuboidArgument.h"
 #include "arguments/argument/Argument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"
+#include "generator/GeneratorArguments/variants/MembraneArgument.h"
+#include "generator/GeneratorArguments/RectangularArgument.h"
 #include "boundaryType/BoundaryType.h"
 #include "thermostat/Thermostat.h"
 
@@ -27,6 +29,11 @@ class XMLArgument : public Argument<dim> {
    * Stores the SphereArgument(s) used by our Generator to create Sphere(s).
    */
   std::vector<SphereArgument<dim>> sphereArguments;
+
+  /**
+   * Stores the MembraneArguments(s) used by our Generator to create Membrane(s).
+   */
+  std::vector<MembraneArgument<dim>> membraneArguments;
 
   /**
    * Stores the cutoffRadius used by the linked cell algorithm.
@@ -71,13 +78,17 @@ class XMLArgument : public Argument<dim> {
   XMLArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
               std::string pWriter, int pIteration, std::string pPhysics,
               std::vector<CuboidArgument<dim>> pCuboidArguments, std::vector<SphereArgument<dim>> pSphereArguments,
-              std::string pStrategy, std::optional<double> pCutoffRadius, std::optional<Vector<dim>> pDomain,
+              std::vector<MembraneArgument<dim>> pMembraneArguments, std::string pStrategy,
+              std::optional<double> pCutoffRadius, std::optional<Vector<dim>> pDomain,
               std::optional<std::vector<BoundaryType>> pBoundaries, std::optional<Vector<dim>> pCellSize,
-              std::unique_ptr<Thermostat<dim>> pThermostat, double pAdditionalGravitation) : Argument<dim>(
+              std::unique_ptr<Thermostat<dim>> pThermostat, Vector<dim> &pAdditionalGravitation) : Argument<dim>(
       std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
       pStrategy, std::move(pThermostat), pAdditionalGravitation), cuboidArguments{std::move(pCuboidArguments)},
                                                                                              sphereArguments{std::move(
                                                                                                  pSphereArguments)},
+                                                                                             membraneArguments{
+                                                                                                 std::move(
+                                                                                                 pMembraneArguments)},
                                                                                              domain{pDomain},
                                                                                              cutoffRadius{
                                                                                                  pCutoffRadius},
@@ -97,12 +108,17 @@ class XMLArgument : public Argument<dim> {
     SPDLOG_TRACE("XMLArgument->createAdditionalParticle()");
     // Generate additional Cuboids
     for (const auto &cuboidArgument: getCuboidArguments()) {
-      Generator<CuboidArgument<dim>, dim>::generate(cuboidArgument, container);
+      Generator<RectangularArgument<CuboidArgument<dim>, dim>, dim>::generate(cuboidArgument, container);
     }
 
     // Generate additional Spheres
     for (const auto &sphereArgument: getSphereArguments()) {
       Generator<SphereArgument<dim>, dim>::generate(sphereArgument, container);
+    }
+
+    // Generate additional Membranes
+    for (const auto &membraneArgument: getMembraneArguments()) {
+      Generator<RectangularArgument<MembraneArgument<dim>, dim>, dim>::generate(membraneArgument, container);
     }
   }
 
@@ -140,6 +156,14 @@ class XMLArgument : public Argument<dim> {
       configuration << "\t\tSphere generator:" << std::endl;
       for (const auto &s: this->sphereArguments) {
         configuration << s;
+      }
+    }
+
+    // Print used membrane generator
+    if (!this->membraneArguments.empty()) {
+      configuration << "\t\tMembrane generator:" << std::endl;
+      for (const auto &m: this->membraneArguments) {
+        configuration << m;
       }
     }
 
@@ -194,6 +218,15 @@ class XMLArgument : public Argument<dim> {
   [[nodiscard]] const std::vector<SphereArgument<dim>> &getSphereArguments() const {
     SPDLOG_TRACE("XMLArgument->getSphereArguments(): {}", sphereArguments.size());
     return sphereArguments;
+  }
+
+  /**
+   * Getter for MembraneArguments.
+   * @return std::vector of MembraneArguments.
+   */
+  [[nodiscard]] const std::vector<MembraneArgument<dim>> &getMembraneArguments() const {
+    SPDLOG_TRACE("XMLArgument->getMembraneArguments(): {}", membraneArguments.size());
+    return membraneArguments;
   }
 
   /**

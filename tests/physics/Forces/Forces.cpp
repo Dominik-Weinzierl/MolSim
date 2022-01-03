@@ -16,7 +16,7 @@
  */
 TEST(Forces, checkAdditionalGravitation) {
   const size_t dim = 2;
-  double force = -9.81;
+  Vector<dim> force{-9.81, 0};
 
   DirectSum<Gravitation, dim> d{};
   DirectSumContainer<dim> c{};

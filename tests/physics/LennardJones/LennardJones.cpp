@@ -27,7 +27,7 @@ TEST(LennardJones_3D_DirectSumContainer, calculateForceBetweenTwoParticlesWithDi
   Particle<dim> particle_1 = container[1];
 
   // Perform calculation
-  double force = 0.0;
+  Vector<dim> force{0.0, 0.0, 0.0};
   l.calculateF(container, force);
 
   // OldF should be zero
@@ -70,7 +70,7 @@ TEST(LennardJones_3D_DirectSumContainer, calculateForceBetweenTwoParticles) { //
   Particle<dim> particle_1 = container[1];
 
   // Perform calculation
-  double force = 0.0;
+  Vector<dim> force{0.0, 0.0, 0.0};
   l.calculateF(container, force);
 
   // OldF should be zero
@@ -113,7 +113,7 @@ TEST(LennardJones_2D_DirectSumContainer, calculateForceBetweenTwoParticlesWithDi
   Particle<dim> particle_1 = container[1];
 
   // Perform calculation
-  double force = 0.0;
+  Vector<dim> force{0.0, 0.0};
   l.calculateF(container, force);
 
   // OldF should be zero
@@ -154,7 +154,7 @@ TEST(LennardJones_2D_DirectSumContainer, calculateForceBetweenTwoParticles) { //
   Particle<dim> particle_1 = container[1];
 
   // Perform calculation
-  double force = 0.0;
+  Vector<dim> force{0.0, 0.0};
   l.calculateF(container, force);
 
   // OldF should be zero

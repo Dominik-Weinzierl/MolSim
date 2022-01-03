@@ -77,8 +77,9 @@ class Physics {
   /**
    * Calculates and updates the force for all particles in the specified container
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   * @param additionalForce Vector that contains the additional force
    */
-  void calculateF(ParticleContainer<dim> &particleContainer, double& additionalForce) const {
+  void calculateF(ParticleContainer<dim> &particleContainer, Vector<dim> &additionalForce) const {
     SPDLOG_DEBUG("started calculating forces");
     for (auto &p: particleContainer) {
       p.setOldF(p.getF());
@@ -92,8 +93,9 @@ class Physics {
   * Calls the calculate-Methods for the position, force and velocity with the given parameters.
   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
   * @param deltaT time step of our simulation
+  * @param additionalForce Vector that contains the additional force
   */
-  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double& additionalForce) const {
+  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce) const {
     // calculate new x
     calculateX(particleContainer, deltaT);
     // calculate new f

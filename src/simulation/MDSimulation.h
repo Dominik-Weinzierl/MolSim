@@ -42,7 +42,7 @@ class MDSimulation {
 
     thermostat->setInitialTemperature(particleContainer);
 
-    double additionalForce = arg.getAdditionalGravitation();
+    Vector<dim> additionalForce = arg.getAdditionalGravitation();
 
     // for this loop, we assume: current x, current f and current v are known
     while (current_time < arg.getEndTime()) {
