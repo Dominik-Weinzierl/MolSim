@@ -293,6 +293,10 @@ class Particle {
     return potentialWellDepth;
   }
 
+  /**
+   * Getter for fixed
+   * @return true iff the particle is fixed
+   */
   [[nodiscard]] inline bool isFixed() const {
     return fixed;
   }

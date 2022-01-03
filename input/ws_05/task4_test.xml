@@ -3,7 +3,7 @@
     <Strategy>
         <LinkedCell cutoffRadius="2.75">
             <Domain x="30" y="30" z="12"/>
-            <CellSize x="2.75" y="2.75" z="2.75"/>
+            <CellSize x="3" y="3" z="3"/>
             <Boundary boundary-left="outflow" boundary-right="outflow" boundary-top="periodic"
                       boundary-bottom="periodic" boundary-front="periodic" boundary-back="periodic"/>
         </LinkedCell>
@@ -29,5 +29,6 @@
             <Dimension x="20" y="25" z="10"/>
         </Cuboid>
     </Shapes>
-
+    <Thermostat initialT="40" numberT="10" flow="true"/>
+    <ProfileWriter numOfBins="10" numOfIterations="1000" velocity="true" density="false"/>
 </Simulation>
