@@ -8,6 +8,7 @@
 
 #include "outputWriter/OutputWriter.h"
 #include "thermostat/Thermostat.h"
+#include "outputWriter/profileWriter/ProfileWriter.h"
 
 /**
  * Argument stores the arguments parsed by ArgumentParser for easy access.
@@ -57,12 +58,17 @@ class Argument {
   std::string strategy;
 
   /**
-   *
+   * Stores the thermostat
    */
   std::unique_ptr<Thermostat<dim>> thermostat;
 
   /**
-   *
+ * Stores the profile writer
+ */
+  std::unique_ptr<ProfileWriter<dim>> profileWriter;
+
+  /**
+   * Stores the additional gravitation
    */
   double additionalGravitation;
 
@@ -82,15 +88,24 @@ class Argument {
    * @param pPhysics defines the used Physics during the simulation
    * @param pStrategy defines the used strategy for this simulation (direct vs linked cell)
    * @param pThermostat optional thermostat which is applied during the simulation
+   * @param pProfileWriter optional profile writer
    * @param pAdditionalGravitation optional additional gravitation
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
            int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat,
-           double pAdditionalGravitation) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
-                                            output{std::move(pOutput)}, writer{std::move(pWriter)},
-                                            physics{std::move(pPhysics)}, iteration{pIteration},
-                                            strategy{std::move(pStrategy)}, thermostat{std::move(pThermostat)},
-                                            additionalGravitation{pAdditionalGravitation} {};
+           std::unique_ptr<ProfileWriter<dim>> pProfileWriter, double pAdditionalGravitation) : files{
+      std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT}, output{std::move(pOutput)}, writer{std::move(pWriter)},
+                                                                                                physics{std::move(
+                                                                                                    pPhysics)},
+                                                                                                iteration{pIteration},
+                                                                                                strategy{std::move(
+                                                                                                    pStrategy)},
+                                                                                                thermostat{std::move(
+                                                                                                    pThermostat)},
+                                                                                                profileWriter{std::move(
+                                                                                                    pProfileWriter)},
+                                                                                                additionalGravitation{
+                                                                                                    pAdditionalGravitation} {};
 
   //----------------------------------------Methods----------------------------------------
 
@@ -237,11 +252,27 @@ class Argument {
   }
 
   /**
-   * Getter for thermostat.
-   * @return thermostat.
+   * Getter for profile writer.
+   * @return profile writer.
    */
-  [[nodiscard]] std::unique_ptr<Thermostat<dim>> &getThermostat() {
+  [[nodiscard]] const std::unique_ptr<ProfileWriter<dim>> &getProfileWriter() const {
+    return profileWriter;
+  }
+
+  /**
+ * Getter for thermostat.
+ * @return thermostat.
+ */
+  [[nodiscard]]  std::unique_ptr<Thermostat<dim>> &getThermostat() {
     return thermostat;
+  }
+
+  /**
+   * Getter for profile writer.
+   * @return profile writer.
+   */
+  [[nodiscard]]  std::unique_ptr<ProfileWriter<dim>> &getProfileWriter() {
+    return profileWriter;
   }
 
   /**

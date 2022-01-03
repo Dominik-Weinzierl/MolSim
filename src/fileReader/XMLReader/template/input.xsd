@@ -112,6 +112,7 @@
             <xsd:element name="Source" type="input_t" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="Strategy" type="strategy_t" minOccurs="0"/>
             <xsd:element name="Thermostat" type="thermostat_t" minOccurs="0"/>
+            <xsd:element name="ProfileWriter" type="profilewriter_t" minOccurs="0"/>
         </xsd:sequence>
         <xsd:attribute name="endTime" type="xsd:double" use="required"/>
         <xsd:attribute name="deltaT" type="xsd:double" use="required"/>
@@ -124,4 +125,10 @@
         <xsd:attribute name="additionalGravitation" type="xsd:double"/>
     </xsd:complexType>
     <xsd:element name="Simulation" type="simulation_t"/>
+    <xsd:complexType name="profilewriter_t">
+        <xsd:attribute name="numOfBins" type="xsd:nonNegativeInteger" use="required"/>
+        <xsd:attribute name="numOfIterations" type="xsd:nonNegativeInteger" use="required"/>
+        <xsd:attribute name="velocity" type="xsd:boolean" use="required"/>
+        <xsd:attribute name="density" type="xsd:boolean" use="required"/>
+    </xsd:complexType>
 </xsd:schema>

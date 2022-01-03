@@ -66,6 +66,7 @@ class XMLArgument : public Argument<dim> {
    * @param pBoundaries optional boundaries used for the linked cell algorithm
    * @param pCellSize optional cell size used for the linked cell
    * @param pThermostat optional thermostat which is applied during the simulation
+   * @param pProfileWriter optional profile writer
    * @param pAdditionalGravitation optional additional gravitation
    */
   XMLArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
@@ -73,17 +74,15 @@ class XMLArgument : public Argument<dim> {
               std::vector<CuboidArgument<dim>> pCuboidArguments, std::vector<SphereArgument<dim>> pSphereArguments,
               std::string pStrategy, std::optional<double> pCutoffRadius, std::optional<Vector<dim>> pDomain,
               std::optional<std::vector<BoundaryType>> pBoundaries, std::optional<Vector<dim>> pCellSize,
-              std::unique_ptr<Thermostat<dim>> pThermostat, double pAdditionalGravitation) : Argument<dim>(
-      std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
-      pStrategy, std::move(pThermostat), pAdditionalGravitation), cuboidArguments{std::move(pCuboidArguments)},
-                                                                                             sphereArguments{std::move(
-                                                                                                 pSphereArguments)},
-                                                                                             domain{pDomain},
-                                                                                             cutoffRadius{
-                                                                                                 pCutoffRadius},
-                                                                                             boundaries{std::move(
-                                                                                                 pBoundaries)},
-                                                                                             cellSize{pCellSize} {
+              std::unique_ptr<Thermostat<dim>> pThermostat, std::unique_ptr<ProfileWriter<dim>> pProfileWriter,
+              double pAdditionalGravitation) : Argument<dim>(std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput),
+                                                             std::move(pWriter), pIteration, std::move(pPhysics),
+                                                             pStrategy, std::move(pThermostat),
+                                                             std::move(pProfileWriter), pAdditionalGravitation),
+                                               cuboidArguments{std::move(pCuboidArguments)},
+                                               sphereArguments{std::move(pSphereArguments)}, domain{pDomain},
+                                               cutoffRadius{pCutoffRadius}, boundaries{std::move(pBoundaries)},
+                                               cellSize{pCellSize} {
     SPDLOG_TRACE("XMLArgument created!");
   }
 

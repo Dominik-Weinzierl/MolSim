@@ -14,10 +14,15 @@ class FlowThermostat : public Thermostat<dim> {
   [[nodiscard]] inline double kineticEnergyTemp(ParticleContainer<dim> &c) override {
     double ret = 0;
     double avgYV = 0;
+    unsigned long count = 0;
     for (auto &p: c) {
-      avgYV += p.getV()[1];
+      if (!p.isFixed()) {
+        avgYV += p.getV()[1];
+        count++;
+      }
+
     }
-    avgYV /= static_cast<double>(c.size());
+    avgYV /= static_cast<double>(count);
     for (auto &p: c) {
       Vector<dim> v = p.getV();
       v[1] -= avgYV;
@@ -28,26 +33,12 @@ class FlowThermostat : public Thermostat<dim> {
     return ret;
   }
 
-  void inline applyScaling(ParticleContainer<2> &c, double beta) override {
-    for (auto &p: c) {
-      Vector<dim> v = p.getV();
-      v[0] * beta;
-      p.setV(v);
-    }
-  }
-
-  void inline applyScaling(ParticleContainer<3> &c, double beta) override {
-    for (auto &p: c) {
-      Vector<dim> v = p.getV();
-      v[0] * beta;
-      v[2] * beta;
-      p.setV(v);
-    }
-  }
-
   void inline applyScaling(ParticleContainer<dim> &c, double beta) override {
     for (auto &p: c) {
-      p.setV(beta * p.getV());
+      Vector<dim> v = p.getV();
+      v[0] *= beta;
+      v[2] *= beta;
+      p.setV(v);
     }
   }
 

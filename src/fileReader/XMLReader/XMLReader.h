@@ -8,6 +8,8 @@
 #include "template/input.h"
 #include "thermostat/DummyThermostat.h"
 #include "thermostat/FlowThermostat.h"
+#include "outputWriter/profileWriter/ProfileWriter.h"
+#include "outputWriter/profileWriter/DummyProfileWriter.h"
 
 /**
  * XMLReader class reads a xml file and and provides Argument(s) to create Particle(s) via Generator(s)
@@ -166,6 +168,7 @@ class XMLReader {
     std::optional<Vector<dim>> cellSize = std::nullopt;
     double additionalGravitation = 0.0;
     std::unique_ptr<Thermostat<dim>> thermostat;
+    std::unique_ptr<ProfileWriter<dim>> profileWriter;
 
     for (auto &it: simulation->Source()) {
       std::string path = it.path();
@@ -207,8 +210,20 @@ class XMLReader {
       thermostat = std::make_unique<DummyThermostat<dim>>();
     }
 
+    // we can't really generate the profiles if using direct sum, as the domain size is not known a priori.
+    if (simulation->ProfileWriter().present() && strategy == "LinkedCell") {
+      int numOfBins = static_cast<int>(simulation->ProfileWriter()->numOfBins());
+      int numOfIterations = static_cast<int>(simulation->ProfileWriter()->numOfIterations());
+      bool velocity = simulation->ProfileWriter()->velocity();
+      bool density = simulation->ProfileWriter()->density();
+      profileWriter = std::make_unique<ProfileWriter<dim>>(numOfBins, numOfIterations, velocity, density, *domain);
+    } else {
+      profileWriter = std::make_unique<DummyProfileWriter<dim>>();
+    }
+
     return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
                                               this->loadCuboid(), this->loadSpheres(), strategy, cutoffRadius, domain,
-                                              boundaries, cellSize, std::move(thermostat), additionalGravitation);
+                                              boundaries, cellSize, std::move(thermostat), std::move(profileWriter),
+                                              additionalGravitation);
   }
 };
