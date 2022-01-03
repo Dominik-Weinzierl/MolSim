@@ -93,6 +93,7 @@ class ProfileWriter {
         file << computeAverageSpeed(b) << ";";
       }
       file << std::endl;
+      file.close();
     }
 
     if (density) {
@@ -102,6 +103,7 @@ class ProfileWriter {
         file << computeDensity(b) << ";";
       }
       file << std::endl;
+      file.close();
     }
 
   }
