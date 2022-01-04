@@ -127,7 +127,7 @@ class XMLArgument : public Argument<dim> {
     SPDLOG_TRACE("XMLArgument->createAdditionalParticle()");
     // Generate additional Cuboids
     for (const auto &cuboidArgument: getCuboidArguments()) {
-      Generator<RectangularArgument<CuboidArgument<dim>, dim>, dim>::generate(cuboidArgument, container);
+      Generator<RectangularArgument<dim>, dim>::generate(cuboidArgument, container);
     }
 
     // Generate additional Spheres
@@ -137,7 +137,7 @@ class XMLArgument : public Argument<dim> {
 
     // Generate additional Membranes
     for (const auto &membraneArgument: getMembraneArguments()) {
-      Generator<RectangularArgument<MembraneArgument<dim>, dim>, dim>::generate(membraneArgument, container);
+      Generator<RectangularArgument<dim>, dim>::generate(membraneArgument, container);
     }
   }
 

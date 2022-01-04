@@ -9,7 +9,7 @@
  * @tparam dim dimension of our simulation.
  */
 template<size_t dim>
-class MembraneArgument : public RectangularArgument<MembraneArgument<dim>, dim> {
+class MembraneArgument : public RectangularArgument<dim> {
 
  public:
 
@@ -30,7 +30,7 @@ class MembraneArgument : public RectangularArgument<MembraneArgument<dim>, dim> 
    */
   MembraneArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
   double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
-  double pDepthOfPotentialWell, int pType) : RectangularArgument<MembraneArgument<dim>, dim>{pStartingCoordinates, pDimensions, pInitialVelocity, pDistance, pMass, pMeanValue, pPacked,
+  double pDepthOfPotentialWell, int pType) : RectangularArgument<dim>{pStartingCoordinates, pDimensions, pInitialVelocity, pDistance, pMass, pMeanValue, pPacked,
         pZeroCrossing, pDepthOfPotentialWell, pType} {  }
 
   //----------------------------------------Methods----------------------------------------
@@ -41,16 +41,16 @@ class MembraneArgument : public RectangularArgument<MembraneArgument<dim>, dim> 
   [[nodiscard]] std::string toString() const {
     std::stringstream argument;
     argument << "\t\t\tMembrane:" << std::endl;
-    argument << "\t\t\t\t Stating coordinates: " << ArrayUtils::to_string(RectangularArgument<MembraneArgument<dim>, dim>::getStartingCoordinates()) << std::endl;
-    argument << "\t\t\t\t Dimension: " << ArrayUtils::to_string(RectangularArgument<MembraneArgument<dim>, dim>::getDimensions()) << std::endl;
-    argument << "\t\t\t\t Velocity: " << ArrayUtils::to_string(RectangularArgument<MembraneArgument<dim>, dim>::getInitialVelocity()) << std::endl;
-    argument << "\t\t\t\t Distance: " << RectangularArgument<MembraneArgument<dim>, dim>::getDistance() << std::endl;
-    argument << "\t\t\t\t Mass: " << RectangularArgument<MembraneArgument<dim>, dim>::getMass() << std::endl;
-    argument << "\t\t\t\t Mean value: " << RectangularArgument<MembraneArgument<dim>, dim>::getMeanValue() << std::endl;
-    argument << "\t\t\t\t Packed: " << (RectangularArgument<MembraneArgument<dim>, dim>::getPacked() ? "true" : "false") << std::endl;
-    argument << "\t\t\t\t Zero crossing: " << RectangularArgument<MembraneArgument<dim>, dim>::getZeroCrossing() << std::endl;
-    argument << "\t\t\t\t Depth of potential well: " << RectangularArgument<MembraneArgument<dim>, dim>::getDepthOfPotentialWell() << std::endl;
-    argument << "\t\t\t\t Type: " << RectangularArgument<MembraneArgument<dim>, dim>::getType() << std::endl;
+    argument << "\t\t\t\t Stating coordinates: " << ArrayUtils::to_string(RectangularArgument<dim>::getStartingCoordinates()) << std::endl;
+    argument << "\t\t\t\t Dimension: " << ArrayUtils::to_string(RectangularArgument<dim>::getDimensions()) << std::endl;
+    argument << "\t\t\t\t Velocity: " << ArrayUtils::to_string(RectangularArgument<dim>::getInitialVelocity()) << std::endl;
+    argument << "\t\t\t\t Distance: " << RectangularArgument<dim>::getDistance() << std::endl;
+    argument << "\t\t\t\t Mass: " << RectangularArgument<dim>::getMass() << std::endl;
+    argument << "\t\t\t\t Mean value: " << RectangularArgument<dim>::getMeanValue() << std::endl;
+    argument << "\t\t\t\t Packed: " << (RectangularArgument<dim>::getPacked() ? "true" : "false") << std::endl;
+    argument << "\t\t\t\t Zero crossing: " << RectangularArgument<dim>::getZeroCrossing() << std::endl;
+    argument << "\t\t\t\t Depth of potential well: " << RectangularArgument<dim>::getDepthOfPotentialWell() << std::endl;
+    argument << "\t\t\t\t Type: " << RectangularArgument<dim>::getType() << std::endl;
     return argument.str();
   };
 };

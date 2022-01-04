@@ -7,7 +7,7 @@
  * Arguments used to create Rectangular Shape(s).
  * @tparam dim dimension of our simulation.
  */
-template<typename T, size_t dim>
+template<size_t dim>
 class RectangularArgument : public GeneratorArguments {
 
  private:
@@ -108,7 +108,7 @@ class RectangularArgument : public GeneratorArguments {
    * @param p RectangleArgument to print
    * @return updated stream
    */
-  friend std::ostream &operator<<(std::ostream &stream, const T &c) {
+  friend std::ostream &operator<<(std::ostream &stream, const RectangularArgument &c) {
     stream << c.toString();
     return stream;
   }
@@ -120,7 +120,7 @@ class RectangularArgument : public GeneratorArguments {
    * @param right second RectangleArgument
    * @return true if they equal
    */
-  friend bool operator==(const T &left, const T &right) {
+  friend bool operator==(const RectangularArgument &left, const RectangularArgument &right) {
     return left.getStartingCoordinates() == right.getStartingCoordinates()
         && left.getDimensions() == right.getDimensions() && left.getInitialVelocity() == right.getInitialVelocity()
         && left.getDistance() == right.getDistance() && left.getMass() == right.getMass()

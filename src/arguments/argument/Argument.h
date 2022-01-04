@@ -111,7 +111,7 @@ class Argument {
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
            int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat,
-           Vector<dim> &pAdditionalGravitation, std::vector<Vector<dim>> pIndices, Vector<dim> &pForce,
+           Vector<dim> pAdditionalGravitation, std::vector<Vector<dim>> pIndices, Vector<dim> pForce,
            unsigned int pForceStart, unsigned int pForceEnd) : files{std::move(pFiles)}, endTime{pEndTime},
                                             deltaT{pDeltaT}, output{std::move(pOutput)}, writer{std::move(pWriter)},
                                             physics{std::move(pPhysics)}, iteration{pIteration},

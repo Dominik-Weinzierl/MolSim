@@ -9,7 +9,7 @@
  * @tparam dim dimension of our simulation.
  */
 template<size_t dim>
-class CuboidArgument : public RectangularArgument<CuboidArgument<dim>, dim> {
+class CuboidArgument : public RectangularArgument<dim> {
 
  public:
 
@@ -30,7 +30,7 @@ class CuboidArgument : public RectangularArgument<CuboidArgument<dim>, dim> {
    */
   CuboidArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
   double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
-  double pDepthOfPotentialWell, int pType) : RectangularArgument<CuboidArgument<dim>, dim>{pStartingCoordinates, pDimensions, pInitialVelocity, pDistance, pMass, pMeanValue, pPacked,
+  double pDepthOfPotentialWell, int pType) : RectangularArgument<dim>{pStartingCoordinates, pDimensions, pInitialVelocity, pDistance, pMass, pMeanValue, pPacked,
         pZeroCrossing, pDepthOfPotentialWell, pType} {  }
 
   //----------------------------------------Methods----------------------------------------
@@ -41,16 +41,7 @@ class CuboidArgument : public RectangularArgument<CuboidArgument<dim>, dim> {
   [[nodiscard]] std::string toString() const {
     std::stringstream argument;
     argument << "\t\t\tCuboid:" << std::endl;
-    argument << "\t\t\t\t Stating coordinates: " << ArrayUtils::to_string(RectangularArgument<CuboidArgument<dim>, dim>::getStartingCoordinates()) << std::endl;
-    argument << "\t\t\t\t Dimension: " << ArrayUtils::to_string(RectangularArgument<CuboidArgument<dim>, dim>::getDimensions()) << std::endl;
-    argument << "\t\t\t\t Velocity: " << ArrayUtils::to_string(RectangularArgument<CuboidArgument<dim>, dim>::getInitialVelocity()) << std::endl;
-    argument << "\t\t\t\t Distance: " << RectangularArgument<CuboidArgument<dim>, dim>::getDistance() << std::endl;
-    argument << "\t\t\t\t Mass: " << RectangularArgument<CuboidArgument<dim>, dim>::getMass() << std::endl;
-    argument << "\t\t\t\t Mean value: " << RectangularArgument<CuboidArgument<dim>, dim>::getMeanValue() << std::endl;
-    argument << "\t\t\t\t Packed: " << (RectangularArgument<CuboidArgument<dim>, dim>::getPacked() ? "true" : "false") << std::endl;
-    argument << "\t\t\t\t Zero crossing: " << RectangularArgument<CuboidArgument<dim>, dim>::getZeroCrossing() << std::endl;
-    argument << "\t\t\t\t Depth of potential well: " << RectangularArgument<CuboidArgument<dim>, dim>::getDepthOfPotentialWell() << std::endl;
-    argument << "\t\t\t\t Type: " << RectangularArgument<CuboidArgument<dim>, dim>::getType() << std::endl;
+    //TODO: Rect toString aufrufen
     return argument.str();
   };
 };
