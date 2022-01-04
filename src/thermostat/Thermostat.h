@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cmath>
-
+#include "iostream"
 #include "container/ParticleContainer.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
 
@@ -84,7 +84,12 @@ class Thermostat {
     applyScaling(c, beta);
   }
 
-  virtual void inline applyScaling(ParticleContainer<dim> &c, double beta) {
+  /**
+ * Apply the scaling
+ * @param c The particle container on which the scaling should be applied
+ * @param beta The factor
+ */
+  virtual void applyScaling(ParticleContainer<dim> &c, double beta) {
     for (auto &p: c) {
       p.setV(beta * p.getV());
     }

@@ -32,15 +32,12 @@ class FlowThermostat : public Thermostat<dim> {
     ret *= 2;
     return ret;
   }
-
-  void inline applyScaling(ParticleContainer<dim> &c, double beta) override {
-    for (auto &p: c) {
-      Vector<dim> v = p.getV();
-      v[0] *= beta;
-      v[2] *= beta;
-      p.setV(v);
-    }
-  }
+/**
+ * Apply the special scaling required for nano-flow simulations
+ * @param c The particle container on which the scaling should be applied
+ * @param beta The factor
+ */
+  void applyScaling(ParticleContainer<dim> &c, double beta) override;
 
  public:
   /**
@@ -54,3 +51,4 @@ class FlowThermostat : public Thermostat<dim> {
                                                                                                  pNumberT, pDeltaT) {};
 
 };
+
