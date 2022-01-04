@@ -70,6 +70,27 @@ class SphereArgument : public GeneratorArguments {
   //----------------------------------------Constructor----------------------------------------
 
   /**
+ * SphereArgument used to create Sphere(s) by the Generator.
+ * @param pCenterCoordinates coordinates of the center
+ * @param pRadius radius of the Sphere
+ * @param pInitialVelocity initial velocity of the Sphere (of each Particle)
+ * @param pDistance distance between the Particle(s)
+ * @param pMass mass of the Particle(s)
+ * @param pMeanValue mean value of the Particle(s)
+ * @param pPacked describes if the Cuboid is packed with Particle(s)
+ * @param pZeroCrossing is a point where the sign of a mathematical function changes.
+ * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
+ * @param pType of all particles generated with this specific generator argument.
+ */
+  SphereArgument(Vector<dim> pCenterCoordinates, int pRadius, Vector<dim> pInitialVelocity, double pDistance,
+                 double pMass, double pMeanValue, bool pPacked, double pZeroCrossing, double pDepthOfPotentialWell,
+                 int pType) : centerCoordinates{pCenterCoordinates}, radius{pRadius}, initialVelocity{pInitialVelocity},
+                              distance{pDistance}, mass{pMass}, meanValue{pMeanValue}, packed{pPacked},
+                              zeroCrossing{pZeroCrossing}, depthOfPotentialWell{pDepthOfPotentialWell}, type{pType},
+                              fixed{false} {
+  }
+
+  /**
    * SphereArgument used to create Sphere(s) by the Generator.
    * @param pCenterCoordinates coordinates of the center
    * @param pRadius radius of the Sphere
@@ -81,7 +102,7 @@ class SphereArgument : public GeneratorArguments {
    * @param pZeroCrossing is a point where the sign of a mathematical function changes.
    * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
    * @param pType of all particles generated with this specific generator argument.
-   * @param pFixed whether the particles should be static.
+   * @param pFixed whether the particles should be fixed.
    */
   SphereArgument(Vector<dim> pCenterCoordinates, int pRadius, Vector<dim> pInitialVelocity, double pDistance,
                  double pMass, double pMeanValue, bool pPacked, double pZeroCrossing, double pDepthOfPotentialWell,

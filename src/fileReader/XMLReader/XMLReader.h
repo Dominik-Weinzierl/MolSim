@@ -9,7 +9,6 @@
 #include "thermostat/DummyThermostat.h"
 #include "thermostat/FlowThermostat.h"
 #include "outputWriter/profileWriter/ProfileWriter.h"
-#include "outputWriter/profileWriter/DummyProfileWriter.h"
 
 /**
  * XMLReader class reads a xml file and and provides Argument(s) to create Particle(s) via Generator(s)
