@@ -44,6 +44,8 @@ class MDSimulation {
 
     Vector<dim> additionalForce = arg.getAdditionalGravitation();
 
+    std::vector<Vector<dim>> indices = arg.getIndices();
+
     // for this loop, we assume: current x, current f and current v are known
     while (current_time < arg.getEndTime()) {
       physics.calculateNextStep(particleContainer, deltaT, additionalForce);

@@ -74,27 +74,46 @@ class XMLArgument : public Argument<dim> {
    * @param pCellSize optional cell size used for the linked cell
    * @param pThermostat optional thermostat which is applied during the simulation
    * @param pAdditionalGravitation optional additional gravitation
+   * @param pIndices optional indices to apply additional force to
+   * @param pForce optional additional force
+   * @param pForceStart optional startTime for force
+   * @param pForceEnd optional endTime for force
    */
-  XMLArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
-              std::string pWriter, int pIteration, std::string pPhysics,
-              std::vector<CuboidArgument<dim>> pCuboidArguments, std::vector<SphereArgument<dim>> pSphereArguments,
-              std::vector<MembraneArgument<dim>> pMembraneArguments, std::string pStrategy,
-              std::optional<double> pCutoffRadius, std::optional<Vector<dim>> pDomain,
-              std::optional<std::vector<BoundaryType>> pBoundaries, std::optional<Vector<dim>> pCellSize,
-              std::unique_ptr<Thermostat<dim>> pThermostat, Vector<dim> &pAdditionalGravitation) : Argument<dim>(
+  XMLArgument(std::vector<std::string> pFiles,
+              double pEndTime,
+              double pDeltaT,
+              std::string pOutput,
+              std::string pWriter,
+              int pIteration,
+              std::string pPhysics,
+              std::vector<CuboidArgument<dim>> pCuboidArguments,
+              std::vector<SphereArgument<dim>> pSphereArguments,
+              std::vector<MembraneArgument<dim>> pMembraneArguments,
+              std::string pStrategy,
+              std::optional<double> pCutoffRadius,
+              std::optional<Vector<dim>> pDomain,
+              std::optional<std::vector<BoundaryType>> pBoundaries,
+              std::optional<Vector<dim>> pCellSize,
+              std::unique_ptr<Thermostat<dim>> pThermostat,
+              Vector<dim> &pAdditionalGravitation,
+              std::vector<Vector<dim>> pIndices,
+              Vector<dim> &pForce,
+              unsigned int pForceStart,
+              unsigned int pForceEnd) : Argument<dim>(
       std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
-      pStrategy, std::move(pThermostat), pAdditionalGravitation), cuboidArguments{std::move(pCuboidArguments)},
-                                                                                             sphereArguments{std::move(
-                                                                                                 pSphereArguments)},
-                                                                                             membraneArguments{
-                                                                                                 std::move(
-                                                                                                 pMembraneArguments)},
-                                                                                             domain{pDomain},
-                                                                                             cutoffRadius{
-                                                                                                 pCutoffRadius},
-                                                                                             boundaries{std::move(
-                                                                                                 pBoundaries)},
-                                                                                             cellSize{pCellSize} {
+      pStrategy, std::move(pThermostat), pAdditionalGravitation, std::move(pIndices), pForce, pForceStart, pForceEnd),
+                                              cuboidArguments{std::move(pCuboidArguments)},
+                                              sphereArguments{std::move(
+                                                  pSphereArguments)},
+                                              membraneArguments{
+                                                  std::move(
+                                                      pMembraneArguments)},
+                                              domain{pDomain},
+                                              cutoffRadius{
+                                                  pCutoffRadius},
+                                              boundaries{std::move(
+                                                  pBoundaries)},
+                                              cellSize{pCellSize} {
     SPDLOG_TRACE("XMLArgument created!");
   }
 
@@ -182,9 +201,9 @@ class XMLArgument : public Argument<dim> {
    */
   bool operator==(const XMLArgument &rhs) const {
     return static_cast<const Argument<dim> &>(*this) == static_cast<const Argument<dim> &>(rhs)
-        && cuboidArguments == rhs.cuboidArguments && sphereArguments == rhs.sphereArguments
-        && cutoffRadius == rhs.cutoffRadius && domain == rhs.domain && cellSize == rhs.cellSize
-        && boundaries == rhs.boundaries;
+        && cuboidArguments == rhs.cuboidArguments && sphereArguments == rhs.sphereArguments &&
+        membraneArguments == rhs.membraneArguments && cutoffRadius == rhs.cutoffRadius && domain == rhs.domain
+        && cellSize == rhs.cellSize && boundaries == rhs.boundaries;
   }
 
   /**
@@ -198,7 +217,7 @@ class XMLArgument : public Argument<dim> {
 
   //----------------------------------------Getter & Setter----------------------------------------
 
-  void updateCellSizeOnIndex(size_t index, double pCellSize){
+  void updateCellSizeOnIndex(size_t index, double pCellSize) {
     cellSize.value()[index] = pCellSize;
   }
 

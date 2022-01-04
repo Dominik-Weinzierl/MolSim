@@ -62,9 +62,30 @@ class Argument {
   std::unique_ptr<Thermostat<dim>> thermostat;
 
   /**
-   *
+   * Column vector which stores the additional gravitation.
    */
   Vector<dim> additionalGravitation;
+
+  /**
+   * Vector that stores indices to apply additional forces to.
+   * Empty if force should be applied to all particles.
+   */
+  std::vector<Vector<dim>> indices;
+
+  /**
+   * Column vector which stores the additional force.
+   */
+  Vector<dim> force;
+
+  /**
+   * Start time of the additional force.
+   */
+  unsigned int forceStart;
+
+  /**
+   * End time of the additional force.
+   */
+  unsigned int forceEnd;
 
  public:
   //----------------------------------------Constructor & Destructor----------------------------------------
@@ -83,14 +104,20 @@ class Argument {
    * @param pStrategy defines the used strategy for this simulation (direct vs linked cell)
    * @param pThermostat optional thermostat which is applied during the simulation
    * @param pAdditionalGravitation Vector with optional additional gravitation
+   * @param pIndices Vector of optional indices to apply additional force to
+   * @param pForce Vector of optional additional force
+   * @param pForceStart optional startTime for force
+   * @param pForceEnd optional endTime for force
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
            int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat,
-           Vector<dim> pAdditionalGravitation) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
-                                            output{std::move(pOutput)}, writer{std::move(pWriter)},
+           Vector<dim> &pAdditionalGravitation, std::vector<Vector<dim>> pIndices, Vector<dim> &pForce,
+           unsigned int pForceStart, unsigned int pForceEnd) : files{std::move(pFiles)}, endTime{pEndTime},
+                                            deltaT{pDeltaT}, output{std::move(pOutput)}, writer{std::move(pWriter)},
                                             physics{std::move(pPhysics)}, iteration{pIteration},
                                             strategy{std::move(pStrategy)}, thermostat{std::move(pThermostat)},
-                                            additionalGravitation{pAdditionalGravitation} {};
+                                            additionalGravitation{pAdditionalGravitation}, indices{std::move(pIndices)},
+                                            force{pForce}, forceStart{pForceStart}, forceEnd{pForceEnd} {};
 
   //----------------------------------------Methods----------------------------------------
 
@@ -116,7 +143,11 @@ class Argument {
     configuration << "\tFile writer: " << this->getWriter() << std::endl;
     configuration << "\tIteration: " << this->getIteration() << std::endl;
     configuration << "\tPhysic: " << this->getPhysics() << std::endl;
-    configuration << "\tAdditional gravitation: " << this->additionalGravitation << std::endl;
+    configuration << "\tAdditional gravitation: " << ArrayUtils::to_string(this->getAdditionalGravitation()) << std::endl;
+    configuration << "\tIndices: " << ArrayUtils::to_string(this->getIndices()) << std::endl;
+    configuration << "\tForce: " << ArrayUtils::to_string(this->getForce()) << std::endl;
+    configuration << "\tForceStart: " << this->getForceStart() << std::endl;
+    configuration << "\tForceEnd: " << this->getForceEnd() << std::endl;
     configuration << "\tStrategy: " << this->strategy << std::endl;
     return configuration.str();
   }
@@ -142,7 +173,8 @@ class Argument {
   bool operator==(const Argument &rhs) const {
     return files == rhs.files && endTime == rhs.endTime && deltaT == rhs.deltaT && output == rhs.output
         && writer == rhs.writer && physics == rhs.physics && iteration == rhs.iteration && strategy == rhs.strategy
-        && *thermostat.get() == *rhs.thermostat.get() && additionalGravitation == rhs.additionalGravitation;
+        && *thermostat.get() == *rhs.thermostat.get() && additionalGravitation == rhs.additionalGravitation &&
+        indices = rhs.indices, force == rhs.force, forceStart == rhs.forceStart, forceEnd == rhs.forceEnd;
   }
 
   /**
@@ -250,5 +282,37 @@ class Argument {
    */
   [[nodiscard]] const Vector<dim> &getAdditionalGravitation() const {
     return additionalGravitation;
+  }
+
+  /**
+   * Getter for indices.
+   * @return indices
+   */
+  [[nodiscard]] const std::vector<Vector<dim>> &getIndices() const {
+    return indices;
+  }
+
+  /**
+   * Getter for force.
+   * @return force
+   */
+  [[nodiscard]] const Vector<dim> &getForce() const {
+    return force;
+  }
+
+  /**
+   * Getter for forceStart.
+   * @return forceStart
+   */
+  [[nodiscard]] const unsigned int &getForceStart() const {
+    return forceStart;
+  }
+
+  /**
+   * Getter for forceEnd.
+   * @return forceEnd
+   */
+  [[nodiscard]] const unsigned int &getForceEnd() const {
+    return forceEnd;
   }
 };
