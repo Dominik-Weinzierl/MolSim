@@ -8,6 +8,7 @@
 #include "generator/GeneratorArguments/variants/MembraneArgument.h"
 #include "template/input.h"
 #include "thermostat/DummyThermostat.h"
+#include "physics/Forces/Force.h"
 
 /**
  * XMLReader class reads a xml file and and provides Argument(s) to create Particle(s) via Generator(s)
@@ -119,6 +120,8 @@ class XMLReader {
         auto &pack = membrane.packed();
         auto &zeroCrossing = membrane.zeroCrossing();
         auto &depthOfPotentialWell = membrane.depthOfPotentialWell();
+        auto &stiffness = membrane.stiffness();
+        auto &averageBondLength = membrane.averageBondLength();
         int type = 0;
         if (membrane.type().present()) {
           type = static_cast<int>(membrane.type().get());
@@ -132,6 +135,8 @@ class XMLReader {
                                                 pack,
                                                 zeroCrossing,
                                                 depthOfPotentialWell,
+                                                stiffness,
+                                                averageBondLength,
                                                 type);
       }
     }
@@ -197,10 +202,7 @@ class XMLReader {
     std::optional<Vector<dim>> cellSize = std::nullopt;
     std::unique_ptr<Thermostat<dim>> thermostat;
     std::optional<Vector<dim>> additionalGravitation = std::nullopt;
-    std::optional<std::vector<Vector<dim>>> indices = std::nullopt;
-    std::optional<Vector<dim>> force = std::nullopt;
-    std::optional<unsigned int> forceStart = std::nullopt;
-    std::optional<unsigned int> forceEnd = std::nullopt;
+    std::optional<std::vector<Force<dim>>> forces = std::nullopt;
 
     for (auto &it: simulation->Source()) {
       std::string path = it.path();
@@ -240,17 +242,18 @@ class XMLReader {
     }
 
     for (auto &i: simulation->Force()) {
+      std::vector<Vector<dim>> indices{};
 
-      if (i.Index().empty()) {
-        indices.clear();
-      } else {
+      if (!i.Index().empty()) {
         for (auto &j: i.Index()) {
           indices.template emplace_back({j.x(), j.y(), j.z()});
         }
+      } else {
+        //TODO: Können hier sonst iwelche unüberschriebene Werte liegen?
+        indices.clear();
       }
-      force = {i.forceX(), i.forceY(), i.forceZ()};
-      forceStart = i.start();
-      forceEnd = i.end();
+
+      forces->template emplace_back(Force<dim>{indices, wrapVector_t({i.forceX(), i.forceY(), i.forceZ()}), i.start(), i.end()});
     }
 
     return std::make_unique<XMLArgument<dim>>(files,
@@ -270,9 +273,6 @@ class XMLReader {
                                               cellSize,
                                               std::move(thermostat),
                                               additionalGravitation,
-                                              indices,
-                                              force,
-                                              forceStart,
-                                              forceEnd);
+                                              forces);
   }
 };

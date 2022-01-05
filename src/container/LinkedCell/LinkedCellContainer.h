@@ -8,7 +8,6 @@
 #include "container/Cell/variants/Halo.h"
 #include "container/Cell/variants/Boundary.h"
 #include "container/Cell/variants/Inner.h"
-#include "particles/Molecule.h"
 
 /**
  * LinkedCell is a container used to perform calculations based on the linked cell algorithm.
@@ -71,16 +70,6 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    * Boundary type of each side (4/6).
    */
   std::vector<BoundaryType> boundaries;
-
-  /**
-   * Vector of molecule-pointers.
-   */
-  std::vector<std::unique_ptr<Molecule<dim>>> molecules;
-
-  /**
-   * Vector of particle-pointers.
-   */
-  std::vector<std::unique_ptr<Particle<dim>>> additionalForceParticles;
 
   //----------------------------------------Methods----------------------------------------
 
@@ -410,21 +399,5 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    */
   [[nodiscard]] const std::vector<Cell<dim> *> &getCells() const {
     return cells;
-  }
-
-  /**
-   * Getter for molecules.
-   * @return molecules.
-   */
-  [[nodiscard]] const std::vector<std::unique_ptr<Molecule<dim>>> &getMolecules() const {
-    return molecules;
-  }
-
-  /**
-   * Getter for additionalForceParticles.
-   * @return additionalForceParticles.
-   */
-  [[nodiscard]] const std::vector<std::unique_ptr<Particle<dim>>> &getadditionalForceParticles() const {
-    return additionalForceParticles;
   }
 };

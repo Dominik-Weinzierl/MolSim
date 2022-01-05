@@ -633,6 +633,42 @@ zeroCrossing (const zeroCrossing_type& x)
   this->zeroCrossing_.set (x);
 }
 
+const membrane_t::stiffness_type& membrane_t::
+stiffness () const
+{
+  return this->stiffness_.get ();
+}
+
+membrane_t::stiffness_type& membrane_t::
+stiffness ()
+{
+  return this->stiffness_.get ();
+}
+
+void membrane_t::
+stiffness (const stiffness_type& x)
+{
+  this->stiffness_.set (x);
+}
+
+const membrane_t::averageBondLength_type& membrane_t::
+averageBondLength () const
+{
+  return this->averageBondLength_.get ();
+}
+
+membrane_t::averageBondLength_type& membrane_t::
+averageBondLength ()
+{
+  return this->averageBondLength_.get ();
+}
+
+void membrane_t::
+averageBondLength (const averageBondLength_type& x)
+{
+  this->averageBondLength_.set (x);
+}
+
 const membrane_t::type_optional& membrane_t::
 type () const
 {
@@ -2302,7 +2338,9 @@ membrane_t (const Position_type& Position,
             const meanValue_type& meanValue,
             const packed_type& packed,
             const depthOfPotentialWell_type& depthOfPotentialWell,
-            const zeroCrossing_type& zeroCrossing)
+            const zeroCrossing_type& zeroCrossing,
+            const stiffness_type& stiffness,
+            const averageBondLength_type& averageBondLength)
 : ::xml_schema::type (),
   Position_ (Position, this),
   Velocity_ (Velocity, this),
@@ -2313,6 +2351,8 @@ membrane_t (const Position_type& Position,
   packed_ (packed, this),
   depthOfPotentialWell_ (depthOfPotentialWell, this),
   zeroCrossing_ (zeroCrossing, this),
+  stiffness_ (stiffness, this),
+  averageBondLength_ (averageBondLength, this),
   type_ (this)
 {
 }
@@ -2326,7 +2366,9 @@ membrane_t (::std::unique_ptr< Position_type > Position,
             const meanValue_type& meanValue,
             const packed_type& packed,
             const depthOfPotentialWell_type& depthOfPotentialWell,
-            const zeroCrossing_type& zeroCrossing)
+            const zeroCrossing_type& zeroCrossing,
+            const stiffness_type& stiffness,
+            const averageBondLength_type& averageBondLength)
 : ::xml_schema::type (),
   Position_ (std::move (Position), this),
   Velocity_ (std::move (Velocity), this),
@@ -2337,6 +2379,8 @@ membrane_t (::std::unique_ptr< Position_type > Position,
   packed_ (packed, this),
   depthOfPotentialWell_ (depthOfPotentialWell, this),
   zeroCrossing_ (zeroCrossing, this),
+  stiffness_ (stiffness, this),
+  averageBondLength_ (averageBondLength, this),
   type_ (this)
 {
 }
@@ -2355,6 +2399,8 @@ membrane_t (const membrane_t& x,
   packed_ (x.packed_, f, this),
   depthOfPotentialWell_ (x.depthOfPotentialWell_, f, this),
   zeroCrossing_ (x.zeroCrossing_, f, this),
+  stiffness_ (x.stiffness_, f, this),
+  averageBondLength_ (x.averageBondLength_, f, this),
   type_ (x.type_, f, this)
 {
 }
@@ -2373,6 +2419,8 @@ membrane_t (const ::xercesc::DOMElement& e,
   packed_ (this),
   depthOfPotentialWell_ (this),
   zeroCrossing_ (this),
+  stiffness_ (this),
+  averageBondLength_ (this),
   type_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
@@ -2500,6 +2548,18 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       continue;
     }
 
+    if (n.name () == "stiffness" && n.namespace_ ().empty ())
+    {
+      this->stiffness_.set (stiffness_traits::create (i, f, this));
+      continue;
+    }
+
+    if (n.name () == "averageBondLength" && n.namespace_ ().empty ())
+    {
+      this->averageBondLength_.set (averageBondLength_traits::create (i, f, this));
+      continue;
+    }
+
     if (n.name () == "type" && n.namespace_ ().empty ())
     {
       this->type_.set (type_traits::create (i, f, this));
@@ -2548,6 +2608,20 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "zeroCrossing",
       "");
   }
+
+  if (!stiffness_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_attribute< char > (
+      "stiffness",
+      "");
+  }
+
+  if (!averageBondLength_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_attribute< char > (
+      "averageBondLength",
+      "");
+  }
 }
 
 membrane_t* membrane_t::
@@ -2572,6 +2646,8 @@ operator= (const membrane_t& x)
     this->packed_ = x.packed_;
     this->depthOfPotentialWell_ = x.depthOfPotentialWell_;
     this->zeroCrossing_ = x.zeroCrossing_;
+    this->stiffness_ = x.stiffness_;
+    this->averageBondLength_ = x.averageBondLength_;
     this->type_ = x.type_;
   }
 
@@ -4675,6 +4751,28 @@ operator<< (::xercesc::DOMElement& e, const membrane_t& i)
         e));
 
     a << ::xml_schema::as_double(i.zeroCrossing ());
+  }
+
+  // stiffness
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "stiffness",
+        e));
+
+    a << ::xml_schema::as_double(i.stiffness ());
+  }
+
+  // averageBondLength
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "averageBondLength",
+        e));
+
+    a << ::xml_schema::as_double(i.averageBondLength ());
   }
 
   // type

@@ -12,6 +12,7 @@
 #include "generator/GeneratorArguments/RectangularArgument.h"
 #include "boundaryType/BoundaryType.h"
 #include "thermostat/Thermostat.h"
+#include "physics/Forces/Force.h"
 
 /**
  * XMLArgument stores the arguments parsed by XMLArgumentParser for easy access.
@@ -74,10 +75,7 @@ class XMLArgument : public Argument<dim> {
    * @param pCellSize optional cell size used for the linked cell
    * @param pThermostat optional thermostat which is applied during the simulation
    * @param pAdditionalGravitation optional additional gravitation
-   * @param pIndices optional indices to apply additional force to
    * @param pForce optional additional force
-   * @param pForceStart optional startTime for force
-   * @param pForceEnd optional endTime for force
    */
   XMLArgument(std::vector<std::string> pFiles,
               double pEndTime,
@@ -95,13 +93,10 @@ class XMLArgument : public Argument<dim> {
               std::optional<std::vector<BoundaryType>> pBoundaries,
               std::optional<Vector<dim>> pCellSize,
               std::unique_ptr<Thermostat<dim>> pThermostat,
-              Vector<dim> &pAdditionalGravitation,
-              std::vector<Vector<dim>> pIndices,
-              Vector<dim> &pForce,
-              unsigned int pForceStart,
-              unsigned int pForceEnd) : Argument<dim>(
+              Vector<dim> pAdditionalGravitation,
+              std::vector<Force<dim>> pForces) : Argument<dim>(
       std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
-      pStrategy, std::move(pThermostat), pAdditionalGravitation, std::move(pIndices), pForce, pForceStart, pForceEnd),
+      pStrategy, std::move(pThermostat), std::move(pAdditionalGravitation), std::move(pForces)),
                                               cuboidArguments{std::move(pCuboidArguments)},
                                               sphereArguments{std::move(
                                                   pSphereArguments)},

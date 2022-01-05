@@ -4,12 +4,7 @@
 #include "particles/Particle.h"
 #include "generator/GeneratorArguments/RectangularArgument.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
-
-/**
- * Used as super class for other GeneratorArgument(s).
- */
-struct GeneratorArguments {
-};
+#include "generator/GeneratorArguments.h"
 
 /**
  * Generates shapes based on the provided arguments.
@@ -44,9 +39,3 @@ class Generator {
     p.setV(t + max);
   }
 };
-
-template<>
-void Generator<RectangularArgument<2>, 2>::generateRectangular(const RectangularArgument<2> &t,
-                                                       ParticleContainer<2> &container) {
-
-}

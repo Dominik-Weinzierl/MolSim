@@ -2,6 +2,7 @@
 
 #include "generator/Generator.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
+#include "generator/GeneratorArguments.h"
 
 /**
  * Arguments used to create Rectangular Shape(s).

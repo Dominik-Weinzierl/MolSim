@@ -11,6 +11,10 @@
 template<size_t dim>
 class MembraneArgument : public RectangularArgument<dim> {
 
+ private:
+  double stiffness;
+  double averageBondLength;
+
  public:
 
   //----------------------------------------Constructor----------------------------------------
@@ -30,10 +34,26 @@ class MembraneArgument : public RectangularArgument<dim> {
    */
   MembraneArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
   double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
-  double pDepthOfPotentialWell, int pType) : RectangularArgument<dim>{pStartingCoordinates, pDimensions, pInitialVelocity, pDistance, pMass, pMeanValue, pPacked,
-        pZeroCrossing, pDepthOfPotentialWell, pType} {  }
+  double pDepthOfPotentialWell, double pStiffness, double pAverageBondLength, int pType) : RectangularArgument<dim>{pStartingCoordinates, pDimensions, pInitialVelocity, pDistance, pMass, pMeanValue, pPacked,
+        pZeroCrossing, pDepthOfPotentialWell, pType}, stiffness{pStiffness}, averageBondLength{pAverageBondLength} {  }
 
   //----------------------------------------Methods----------------------------------------
+
+  /**
+   * Getter for stiffness.
+   * @return stiffness
+   */
+  [[nodiscard]] const double &getStiffness() const {
+    return stiffness;
+  }
+
+  /**
+   * Getter for averageBondLength.
+   * @return averageBondLength
+   */
+  [[nodiscard]] const double &getAverageBondLength() const {
+    return averageBondLength;
+  }
 
   /**
    * Prints the MembraneArgument.
@@ -50,6 +70,8 @@ class MembraneArgument : public RectangularArgument<dim> {
     argument << "\t\t\t\t Packed: " << (RectangularArgument<dim>::getPacked() ? "true" : "false") << std::endl;
     argument << "\t\t\t\t Zero crossing: " << RectangularArgument<dim>::getZeroCrossing() << std::endl;
     argument << "\t\t\t\t Depth of potential well: " << RectangularArgument<dim>::getDepthOfPotentialWell() << std::endl;
+    argument << "\t\t\t\t Stiffness: " << getStiffness() << std::endl;
+    argument << "\t\t\t\t AverageBondLength: " << getAverageBondLength() << std::endl;
     argument << "\t\t\t\t Type: " << RectangularArgument<dim>::getType() << std::endl;
     return argument.str();
   };

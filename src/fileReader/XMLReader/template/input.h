@@ -2399,6 +2399,100 @@ class membrane_t: public ::xml_schema::type
   //@}
 
   /**
+   * @name stiffness
+   *
+   * @brief Accessor and modifier functions for the %stiffness
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::double_ stiffness_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits< stiffness_type, char, ::xsd::cxx::tree::schema_type::double_ > stiffness_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const stiffness_type&
+  stiffness () const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  stiffness_type&
+  stiffness ();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void
+  stiffness (const stiffness_type& x);
+
+  //@}
+
+  /**
+   * @name averageBondLength
+   *
+   * @brief Accessor and modifier functions for the %averageBondLength
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::double_ averageBondLength_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits< averageBondLength_type, char, ::xsd::cxx::tree::schema_type::double_ > averageBondLength_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const averageBondLength_type&
+  averageBondLength () const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  averageBondLength_type&
+  averageBondLength ();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void
+  averageBondLength (const averageBondLength_type& x);
+
+  //@}
+
+  /**
    * @name type
    *
    * @brief Accessor and modifier functions for the %type
@@ -2480,7 +2574,9 @@ class membrane_t: public ::xml_schema::type
               const meanValue_type&,
               const packed_type&,
               const depthOfPotentialWell_type&,
-              const zeroCrossing_type&);
+              const zeroCrossing_type&,
+              const stiffness_type&,
+              const averageBondLength_type&);
 
   /**
    * @brief Create an instance from the ultimate base and
@@ -2498,7 +2594,9 @@ class membrane_t: public ::xml_schema::type
               const meanValue_type&,
               const packed_type&,
               const depthOfPotentialWell_type&,
-              const zeroCrossing_type&);
+              const zeroCrossing_type&,
+              const stiffness_type&,
+              const averageBondLength_type&);
 
   /**
    * @brief Create an instance from a DOM element.
@@ -2579,6 +2677,8 @@ class membrane_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< packed_type > packed_;
   ::xsd::cxx::tree::one< depthOfPotentialWell_type > depthOfPotentialWell_;
   ::xsd::cxx::tree::one< zeroCrossing_type > zeroCrossing_;
+  ::xsd::cxx::tree::one< stiffness_type > stiffness_;
+  ::xsd::cxx::tree::one< averageBondLength_type > averageBondLength_;
   type_optional type_;
 
   //@endcond

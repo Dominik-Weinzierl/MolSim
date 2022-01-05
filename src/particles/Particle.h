@@ -5,6 +5,9 @@
 #include "physics/Vector/Vector.h"
 #include "logger/Logger.h"
 
+enum ParticleType{
+  MOLECULE, PARTICLE
+};
 /**
  * Particle is a class that wraps up the properties of a particle, getters, setters and standard methods.
  * @tparam dim dimension of our simulation.
@@ -52,6 +55,26 @@ class Particle {
    * A potential well is the region surrounding a local minimum of potential energy.
    */
   double potentialWellDepth = 5;
+
+  /**
+   * Vector of moleculeArguments.
+   */
+  std::vector<double> membraneArguments;
+
+  /**
+   * Vector of neighbours (only for MOLECULE).
+   */
+  std::vector<Particle<dim> *> neighbours;
+
+  /**
+   * Vector of diagonalNeighbours (only for MOLECULE).
+   */
+  std::vector<Particle<dim> *> diagonalNeighbours;
+
+  /**
+   * ParticleTypes (either PARTICLE or MOLECULE, default PARTICLE)
+   */
+  ParticleType particleType = PARTICLE;
 
  public:
 
@@ -266,6 +289,31 @@ class Particle {
   }
 
   /**
+   * Getter for neighbours (if particleType is MOLECULE).
+   * @return neighbours
+   */
+  [[nodiscard]] const std::vector<Particle<dim> *> &getNeighbours() const {
+    if(particleType == MOLECULE) return neighbours;
+  }
+
+  /**
+  * Getter for membraneArguments.
+  * @return membraneArguments
+  */
+  [[nodiscard]] std::vector<double> getMembraneArguments() const {
+    if(particleType == MOLECULE) return membraneArguments;
+    else return {};
+  }
+
+  /**
+   * Getter for particleType.
+   * @return particleType
+   */
+  [[nodiscard]] ParticleType getParticleType() const {
+    return particleType;
+  }
+
+  /**
    * Setter for the position of the Particle.
    * @param position new position
    */
@@ -402,5 +450,53 @@ class Particle {
    */
   void setType(int pType) {
     type = pType;
+  }
+
+  /**
+   * Sets particleType to MOLECULE.
+   */
+  void setParticleTypeToMolecule() {
+    particleType = MOLECULE;
+  }
+
+  /**
+  * Adds a molecule-pointer to neighbours.
+  * @param p molecule-pointer
+  */
+  void addNeighbour(Particle<dim> *p){
+    if(particleType == MOLECULE){
+      neighbours.template emplace_back(p);
+    }
+  }
+
+  /**
+  * Adds a molecule-pointer to diagonalNeighbours.
+  * @param p molecule-pointer
+  */
+  void addDiagonalNeighbour(Particle<dim> *p){
+    if(particleType == MOLECULE){
+      diagonalNeighbours.template emplace_back(p);
+    }
+  }
+
+  bool isNeighbour(Particle<dim> *p){
+    return std::find(neighbours.begin(), neighbours.end(), p) != neighbours.end();
+  }
+
+  bool isDiagonalNeighbour(Particle<dim> *p){
+    return std::find(diagonalNeighbours.begin(), diagonalNeighbours.end(), p) != diagonalNeighbours.end();
+  }
+
+  /**
+   * Set stiffness and averageBondLength if particleType is MOLECULE.
+   * @param stiffness
+   * @param averageBondLength
+   */
+  void setMembraneArguments(double stiffness, double averageBondLength){
+    if(particleType == MOLECULE){
+      membraneArguments.clear();
+      membraneArguments.template emplace_back(stiffness);
+      membraneArguments.template emplace_back(averageBondLength);
+    }
   }
 };

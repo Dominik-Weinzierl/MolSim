@@ -4,6 +4,7 @@
 #include "physics/variants/LennardJones.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
 #include "physics/Forces/Forces.h"
+#include "physics/variants/HarmonicPotential.h"
 
 /**
  * This class implements the LinkedCell algorithm.
@@ -27,6 +28,29 @@ class LinkedCell : public Physics<T, dim> {
  */
 template<size_t dim>
 class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
+
+ private:
+  const double sixthSqrtOfTwo = std::pow(2, 1.0 / 6.0);
+
+  /**
+   * Helper Method to calculate the force between two molecules.
+   * @param i Molecule 1
+   * @param j Molecule 2
+   */
+  void calculateMoleculeForce(Particle<dim> *i, Particle<dim> *j){
+    if(i->getParticleType() == MOLECULE && j->getParticleType() == MOLECULE && i->getType() == j->getType()) {
+      if (i->isNeighbour(j) || j->isNeighbour(i)) {
+        Vector<dim> force{HarmonicPotential::calculateForceBetweenTwoParticles(i, j)};
+        i->updateForce(force);
+        j->updateForce(-force);
+      } else if (i->isDiagonalNeighbour(j) || j->isDiagonalNeighbour(i)) {
+        Vector<dim> force{HarmonicPotential::calculateForceBetweenTwoDiagonalParticles(i, j)};
+        i->updateForce(force);
+        j->updateForce(-force);
+      }
+    }
+  }
+
  public:
 
   //----------------------------------------Methods----------------------------------------
@@ -52,6 +76,12 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
               if (l2Norm > cellContainer.getCutoffRadiusSquare())
                 continue;
 
+              //TODO Pass ParticlePointer to function?
+              calculateMoleculeForce((*i), (*j));
+              //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
+              if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
+                continue;
+
               SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
               Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
               (*i)->updateForce(force);
@@ -67,8 +97,13 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
 
             double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
 
-            Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
+            //TODO Pass ParticlePointer to function?
+            calculateMoleculeForce((*i), (*j));
+            //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
+            if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
+              continue;
 
+            Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
             (*i)->updateForce(force);
             (*j)->updateForce(-force);
           }
@@ -94,6 +129,12 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
                 double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
 
                 if (l2Norm > cellContainer.getCutoffRadiusSquare())
+                  continue;
+
+                //TODO Pass ParticlePointer to function?
+                calculateMoleculeForce((*i), (*j));
+                //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
+                if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
                   continue;
 
                 SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());

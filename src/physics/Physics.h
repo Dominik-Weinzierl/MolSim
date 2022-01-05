@@ -2,6 +2,7 @@
 
 #include "container/ParticleContainer.h"
 #include "Forces/Forces.h"
+#include "Forces/Force.h"
 
 /**
  * This is the superclass for the different types of physics we implemented.
@@ -79,12 +80,20 @@ class Physics {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param additionalForce Vector that contains the additional force
    */
-  void calculateF(ParticleContainer<dim> &particleContainer, Vector<dim> &additionalForce) const {
+  void calculateF(ParticleContainer<dim> &particleContainer, Vector<dim> &additionalForce, std::vector<Force<dim>> forces) const {
     SPDLOG_DEBUG("started calculating forces");
     for (auto &p: particleContainer) {
       p.setOldF(p.getF());
       p.setF(Forces<dim>::additionalGravitation(p, additionalForce));
     }
+
+    for(auto &f: forces){
+      for(auto &a: f.getAdditionalForceParticles()){
+        //TODO: Innerhalb der Start/Endzeit?, Geht das mit dem a-pointer so?
+        a->get().setF(a->get().getF() + f.getForce());
+      }
+    }
+
     performUpdate(particleContainer);
     SPDLOG_DEBUG("ended calculating forces");
   }
@@ -95,11 +104,11 @@ class Physics {
   * @param deltaT time step of our simulation
   * @param additionalForce Vector that contains the additional force
   */
-  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce) const {
+  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce, std::vector<Force<dim>> forces) const {
     // calculate new x
     calculateX(particleContainer, deltaT);
     // calculate new f
-    calculateF(particleContainer, additionalForce);
+    calculateF(particleContainer, additionalForce, forces);
     // calculate new v
     calculateV(particleContainer, deltaT);
   }
