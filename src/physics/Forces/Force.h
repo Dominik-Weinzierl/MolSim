@@ -17,7 +17,7 @@ class Force {
   /**
   * Vector of particle-pointers.
   */
-  std::vector<Particle<dim> *> additionalForceParticles;
+  std::vector<Particle<dim> *> additionalForceParticles{};
 
   /**
    * Force-vector.
@@ -48,10 +48,34 @@ class Force {
         long long unsigned int pStartTime,
         long long unsigned int pEndTime) : indices{pIndices}, force{pForce}, startTime{pStartTime}, endTime{pEndTime} {}
 
-  void setAdditionalForceParticles(std::vector<Particle<dim> *> &a){
-    additionalForceParticles = a;
+  /**
+   * Adds a particle to additionalForceParticles.
+   * @param a Vector of particle-pointers
+   */
+  void addAdditionalForceParticles(Particle<dim> *a){
+    additionalForceParticles.template emplace_back(a);
   }
 
+  /**
+   * Getter for startTime.
+   * @return startTime
+   */
+  [[nodiscard]] long long unsigned int getStartTime() const {
+    return startTime;
+  }
+
+  /**
+   * Getter for endTime.
+   * @return endTime
+   */
+  [[nodiscard]] long long unsigned int getEndTime() const {
+    return endTime;
+  }
+
+  /**
+   * Getter for indices.
+   * @return indices
+   */
   [[nodiscard]] const std::vector<Vector<dim>> &getIndices() const {
     return indices;
   }
@@ -64,6 +88,10 @@ class Force {
     return additionalForceParticles;
   }
 
+  /**
+   * Getter for force.
+   * @return force
+   */
   [[nodiscard]] const Vector<dim> &getForce() const {
     return force;
   }

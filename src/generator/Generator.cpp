@@ -3,18 +3,8 @@
 #include "generator/GeneratorArguments/variants/MembraneArgument.h"
 #include "generator/Generator.h"
 
-//template<>
-//void Generator<MembraneArgument<2>, 2>::generateRectangular(const MembraneArgument<2> &t,
-//                                                               ParticleContainer<2> &container) {
-//  if(t.getPacked()) {
-//    for(auto x = 0; x < t.getDimensions()[0]; x++){
-//      //TODO Indices leer? => alle, sonst bestimmte
-//    }
-//  }
-//}
-
 template<>
-void Generator<RectangularArgument<3>, 3>::generateRectangular(const RectangularArgument<3> &t, ParticleContainer<3> &container){
+void Generator<RectangularArgument<3>, 3>::generateRectangular(RectangularArgument<3> &t, ParticleContainer<3> &container){
   if (t.getPacked()) {
     for (auto x = 0; x < t.getDimensions()[0]; ++x) {
       for (auto y = 0; y < t.getDimensions()[1]; ++y) {
@@ -22,10 +12,36 @@ void Generator<RectangularArgument<3>, 3>::generateRectangular(const Rectangular
           Vector<3> pos
               {x * t.getDistance() + t.getStartingCoordinates()[0], y * t.getDistance() + t.getStartingCoordinates()[1],
                z * t.getDistance() + t.getStartingCoordinates()[2]};
-          Particle<3> p
-              {pos, t.getInitialVelocity(), t.getMass(), t.getZeroCrossing(), t.getDepthOfPotentialWell(), t.getType()};
-          applyMotion(t.getMeanValue(), p);
-          container.addParticle(p);
+
+          //TODO
+          if(auto *c = dynamic_cast<CuboidArgument<3> *>(&t)){
+
+            Particle<3> p
+                {pos, c->getInitialVelocity(), c->getMass(), c->getZeroCrossing(), c->getDepthOfPotentialWell(), c->getType()};
+            applyMotion(c->getMeanValue(), p);
+            container.addParticle(p);
+          } else if(auto *m = dynamic_cast<MembraneArgument<3> *>(&t)){
+            Particle<3> p
+                {pos, m->getInitialVelocity(), m->getMass(), m->getZeroCrossing(), m->getDepthOfPotentialWell(), m->getType()};
+            Particle<3> *pointer = &p;
+            p.setParticleTypeToMolecule();
+            p.setMembraneArguments(m->getStiffness(), m->getAverageBondLength());
+
+            //TODO: Neighbours, DiagonalNeighbours
+
+            //TODO: Performancekritisch af
+            for(auto f: container.getForces()){
+              for(auto &i: f.getIndices()){
+                if(i == pos){
+                  f.addAdditionalForceParticles(pointer);
+                }
+              }
+            }
+
+            applyMotion(m->getMeanValue(), p);
+            container.addMolecule(pointer);
+            container.addParticle(p);
+          }
         }
       }
     }
@@ -79,7 +95,7 @@ void Generator<RectangularArgument<3>, 3>::generateRectangular(const Rectangular
 }
 
 template<>
-void Generator<RectangularArgument<2>,2>::generateRectangular(const RectangularArgument<2> &t, ParticleContainer<2> &container){
+void Generator<RectangularArgument<2>,2>::generateRectangular(RectangularArgument<2> &t, ParticleContainer<2> &container){
   if (t.getPacked()) {
     for (auto x = 0; x < t.getDimensions()[0]; ++x) {
       for (auto y = 0; y < t.getDimensions()[1]; ++y) {

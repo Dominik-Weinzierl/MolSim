@@ -61,6 +61,14 @@ class ParticleContainer {
   }
 
   /**
+   * Adds the molecule to the ParticleContainer.
+   * @param p The molecule to be added.
+   */
+  void addMolecule(Particle<dim> *p) {
+    molecules.push_back(std::move(p));
+  }
+
+  /**
    * @return Iterator to the beginning of the particles-Vector.
    */
   [[nodiscard]] auto begin() { return particles.begin(); }
@@ -113,6 +121,10 @@ class ParticleContainer {
    */
   void setForces(std::vector<Force<dim>> f){
     forces = f;
+  }
+
+  [[nodiscard]] const std::vector<Force<dim>> &getForces() const{
+    return forces;
   }
 
   /**

@@ -460,6 +460,19 @@ class Particle {
   }
 
   /**
+  * Set stiffness and averageBondLength if particleType is MOLECULE.
+  * @param stiffness
+  * @param averageBondLength
+  */
+  void setMembraneArguments(double stiffness, double averageBondLength){
+    if(particleType == MOLECULE){
+      membraneArguments.clear();
+      membraneArguments.template emplace_back(stiffness);
+      membraneArguments.template emplace_back(averageBondLength);
+    }
+  }
+
+  /**
   * Adds a molecule-pointer to neighbours.
   * @param p molecule-pointer
   */
@@ -485,18 +498,5 @@ class Particle {
 
   bool isDiagonalNeighbour(Particle<dim> *p){
     return std::find(diagonalNeighbours.begin(), diagonalNeighbours.end(), p) != diagonalNeighbours.end();
-  }
-
-  /**
-   * Set stiffness and averageBondLength if particleType is MOLECULE.
-   * @param stiffness
-   * @param averageBondLength
-   */
-  void setMembraneArguments(double stiffness, double averageBondLength){
-    if(particleType == MOLECULE){
-      membraneArguments.clear();
-      membraneArguments.template emplace_back(stiffness);
-      membraneArguments.template emplace_back(averageBondLength);
-    }
   }
 };
