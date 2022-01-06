@@ -28,6 +28,20 @@ class Generator {
   // If we provide a default implementation, the default implementation is used in all cases. Therefore we have no default implementation here.
 
  private:
+
+  static void inline linkForce(Particle<dim> &p, const std::vector<ForceContainer<dim>> &forceContainers,
+                               std::array<int, dim> index) {
+    for (auto &forceContainer: forceContainers) {
+      if (forceContainer.getIndices().empty()) {
+        if (std::find(forceContainer.getIndices().begin(), forceContainer.getIndices().end(), index)
+            == forceContainer.getIndices().end()) {
+          continue;
+        }
+      }
+      p.addAdditionalForce(forceContainer.getForce());
+    }
+  }
+
   /**
    * Applies additional temperature/motion to the Particle(s)
    * @param meanValue mean value of the molecules

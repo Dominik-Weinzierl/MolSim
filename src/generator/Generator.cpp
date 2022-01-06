@@ -18,6 +18,7 @@ void Generator<RectangularArgument<3>, 3>::generateRectangular(const Rectangular
           Particle<3> p
               {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
                c.isFixed()};
+          linkForce(p, c.getForces(), std::array<int, 3>{x, y, z});
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -37,6 +38,7 @@ void Generator<RectangularArgument<3>, 3>::generateRectangular(const Rectangular
           Particle<3> p
               {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
                c.isFixed()};
+          linkForce(p, c.getForces(), std::array<int, 3>{x, y, z});
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -52,6 +54,7 @@ void Generator<RectangularArgument<3>, 3>::generateRectangular(const Rectangular
           Particle<3> p
               {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
                c.isFixed()};
+          linkForce(p, c.getForces(), std::array<int, 3>{x, y, z});
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -67,6 +70,7 @@ void Generator<RectangularArgument<3>, 3>::generateRectangular(const Rectangular
           Particle<3> p
               {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
                c.isFixed()};
+          linkForce(p, c.getForces(), std::array<int, 3>{x, y, z});
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -91,6 +95,7 @@ void Generator<RectangularArgument<2>, 2>::generateRectangular(const Rectangular
         Particle<2> p
             {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
              c.isFixed()};
+        linkForce(p, c.getForces(), std::array<int, 2>{x, y});
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -106,6 +111,7 @@ void Generator<RectangularArgument<2>, 2>::generateRectangular(const Rectangular
         Particle<2> p
             {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
              c.isFixed()};
+        linkForce(p, c.getForces(), std::array<int, 2>{x, y});
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -118,6 +124,7 @@ void Generator<RectangularArgument<2>, 2>::generateRectangular(const Rectangular
         Particle<2> p
             {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
              c.isFixed()};
+        linkForce(p, c.getForces(), std::array<int, 2>{x, y});
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -162,6 +169,7 @@ void Generator<SphereArgument<3>, 3>::generate(const SphereArgument<3> &c, Parti
         Particle<3> p
             {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
              c.isFixed()};
+        linkForce(p, c.getForces(), std::array<int, 3>{x, y, z});
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -186,6 +194,7 @@ void Generator<SphereArgument<2>, 2>::generate(const SphereArgument<2> &c, Parti
       Particle<2> p
           {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
            c.isFixed()};
+      linkForce(p, c.getForces(), std::array<int, 2>{x, y});
       applyMotion(c.getMeanValue(), p);
       container.addParticle(p);
     }

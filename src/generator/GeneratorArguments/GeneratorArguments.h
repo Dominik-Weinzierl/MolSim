@@ -209,4 +209,7 @@ struct GeneratorArguments {
     return type;
   }
 
+  const std::vector<ForceContainer<dim>> &getForces() const {
+    return forces;
+  }
 };
