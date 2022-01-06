@@ -3,6 +3,8 @@
 #include "generator/GeneratorArguments/variants/MembraneArgument.h"
 #include "generator/Generator.h"
 
+
+// TODO FIX and REFACTORING -> Avoid hard coding of values!
 template<>
 void Generator<RectangularArgument<3>, 3>::generateRectangular(const RectangularArgument<3> &t,
                                                                ParticleContainer<3> &container) {
@@ -595,7 +597,7 @@ void Generator<SphereArgument<3>, 3>::generate(const SphereArgument<3> &c, Parti
 
         Particle<3>
             p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(),
-              c.getType()};
+              c.getType(), c.isFixed()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -617,9 +619,9 @@ void Generator<SphereArgument<2>, 2>::generate(const SphereArgument<2> &c, Parti
           || (!c.getPacked() && ArrayUtils::L2Norm(pos - c.getCenterCoordinates()) < rad - 0.6 * c.getDistance()))
         continue;
 
-      Particle<2>
-          p
-          {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+      Particle<2> p
+          {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
+           c.isFixed()};
       applyMotion(c.getMeanValue(), p);
       container.addParticle(p);
     }

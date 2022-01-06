@@ -9,7 +9,7 @@ class DummyThermostat : public Thermostat<dim> {
   //----------------------------------------Constructor----------------------------------------
 
   /**
-   *
+   * Constructor for the DummyThermostat
    */
   DummyThermostat() : Thermostat<dim>(-1.0, -1.0, -1, -1) {};
 

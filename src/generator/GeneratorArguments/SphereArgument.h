@@ -2,7 +2,6 @@
 
 #include "generator/Generator.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
-#include "generator/GeneratorArguments.h"
 
 /**
  * Arguments used to create Sphere(s).
@@ -11,7 +10,11 @@
 template<size_t dim>
 class SphereArgument : public GeneratorArguments {
 
- private:
+  /**
+   * Should the particles be fixed
+   */
+  bool fixed;
+
   /**
    * Coordinates of the center.
    */
@@ -67,18 +70,18 @@ class SphereArgument : public GeneratorArguments {
   //----------------------------------------Constructor----------------------------------------
 
   /**
-   * SphereArgument used to create Sphere(s) by the Generator.
-   * @param pCenterCoordinates coordinates of the center
-   * @param pRadius radius of the Sphere
-   * @param pInitialVelocity initial velocity of the Sphere (of each Particle)
-   * @param pDistance distance between the Particle(s)
-   * @param pMass mass of the Particle(s)
-   * @param pMeanValue mean value of the Particle(s)
-   * @param pPacked describes if the Cuboid is packed with Particle(s)
-   * @param pZeroCrossing is a point where the sign of a mathematical function changes.
-   * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
-   * @param pType of all particles generated with this specific generator argument.
-   */
+ * SphereArgument used to create Sphere(s) by the Generator.
+ * @param pCenterCoordinates coordinates of the center
+ * @param pRadius radius of the Sphere
+ * @param pInitialVelocity initial velocity of the Sphere (of each Particle)
+ * @param pDistance distance between the Particle(s)
+ * @param pMass mass of the Particle(s)
+ * @param pMeanValue mean value of the Particle(s)
+ * @param pPacked describes if the Cuboid is packed with Particle(s)
+ * @param pZeroCrossing is a point where the sign of a mathematical function changes.
+ * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
+ * @param pType of all particles generated with this specific generator argument.
+ */
   SphereArgument(Vector<dim> pCenterCoordinates, int pRadius, Vector<dim> pInitialVelocity, double pDistance,
                  double pMass, double pMeanValue, bool pPacked, double pZeroCrossing, double pDepthOfPotentialWell,
                  int pType) : centerCoordinates{pCenterCoordinates}, radius{pRadius}, initialVelocity{pInitialVelocity},
@@ -166,6 +169,14 @@ class SphereArgument : public GeneratorArguments {
    */
   [[nodiscard]] double getDistance() const {
     return distance;
+  }
+
+  /**
+* Getter for fixed
+* @return fixed
+*/
+  [[nodiscard]] bool isFixed() const {
+    return fixed;
   }
 
   /**

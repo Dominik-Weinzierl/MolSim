@@ -13,6 +13,11 @@ class RectangularArgument : public GeneratorArguments {
 
  private:
   /**
+   * Should the particles be fixed
+   */
+  bool fixed;
+
+  /**
    * Coordinates of the lower left corner.
    */
   Vector<dim> startingCoordinates;
@@ -165,6 +170,14 @@ class RectangularArgument : public GeneratorArguments {
   }
 
   /**
+ * Getter for isStatic
+ * @return isStatic
+ */
+  [[nodiscard]] bool isFixed() const {
+    return fixed;
+  }
+
+  /**
    * Getter for the mass.
    * @return mass
    */
@@ -212,4 +225,3 @@ class RectangularArgument : public GeneratorArguments {
     return type;
   }
 };
-

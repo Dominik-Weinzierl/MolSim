@@ -32,11 +32,6 @@ class XMLArgument : public Argument<dim> {
   std::vector<SphereArgument<dim>> sphereArguments;
 
   /**
-   * Stores the MembraneArguments(s) used by our Generator to create Membrane(s).
-   */
-  std::vector<MembraneArgument<dim>> membraneArguments;
-
-  /**
    * Stores the cutoffRadius used by the linked cell algorithm.
    */
   std::optional<double> cutoffRadius;
@@ -96,124 +91,18 @@ class XMLArgument : public Argument<dim> {
               Vector<dim> pAdditionalGravitation,
               std::vector<Force<dim>> pForces) : Argument<dim>(
       std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
-      pStrategy, std::move(pThermostat), pAdditionalGravitation, pForces),
-                                              cuboidArguments{std::move(pCuboidArguments)},
-                                              sphereArguments{std::move(
-                                                  pSphereArguments)},
-                                              membraneArguments{
-                                                  std::move(
-                                                      pMembraneArguments)},
-                                              domain{pDomain},
-                                              cutoffRadius{
-                                                  pCutoffRadius},
-                                              boundaries{std::move(
-                                                  pBoundaries)},
-                                              cellSize{pCellSize} {
+      pStrategy, std::move(pThermostat), pAdditionalGravitation), cuboidArguments{std::move(pCuboidArguments)},
+                                                                                             sphereArguments{std::move(
+                                                                                                 pSphereArguments)},
+                                                                                             domain{pDomain},
+                                                                                             cutoffRadius{
+                                                                                                 pCutoffRadius},
+                                                                                             boundaries{std::move(
+                                                                                                 pBoundaries)},
+                                                                                             cellSize{pCellSize} {
     SPDLOG_TRACE("XMLArgument created!");
   }
 
-  /**
-   * XMLArgument constructor to construct Arguments provided by the ArgumentParser (XMLArgumentParser).
-   * @param pFiles additional input files to load additional Particle
-   * @param pEndTime end time of the simulation
-   * @param pDeltaT time steps during the simulation
-   * @param pOutput output file prefix
-   * @param pWriter used writer to write in the output files
-   * @param pIteration defines the writing iteration
-   * @param pPhysics defines the used Physics during the simulation
-   * @param pCuboidArguments arguments used to create Cuboids
-   * @param pSphereArguments arguments used to create Spheres
-   * @param pStrategy defines the used strategy for this simulation (direct vs linked cell)
-   * @param pCutoffRadius optional cutoff radius used for the linked cell algorithm
-   * @param pDomain optional domain used for the linked cell algorithm
-   * @param pBoundaries optional boundaries used for the linked cell algorithm
-   * @param pCellSize optional cell size used for the linked cell
-   * @param pThermostat optional thermostat which is applied during the simulation
-   * @param pAdditionalGravitation optional additional gravitation
-   */
-  XMLArgument(std::vector<std::string> pFiles,
-              double pEndTime,
-              double pDeltaT,
-              std::string pOutput,
-              std::string pWriter,
-              int pIteration,
-              std::string pPhysics,
-              std::vector<CuboidArgument<dim>> pCuboidArguments,
-              std::vector<SphereArgument<dim>> pSphereArguments,
-              std::vector<MembraneArgument<dim>> pMembraneArguments,
-              std::string pStrategy,
-              std::optional<double> pCutoffRadius,
-              std::optional<Vector<dim>> pDomain,
-              std::optional<std::vector<BoundaryType>> pBoundaries,
-              std::optional<Vector<dim>> pCellSize,
-              std::unique_ptr<Thermostat<dim>> pThermostat, Vector<dim> pAdditionalGravitation) : Argument<dim>(
-      std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
-      pStrategy, std::move(pThermostat), pAdditionalGravitation),
-                                                              cuboidArguments{std::move(pCuboidArguments)},
-                                                              sphereArguments{std::move(
-                                                                  pSphereArguments)},
-                                                              membraneArguments{
-                                                                  std::move(
-                                                                      pMembraneArguments)},
-                                                              domain{pDomain},
-                                                              cutoffRadius{
-                                                                  pCutoffRadius},
-                                                              boundaries{std::move(
-                                                                  pBoundaries)},
-                                                              cellSize{pCellSize} {
-    SPDLOG_TRACE("XMLArgument created!");
-  }
-
-  /**
-   * XMLArgument constructor to construct Arguments provided by the ArgumentParser (XMLArgumentParser).
-   * @param pFiles additional input files to load additional Particle
-   * @param pEndTime end time of the simulation
-   * @param pDeltaT time steps during the simulation
-   * @param pOutput output file prefix
-   * @param pWriter used writer to write in the output files
-   * @param pIteration defines the writing iteration
-   * @param pPhysics defines the used Physics during the simulation
-   * @param pCuboidArguments arguments used to create Cuboids
-   * @param pSphereArguments arguments used to create Spheres
-   * @param pStrategy defines the used strategy for this simulation (direct vs linked cell)
-   * @param pCutoffRadius optional cutoff radius used for the linked cell algorithm
-   * @param pDomain optional domain used for the linked cell algorithm
-   * @param pBoundaries optional boundaries used for the linked cell algorithm
-   * @param pCellSize optional cell size used for the linked cell
-   * @param pThermostat optional thermostat which is applied during the simulation
-   */
-  XMLArgument(std::vector<std::string> pFiles,
-              double pEndTime,
-              double pDeltaT,
-              std::string pOutput,
-              std::string pWriter,
-              int pIteration,
-              std::string pPhysics,
-              std::vector<CuboidArgument<dim>> pCuboidArguments,
-              std::vector<SphereArgument<dim>> pSphereArguments,
-              std::vector<MembraneArgument<dim>> pMembraneArguments,
-              std::string pStrategy,
-              std::optional<double> pCutoffRadius,
-              std::optional<Vector<dim>> pDomain,
-              std::optional<std::vector<BoundaryType>> pBoundaries,
-              std::optional<Vector<dim>> pCellSize,
-              std::unique_ptr<Thermostat<dim>> pThermostat) : Argument<dim>(
-      std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
-      pStrategy, std::move(pThermostat)),
-                                                 cuboidArguments{std::move(pCuboidArguments)},
-                                                 sphereArguments{std::move(
-                                                     pSphereArguments)},
-                                                 membraneArguments{
-                                                     std::move(
-                                                         pMembraneArguments)},
-                                                 domain{pDomain},
-                                                 cutoffRadius{
-                                                     pCutoffRadius},
-                                                 boundaries{std::move(
-                                                     pBoundaries)},
-                                                 cellSize{pCellSize} {
-    SPDLOG_TRACE("XMLArgument created!");
-  }
   //----------------------------------------Methods----------------------------------------
 
   /**
