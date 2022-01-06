@@ -1,5 +1,4 @@
-<Simulation endTime="25" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
-            additionalGravitation="-12.44">
+<Simulation endTime="25" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD">
     <Strategy>
         <LinkedCell cutoffRadius="2.5">
             <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
@@ -18,4 +17,5 @@
         </Cuboid>
     </Shapes>
     <Thermostat initialT="40" targetT="69" deltaT="42" numberT="1000"/>
+    <AdditionalGravitation x="-12.44" y="0.0" z="0.0"/>
 </Simulation>

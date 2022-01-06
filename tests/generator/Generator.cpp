@@ -1,8 +1,9 @@
 #include <gtest/gtest.h>
 
 #include "generator/Generator.h"
-#include "generator/GeneratorArguments/CuboidArgument.h"
+#include "generator/GeneratorArguments/variants/CuboidArgument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"
+#include "generator/GeneratorArguments/RectangularArgument.h"
 #include "particles/Particle.h"
 #include "container/DirectSum/DirectSumContainer.h"
 

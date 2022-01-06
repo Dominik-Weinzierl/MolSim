@@ -5,11 +5,14 @@
 #include <utility>
 #include <optional>
 
-#include "generator/GeneratorArguments/CuboidArgument.h"
+#include "generator/GeneratorArguments/variants/CuboidArgument.h"
 #include "arguments/argument/Argument.h"
 #include "generator/GeneratorArguments/SphereArgument.h"
+#include "generator/GeneratorArguments/variants/MembraneArgument.h"
+#include "generator/GeneratorArguments/RectangularArgument.h"
 #include "boundaryType/BoundaryType.h"
 #include "thermostat/Thermostat.h"
+#include "physics/Forces/Force.h"
 
 /**
  * XMLArgument stores the arguments parsed by XMLArgumentParser for easy access.
@@ -27,6 +30,11 @@ class XMLArgument : public Argument<dim> {
    * Stores the SphereArgument(s) used by our Generator to create Sphere(s).
    */
   std::vector<SphereArgument<dim>> sphereArguments;
+
+  /**
+   * Stores the MembraneArguments(s) used by our Generator to create Membrane(s).
+   */
+  std::vector<MembraneArgument<dim>> membraneArguments;
 
   /**
    * Stores the cutoffRadius used by the linked cell algorithm.
@@ -65,28 +73,38 @@ class XMLArgument : public Argument<dim> {
    * @param pPhysics defines the used Physics during the simulation
    * @param pCuboidArguments arguments used to create Cuboids
    * @param pSphereArguments arguments used to create Spheres
+   * @param pMembraneArguments arguments used to create Membranes
    * @param pStrategy defines the used strategy for this simulation (direct vs linked cell)
    * @param pCutoffRadius optional cutoff radius used for the linked cell algorithm
    * @param pDomain optional domain used for the linked cell algorithm
    * @param pBoundaries optional boundaries used for the linked cell algorithm
    * @param pCellSize optional cell size used for the linked cell
-   * @param pParallel optional parallelization strategy
    * @param pThermostat optional thermostat which is applied during the simulation
+   * @param pProfileWriter optional profile writer
    * @param pAdditionalGravitation optional additional gravitation
+   * @param pForce optional additional force
+   * @param pParallel optional parallelization strategy
    */
   XMLArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
               std::string pWriter, int pIteration, std::string pPhysics,
               std::vector<CuboidArgument<dim>> pCuboidArguments, std::vector<SphereArgument<dim>> pSphereArguments,
-              std::string pStrategy, std::optional<double> pCutoffRadius, std::optional<Vector<dim>> pDomain,
+              std::vector<MembraneArgument<dim>> pMembraneArguments, std::string pStrategy,
+              std::optional<double> pCutoffRadius, std::optional<Vector<dim>> pDomain,
               std::optional<std::vector<BoundaryType>> pBoundaries, std::optional<Vector<dim>> pCellSize,
-              std::optional<std::string> pParallel, std::unique_ptr<Thermostat<dim>> pThermostat,
-              double pAdditionalGravitation) : Argument<dim>(std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput),
-                                                             std::move(pWriter), pIteration, std::move(pPhysics),
-                                                             pStrategy, std::move(pThermostat), pAdditionalGravitation),
-                                               cuboidArguments{std::move(pCuboidArguments)},
-                                               sphereArguments{std::move(pSphereArguments)}, domain{pDomain},
-                                               cutoffRadius{pCutoffRadius}, boundaries{std::move(pBoundaries)},
-                                               cellSize{pCellSize}, parallel{std::move(pParallel)} {
+              std::unique_ptr<Thermostat<dim>> pThermostat, std::unique_ptr<ProfileWriter<dim>> pProfileWriter,
+              Vector<dim> pAdditionalGravitation, std::vector<Force<dim>> pForces, std::optional<std::string> pParallel) : Argument<dim>(std::move(pFiles),
+                                                                                                   pEndTime, pDeltaT,
+                                                                                                   std::move(pOutput),
+                                                                                                   std::move(pWriter),
+                                                                                                   pIteration,
+                                                                                                   std::move(pPhysics),
+                                                                                                   pStrategy, std::move(
+          pThermostat), std::move(pProfileWriter), pAdditionalGravitation, pForces), cuboidArguments{
+      std::move(pCuboidArguments)}, sphereArguments{std::move(pSphereArguments)}, membraneArguments{pMembraneArguments},
+                                                                                     domain{pDomain},
+                                                                                     cutoffRadius{pCutoffRadius},
+                                                                                     boundaries{std::move(pBoundaries)},
+                                                                                     cellSize{pCellSize}, parallel{std::move(pParallel)} {
     SPDLOG_TRACE("XMLArgument created!");
   }
 
@@ -100,12 +118,17 @@ class XMLArgument : public Argument<dim> {
     SPDLOG_TRACE("XMLArgument->createAdditionalParticle()");
     // Generate additional Cuboids
     for (const auto &cuboidArgument: getCuboidArguments()) {
-      Generator<CuboidArgument<dim>, dim>::generate(cuboidArgument, container);
+      Generator<RectangularArgument<dim>, dim>::generate(cuboidArgument, container);
     }
 
     // Generate additional Spheres
     for (const auto &sphereArgument: getSphereArguments()) {
       Generator<SphereArgument<dim>, dim>::generate(sphereArgument, container);
+    }
+
+    // Generate additional Membranes
+    for (const auto &membraneArgument: getMembraneArguments()) {
+      Generator<RectangularArgument<dim>, dim>::generate(membraneArgument, container);
     }
   }
 
@@ -125,10 +148,6 @@ class XMLArgument : public Argument<dim> {
       configuration << "\t\tDomain: " << ArrayUtils::to_string(this->domain.value()) << std::endl;
       configuration << "\t\tCell size: " << ArrayUtils::to_string(this->cellSize.value()) << std::endl;
       configuration << "\t\tBoundary: " << ArrayUtils::to_string(this->boundaries.value()) << std::endl;
-
-      if (parallel.has_value()) {
-        configuration << "\t\tParallelization: " << this->parallel.value() << std::endl;
-      }
     };
 
     // Print additional generators
@@ -150,6 +169,14 @@ class XMLArgument : public Argument<dim> {
       }
     }
 
+    // Print used membrane generator
+    if (!this->membraneArguments.empty()) {
+      configuration << "\t\tMembrane generator:" << std::endl;
+      for (const auto &m: this->membraneArguments) {
+        configuration << m;
+      }
+    }
+
     // Print thermostat if available
     configuration << this->thermostat->toString() << std::endl;
 
@@ -166,8 +193,8 @@ class XMLArgument : public Argument<dim> {
   bool operator==(const XMLArgument &rhs) const {
     return static_cast<const Argument<dim> &>(*this) == static_cast<const Argument<dim> &>(rhs)
         && cuboidArguments == rhs.cuboidArguments && sphereArguments == rhs.sphereArguments
-        && cutoffRadius == rhs.cutoffRadius && domain == rhs.domain && cellSize == rhs.cellSize
-        && boundaries == rhs.boundaries && parallel == rhs.parallel;
+        && membraneArguments == rhs.membraneArguments && cutoffRadius == rhs.cutoffRadius && domain == rhs.domain
+        && cellSize == rhs.cellSize && boundaries == rhs.boundaries;
   }
 
   /**
@@ -181,7 +208,7 @@ class XMLArgument : public Argument<dim> {
 
   //----------------------------------------Getter & Setter----------------------------------------
 
-  void updateCellSizeOnIndex(size_t index, double pCellSize) {
+  void updateCellSizeOnIndex(size_t index, double pCellSize){
     cellSize.value()[index] = pCellSize;
   }
 
@@ -201,6 +228,15 @@ class XMLArgument : public Argument<dim> {
   [[nodiscard]] const std::vector<SphereArgument<dim>> &getSphereArguments() const {
     SPDLOG_TRACE("XMLArgument->getSphereArguments(): {}", sphereArguments.size());
     return sphereArguments;
+  }
+
+  /**
+   * Getter for MembraneArguments.
+   * @return std::vector of MembraneArguments.
+   */
+  [[nodiscard]] const std::vector<MembraneArgument<dim>> &getMembraneArguments() const {
+    SPDLOG_TRACE("XMLArgument->getMembraneArguments(): {}", membraneArguments.size());
+    return membraneArguments;
   }
 
   /**

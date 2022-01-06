@@ -1,0 +1,34 @@
+<Simulation endTime="10" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="nanoflow"
+            additionalGravitation="-0.8">
+    <Strategy>
+        <LinkedCell cutoffRadius="2.75">
+            <Domain x="30" y="30" z="12"/>
+            <CellSize x="3" y="3" z="3"/>
+            <Boundary boundary-left="outflow" boundary-right="outflow" boundary-top="periodic"
+                      boundary-bottom="periodic" boundary-front="periodic" boundary-back="periodic"/>
+        </LinkedCell>
+    </Strategy>
+    <Shapes>
+        <Cuboid mass="1.0" distance="1.0" meanValue="0" packed="true" depthOfPotentialWell="2" zeroCrossing="1.1"
+                type="1" fixed="true">
+            <Position x="1" y="0.5" z="0.5"/>
+            <Velocity x="0.0" y="0.0" z="0.0"/>
+            <Dimension x="2" y="30" z="12"/>
+        </Cuboid>
+        <Cuboid mass="1.0" distance="1.0" meanValue="0" packed="true" depthOfPotentialWell="2" zeroCrossing="1.1"
+                type="1" fixed="true">
+            <Position x="27.2" y="0.5" z="0.5"/>
+            <Velocity x="0.0" y="0.0" z="0.0"/>
+            <Dimension x="2" y="30" z="12"/>
+        </Cuboid>
+
+        <Cuboid mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.1"
+                type="2" fixed="false">
+            <Position x="3.2" y="0.6" z="0.6"/>
+            <Velocity x="0.0" y="0.0" z="0.0"/>
+            <Dimension x="20" y="25" z="10"/>
+        </Cuboid>
+    </Shapes>
+    <Thermostat initialT="40" numberT="10" flow="true"/>
+    <ProfileWriter numOfBins="10" numOfIterations="1000" velocity="true" density="false"/>
+</Simulation>

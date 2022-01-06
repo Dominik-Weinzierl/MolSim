@@ -8,6 +8,9 @@
 
 #include "outputWriter/OutputWriter.h"
 #include "thermostat/Thermostat.h"
+#include "outputWriter/ProfileWriter/ProfileWriter.h"
+#include "outputWriter/ProfileWriter/DummyProfileWriter.h"
+#include "physics/Forces/Force.h"
 
 /**
  * Argument stores the arguments parsed by ArgumentParser for easy access.
@@ -62,9 +65,19 @@ class Argument {
   std::unique_ptr<Thermostat<dim>> thermostat;
 
   /**
-   *
+ * Stores the profile writer
+ */
+  std::unique_ptr<ProfileWriter<dim>> profileWriter;
+
+  /**
+   * Stores the additional gravitation
    */
-  double additionalGravitation;
+  Vector<dim> additionalGravitation;
+
+  /**
+   * Column vector which stores the additional force with the according start and endTime.
+   */
+  std::vector<Force<dim>> forces;
 
  public:
   //----------------------------------------Constructor & Destructor----------------------------------------
@@ -82,15 +95,19 @@ class Argument {
    * @param pPhysics defines the used Physics during the simulation
    * @param pStrategy defines the used strategy for this simulation (direct vs linked cell)
    * @param pThermostat optional thermostat which is applied during the simulation
+   * @param pProfileWriter optional profile writer
    * @param pAdditionalGravitation optional additional gravitation
+   * @param pForces Vector of optional additional force
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
            int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat,
-           double pAdditionalGravitation) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
-                                            output{std::move(pOutput)}, writer{std::move(pWriter)},
-                                            physics{std::move(pPhysics)}, iteration{pIteration},
-                                            strategy{std::move(pStrategy)}, thermostat{std::move(pThermostat)},
-                                            additionalGravitation{pAdditionalGravitation} {};
+           std::unique_ptr<ProfileWriter<dim>> pProfileWriter, Vector<dim> pAdditionalGravitation,
+           std::vector<Force<dim>> pForces) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
+                                              output{std::move(pOutput)}, writer{std::move(pWriter)},
+                                              physics{std::move(pPhysics)}, iteration{pIteration},
+                                              strategy{std::move(pStrategy)}, thermostat{std::move(pThermostat)},
+                                              profileWriter{std::move(pProfileWriter)},
+                                              additionalGravitation{pAdditionalGravitation}, forces{pForces} {};
 
   //----------------------------------------Methods----------------------------------------
 
@@ -116,7 +133,9 @@ class Argument {
     configuration << "\tFile writer: " << this->getWriter() << std::endl;
     configuration << "\tIteration: " << this->getIteration() << std::endl;
     configuration << "\tPhysic: " << this->getPhysics() << std::endl;
-    configuration << "\tAdditional gravitation: " << this->additionalGravitation << std::endl;
+    configuration << "\tAdditional gravitation: " << ArrayUtils::to_string(this->getAdditionalGravitation())
+                  << std::endl;
+    configuration << "\tForce: " << ArrayUtils::to_string(this->getForces()) << std::endl;
     configuration << "\tStrategy: " << this->strategy << std::endl;
     return configuration.str();
   }
@@ -142,7 +161,8 @@ class Argument {
   bool operator==(const Argument &rhs) const {
     return files == rhs.files && endTime == rhs.endTime && deltaT == rhs.deltaT && output == rhs.output
         && writer == rhs.writer && physics == rhs.physics && iteration == rhs.iteration && strategy == rhs.strategy
-        && *thermostat.get() == *rhs.thermostat.get() && additionalGravitation == rhs.additionalGravitation;
+        && thermostat == rhs.thermostat && profileWriter == rhs.profileWriter
+        && additionalGravitation == rhs.additionalGravitation && forces == rhs.forces;
   }
 
   /**
@@ -153,6 +173,7 @@ class Argument {
   bool operator!=(const Argument &rhs) const {
     return !(rhs == *this);
   }
+
 
   //----------------------------------------Getter & Setter----------------------------------------
 
@@ -237,18 +258,42 @@ class Argument {
   }
 
   /**
-   * Getter for thermostat.
-   * @return thermostat.
+   * Getter for profile writer.
+   * @return profile writer.
    */
-  [[nodiscard]] std::unique_ptr<Thermostat<dim>> &getThermostat() {
+  [[nodiscard]] const std::unique_ptr<ProfileWriter<dim>> &getProfileWriter() const {
+    return profileWriter;
+  }
+
+  /**
+ * Getter for thermostat.
+ * @return thermostat.
+ */
+  [[nodiscard]]  std::unique_ptr<Thermostat<dim>> &getThermostat() {
     return thermostat;
+  }
+
+  /**
+   * Getter for profile writer.
+   * @return profile writer.
+   */
+  [[nodiscard]]  std::unique_ptr<ProfileWriter<dim>> &getProfileWriter() {
+    return profileWriter;
   }
 
   /**
    * Getter for gravitation.
    * @return gravitation.
    */
-  [[nodiscard]] const double &getAdditionalGravitation() const {
+  [[nodiscard]] const Vector<dim> &getAdditionalGravitation() const {
     return additionalGravitation;
+  }
+
+  /**
+   * Getter for forces.
+   * @return forces
+   */
+  [[nodiscard]] const std::vector<Force<dim>> &getForces() const {
+    return forces;
   }
 };

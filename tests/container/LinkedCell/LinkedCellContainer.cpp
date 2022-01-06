@@ -163,18 +163,18 @@ TEST(LinkedCellContainer_3D, checkNewtonPeriodic) {
 * Checks behavior when the CutOffRadius is greater than the cell size, 2D
 */
 TEST(LinkedCellContainer_2D, checkCutoffRadiusGreaterThanCellSize) {
-  LinkedCell<LennardJones, 2> linkedCell{};
-  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 2};
+  const size_t dim = 2;
+  LinkedCell<LennardJones, dim> linkedCell{};
+  LinkedCellContainer<dim> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 2};
 
   l.addParticle({{0.1, 0.1}, {-1.0, 0.0}, 1.0});
   l.addParticle({{1.5, 1.5}, {-1.0, 0.0}, 1.0});
-
   l.init();
 
   auto force = l.getParticles()[1].getF();
 
-  double additionalGravitation = 0;
-  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation);
+  Vector<dim> additionalGravitation{0.0, 0.0};
+  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation, {});
 
   ASSERT_TRUE(force != l.getParticles()[1].getF());
 }
@@ -183,17 +183,17 @@ TEST(LinkedCellContainer_2D, checkCutoffRadiusGreaterThanCellSize) {
 * Checks behavior when the CutOffRadius is greater than the cell size, 3D
 */
 TEST(LinkedCellContainer_3D, checkCutoffRadiusGreaterThanCellSize) {
-  LinkedCell<LennardJones, 3> linkedCell{};
-  LinkedCellContainer<3> l{{Outflow, Outflow, Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 2};
+  const size_t dim = 3;
+  LinkedCell<LennardJones, dim> linkedCell{};
+  LinkedCellContainer<dim> l{{Outflow, Outflow, Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 2};
 
   l.addParticle({{0.1, 0.1, 0.1}, {-1.0, 0.0, 0.0}, 1.0});
   l.addParticle({{1.5, 1.5, 1.5}, {-1.0, 0.0, 0.0}, 1.0});
-
   l.init();
 
   auto force = l.getParticles()[1].getF();
-  double additionalGravitation = 0;
-  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation);
+  Vector<dim> additionalGravitation{0, 0, 0};
+  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation, {});
 
   ASSERT_TRUE(force == l.getParticles()[1].getF());
 }
@@ -202,18 +202,18 @@ TEST(LinkedCellContainer_3D, checkCutoffRadiusGreaterThanCellSize) {
 * Checks behavior when the CutOffRadius is smaller than the cell size, 2D
 */
 TEST(LinkedCellContainer_2D, checkCutoffRadiusLessThanCellSize) {
-  LinkedCell<LennardJones, 2> linkedCell{};
-  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {3, 3}, {9, 9}, 2};
+  const size_t dim = 2;
+  LinkedCell<LennardJones, dim> linkedCell{};
+  LinkedCellContainer<dim> l{{Outflow, Outflow, Outflow, Outflow}, {3, 3}, {9, 9}, 2};
 
   l.addParticle({{2.9, 2.9}, {-1.0, 0.0}, 1.0});
   l.addParticle({{3.1, 3.1}, {-1.0, 0.0}, 1.0});
-
   l.init();
 
   auto force = l.getParticles()[1].getF();
 
-  double additionalGravitation = 0;
-  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation);
+  Vector<dim> additionalGravitation{0, 0};
+  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation, {});
 
   ASSERT_TRUE(force != l.getParticles()[1].getF());
 }

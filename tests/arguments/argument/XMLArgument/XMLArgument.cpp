@@ -2,6 +2,7 @@
 
 #include "arguments/argument/XMLArgument/XMLArgument.h"
 #include "thermostat/DummyThermostat.h"
+#include "generator/GeneratorArguments/variants/MembraneArgument.h"
 
 /**
  * ***************************************************
@@ -26,6 +27,7 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
       cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
   std::vector<SphereArgument<dim>>
       sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
+  std::vector<MembraneArgument<dim>> membraneArguments{MembraneArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 2.2, 300, 0}};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
   std::optional<Vector<dim>> domain{{5, 5, 5}};
@@ -37,7 +39,7 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
 
   XMLArgument<dim> arg
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::nullopt,nullptr, additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, nullptr, additionalGravitation};
 
   // Expect getter und setter to return correct values
   EXPECT_EQ(arg.getFiles(), files);
@@ -49,6 +51,7 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
   EXPECT_EQ(arg.getPhysics(), physics);
   EXPECT_EQ(arg.getCuboidArguments(), cuboidArguments);
   EXPECT_EQ(arg.getSphereArguments(), sphereArguments);
+  EXPECT_EQ(arg.getMembraneArguments(), membraneArguments);
   EXPECT_EQ(arg.getStrategy(), strategy);
   EXPECT_EQ(arg.getCutoffRadius(), cutoffRadius);
   EXPECT_EQ(arg.getDomain(), domain);
@@ -75,17 +78,20 @@ TEST(XMLArgument_2D, constructor) { // NOLINT(cert-err58-cpp)
       cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
   std::vector<SphereArgument<dim>>
       sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
+//  std::vector<MembraneArgument<dim>>
+//      membraneArguments{MembraneArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 2.2, 300, 0}};
+  std::vector<MembraneArgument<dim>> membraneArguments{};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
   std::optional<Vector<dim>> domain{{5, 5}};
   std::optional<std::vector<BoundaryType>>
       boundaries{{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting}};
   std::optional<Vector<dim>> cellSize{{1, 1}};
-  double additionalGravitation = 5;
+  Vector<dim> additionalGravitation = {5, 0};
 
   XMLArgument<dim> arg
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize,std::nullopt, nullptr, additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, nullptr, additionalGravitation};
 
   // Expect getter und setter to return correct values
   EXPECT_EQ(arg.getFiles(), files);
@@ -121,20 +127,21 @@ TEST(XMLArgument, compareOperatorEqual) { // NOLINT(cert-err58-cpp)
   std::string physics{"gravitation"};
   std::vector<CuboidArgument<dim>> cuboidArguments{};
   std::vector<SphereArgument<dim>> sphereArguments{};
+  std::vector<MembraneArgument<dim>> membraneArguments{};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
   std::optional<Vector<dim>> domain{{5, 5}};
   std::optional<std::vector<BoundaryType>> boundaries{};
   std::optional<Vector<dim>> cellSize{{1, 1}};
-  double additionalGravitation = 0;
+  Vector<dim> additionalGravitation = {0, 0};
 
   XMLArgument<dim> first
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::nullopt, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
 
   XMLArgument<dim> second
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::nullopt, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
 
   EXPECT_EQ(first, second);
 }
@@ -154,22 +161,23 @@ TEST(XMLArgument, compareOperatorNotEqual) { // NOLINT(cert-err58-cpp)
   std::string physics{"gravitation"};
   std::vector<CuboidArgument<dim>> cuboidArguments{};
   std::vector<SphereArgument<dim>> sphereArguments{};
+  std::vector<MembraneArgument<dim>> membraneArguments{};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
   std::optional<Vector<dim>> domain{{5, 5}};
   std::optional<std::vector<BoundaryType>> boundaries{};
   std::optional<Vector<dim>> cellSize{{1, 1}};
-  double additionalGravitation = 0;
+  Vector<dim> additionalGravitation = {0, 0};
 
   XMLArgument<dim> first
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::nullopt, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
 
   physics = std::string{"lennard"};
 
   XMLArgument<dim> second
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::nullopt, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
+       cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
 
   EXPECT_NE(first, second);
 }

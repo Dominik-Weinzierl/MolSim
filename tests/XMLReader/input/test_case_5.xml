@@ -1,3 +1,3 @@
-<Simulation endTime="3" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="output"
-            additionalGravitation="9.81">
+<Simulation endTime="3" deltaT="0.0002" iteration="60" physics="lennard" writer="vtk" output="output">
+    <AdditionalGravitation x="9.81" y="0.0" z="0.0"/>
 </Simulation>

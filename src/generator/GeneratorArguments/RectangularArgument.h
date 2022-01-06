@@ -2,26 +2,28 @@
 
 #include "generator/Generator.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
+#include "generator/GeneratorArguments.h"
 
 /**
- * Arguments used to create Cuboid(s).
+ * Arguments used to create Rectangular Shape(s).
  * @tparam dim dimension of our simulation.
  */
 template<size_t dim>
-class CuboidArgument : public GeneratorArguments {
+class RectangularArgument : public GeneratorArguments {
 
+ private:
   /**
    * Coordinates of the lower left corner.
    */
   Vector<dim> startingCoordinates;
 
   /**
-   * Dimension of the Cuboid.
+   * Dimension of the Shape.
    */
   std::array<int, dim> dimensions;
 
   /**
-   * Initial velocity of the Cuboid.
+   * Initial velocity of the Shape.
    */
   Vector<dim> initialVelocity;
 
@@ -60,75 +62,75 @@ class CuboidArgument : public GeneratorArguments {
    */
   int type;
 
+  /**
+   * Should the particles be fixed
+   */
+  bool fixed;
+
  public:
 
   //----------------------------------------Constructor----------------------------------------
 
   /**
-   * CuboidArgument used to create Cuboid(s) by the Generator.
+   * ShapeArgument used to create Shape(s) by the Generator.
    * @param pStartingCoordinates coordinates of the lower left corner
-   * @param pDimensions dimension of the Cuboid
-   * @param pInitialVelocity initial velocity of the Cuboid (of each Particle)
+   * @param pDimensions dimension of the Shape
+   * @param pInitialVelocity initial velocity of the Shape (of each Particle)
    * @param pDistance distance between the Particle(s)
    * @param pMass mass of the Particle(s)
    * @param pMeanValue mean value of the Particle(s)
-   * @param pPacked describes if the Cuboid is packed with Particle(s)
+   * @param pPacked describes if the Shape is packed with Particle(s)
    * @param pZeroCrossing is a point where the sign of a mathematical function changes.
    * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
    * @param pType of all particles generated with this specific generator argument.
+   * @param pFixed whether the particles should be fixed.
    */
-  CuboidArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
-                 double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
-                 double pDepthOfPotentialWell, int pType) : startingCoordinates{pStartingCoordinates},
-                                                            dimensions{std::move(pDimensions)},
-                                                            initialVelocity{pInitialVelocity}, distance{pDistance},
-                                                            mass{pMass}, meanValue{pMeanValue}, packed{pPacked},
-                                                            zeroCrossing{pZeroCrossing},
-                                                            depthOfPotentialWell{pDepthOfPotentialWell}, type{pType} {
+  RectangularArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
+                      double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
+                      double pDepthOfPotentialWell, int pType, bool pFixed) : startingCoordinates{pStartingCoordinates},
+                                                                              dimensions{std::move(pDimensions)},
+                                                                              initialVelocity{pInitialVelocity},
+                                                                              distance{pDistance}, mass{pMass},
+                                                                              meanValue{pMeanValue}, packed{pPacked},
+                                                                              zeroCrossing{pZeroCrossing},
+                                                                              depthOfPotentialWell{
+                                                                                  pDepthOfPotentialWell}, type{pType},
+                                                                              fixed{pFixed} {
 
   }
+
+  /**
+   * Default destructor used for inheritance.
+   */
+  virtual ~RectangularArgument() = default;
 
   //----------------------------------------Methods----------------------------------------
 
   /**
-   * Prints the CuboidArgument.
-   */
-  [[nodiscard]] std::string toString() const {
-    std::stringstream argument;
-    argument << "\t\t\tCuboid:" << std::endl;
-    argument << "\t\t\t\t Stating coordinates: " << ArrayUtils::to_string(startingCoordinates) << std::endl;
-    argument << "\t\t\t\t Dimension: " << ArrayUtils::to_string(dimensions) << std::endl;
-    argument << "\t\t\t\t Velocity: " << ArrayUtils::to_string(initialVelocity) << std::endl;
-    argument << "\t\t\t\t Distance: " << distance << std::endl;
-    argument << "\t\t\t\t Mass: " << mass << std::endl;
-    argument << "\t\t\t\t Mean value: " << meanValue << std::endl;
-    argument << "\t\t\t\t Packed: " << (packed ? "true" : "false") << std::endl;
-    argument << "\t\t\t\t Zero crossing: " << zeroCrossing << std::endl;
-    argument << "\t\t\t\t Depth of potential well: " << depthOfPotentialWell << std::endl;
-    argument << "\t\t\t\t Type: " << type << std::endl;
-    return argument.str();
-  };
+  * Prints the RectangleArgument.
+  */
+  [[nodiscard]] virtual std::string toString() const = 0;
 
   /**
-   * Stream operator for CuboidArgument(s).
+   * Stream operator for RectangleArgument(s).
    * @tparam dim dimension of our simulation.
    * @param stream std::ostream
-   * @param p CuboidArgument to print
+   * @param p RectangleArgument to print
    * @return updated stream
    */
-  friend std::ostream &operator<<(std::ostream &stream, const CuboidArgument<dim> &c) {
+  friend std::ostream &operator<<(std::ostream &stream, const RectangularArgument &c) {
     stream << c.toString();
     return stream;
   }
 
   /**
-   * Compare operator for CuboidArgument(s);
+   * Compare operator for RectangleArgument(s);
    * @tparam dim dimension of current simulation
-   * @param left first CuboidArgument
-   * @param right second CuboidArgument
+   * @param left first RectangleArgument
+   * @param right second RectangleArgument
    * @return true if they equal
    */
-  friend bool operator==(const CuboidArgument<dim> &left, const CuboidArgument<dim> &right) {
+  friend bool operator==(const RectangularArgument &left, const RectangularArgument &right) {
     return left.getStartingCoordinates() == right.getStartingCoordinates()
         && left.getDimensions() == right.getDimensions() && left.getInitialVelocity() == right.getInitialVelocity()
         && left.getDistance() == right.getDistance() && left.getMass() == right.getMass()
@@ -169,6 +171,14 @@ class CuboidArgument : public GeneratorArguments {
    */
   [[nodiscard]] double getDistance() const {
     return distance;
+  }
+
+  /**
+ * Getter for isStatic
+ * @return isStatic
+ */
+  [[nodiscard]] bool isFixed() const {
+    return fixed;
   }
 
   /**

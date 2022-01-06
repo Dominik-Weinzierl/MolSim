@@ -5,6 +5,9 @@
 #include "physics/Vector/Vector.h"
 #include "logger/Logger.h"
 
+enum ParticleType{
+  MOLECULE, PARTICLE
+};
 /**
  * Particle is a class that wraps up the properties of a particle, getters, setters and standard methods.
  * @tparam dim dimension of our simulation.
@@ -53,6 +56,31 @@ class Particle {
    */
   double potentialWellDepth = 5;
 
+  /**
+    * Whether the particle should be considered fixed (aka does not move)
+    */
+  bool fixed;
+
+  /**
+   * Vector of moleculeArguments.
+   */
+  std::vector<double> membraneArguments;
+
+  /**
+   * Vector of neighbours (only for MOLECULE).
+   */
+  std::vector<Particle<dim> *> neighbours;
+
+  /**
+   * Vector of diagonalNeighbours (only for MOLECULE).
+   */
+  std::vector<Particle<dim> *> diagonalNeighbours;
+
+  /**
+   * ParticleTypes (either PARTICLE or MOLECULE, default PARTICLE)
+   */
+  ParticleType particleType = PARTICLE;
+
  public:
 
   //----------------------------------------Constructor & Destructor----------------------------------------
@@ -94,7 +122,23 @@ class Particle {
    */
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth,
            int pType) : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
-                        potentialWellDepth{pPotentialWellDepth} {
+                        potentialWellDepth{pPotentialWellDepth}, fixed{false} {
+    SPDLOG_TRACE("Particle generated");
+  }
+
+  /**
+* Constructor which generates a particle with the given parameters.
+ * @param pX position vector
+ * @param pV velocity vector
+ * @param pM mass
+ * @param pZeroCrossing zero crossing
+ * @param pPotentialWellDepth potential well depth
+ * @param pType type of the Particle
+ * @param pFixed if the particle should be fixed
+ */
+  Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth,
+           int pType, bool pFixed) : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
+                                     potentialWellDepth{pPotentialWellDepth}, fixed{pFixed} {
     SPDLOG_TRACE("Particle generated");
   }
 
@@ -130,6 +174,8 @@ class Particle {
    * @param z_arg new z value to add
    */
   inline void updateForce(double x_arg, double y_arg, double z_arg) {
+    if (fixed)
+      return;
     f[0] += x_arg;
     f[1] += y_arg;
     f[2] += z_arg;
@@ -141,6 +187,8 @@ class Particle {
    * @param y_arg new y value to add
    */
   inline void updateForce(double x_arg, double y_arg) {
+    if (fixed)
+      return;
     f[0] += x_arg;
     f[1] += y_arg;
   }
@@ -150,6 +198,8 @@ class Particle {
    * @param force new force to add
    */
   inline void updateForce(std::array<double, dim> force) {
+    if (fixed)
+      return;
     for (size_t i = 0; i < dim; ++i) {
       f[i] += force[i];
     }
@@ -266,10 +316,43 @@ class Particle {
   }
 
   /**
+   * Getter for fixed
+   * @return true iff the particle is fixed
+   */
+  [[nodiscard]] inline bool isFixed() const {
+    return fixed;
+  }
+
+  /**
+   * Getter for neighbours.
+   * @return neighbours
+   */
+  [[nodiscard]] const std::vector<Particle<dim> *> &getNeighbours() const {
+    return neighbours;
+  }
+
+  /**
+  * Getter for membraneArguments.
+  * @return membraneArguments
+  */
+  [[nodiscard]] std::vector<double> getMembraneArguments() const {
+    if(particleType == MOLECULE) return membraneArguments;
+    else return {};
+  }
+
+  /**
+   * Getter for particleType.
+   * @return particleType
+   */
+  [[nodiscard]] ParticleType getParticleType() const {
+    return particleType;
+  }
+
+  /**
    * Setter for the position of the Particle.
    * @param position new position
    */
-  void setX(const Vector<dim> &position) {
+  inline void setX(const Vector<dim> &position) {
     x = position;
   }
 
@@ -279,7 +362,7 @@ class Particle {
    * @param y_arg new y value
    * @param z_arg new z value
    */
-  void setX(double x_arg, double y_arg, double z_arg) {
+  inline void setX(double x_arg, double y_arg, double z_arg) {
     x[0] = x_arg;
     x[1] = y_arg;
     x[2] = z_arg;
@@ -290,7 +373,7 @@ class Particle {
    * @param x_arg new x value
    * @param y_arg new y value
    */
-  void setX(double x_arg, double y_arg) {
+  inline void setX(double x_arg, double y_arg) {
     x[0] = x_arg;
     x[1] = y_arg;
   }
@@ -299,7 +382,9 @@ class Particle {
    * Setter for the velocity of the Particle.
    * @param velocity new velocity
    */
-  void setV(const Vector<dim> &velocity) {
+  inline void setV(const Vector<dim> &velocity) {
+    if (fixed)
+      return;
     v = velocity;
   }
 
@@ -309,7 +394,9 @@ class Particle {
    * @param y_arg new y value
    * @param z_arg new z value
    */
-  void setV(double x_arg, double y_arg, double z_arg) {
+  inline void setV(double x_arg, double y_arg, double z_arg) {
+    if (fixed)
+      return;
     v[0] = x_arg;
     v[1] = y_arg;
     v[2] = z_arg;
@@ -320,7 +407,9 @@ class Particle {
    * @param x_arg new x value
    * @param y_arg new y value
    */
-  void setV(double x_arg, double y_arg) {
+  inline void setV(double x_arg, double y_arg) {
+    if (fixed)
+      return;
     v[0] = x_arg;
     v[1] = y_arg;
   }
@@ -329,7 +418,7 @@ class Particle {
    * Setter for the force of the Particle.
    * @param force new force
    */
-  void setF(const Vector<dim> &force) {
+  inline void setF(const Vector<dim> &force) {
     f = force;
   }
 
@@ -339,7 +428,7 @@ class Particle {
    * @param y_arg new y value
    * @param z_arg new z value
    */
-  void setF(double x_arg, double y_arg, double z_arg) {
+  inline void setF(double x_arg, double y_arg, double z_arg) {
     f[0] = x_arg;
     f[1] = y_arg;
     f[2] = z_arg;
@@ -350,7 +439,7 @@ class Particle {
    * @param x_arg new x value
    * @param y_arg new y value
    */
-  void setF(double x_arg, double y_arg) {
+  inline void setF(double x_arg, double y_arg) {
     f[0] = x_arg;
     f[1] = y_arg;
   }
@@ -359,7 +448,7 @@ class Particle {
    * Setter for the force of the Particle.
    * @param y_arg new y value
    */
-  void setF(double y_arg) {
+  inline void setF(double y_arg) {
     f[0] = 0;
     f[1] = y_arg;
     if (dim == 3)
@@ -370,7 +459,7 @@ class Particle {
    * Setter for the old force of the Particle.
    * @param oldForce new old force
    */
-  void setOldF(const Vector<dim> &oldForce) {
+  inline void setOldF(const Vector<dim> &oldForce) {
     old_f = oldForce;
   }
 
@@ -380,7 +469,7 @@ class Particle {
    * @param y_arg new y value
    * @param z_arg new z value
    */
-  void setOldF(double x_arg, double y_arg, double z_arg) {
+  inline void setOldF(double x_arg, double y_arg, double z_arg) {
     old_f[0] = x_arg;
     old_f[1] = y_arg;
     old_f[2] = z_arg;
@@ -391,7 +480,7 @@ class Particle {
    * @param x_arg new x value
    * @param y_arg new y value
    */
-  void setOldF(double x_arg, double y_arg) {
+  inline void setOldF(double x_arg, double y_arg) {
     old_f[0] = x_arg;
     old_f[1] = y_arg;
   }
@@ -400,7 +489,55 @@ class Particle {
    * Setter the type of the Particle
    * @param pType new type
    */
-  void setType(int pType) {
+  inline void setType(int pType) {
     type = pType;
+  }
+
+  /**
+   * Sets particleType to MOLECULE.
+   */
+  void setParticleTypeToMolecule() {
+    particleType = MOLECULE;
+  }
+
+  /**
+  * Set stiffness and averageBondLength if particleType is MOLECULE.
+  * @param stiffness
+  * @param averageBondLength
+  */
+  void setMembraneArguments(double stiffness, double averageBondLength){
+    if(particleType == MOLECULE){
+      membraneArguments.clear();
+      membraneArguments.template emplace_back(stiffness);
+      membraneArguments.template emplace_back(averageBondLength);
+    }
+  }
+
+  /**
+  * Adds a molecule-pointer to neighbours.
+  * @param p molecule-pointer
+  */
+  void addNeighbour(Particle<dim> *p){
+    if(particleType == MOLECULE){
+      neighbours.template emplace_back(p);
+    }
+  }
+
+  /**
+  * Adds a molecule-pointer to diagonalNeighbours.
+  * @param p molecule-pointer
+  */
+  void addDiagonalNeighbour(Particle<dim> *p){
+    if(particleType == MOLECULE){
+      diagonalNeighbours.template emplace_back(p);
+    }
+  }
+
+  bool isNeighbour(Particle<dim> *p){
+    return std::find(neighbours.begin(), neighbours.end(), p) != neighbours.end();
+  }
+
+  bool isDiagonalNeighbour(Particle<dim> *p){
+    return std::find(diagonalNeighbours.begin(), diagonalNeighbours.end(), p) != diagonalNeighbours.end();
   }
 };
