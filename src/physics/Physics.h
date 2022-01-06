@@ -83,13 +83,19 @@ class Physics {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param gravitation Vector that contains the additional gravitation force
    */
-  void calculateF(ParticleContainer<dim> &particleContainer, Vector<dim> &gravitation) const {
+  void calculateF(ParticleContainer<dim> &particleContainer, Vector<dim> &gravitation, double current_time) const {
     SPDLOG_DEBUG("started calculating forces");
 //#pragma omp parallel for shared(particleContainer, additionalForce) default(none)
     for (size_t t = 0; t < particleContainer.size(); ++t) {
       Particle<dim> &p = particleContainer.getParticles()[t];
       p.setOldF(p.getF());
       p.setF(p.getM() * gravitation);
+
+      for (const Force<dim> &force: p.getAdditionalForces()) {
+        if (force.getStartTime() >= current_time && force.getEndTime() <= current_time) {
+          p.updateForce(force.getForce());
+        }
+      }
     }
 
     performUpdate(particleContainer);
@@ -102,12 +108,12 @@ class Physics {
   * @param deltaT time step of our simulation
   * @param gravitation Vector that contains the additional gravitation force
   */
-  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT,
-                                 Vector<dim> &gravitation) const {
+  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &gravitation,
+                                 double current_time) const {
     // calculate new x
     calculateX(particleContainer, deltaT);
     // calculate new f
-    calculateF(particleContainer, gravitation);
+    calculateF(particleContainer, gravitation, current_time);
     // calculate new v
     calculateV(particleContainer, deltaT);
   }

@@ -102,6 +102,7 @@ struct GeneratorArguments {
     return argument.str();
   };
 
+
   /**
    * Compare operator for GeneratorArgument(s);
    * @param rhs GeneratorArgument

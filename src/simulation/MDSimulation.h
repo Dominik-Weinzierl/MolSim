@@ -56,7 +56,7 @@ class MDSimulation {
 
     // for this loop, we assume: current x, current f and current v are known
     while (current_time < arg.getEndTime()) {
-      physics.calculateNextStep(particleContainer, deltaT, additionalForce);
+      physics.calculateNextStep(particleContainer, deltaT, additionalForce, current_time);
 
       if (iteration % thermostat->getNumberT() == 0) {
         thermostat->applyThermostat(particleContainer);

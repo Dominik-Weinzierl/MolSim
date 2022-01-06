@@ -24,8 +24,9 @@ class LinkedCellParallelLockFree : LinkedCell<T, dim> {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
   */
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &gravitation) const override {
-    LinkedCell<T, dim>::calculateNextStep(particleContainer, deltaT, gravitation);
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &gravitation,
+                         double current_time) const override {
+    LinkedCell<T, dim>::calculateNextStep(particleContainer, deltaT, gravitation, current_time);
   }
 };
 
@@ -126,7 +127,8 @@ class LinkedCellParallelLockFree<LennardJones, dim> : public LinkedCell<LennardJ
     }
   }
 
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &gravitation) const override {
-    LinkedCell<LennardJones, dim>::calculateNextStep(particleContainer, deltaT, gravitation);
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &gravitation,
+                         double current_time) const override {
+    LinkedCell<LennardJones, dim>::calculateNextStep(particleContainer, deltaT, gravitation, current_time);
   }
 };
