@@ -127,12 +127,8 @@ class LinkedCellParallelLockFree<LennardJones, dim> : public LinkedCell<LennardJ
     }
   }
 
-  /**
-   * Calls the calculate-Methods for the position, force and velocity with the given parameters.
-   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
-   * @param deltaT time step of our simulation
-  */
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &force) const override {
-    LinkedCell<LennardJones, dim>::calculateNextStep(particleContainer, deltaT, force);
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce,
+                         std::vector<Force<dim>> &forces) const override {
+    LinkedCell<LennardJones, dim>::calculateNextStep(particleContainer, deltaT, additionalForce, forces);
   }
 };

@@ -73,6 +73,14 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
               if (l2Norm > cellContainer.getCutoffRadiusSquare())
                 continue;
 
+              //TODO Pass ParticlePointer to function?
+              LinkedCell<LennardJones, dim>::calculateMoleculeForce((*i), (*j), l2Norm);
+
+              //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
+              if (l2Norm > (LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()
+                  * LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()))
+                continue;
+
               SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
               Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
 
@@ -88,6 +96,14 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
             SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
 
             double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
+
+            //TODO Pass ParticlePointer to function?
+            LinkedCell<LennardJones, dim>::calculateMoleculeForce((*i), (*j), l2Norm);
+
+            //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
+            if (l2Norm > (LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()
+                * LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()))
+              continue;
 
             Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
 
@@ -111,12 +127,8 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
     }
   }
 
-  /**
-   * Calls the calculate-Methods for the position, force and velocity with the given parameters.
-   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
-   * @param deltaT time step of our simulation
-  */
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &force) const override {
-    LinkedCell<LennardJones, dim>::calculateNextStep(particleContainer, deltaT, force);
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce,
+                         std::vector<Force<dim>> &forces) const override {
+    LinkedCell<LennardJones, dim>::calculateNextStep(particleContainer, deltaT, additionalForce, forces);
   }
 };

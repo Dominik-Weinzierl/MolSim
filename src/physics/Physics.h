@@ -85,7 +85,7 @@ class Physics {
    * @param additionalForce Vector that contains the additional force
    */
   void calculateF(ParticleContainer<dim> &particleContainer, Vector<dim> &additionalForce,
-                  std::vector<Force<dim>> forces) const {
+                  std::vector<Force<dim>>& forces) const {
     SPDLOG_DEBUG("started calculating forces");
 //#pragma omp parallel for shared(particleContainer, additionalForce) default(none)
     for (size_t t = 0; t < particleContainer.size(); ++t) {
@@ -112,11 +112,11 @@ class Physics {
   * @param additionalForce Vector that contains the additional force
   */
   virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce,
-                                 std::vector<Force<dim>> forces) const {
+                                 std::vector<Force<dim>>& forces) const {
     // calculate new x
     calculateX(particleContainer, deltaT);
     // calculate new f
-    calculateF(particleContainer, additionalForce);
+    calculateF(particleContainer, additionalForce, forces);
     // calculate new v
     calculateV(particleContainer, deltaT);
   }
