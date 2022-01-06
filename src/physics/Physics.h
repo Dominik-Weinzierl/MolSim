@@ -8,6 +8,27 @@
  * This is the superclass for the different types of physics we implemented.
  */
 class PhysicsType {
+  /**
+   * Time used for forces.
+   */
+  static double time;
+
+ public:
+  /**
+   * Getter for the time.
+   * @return time
+   */
+  static double getTime(){
+    return time;
+  }
+
+  /**
+   * Getter for the time.
+   * @return time
+   */
+  static void addToTime(double t){
+    time += t;
+  }
 };
 
 /**
@@ -19,13 +40,6 @@ class PhysicsType {
  */
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of_v<PhysicsType, T>, bool>::type = true>
 class Physics {
-
- private:
-
-  /**
-   * Time used for forces.
-   */
-  static double time;
 
  protected:
 
@@ -98,7 +112,7 @@ class Physics {
     for(auto &f: forces){
       for(auto &a: f.getAdditionalForceParticles()){
         //TODO: Innerhalb der Start/Endzeit?, Geht das mit dem a-pointer so?
-        if(time >= f.getStartTime() && time <= f.getEndTime())
+        if(PhysicsType::getTime() >= static_cast<double>(f.getStartTime()) && PhysicsType::getTime() <= static_cast<double>(f.getEndTime()))
           a->setF(a->getF() + f.getForce());
       }
     }
@@ -114,7 +128,7 @@ class Physics {
   * @param additionalForce Vector that contains the additional force
   */
   virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce, std::vector<Force<dim>> forces) const {
-    time += deltaT;
+    PhysicsType::addToTime(deltaT);
     // calculate new x
     calculateX(particleContainer, deltaT);
     // calculate new f

@@ -27,7 +27,7 @@ TEST(Boundary_2D, checkReflection) {
   Vector<dim> force{0.0, 0.0};
 
   for (int i = 0; i < 1000; ++i) {
-    linkedCell.calculateNextStep(l, 0.0005, force);
+    linkedCell.calculateNextStep(l, 0.0005, force, {});
     ASSERT_TRUE(l.size() == 1);
     auto &pos = l.getParticles()[0].getX();
     ASSERT_TRUE(pos[0] >= 0 && pos[0] < l.getDomain()[0]);
@@ -51,7 +51,7 @@ TEST(Boundary_3D, checkReflection) {
   Vector<dim> force{0.0, 0.0, 0.0};
 
   for (int i = 0; i < 1000; ++i) {
-    linkedCell.calculateNextStep(l, 0.0005, force);
+    linkedCell.calculateNextStep(l, 0.0005, force, {});
     ASSERT_TRUE(l.size() == 1);
     auto &pos = l.getParticles()[0].getX();
     ASSERT_TRUE(pos[0] >= 0 && pos[0] < l.getDomain()[0]);
@@ -75,7 +75,7 @@ TEST(Boundary_2D, checkPeriodic) {
   Vector<dim> force{0.0, 0.0};
 
   for (int i = 0; i < 500; ++i) {
-    linkedCell.calculateNextStep(l, 0.0005, force);
+    linkedCell.calculateNextStep(l, 0.0005, force, {});
   }
 
   ASSERT_TRUE(l.getParticles()[0].getX()[0] > 1.0);
@@ -97,7 +97,7 @@ TEST(Boundary_3D, checkPeriodic) {
   Vector<dim> force{0.0, 0.0, 0.0};
 
   for (int i = 0; i < 500; ++i) {
-    linkedCell.calculateNextStep(l, 0.0005, force);
+    linkedCell.calculateNextStep(l, 0.0005, force, {});
   }
 
   ASSERT_TRUE(l.getParticles()[0].getX()[2] > 1.0);
@@ -120,7 +120,7 @@ TEST(Boundary_2D, checkPeriodicForce) {
 
   Vector<dim> force{0.0, 0.0};
 
-  linkedCell.calculateNextStep(l, 0.0005, force);
+  linkedCell.calculateNextStep(l, 0.0005, force, {});
 
   ASSERT_NEAR(l.getParticles()[0].getF()[0], -l.getParticles()[1].getF()[0], eps);
   ASSERT_NEAR(l.getParticles()[0].getF()[1], -l.getParticles()[1].getF()[1], eps);
@@ -142,7 +142,7 @@ TEST(Boundary_3D, checkPeriodicForce) {
 
   Vector<dim> force{0.0, 0.0, 0.0};
 
-  linkedCell.calculateNextStep(l, 0.0005, force);
+  linkedCell.calculateNextStep(l, 0.0005, force, {});
 
   ASSERT_NEAR(l.getParticles()[0].getF()[0], -l.getParticles()[1].getF()[0], eps);
   ASSERT_NEAR(l.getParticles()[0].getF()[1], -l.getParticles()[1].getF()[1], eps);
@@ -165,7 +165,7 @@ TEST(Boundary_2D, checkPeriodicForceNotAppliedOnSides) {
 
   Vector<dim> force{0.0, 0.0};
 
-  linkedCell.calculateNextStep(l, 0.0005, force);
+  linkedCell.calculateNextStep(l, 0.0005, force, {});
 
   ASSERT_NEAR(l.getParticles()[0].getF()[0], -l.getParticles()[1].getF()[0], eps);
   ASSERT_NEAR(l.getParticles()[0].getF()[1], -l.getParticles()[1].getF()[1], eps);
@@ -187,7 +187,7 @@ TEST(Boundary_2D, checkPeriodicForceNotAppliedOnTopAndBottom) {
 
   Vector<dim> force{0.0, 0.0};
 
-  linkedCell.calculateNextStep(l, 0.0005, force);
+  linkedCell.calculateNextStep(l, 0.0005, force, {});
 
   ASSERT_NEAR(l.getParticles()[0].getF()[0], -l.getParticles()[1].getF()[0], eps);
   ASSERT_NEAR(l.getParticles()[0].getF()[1], -l.getParticles()[1].getF()[1], eps);

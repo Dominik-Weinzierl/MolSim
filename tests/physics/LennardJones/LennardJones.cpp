@@ -28,7 +28,7 @@ TEST(LennardJones_3D_DirectSumContainer, calculateForceBetweenTwoParticlesWithDi
 
   // Perform calculation
   Vector<dim> force{0.0, 0.0, 0.0};
-  l.calculateF(container, force);
+  l.calculateF(container, force, {});
 
   // OldF should be zero
   EXPECT_TRUE(container[0].getOldF() == container[1].getOldF() && container[1].getOldF() == Vector<dim>{});
@@ -71,7 +71,7 @@ TEST(LennardJones_3D_DirectSumContainer, calculateForceBetweenTwoParticles) { //
 
   // Perform calculation
   Vector<dim> force{0.0, 0.0, 0.0};
-  l.calculateF(container, force);
+  l.calculateF(container, force, {});
 
   // OldF should be zero
   EXPECT_TRUE(container[0].getOldF() == container[1].getOldF() && container[1].getOldF() == Vector<dim>{});
@@ -114,7 +114,7 @@ TEST(LennardJones_2D_DirectSumContainer, calculateForceBetweenTwoParticlesWithDi
 
   // Perform calculation
   Vector<dim> force{0.0, 0.0};
-  l.calculateF(container, force);
+  l.calculateF(container, force, {});
 
   // OldF should be zero
   EXPECT_TRUE(container[0].getOldF() == container[1].getOldF() && container[1].getOldF() == Vector<dim>{});
@@ -155,7 +155,7 @@ TEST(LennardJones_2D_DirectSumContainer, calculateForceBetweenTwoParticles) { //
 
   // Perform calculation
   Vector<dim> force{0.0, 0.0};
-  l.calculateF(container, force);
+  l.calculateF(container, force, {});
 
   // OldF should be zero
   EXPECT_TRUE(container[0].getOldF() == container[1].getOldF() && container[1].getOldF() == Vector<dim>{});

@@ -201,8 +201,8 @@ class XMLReader {
     std::optional<std::vector<BoundaryType>> boundaries = std::nullopt;
     std::optional<Vector<dim>> cellSize = std::nullopt;
     std::unique_ptr<Thermostat<dim>> thermostat;
-    std::optional<Vector<dim>> additionalGravitation = std::nullopt;
-    std::optional<std::vector<Force<dim>>> forces = std::nullopt;
+//    Vector<dim> additionalGravitation{};
+//    std::vector<Force<dim>> forces{};
 
     for (auto &it: simulation->Source()) {
       std::string path = it.path();
@@ -237,24 +237,24 @@ class XMLReader {
       thermostat = std::make_unique<DummyThermostat<dim>>();
     }
 
-    if (simulation->AdditionalGravitation().present()) {
-      additionalGravitation = wrapVector_t(simulation->AdditionalGravitation().get());
-    }
+//    if (simulation->AdditionalGravitation().present()) {
+//      additionalGravitation = wrapVector_t(simulation->AdditionalGravitation().get());
+//    }
 
-    for (auto &i: simulation->Force()) {
-      std::vector<Vector<dim>> indices{};
-
-      if (!i.Index().empty()) {
-        for (auto &j: i.Index()) {
-          indices.template emplace_back({j.x(), j.y(), j.z()});
-        }
-      } else {
-        //TODO: Können hier sonst iwelche unüberschriebene Werte liegen?
-        indices.clear();
-      }
-
-      forces->template emplace_back(Force<dim>{indices, wrapVector_t({i.forceX(), i.forceY(), i.forceZ()}), i.start(), i.end()});
-    }
+//    for (auto &i: simulation->Force()) {
+//      std::vector<Vector<dim>> indices{};
+//
+//      if (!i.Index().empty()) {
+//        for (auto &j: i.Index()) {
+//          indices.emplace_back(wrapVector_i(j));
+//        }
+//      } else {
+//        //TODO: Können hier sonst iwelche unüberschriebene Werte liegen?
+//        indices.clear();
+//      }
+//
+//      forces.template emplace_back(Force<dim>{indices, wrapVector_t({i.forceX(), i.forceY(), i.forceZ()}), i.start(), i.end()});
+//    }
 
     return std::make_unique<XMLArgument<dim>>(files,
                                               endTime,
@@ -271,8 +271,8 @@ class XMLReader {
                                               domain,
                                               boundaries,
                                               cellSize,
-                                              std::move(thermostat),
-                                              additionalGravitation,
-                                              forces);
+                                              std::move(thermostat));
+//                                              additionalGravitation,
+//                                              forces);
   }
 };

@@ -24,7 +24,7 @@ TEST(Halo_2D, checkOutflow) {
 
   Vector<dim> force{0.0, 0.0};
 
-  linkedCell.calculateNextStep(l, 0.5, force);
+  linkedCell.calculateNextStep(l, 0.5, force, {});
   ASSERT_TRUE(l.size() == 0);
 }
 
@@ -42,6 +42,6 @@ TEST(Halo_3D, checkOutflow) {
 
   Vector<dim> force{0.0, 0.0, 0.0};
 
-  linkedCell.calculateNextStep(l, 0.5, force);
+  linkedCell.calculateNextStep(l, 0.5, force, {});
   ASSERT_TRUE(l.size() == 0);
 }

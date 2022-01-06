@@ -174,7 +174,7 @@ TEST(LinkedCellContainer_2D, checkCutoffRadiusGreaterThanCellSize) {
   auto force = l.getParticles()[1].getF();
 
   Vector<dim> additionalGravitation{0.0, 0.0};
-  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation);
+  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation, {});
 
   ASSERT_TRUE(force != l.getParticles()[1].getF());
 }
@@ -193,7 +193,7 @@ TEST(LinkedCellContainer_3D, checkCutoffRadiusGreaterThanCellSize) {
 
   auto force = l.getParticles()[1].getF();
   Vector<dim> additionalGravitation{0, 0, 0};
-  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation);
+  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation, {});
 
   ASSERT_TRUE(force == l.getParticles()[1].getF());
 }
@@ -213,7 +213,7 @@ TEST(LinkedCellContainer_2D, checkCutoffRadiusLessThanCellSize) {
   auto force = l.getParticles()[1].getF();
 
   Vector<dim> additionalGravitation{0, 0};
-  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation);
+  linkedCell.calculateNextStep(l, 0.0005, additionalGravitation, {});
 
   ASSERT_TRUE(force != l.getParticles()[1].getF());
 }

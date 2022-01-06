@@ -289,11 +289,11 @@ class Particle {
   }
 
   /**
-   * Getter for neighbours (if particleType is MOLECULE).
+   * Getter for neighbours.
    * @return neighbours
    */
   [[nodiscard]] const std::vector<Particle<dim> *> &getNeighbours() const {
-    if(particleType == MOLECULE) return neighbours;
+    return neighbours;
   }
 
   /**

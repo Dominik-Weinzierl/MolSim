@@ -37,14 +37,14 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * @param i Molecule 1
    * @param j Molecule 2
    */
-  void calculateMoleculeForce(Particle<dim> *i, Particle<dim> *j){
+  void calculateMoleculeForce(Particle<dim> *i, Particle<dim> *j, double l2Norm) const {
     if(i->getParticleType() == MOLECULE && j->getParticleType() == MOLECULE && i->getType() == j->getType()) {
       if (i->isNeighbour(j) || j->isNeighbour(i)) {
-        Vector<dim> force{HarmonicPotential::calculateForceBetweenTwoParticles(i, j)};
+        Vector<dim> force{HarmonicPotential::calculateForceBetweenTwoParticles(i, j, l2Norm)};
         i->updateForce(force);
         j->updateForce(-force);
       } else if (i->isDiagonalNeighbour(j) || j->isDiagonalNeighbour(i)) {
-        Vector<dim> force{HarmonicPotential::calculateForceBetweenTwoDiagonalParticles(i, j)};
+        Vector<dim> force{HarmonicPotential::calculateForceBetweenTwoDiagonalParticles(i, j, l2Norm)};
         i->updateForce(force);
         j->updateForce(-force);
       }
@@ -77,7 +77,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
                 continue;
 
               //TODO Pass ParticlePointer to function?
-              calculateMoleculeForce((*i), (*j));
+              calculateMoleculeForce((*i), (*j), l2Norm);
               //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
               if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
                 continue;
@@ -98,7 +98,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
             double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
 
             //TODO Pass ParticlePointer to function?
-            calculateMoleculeForce((*i), (*j));
+            calculateMoleculeForce((*i), (*j), l2Norm);
             //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
             if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
               continue;
@@ -132,7 +132,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
                   continue;
 
                 //TODO Pass ParticlePointer to function?
-                calculateMoleculeForce((*i), (*j));
+                calculateMoleculeForce((*i), (*j), l2Norm);
                 //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
                 if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
                   continue;
@@ -157,7 +157,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * @param deltaT time step of our simulation
    * @param force Vector that contains the additional force
   */
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &force) const override {
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &force, std::vector<Force<dim>> forces) const override {
     // Calculate new x
     Physics<LennardJones, dim>::calculateX(particleContainer, deltaT);
 
@@ -172,7 +172,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
     }
 
     // Calculate new f
-    Physics<LennardJones, dim>::calculateF(particleContainer, force);
+    Physics<LennardJones, dim>::calculateF(particleContainer, force, forces);
 
     // Calculate new v
     Physics<LennardJones, dim>::calculateV(particleContainer, deltaT);
