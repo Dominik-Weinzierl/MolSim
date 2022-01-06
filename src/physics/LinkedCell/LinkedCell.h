@@ -4,7 +4,6 @@
 #include "physics/Physics.h"
 #include "physics/variants/LennardJones.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
-#include "physics/Forces/Forces.h"
 
 /**
  * This class implements the LinkedCell algorithm.
@@ -19,8 +18,7 @@ class LinkedCell : public Physics<T, dim> {
 
   void performUpdate(ParticleContainer<dim> &particleContainer) const override;
 
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce,
-                         std::vector<Force<dim>> &forces) const override;
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &gravitation) const override;
 };
 
 /**
@@ -174,8 +172,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
   */
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce,
-                         std::vector<Force<dim>> &forces) const override {
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &gravitation) const override {
     // Calculate new x
     Physics<LennardJones, dim>::calculateX(particleContainer, deltaT);
 
@@ -192,7 +189,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
     }
 
     // Calculate new f
-    Physics<LennardJones, dim>::calculateF(particleContainer, additionalForce, forces);
+    Physics<LennardJones, dim>::calculateF(particleContainer, gravitation);
 
     // Calculate new v
     Physics<LennardJones, dim>::calculateV(particleContainer, deltaT);

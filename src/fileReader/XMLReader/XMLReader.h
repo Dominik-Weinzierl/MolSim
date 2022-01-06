@@ -8,7 +8,7 @@
 #include "generator/GeneratorArguments/variants/MembraneArgument.h"
 #include "template/input.h"
 #include "thermostat/DummyThermostat.h"
-#include "physics/Forces/Force.h"
+#include "physics/Forces/ForceContainer.h"
 #include "thermostat/FlowThermostat.h"
 #include "outputWriter/ProfileWriter/ProfileWriter.h"
 
@@ -60,6 +60,12 @@ class XMLReader {
         auto &pack = sphere.packed();
         auto &zeroCrossing = sphere.zeroCrossing();
         auto &depthOfPotentialWell = sphere.depthOfPotentialWell();
+
+        std::vector<ForceContainer<dim>> forces;
+        for (auto &f: sphere.Forces()) {
+          forces.push_back(loadForces(f));
+        }
+
         int type = 0;
         if (sphere.type().present()) {
           type = static_cast<int>(sphere.type().get());
@@ -69,7 +75,7 @@ class XMLReader {
           fixed = sphere.fixed().get();
         }
         sphereArguments.emplace_back(wrapVector_t(pos), rad, wrapVector_t(vel), dis, mass, mean, pack, zeroCrossing,
-                                     depthOfPotentialWell, type, fixed);
+                                     depthOfPotentialWell, type, fixed, forces);
       }
     }
 
@@ -94,6 +100,12 @@ class XMLReader {
         auto &pack = cuboid.packed();
         auto &zeroCrossing = cuboid.zeroCrossing();
         auto &depthOfPotentialWell = cuboid.depthOfPotentialWell();
+
+        std::vector<ForceContainer<dim>> forces;
+        for (auto &f: cuboid.Forces()) {
+          forces.push_back(loadForces(f));
+        }
+
         int type = 0;
         if (cuboid.type().present()) {
           type = static_cast<int>(cuboid.type().get());
@@ -104,7 +116,7 @@ class XMLReader {
         }
         cuboidArguments
             .emplace_back(wrapVector_t(pos), wrapVector_i(dime), wrapVector_t(vel), dis, mass, mean, pack, zeroCrossing,
-                          depthOfPotentialWell, type, fixed);
+                          depthOfPotentialWell, type, fixed, forces);
       }
     }
 
@@ -132,6 +144,12 @@ class XMLReader {
         auto &depthOfPotentialWell = membrane.depthOfPotentialWell();
         auto &stiffness = membrane.stiffness();
         auto &averageBondLength = membrane.averageBondLength();
+
+        std::vector<ForceContainer<dim>> forces;
+        for (auto &f: membrane.Forces()) {
+          forces.push_back(loadForces(f));
+        }
+
         int type = 0;
         if (membrane.type().present()) {
           type = static_cast<int>(membrane.type().get());
@@ -142,7 +160,8 @@ class XMLReader {
         }
         membraneArguments
             .template emplace_back(wrapVector_t(pos), wrapVector_i(dime), wrapVector_t(vel), dis, mass, mean, pack,
-                                   zeroCrossing, depthOfPotentialWell, stiffness, averageBondLength, type, fixed);
+                                   zeroCrossing, depthOfPotentialWell, stiffness, averageBondLength, type, fixed,
+                                   forces);
       }
     }
 
@@ -155,6 +174,14 @@ class XMLReader {
 
   std::optional<Vector<dim>> loadCellSize() const {
     return wrapVector_t(simulation->Strategy()->LinkedCell().get().CellSize());
+  }
+
+  ForceContainer<dim> loadForces(force_t &force) const{
+    std::vector<std::array<int, dim>> indices{};
+    for (auto &j: force.Index()) {
+      indices.push_back(wrapVector_i(j));
+    }
+    return ForceContainer<dim>{indices, wrapVector_t(force.Force()), static_cast<unsigned int>(force.start()),  static_cast<unsigned int>(force.end())};
   }
 
   [[nodiscard]] std::optional<std::vector<BoundaryType>> loadBoundaries() const;
@@ -209,7 +236,7 @@ class XMLReader {
     std::unique_ptr<ProfileWriter<dim>> profileWriter;
     std::optional<std::string> parallel = std::nullopt;
     Vector<dim> additionalGravitation{};
-    std::vector<Force<dim>> forces{};
+    std::vector<ForceContainer<dim>> forces{};
 
     for (auto &it: simulation->Source()) {
       std::string path = it.path();
@@ -265,24 +292,9 @@ class XMLReader {
       additionalGravitation = wrapVector_t(simulation->AdditionalGravitation().get());
     }
 
-    for (auto &i: simulation->Force()) {
-      std::vector<std::array<int, dim>> indices{};
-
-      if (!i.Index().empty()) {
-        for (auto &j: i.Index()) {
-          std::array<int, dim> index = wrapVector_i(j);
-          indices.push_back(index);
-        }
-      } else {
-        indices.clear();
-      }
-
-      forces.emplace_back(indices, wrapVector_t({i.forceX(), i.forceY(), i.forceZ()}), i.start(), i.end());
-    }
-
     return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
                                               this->loadCuboid(), this->loadSpheres(), this->loadMembrane(), strategy,
                                               cutoffRadius, domain, boundaries, cellSize, std::move(thermostat),
-                                              std::move(profileWriter), additionalGravitation, forces, parallel);
+                                              std::move(profileWriter), additionalGravitation, parallel);
   }
 };

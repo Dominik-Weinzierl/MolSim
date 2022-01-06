@@ -6,6 +6,7 @@
             <xsd:element name="Position" type="vector_t"/>
             <xsd:element name="Velocity" type="vector_t"/>
             <xsd:element name="Dimension" type="vector_i"/>
+            <xsd:element name="Forces" type="force_t" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
         <xsd:attribute name="fixed" type="xsd:boolean"/>
         <xsd:attribute name="distance" type="xsd:double" use="required"/>
@@ -22,6 +23,7 @@
         <xsd:sequence>
             <xsd:element name="Center" type="vector_t"/>
             <xsd:element name="Velocity" type="vector_t"/>
+            <xsd:element name="Forces" type="force_t" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
         <xsd:attribute name="fixed" type="xsd:boolean"/>
         <xsd:attribute name="radius" type="xsd:nonNegativeInteger" use="required"/>
@@ -40,6 +42,7 @@
             <xsd:element name="Position" type="vector_t"/>
             <xsd:element name="Velocity" type="vector_t"/>
             <xsd:element name="Dimension" type="vector_i"/>
+            <xsd:element name="Forces" type="force_t" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
         <xsd:attribute name="fixed" type="xsd:boolean"/>
         <xsd:attribute name="distance" type="xsd:double" use="required"/>
@@ -68,14 +71,11 @@
     </xsd:complexType>
 
     <!-- Force vector - all attributes are required -->
-    <!-- Needs to be element of cuboid/sphere/membran -->
     <xsd:complexType name="force_t">
         <xsd:sequence>
+            <xsd:element name="Force" type="vector_t"/>
             <xsd:element name="Index" type="vector_i" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
-        <xsd:attribute name="forceX" type="xsd:double" use="required"/>
-        <xsd:attribute name="forceY" type="xsd:double" use="required"/>
-        <xsd:attribute name="forceZ" type="xsd:double" use="required"/>
         <xsd:attribute name="start" type="xsd:nonNegativeInteger" use="required"/>
         <xsd:attribute name="end" type="xsd:nonNegativeInteger" use="required"/>
     </xsd:complexType>
@@ -155,7 +155,6 @@
             <xsd:element name="Strategy" type="strategy_t" minOccurs="0"/>
             <xsd:element name="Thermostat" type="thermostat_t" minOccurs="0"/>
             <xsd:element name="AdditionalGravitation" type="vector_t" minOccurs="0"/>
-            <xsd:element name="Force" type="force_t" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="ProfileWriter" type="profilewriter_t" minOccurs="0"/>
         </xsd:sequence>
         <xsd:attribute name="endTime" type="xsd:double" use="required"/>

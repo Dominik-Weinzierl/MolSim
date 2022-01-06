@@ -115,6 +115,24 @@ Dimension (::std::unique_ptr< Dimension_type > x)
   this->Dimension_.set (std::move (x));
 }
 
+const cuboid_t::Forces_sequence& cuboid_t::
+Forces () const
+{
+  return this->Forces_;
+}
+
+cuboid_t::Forces_sequence& cuboid_t::
+Forces ()
+{
+  return this->Forces_;
+}
+
+void cuboid_t::
+Forces (const Forces_sequence& s)
+{
+  this->Forces_ = s;
+}
+
 const cuboid_t::fixed_optional& cuboid_t::
 fixed () const
 {
@@ -321,6 +339,24 @@ void sphere_t::
 Velocity (::std::unique_ptr< Velocity_type > x)
 {
   this->Velocity_.set (std::move (x));
+}
+
+const sphere_t::Forces_sequence& sphere_t::
+Forces () const
+{
+  return this->Forces_;
+}
+
+sphere_t::Forces_sequence& sphere_t::
+Forces ()
+{
+  return this->Forces_;
+}
+
+void sphere_t::
+Forces (const Forces_sequence& s)
+{
+  this->Forces_ = s;
 }
 
 const sphere_t::fixed_optional& sphere_t::
@@ -571,6 +607,24 @@ void membrane_t::
 Dimension (::std::unique_ptr< Dimension_type > x)
 {
   this->Dimension_.set (std::move (x));
+}
+
+const membrane_t::Forces_sequence& membrane_t::
+Forces () const
+{
+  return this->Forces_;
+}
+
+membrane_t::Forces_sequence& membrane_t::
+Forces ()
+{
+  return this->Forces_;
+}
+
+void membrane_t::
+Forces (const Forces_sequence& s)
+{
+  this->Forces_ = s;
 }
 
 const membrane_t::fixed_optional& membrane_t::
@@ -885,6 +939,30 @@ z (const z_type& x)
 // force_t
 // 
 
+const force_t::Force_type& force_t::
+Force () const
+{
+  return this->Force_.get ();
+}
+
+force_t::Force_type& force_t::
+Force ()
+{
+  return this->Force_.get ();
+}
+
+void force_t::
+Force (const Force_type& x)
+{
+  this->Force_.set (x);
+}
+
+void force_t::
+Force (::std::unique_ptr< Force_type > x)
+{
+  this->Force_.set (std::move (x));
+}
+
 const force_t::Index_sequence& force_t::
 Index () const
 {
@@ -901,60 +979,6 @@ void force_t::
 Index (const Index_sequence& s)
 {
   this->Index_ = s;
-}
-
-const force_t::forceX_type& force_t::
-forceX () const
-{
-  return this->forceX_.get ();
-}
-
-force_t::forceX_type& force_t::
-forceX ()
-{
-  return this->forceX_.get ();
-}
-
-void force_t::
-forceX (const forceX_type& x)
-{
-  this->forceX_.set (x);
-}
-
-const force_t::forceY_type& force_t::
-forceY () const
-{
-  return this->forceY_.get ();
-}
-
-force_t::forceY_type& force_t::
-forceY ()
-{
-  return this->forceY_.get ();
-}
-
-void force_t::
-forceY (const forceY_type& x)
-{
-  this->forceY_.set (x);
-}
-
-const force_t::forceZ_type& force_t::
-forceZ () const
-{
-  return this->forceZ_.get ();
-}
-
-force_t::forceZ_type& force_t::
-forceZ ()
-{
-  return this->forceZ_.get ();
-}
-
-void force_t::
-forceZ (const forceZ_type& x)
-{
-  this->forceZ_.set (x);
 }
 
 const force_t::start_type& force_t::
@@ -1803,24 +1827,6 @@ AdditionalGravitation (::std::unique_ptr< AdditionalGravitation_type > x)
   this->AdditionalGravitation_.set (std::move (x));
 }
 
-const simulation_t::Force_sequence& simulation_t::
-Force () const
-{
-  return this->Force_;
-}
-
-simulation_t::Force_sequence& simulation_t::
-Force ()
-{
-  return this->Force_;
-}
-
-void simulation_t::
-Force (const Force_sequence& s)
-{
-  this->Force_ = s;
-}
-
 const simulation_t::ProfileWriter_optional& simulation_t::
 ProfileWriter () const
 {
@@ -2021,6 +2027,7 @@ cuboid_t (const Position_type& Position,
   Position_ (Position, this),
   Velocity_ (Velocity, this),
   Dimension_ (Dimension, this),
+  Forces_ (this),
   fixed_ (this),
   distance_ (distance, this),
   mass_ (mass, this),
@@ -2046,6 +2053,7 @@ cuboid_t (::std::unique_ptr< Position_type > Position,
   Position_ (std::move (Position), this),
   Velocity_ (std::move (Velocity), this),
   Dimension_ (std::move (Dimension), this),
+  Forces_ (this),
   fixed_ (this),
   distance_ (distance, this),
   mass_ (mass, this),
@@ -2065,6 +2073,7 @@ cuboid_t (const cuboid_t& x,
   Position_ (x.Position_, f, this),
   Velocity_ (x.Velocity_, f, this),
   Dimension_ (x.Dimension_, f, this),
+  Forces_ (x.Forces_, f, this),
   fixed_ (x.fixed_, f, this),
   distance_ (x.distance_, f, this),
   mass_ (x.mass_, f, this),
@@ -2084,6 +2093,7 @@ cuboid_t (const ::xercesc::DOMElement& e,
   Position_ (this),
   Velocity_ (this),
   Dimension_ (this),
+  Forces_ (this),
   fixed_ (this),
   distance_ (this),
   mass_ (this),
@@ -2150,6 +2160,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
         this->Dimension_.set (::std::move (r));
         continue;
       }
+    }
+
+    // Forces
+    //
+    if (n.name () == "Forces" && n.namespace_ ().empty ())
+    {
+      ::std::unique_ptr< Forces_type > r (
+        Forces_traits::create (i, f, this));
+
+      this->Forces_.push_back (::std::move (r));
+      continue;
     }
 
     break;
@@ -2290,6 +2311,7 @@ operator= (const cuboid_t& x)
     this->Position_ = x.Position_;
     this->Velocity_ = x.Velocity_;
     this->Dimension_ = x.Dimension_;
+    this->Forces_ = x.Forces_;
     this->fixed_ = x.fixed_;
     this->distance_ = x.distance_;
     this->mass_ = x.mass_;
@@ -2324,6 +2346,7 @@ sphere_t (const Center_type& Center,
 : ::xml_schema::type (),
   Center_ (Center, this),
   Velocity_ (Velocity, this),
+  Forces_ (this),
   fixed_ (this),
   radius_ (radius, this),
   distance_ (distance, this),
@@ -2349,6 +2372,7 @@ sphere_t (::std::unique_ptr< Center_type > Center,
 : ::xml_schema::type (),
   Center_ (std::move (Center), this),
   Velocity_ (std::move (Velocity), this),
+  Forces_ (this),
   fixed_ (this),
   radius_ (radius, this),
   distance_ (distance, this),
@@ -2368,6 +2392,7 @@ sphere_t (const sphere_t& x,
 : ::xml_schema::type (x, f, c),
   Center_ (x.Center_, f, this),
   Velocity_ (x.Velocity_, f, this),
+  Forces_ (x.Forces_, f, this),
   fixed_ (x.fixed_, f, this),
   radius_ (x.radius_, f, this),
   distance_ (x.distance_, f, this),
@@ -2387,6 +2412,7 @@ sphere_t (const ::xercesc::DOMElement& e,
 : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
   Center_ (this),
   Velocity_ (this),
+  Forces_ (this),
   fixed_ (this),
   radius_ (this),
   distance_ (this),
@@ -2440,6 +2466,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
         this->Velocity_.set (::std::move (r));
         continue;
       }
+    }
+
+    // Forces
+    //
+    if (n.name () == "Forces" && n.namespace_ ().empty ())
+    {
+      ::std::unique_ptr< Forces_type > r (
+        Forces_traits::create (i, f, this));
+
+      this->Forces_.push_back (::std::move (r));
+      continue;
     }
 
     break;
@@ -2585,6 +2622,7 @@ operator= (const sphere_t& x)
     static_cast< ::xml_schema::type& > (*this) = x;
     this->Center_ = x.Center_;
     this->Velocity_ = x.Velocity_;
+    this->Forces_ = x.Forces_;
     this->fixed_ = x.fixed_;
     this->radius_ = x.radius_;
     this->distance_ = x.distance_;
@@ -2623,6 +2661,7 @@ membrane_t (const Position_type& Position,
   Position_ (Position, this),
   Velocity_ (Velocity, this),
   Dimension_ (Dimension, this),
+  Forces_ (this),
   fixed_ (this),
   distance_ (distance, this),
   mass_ (mass, this),
@@ -2652,6 +2691,7 @@ membrane_t (::std::unique_ptr< Position_type > Position,
   Position_ (std::move (Position), this),
   Velocity_ (std::move (Velocity), this),
   Dimension_ (std::move (Dimension), this),
+  Forces_ (this),
   fixed_ (this),
   distance_ (distance, this),
   mass_ (mass, this),
@@ -2673,6 +2713,7 @@ membrane_t (const membrane_t& x,
   Position_ (x.Position_, f, this),
   Velocity_ (x.Velocity_, f, this),
   Dimension_ (x.Dimension_, f, this),
+  Forces_ (x.Forces_, f, this),
   fixed_ (x.fixed_, f, this),
   distance_ (x.distance_, f, this),
   mass_ (x.mass_, f, this),
@@ -2694,6 +2735,7 @@ membrane_t (const ::xercesc::DOMElement& e,
   Position_ (this),
   Velocity_ (this),
   Dimension_ (this),
+  Forces_ (this),
   fixed_ (this),
   distance_ (this),
   mass_ (this),
@@ -2762,6 +2804,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
         this->Dimension_.set (::std::move (r));
         continue;
       }
+    }
+
+    // Forces
+    //
+    if (n.name () == "Forces" && n.namespace_ ().empty ())
+    {
+      ::std::unique_ptr< Forces_type > r (
+        Forces_traits::create (i, f, this));
+
+      this->Forces_.push_back (::std::move (r));
+      continue;
     }
 
     break;
@@ -2928,6 +2981,7 @@ operator= (const membrane_t& x)
     this->Position_ = x.Position_;
     this->Velocity_ = x.Velocity_;
     this->Dimension_ = x.Dimension_;
+    this->Forces_ = x.Forces_;
     this->fixed_ = x.fixed_;
     this->distance_ = x.distance_;
     this->mass_ = x.mass_;
@@ -3188,16 +3242,24 @@ vector_i::
 //
 
 force_t::
-force_t (const forceX_type& forceX,
-         const forceY_type& forceY,
-         const forceZ_type& forceZ,
+force_t (const Force_type& Force,
          const start_type& start,
          const end_type& end)
 : ::xml_schema::type (),
+  Force_ (Force, this),
   Index_ (this),
-  forceX_ (forceX, this),
-  forceY_ (forceY, this),
-  forceZ_ (forceZ, this),
+  start_ (start, this),
+  end_ (end, this)
+{
+}
+
+force_t::
+force_t (::std::unique_ptr< Force_type > Force,
+         const start_type& start,
+         const end_type& end)
+: ::xml_schema::type (),
+  Force_ (std::move (Force), this),
+  Index_ (this),
   start_ (start, this),
   end_ (end, this)
 {
@@ -3208,10 +3270,8 @@ force_t (const force_t& x,
          ::xml_schema::flags f,
          ::xml_schema::container* c)
 : ::xml_schema::type (x, f, c),
+  Force_ (x.Force_, f, this),
   Index_ (x.Index_, f, this),
-  forceX_ (x.forceX_, f, this),
-  forceY_ (x.forceY_, f, this),
-  forceZ_ (x.forceZ_, f, this),
   start_ (x.start_, f, this),
   end_ (x.end_, f, this)
 {
@@ -3222,10 +3282,8 @@ force_t (const ::xercesc::DOMElement& e,
          ::xml_schema::flags f,
          ::xml_schema::container* c)
 : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+  Force_ (this),
   Index_ (this),
-  forceX_ (this),
-  forceY_ (this),
-  forceZ_ (this),
   start_ (this),
   end_ (this)
 {
@@ -3246,6 +3304,20 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
     const ::xsd::cxx::xml::qualified_name< char > n (
       ::xsd::cxx::xml::dom::name< char > (i));
 
+    // Force
+    //
+    if (n.name () == "Force" && n.namespace_ ().empty ())
+    {
+      ::std::unique_ptr< Force_type > r (
+        Force_traits::create (i, f, this));
+
+      if (!Force_.present ())
+      {
+        this->Force_.set (::std::move (r));
+        continue;
+      }
+    }
+
     // Index
     //
     if (n.name () == "Index" && n.namespace_ ().empty ())
@@ -3260,29 +3332,18 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
     break;
   }
 
+  if (!Force_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_element< char > (
+      "Force",
+      "");
+  }
+
   while (p.more_attributes ())
   {
     const ::xercesc::DOMAttr& i (p.next_attribute ());
     const ::xsd::cxx::xml::qualified_name< char > n (
       ::xsd::cxx::xml::dom::name< char > (i));
-
-    if (n.name () == "forceX" && n.namespace_ ().empty ())
-    {
-      this->forceX_.set (forceX_traits::create (i, f, this));
-      continue;
-    }
-
-    if (n.name () == "forceY" && n.namespace_ ().empty ())
-    {
-      this->forceY_.set (forceY_traits::create (i, f, this));
-      continue;
-    }
-
-    if (n.name () == "forceZ" && n.namespace_ ().empty ())
-    {
-      this->forceZ_.set (forceZ_traits::create (i, f, this));
-      continue;
-    }
 
     if (n.name () == "start" && n.namespace_ ().empty ())
     {
@@ -3295,27 +3356,6 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       this->end_.set (end_traits::create (i, f, this));
       continue;
     }
-  }
-
-  if (!forceX_.present ())
-  {
-    throw ::xsd::cxx::tree::expected_attribute< char > (
-      "forceX",
-      "");
-  }
-
-  if (!forceY_.present ())
-  {
-    throw ::xsd::cxx::tree::expected_attribute< char > (
-      "forceY",
-      "");
-  }
-
-  if (!forceZ_.present ())
-  {
-    throw ::xsd::cxx::tree::expected_attribute< char > (
-      "forceZ",
-      "");
   }
 
   if (!start_.present ())
@@ -3346,10 +3386,8 @@ operator= (const force_t& x)
   if (this != &x)
   {
     static_cast< ::xml_schema::type& > (*this) = x;
+    this->Force_ = x.Force_;
     this->Index_ = x.Index_;
-    this->forceX_ = x.forceX_;
-    this->forceY_ = x.forceY_;
-    this->forceZ_ = x.forceZ_;
     this->start_ = x.start_;
     this->end_ = x.end_;
   }
@@ -4323,7 +4361,6 @@ simulation_t (const endTime_type& endTime,
   Strategy_ (this),
   Thermostat_ (this),
   AdditionalGravitation_ (this),
-  Force_ (this),
   ProfileWriter_ (this),
   endTime_ (endTime, this),
   deltaT_ (deltaT, this),
@@ -4345,7 +4382,6 @@ simulation_t (const simulation_t& x,
   Strategy_ (x.Strategy_, f, this),
   Thermostat_ (x.Thermostat_, f, this),
   AdditionalGravitation_ (x.AdditionalGravitation_, f, this),
-  Force_ (x.Force_, f, this),
   ProfileWriter_ (x.ProfileWriter_, f, this),
   endTime_ (x.endTime_, f, this),
   deltaT_ (x.deltaT_, f, this),
@@ -4367,7 +4403,6 @@ simulation_t (const ::xercesc::DOMElement& e,
   Strategy_ (this),
   Thermostat_ (this),
   AdditionalGravitation_ (this),
-  Force_ (this),
   ProfileWriter_ (this),
   endTime_ (this),
   deltaT_ (this),
@@ -4456,17 +4491,6 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
         this->AdditionalGravitation_.set (::std::move (r));
         continue;
       }
-    }
-
-    // Force
-    //
-    if (n.name () == "Force" && n.namespace_ ().empty ())
-    {
-      ::std::unique_ptr< Force_type > r (
-        Force_traits::create (i, f, this));
-
-      this->Force_.push_back (::std::move (r));
-      continue;
     }
 
     // ProfileWriter
@@ -4596,7 +4620,6 @@ operator= (const simulation_t& x)
     this->Strategy_ = x.Strategy_;
     this->Thermostat_ = x.Thermostat_;
     this->AdditionalGravitation_ = x.AdditionalGravitation_;
-    this->Force_ = x.Force_;
     this->ProfileWriter_ = x.ProfileWriter_;
     this->endTime_ = x.endTime_;
     this->deltaT_ = x.deltaT_;
@@ -4927,6 +4950,20 @@ operator<< (::xercesc::DOMElement& e, const cuboid_t& i)
     s << i.Dimension ();
   }
 
+  // Forces
+  //
+  for (cuboid_t::Forces_const_iterator
+       b (i.Forces ().begin ()), n (i.Forces ().end ());
+       b != n; ++b)
+  {
+    ::xercesc::DOMElement& s (
+      ::xsd::cxx::xml::dom::create_element (
+        "Forces",
+        e));
+
+    s << *b;
+  }
+
   // fixed
   //
   if (i.fixed ())
@@ -5043,6 +5080,20 @@ operator<< (::xercesc::DOMElement& e, const sphere_t& i)
         e));
 
     s << i.Velocity ();
+  }
+
+  // Forces
+  //
+  for (sphere_t::Forces_const_iterator
+       b (i.Forces ().begin ()), n (i.Forces ().end ());
+       b != n; ++b)
+  {
+    ::xercesc::DOMElement& s (
+      ::xsd::cxx::xml::dom::create_element (
+        "Forces",
+        e));
+
+    s << *b;
   }
 
   // fixed
@@ -5183,6 +5234,20 @@ operator<< (::xercesc::DOMElement& e, const membrane_t& i)
         e));
 
     s << i.Dimension ();
+  }
+
+  // Forces
+  //
+  for (membrane_t::Forces_const_iterator
+       b (i.Forces ().begin ()), n (i.Forces ().end ());
+       b != n; ++b)
+  {
+    ::xercesc::DOMElement& s (
+      ::xsd::cxx::xml::dom::create_element (
+        "Forces",
+        e));
+
+    s << *b;
   }
 
   // fixed
@@ -5381,6 +5446,17 @@ operator<< (::xercesc::DOMElement& e, const force_t& i)
 {
   e << static_cast< const ::xml_schema::type& > (i);
 
+  // Force
+  //
+  {
+    ::xercesc::DOMElement& s (
+      ::xsd::cxx::xml::dom::create_element (
+        "Force",
+        e));
+
+    s << i.Force ();
+  }
+
   // Index
   //
   for (force_t::Index_const_iterator
@@ -5393,39 +5469,6 @@ operator<< (::xercesc::DOMElement& e, const force_t& i)
         e));
 
     s << *b;
-  }
-
-  // forceX
-  //
-  {
-    ::xercesc::DOMAttr& a (
-      ::xsd::cxx::xml::dom::create_attribute (
-        "forceX",
-        e));
-
-    a << ::xml_schema::as_double(i.forceX ());
-  }
-
-  // forceY
-  //
-  {
-    ::xercesc::DOMAttr& a (
-      ::xsd::cxx::xml::dom::create_attribute (
-        "forceY",
-        e));
-
-    a << ::xml_schema::as_double(i.forceY ());
-  }
-
-  // forceZ
-  //
-  {
-    ::xercesc::DOMAttr& a (
-      ::xsd::cxx::xml::dom::create_attribute (
-        "forceZ",
-        e));
-
-    a << ::xml_schema::as_double(i.forceZ ());
   }
 
   // start
@@ -5896,20 +5939,6 @@ operator<< (::xercesc::DOMElement& e, const simulation_t& i)
         e));
 
     s << *i.AdditionalGravitation ();
-  }
-
-  // Force
-  //
-  for (simulation_t::Force_const_iterator
-       b (i.Force ().begin ()), n (i.Force ().end ());
-       b != n; ++b)
-  {
-    ::xercesc::DOMElement& s (
-      ::xsd::cxx::xml::dom::create_element (
-        "Force",
-        e));
-
-    s << *b;
   }
 
   // ProfileWriter

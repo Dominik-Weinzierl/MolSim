@@ -1,7 +1,6 @@
 #pragma once
 
 #include "container/ParticleContainer.h"
-#include "Forces/Forces.h"
 
 /**
  * This is the superclass for the different types of physics we implemented.
@@ -82,23 +81,15 @@ class Physics {
   /**
    * Calculates and updates the force for all particles in the specified container
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
-   * @param additionalForce Vector that contains the additional force
+   * @param gravitation Vector that contains the additional gravitation force
    */
-  void calculateF(ParticleContainer<dim> &particleContainer, Vector<dim> &additionalForce,
-                  std::vector<Force<dim>>& forces) const {
+  void calculateF(ParticleContainer<dim> &particleContainer, Vector<dim> &gravitation) const {
     SPDLOG_DEBUG("started calculating forces");
 //#pragma omp parallel for shared(particleContainer, additionalForce) default(none)
     for (size_t t = 0; t < particleContainer.size(); ++t) {
       Particle<dim> &p = particleContainer.getParticles()[t];
       p.setOldF(p.getF());
-      p.setF(Forces<dim>::additionalGravitation(p, additionalForce));
-    }
-
-    for (auto &f: forces) {
-      for (auto &a: f.getAdditionalForceParticles()) {
-        (void) a;
-        // TODO additional Force
-      }
+      p.setF(p.getM() * gravitation);
     }
 
     performUpdate(particleContainer);
@@ -109,14 +100,14 @@ class Physics {
   * Calls the calculate-Methods for the position, force and velocity with the given parameters.
   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
   * @param deltaT time step of our simulation
-  * @param additionalForce Vector that contains the additional force
+  * @param gravitation Vector that contains the additional gravitation force
   */
-  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce,
-                                 std::vector<Force<dim>>& forces) const {
+  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT,
+                                 Vector<dim> &gravitation) const {
     // calculate new x
     calculateX(particleContainer, deltaT);
     // calculate new f
-    calculateF(particleContainer, additionalForce, forces);
+    calculateF(particleContainer, gravitation);
     // calculate new v
     calculateV(particleContainer, deltaT);
   }

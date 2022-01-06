@@ -4,7 +4,7 @@
 
 #include "particles/Particle.h"
 #include "logger/Logger.h"
-#include "physics/Forces/Force.h"
+#include "physics/Forces/ForceContainer.h"
 
 /**
  * ParticleContainer is a container for particles that provides functions to iterate over single particles and pairs.
@@ -22,11 +22,6 @@ class ParticleContainer {
   * Vector of molecule-pointers.
   */
   std::vector<Particle<dim> *> molecules;
-
-  /**
-  * Vector of forces.
-  */
-  std::vector<Force<dim>> forces;
 
  public:
 
@@ -114,18 +109,6 @@ class ParticleContainer {
   virtual void updateCells() = 0;
 
   //----------------------------------------Getter & Setter----------------------------------------
-
-  /**
-   * Setter for indices.
-   * @param i indices to set
-   */
-  void setForces(std::vector<Force<dim>> f){
-    forces = f;
-  }
-
-  [[nodiscard]] const std::vector<Force<dim>> &getForces() const{
-    return forces;
-  }
 
   /**
    * const getter for the vector of Particle(s).

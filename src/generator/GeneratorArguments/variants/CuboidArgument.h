@@ -28,17 +28,18 @@ class CuboidArgument : public RectangularArgument<dim> {
    * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
    * @param pType of all particles generated with this specific generator argument.
    * @param pFixed of all particles generated with this specific generator argument.
+   * @param pForces additional forces applied on the particles.
    */
   CuboidArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
                  double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
-                 double pDepthOfPotentialWell, int pType, bool pFixed) : RectangularArgument<dim>{pStartingCoordinates,
+                 double pDepthOfPotentialWell, int pType, bool pFixed, std::vector<ForceContainer<dim>> pForces) : RectangularArgument<dim>{pStartingCoordinates,
                                                                                                   pDimensions,
                                                                                                   pInitialVelocity,
                                                                                                   pDistance, pMass,
                                                                                                   pMeanValue, pPacked,
                                                                                                   pZeroCrossing,
                                                                                                   pDepthOfPotentialWell, pType,
-                                                                                                  pFixed} {}
+                                                                                                  pFixed, pForces} {}
 
   //----------------------------------------Methods----------------------------------------
 
@@ -48,7 +49,7 @@ class CuboidArgument : public RectangularArgument<dim> {
   [[nodiscard]] std::string toString() const {
     std::stringstream argument;
     argument << "\t\t\tCuboid:" << std::endl;
-    //TODO: Rect toString aufrufen
+    argument << RectangularArgument<dim>::toString() << std::endl;
     return argument.str();
   };
 };

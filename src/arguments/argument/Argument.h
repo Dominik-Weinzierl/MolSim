@@ -10,7 +10,7 @@
 #include "thermostat/Thermostat.h"
 #include "outputWriter/ProfileWriter/ProfileWriter.h"
 #include "outputWriter/ProfileWriter/DummyProfileWriter.h"
-#include "physics/Forces/Force.h"
+#include "physics/Forces/ForceContainer.h"
 
 /**
  * Argument stores the arguments parsed by ArgumentParser for easy access.
@@ -74,11 +74,6 @@ class Argument {
    */
   Vector<dim> additionalGravitation;
 
-  /**
-   * Column vector which stores the additional force with the according start and endTime.
-   */
-  std::vector<Force<dim>> forces;
-
  public:
   //----------------------------------------Constructor & Destructor----------------------------------------
 
@@ -97,17 +92,15 @@ class Argument {
    * @param pThermostat optional thermostat which is applied during the simulation
    * @param pProfileWriter optional profile writer
    * @param pAdditionalGravitation optional additional gravitation
-   * @param pForces Vector of optional additional force
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
            int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat,
-           std::unique_ptr<ProfileWriter<dim>> pProfileWriter, Vector<dim> pAdditionalGravitation,
-           std::vector<Force<dim>> pForces) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
+           std::unique_ptr<ProfileWriter<dim>> pProfileWriter, Vector<dim> pAdditionalGravitation) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
                                               output{std::move(pOutput)}, writer{std::move(pWriter)},
                                               physics{std::move(pPhysics)}, iteration{pIteration},
                                               strategy{std::move(pStrategy)}, thermostat{std::move(pThermostat)},
                                               profileWriter{std::move(pProfileWriter)},
-                                              additionalGravitation{pAdditionalGravitation}, forces{pForces} {};
+                                              additionalGravitation{pAdditionalGravitation}{};
 
   //----------------------------------------Methods----------------------------------------
 
@@ -135,7 +128,6 @@ class Argument {
     configuration << "\tPhysic: " << this->getPhysics() << std::endl;
     configuration << "\tAdditional gravitation: " << ArrayUtils::to_string(this->getAdditionalGravitation())
                   << std::endl;
-    configuration << "\tForce: " << ArrayUtils::to_string(this->getForces()) << std::endl;
     configuration << "\tStrategy: " << this->strategy << std::endl;
     return configuration.str();
   }
@@ -162,7 +154,7 @@ class Argument {
     return files == rhs.files && endTime == rhs.endTime && deltaT == rhs.deltaT && output == rhs.output
         && writer == rhs.writer && physics == rhs.physics && iteration == rhs.iteration && strategy == rhs.strategy
         && thermostat == rhs.thermostat && profileWriter == rhs.profileWriter
-        && additionalGravitation == rhs.additionalGravitation && forces == rhs.forces;
+        && additionalGravitation == rhs.additionalGravitation;
   }
 
   /**
@@ -287,13 +279,5 @@ class Argument {
    */
   [[nodiscard]] const Vector<dim> &getAdditionalGravitation() const {
     return additionalGravitation;
-  }
-
-  /**
-   * Getter for forces.
-   * @return forces
-   */
-  [[nodiscard]] const std::vector<Force<dim>> &getForces() const {
-    return forces;
   }
 };

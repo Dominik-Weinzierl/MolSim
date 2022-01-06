@@ -4,14 +4,14 @@
 #include "particles/Particle.h"
 #include "generator/GeneratorArguments/RectangularArgument.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
-#include "generator/GeneratorArguments.h"
+#include "generator/GeneratorArguments/GeneratorArguments.h"
 
 /**
  * Generates shapes based on the provided arguments.
  * @tparam T type of the used GeneratorArguments (e.g. CuboidArguments, SphereArguments, ...)
  * @tparam dim dimension of our simulation.
  */
-template<typename T, size_t dim, typename std::enable_if<std::is_base_of<GeneratorArguments, T>::value,
+template<typename T, size_t dim, typename std::enable_if<std::is_base_of<GeneratorArguments<dim>, T>::value,
                                                          bool>::type = true>
 class Generator {
  public:

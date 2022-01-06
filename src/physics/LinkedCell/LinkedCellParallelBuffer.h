@@ -3,7 +3,6 @@
 #include "physics/Physics.h"
 #include "physics/variants/LennardJones.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
-#include "physics/Forces/Forces.h"
 #include "LinkedCell.h"
 
 /**
@@ -25,8 +24,8 @@ class LinkedCellParallelBuffer : LinkedCell<T, dim> {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
   */
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &force) const override {
-    LinkedCell<T, dim>::calculateNextStep(particleContainer, deltaT, force);
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &gravitation) const override {
+    LinkedCell<T, dim>::calculateNextStep(particleContainer, deltaT, gravitation);
   }
 };
 
@@ -127,8 +126,8 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
     }
   }
 
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce,
-                         std::vector<Force<dim>> &forces) const override {
-    LinkedCell<LennardJones, dim>::calculateNextStep(particleContainer, deltaT, additionalForce, forces);
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT,
+                         Vector<dim> &gravitation) const override {
+    LinkedCell<LennardJones, dim>::calculateNextStep(particleContainer, deltaT, gravitation);
   }
 };

@@ -829,6 +829,70 @@ class cuboid_t: public ::xml_schema::type
   //@}
 
   /**
+   * @name Forces
+   *
+   * @brief Accessor and modifier functions for the %Forces
+   * sequence element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::force_t Forces_type;
+
+  /**
+   * @brief Element sequence container type.
+   */
+  typedef ::xsd::cxx::tree::sequence< Forces_type > Forces_sequence;
+
+  /**
+   * @brief Element iterator type.
+   */
+  typedef Forces_sequence::iterator Forces_iterator;
+
+  /**
+   * @brief Element constant iterator type.
+   */
+  typedef Forces_sequence::const_iterator Forces_const_iterator;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits< Forces_type, char > Forces_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element
+   * sequence.
+   *
+   * @return A constant reference to the sequence container.
+   */
+  const Forces_sequence&
+  Forces () const;
+
+  /**
+   * @brief Return a read-write reference to the element sequence.
+   *
+   * @return A reference to the sequence container.
+   */
+  Forces_sequence&
+  Forces ();
+
+  /**
+   * @brief Copy elements from a given sequence.
+   *
+   * @param s A sequence to copy elements from.
+   *
+   * For each element in @a s this function makes a copy and adds it 
+   * to the sequence. Note that this operation completely changes the 
+   * sequence and all old elements will be lost.
+   */
+  void
+  Forces (const Forces_sequence& s);
+
+  //@}
+
+  /**
    * @name fixed
    *
    * @brief Accessor and modifier functions for the %fixed
@@ -1350,6 +1414,7 @@ class cuboid_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< Position_type > Position_;
   ::xsd::cxx::tree::one< Velocity_type > Velocity_;
   ::xsd::cxx::tree::one< Dimension_type > Dimension_;
+  Forces_sequence Forces_;
   fixed_optional fixed_;
   ::xsd::cxx::tree::one< distance_type > distance_;
   ::xsd::cxx::tree::one< mass_type > mass_;
@@ -1483,6 +1548,70 @@ class sphere_t: public ::xml_schema::type
    */
   void
   Velocity (::std::unique_ptr< Velocity_type > p);
+
+  //@}
+
+  /**
+   * @name Forces
+   *
+   * @brief Accessor and modifier functions for the %Forces
+   * sequence element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::force_t Forces_type;
+
+  /**
+   * @brief Element sequence container type.
+   */
+  typedef ::xsd::cxx::tree::sequence< Forces_type > Forces_sequence;
+
+  /**
+   * @brief Element iterator type.
+   */
+  typedef Forces_sequence::iterator Forces_iterator;
+
+  /**
+   * @brief Element constant iterator type.
+   */
+  typedef Forces_sequence::const_iterator Forces_const_iterator;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits< Forces_type, char > Forces_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element
+   * sequence.
+   *
+   * @return A constant reference to the sequence container.
+   */
+  const Forces_sequence&
+  Forces () const;
+
+  /**
+   * @brief Return a read-write reference to the element sequence.
+   *
+   * @return A reference to the sequence container.
+   */
+  Forces_sequence&
+  Forces ();
+
+  /**
+   * @brief Copy elements from a given sequence.
+   *
+   * @param s A sequence to copy elements from.
+   *
+   * For each element in @a s this function makes a copy and adds it 
+   * to the sequence. Note that this operation completely changes the 
+   * sequence and all old elements will be lost.
+   */
+  void
+  Forces (const Forces_sequence& s);
 
   //@}
 
@@ -2054,6 +2183,7 @@ class sphere_t: public ::xml_schema::type
   protected:
   ::xsd::cxx::tree::one< Center_type > Center_;
   ::xsd::cxx::tree::one< Velocity_type > Velocity_;
+  Forces_sequence Forces_;
   fixed_optional fixed_;
   ::xsd::cxx::tree::one< radius_type > radius_;
   ::xsd::cxx::tree::one< distance_type > distance_;
@@ -2246,6 +2376,70 @@ class membrane_t: public ::xml_schema::type
    */
   void
   Dimension (::std::unique_ptr< Dimension_type > p);
+
+  //@}
+
+  /**
+   * @name Forces
+   *
+   * @brief Accessor and modifier functions for the %Forces
+   * sequence element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::force_t Forces_type;
+
+  /**
+   * @brief Element sequence container type.
+   */
+  typedef ::xsd::cxx::tree::sequence< Forces_type > Forces_sequence;
+
+  /**
+   * @brief Element iterator type.
+   */
+  typedef Forces_sequence::iterator Forces_iterator;
+
+  /**
+   * @brief Element constant iterator type.
+   */
+  typedef Forces_sequence::const_iterator Forces_const_iterator;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits< Forces_type, char > Forces_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element
+   * sequence.
+   *
+   * @return A constant reference to the sequence container.
+   */
+  const Forces_sequence&
+  Forces () const;
+
+  /**
+   * @brief Return a read-write reference to the element sequence.
+   *
+   * @return A reference to the sequence container.
+   */
+  Forces_sequence&
+  Forces ();
+
+  /**
+   * @brief Copy elements from a given sequence.
+   *
+   * @param s A sequence to copy elements from.
+   *
+   * For each element in @a s this function makes a copy and adds it 
+   * to the sequence. Note that this operation completely changes the 
+   * sequence and all old elements will be lost.
+   */
+  void
+  Forces (const Forces_sequence& s);
 
   //@}
 
@@ -2869,6 +3063,7 @@ class membrane_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< Position_type > Position_;
   ::xsd::cxx::tree::one< Velocity_type > Velocity_;
   ::xsd::cxx::tree::one< Dimension_type > Dimension_;
+  Forces_sequence Forces_;
   fixed_optional fixed_;
   ::xsd::cxx::tree::one< distance_type > distance_;
   ::xsd::cxx::tree::one< mass_type > mass_;
@@ -3370,6 +3565,64 @@ class force_t: public ::xml_schema::type
 {
   public:
   /**
+   * @name Force
+   *
+   * @brief Accessor and modifier functions for the %Force
+   * required element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::vector_t Force_type;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits< Force_type, char > Force_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element.
+   *
+   * @return A constant reference to the element.
+   */
+  const Force_type&
+  Force () const;
+
+  /**
+   * @brief Return a read-write reference to the element.
+   *
+   * @return A reference to the element.
+   */
+  Force_type&
+  Force ();
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the element.
+   */
+  void
+  Force (const Force_type& x);
+
+  /**
+   * @brief Set the element value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly
+   * instead of making a copy.
+   */
+  void
+  Force (::std::unique_ptr< Force_type > p);
+
+  //@}
+
+  /**
    * @name Index
    *
    * @brief Accessor and modifier functions for the %Index
@@ -3430,147 +3683,6 @@ class force_t: public ::xml_schema::type
    */
   void
   Index (const Index_sequence& s);
-
-  //@}
-
-  /**
-   * @name forceX
-   *
-   * @brief Accessor and modifier functions for the %forceX
-   * required attribute.
-   */
-  //@{
-
-  /**
-   * @brief Attribute type.
-   */
-  typedef ::xml_schema::double_ forceX_type;
-
-  /**
-   * @brief Attribute traits type.
-   */
-  typedef ::xsd::cxx::tree::traits< forceX_type, char, ::xsd::cxx::tree::schema_type::double_ > forceX_traits;
-
-  /**
-   * @brief Return a read-only (constant) reference to the attribute.
-   *
-   * @return A constant reference to the attribute.
-   */
-  const forceX_type&
-  forceX () const;
-
-  /**
-   * @brief Return a read-write reference to the attribute.
-   *
-   * @return A reference to the attribute.
-   */
-  forceX_type&
-  forceX ();
-
-  /**
-   * @brief Set the attribute value.
-   *
-   * @param x A new value to set.
-   *
-   * This function makes a copy of its argument and sets it as
-   * the new value of the attribute.
-   */
-  void
-  forceX (const forceX_type& x);
-
-  //@}
-
-  /**
-   * @name forceY
-   *
-   * @brief Accessor and modifier functions for the %forceY
-   * required attribute.
-   */
-  //@{
-
-  /**
-   * @brief Attribute type.
-   */
-  typedef ::xml_schema::double_ forceY_type;
-
-  /**
-   * @brief Attribute traits type.
-   */
-  typedef ::xsd::cxx::tree::traits< forceY_type, char, ::xsd::cxx::tree::schema_type::double_ > forceY_traits;
-
-  /**
-   * @brief Return a read-only (constant) reference to the attribute.
-   *
-   * @return A constant reference to the attribute.
-   */
-  const forceY_type&
-  forceY () const;
-
-  /**
-   * @brief Return a read-write reference to the attribute.
-   *
-   * @return A reference to the attribute.
-   */
-  forceY_type&
-  forceY ();
-
-  /**
-   * @brief Set the attribute value.
-   *
-   * @param x A new value to set.
-   *
-   * This function makes a copy of its argument and sets it as
-   * the new value of the attribute.
-   */
-  void
-  forceY (const forceY_type& x);
-
-  //@}
-
-  /**
-   * @name forceZ
-   *
-   * @brief Accessor and modifier functions for the %forceZ
-   * required attribute.
-   */
-  //@{
-
-  /**
-   * @brief Attribute type.
-   */
-  typedef ::xml_schema::double_ forceZ_type;
-
-  /**
-   * @brief Attribute traits type.
-   */
-  typedef ::xsd::cxx::tree::traits< forceZ_type, char, ::xsd::cxx::tree::schema_type::double_ > forceZ_traits;
-
-  /**
-   * @brief Return a read-only (constant) reference to the attribute.
-   *
-   * @return A constant reference to the attribute.
-   */
-  const forceZ_type&
-  forceZ () const;
-
-  /**
-   * @brief Return a read-write reference to the attribute.
-   *
-   * @return A reference to the attribute.
-   */
-  forceZ_type&
-  forceZ ();
-
-  /**
-   * @brief Set the attribute value.
-   *
-   * @param x A new value to set.
-   *
-   * This function makes a copy of its argument and sets it as
-   * the new value of the attribute.
-   */
-  void
-  forceZ (const forceZ_type& x);
 
   //@}
 
@@ -3677,9 +3789,19 @@ class force_t: public ::xml_schema::type
    * @brief Create an instance from the ultimate base and
    * initializers for required elements and attributes.
    */
-  force_t (const forceX_type&,
-           const forceY_type&,
-           const forceZ_type&,
+  force_t (const Force_type&,
+           const start_type&,
+           const end_type&);
+
+  /**
+   * @brief Create an instance from the ultimate base and
+   * initializers for required elements and attributes
+   * (::std::unique_ptr version).
+   *
+   * This constructor will try to use the passed values directly
+   * instead of making copies.
+   */
+  force_t (::std::unique_ptr< Force_type >,
            const start_type&,
            const end_type&);
 
@@ -3753,10 +3875,8 @@ class force_t: public ::xml_schema::type
          ::xml_schema::flags);
 
   protected:
+  ::xsd::cxx::tree::one< Force_type > Force_;
   Index_sequence Index_;
-  ::xsd::cxx::tree::one< forceX_type > forceX_;
-  ::xsd::cxx::tree::one< forceY_type > forceY_;
-  ::xsd::cxx::tree::one< forceZ_type > forceZ_;
   ::xsd::cxx::tree::one< start_type > start_;
   ::xsd::cxx::tree::one< end_type > end_;
 
@@ -6628,70 +6748,6 @@ class simulation_t: public ::xml_schema::type
   //@}
 
   /**
-   * @name Force
-   *
-   * @brief Accessor and modifier functions for the %Force
-   * sequence element.
-   */
-  //@{
-
-  /**
-   * @brief Element type.
-   */
-  typedef ::force_t Force_type;
-
-  /**
-   * @brief Element sequence container type.
-   */
-  typedef ::xsd::cxx::tree::sequence< Force_type > Force_sequence;
-
-  /**
-   * @brief Element iterator type.
-   */
-  typedef Force_sequence::iterator Force_iterator;
-
-  /**
-   * @brief Element constant iterator type.
-   */
-  typedef Force_sequence::const_iterator Force_const_iterator;
-
-  /**
-   * @brief Element traits type.
-   */
-  typedef ::xsd::cxx::tree::traits< Force_type, char > Force_traits;
-
-  /**
-   * @brief Return a read-only (constant) reference to the element
-   * sequence.
-   *
-   * @return A constant reference to the sequence container.
-   */
-  const Force_sequence&
-  Force () const;
-
-  /**
-   * @brief Return a read-write reference to the element sequence.
-   *
-   * @return A reference to the sequence container.
-   */
-  Force_sequence&
-  Force ();
-
-  /**
-   * @brief Copy elements from a given sequence.
-   *
-   * @param s A sequence to copy elements from.
-   *
-   * For each element in @a s this function makes a copy and adds it 
-   * to the sequence. Note that this operation completely changes the 
-   * sequence and all old elements will be lost.
-   */
-  void
-  Force (const Force_sequence& s);
-
-  //@}
-
-  /**
    * @name ProfileWriter
    *
    * @brief Accessor and modifier functions for the %ProfileWriter
@@ -7238,7 +7294,6 @@ class simulation_t: public ::xml_schema::type
   Strategy_optional Strategy_;
   Thermostat_optional Thermostat_;
   AdditionalGravitation_optional AdditionalGravitation_;
-  Force_sequence Force_;
   ProfileWriter_optional ProfileWriter_;
   ::xsd::cxx::tree::one< endTime_type > endTime_;
   ::xsd::cxx::tree::one< deltaT_type > deltaT_;
