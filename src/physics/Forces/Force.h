@@ -97,6 +97,7 @@ class Force {
   }
 
   friend std::ostream &operator<<(std::ostream &os, const Force &f) {
+    (void)f;
     os << "indices: ";
     return os;
   }
