@@ -207,6 +207,7 @@ class XMLReader {
     std::optional<Vector<dim>> cellSize = std::nullopt;
     std::unique_ptr<Thermostat<dim>> thermostat;
     std::unique_ptr<ProfileWriter<dim>> profileWriter;
+    std::optional<std::string> parallel = std::nullopt;
     Vector<dim> additionalGravitation{};
     std::vector<Force<dim>> forces{};
 
@@ -228,6 +229,9 @@ class XMLReader {
       domain = this->loadDomain();
       boundaries = this->loadBoundaries();
       cellSize = this->loadCellSize();
+      if (simulation->Strategy()->LinkedCell()->parallel().present()) {
+        parallel = simulation->Strategy()->LinkedCell()->parallel().get();
+      }
     }
 
     if (simulation->Thermostat().present()) {
@@ -279,6 +283,6 @@ class XMLReader {
     return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
                                               this->loadCuboid(), this->loadSpheres(), this->loadMembrane(), strategy,
                                               cutoffRadius, domain, boundaries, cellSize, std::move(thermostat),
-                                              std::move(profileWriter), additionalGravitation, forces);
+                                              std::move(profileWriter), additionalGravitation, forces, parallel);
   }
 };

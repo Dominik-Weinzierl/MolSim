@@ -1467,6 +1467,36 @@ cutoffRadius (const cutoffRadius_type& x)
   this->cutoffRadius_.set (x);
 }
 
+const linkedCell_t::parallel_optional& linkedCell_t::
+parallel () const
+{
+  return this->parallel_;
+}
+
+linkedCell_t::parallel_optional& linkedCell_t::
+parallel ()
+{
+  return this->parallel_;
+}
+
+void linkedCell_t::
+parallel (const parallel_type& x)
+{
+  this->parallel_.set (x);
+}
+
+void linkedCell_t::
+parallel (const parallel_optional& x)
+{
+  this->parallel_ = x;
+}
+
+void linkedCell_t::
+parallel (::std::unique_ptr< parallel_type > x)
+{
+  this->parallel_.set (std::move (x));
+}
+
 
 // strategy_t
 // 
@@ -3863,7 +3893,8 @@ linkedCell_t (const Boundary_type& Boundary,
   Boundary_ (Boundary, this),
   Domain_ (Domain, this),
   CellSize_ (CellSize, this),
-  cutoffRadius_ (cutoffRadius, this)
+  cutoffRadius_ (cutoffRadius, this),
+  parallel_ (this)
 {
 }
 
@@ -3876,7 +3907,8 @@ linkedCell_t (::std::unique_ptr< Boundary_type > Boundary,
   Boundary_ (std::move (Boundary), this),
   Domain_ (std::move (Domain), this),
   CellSize_ (std::move (CellSize), this),
-  cutoffRadius_ (cutoffRadius, this)
+  cutoffRadius_ (cutoffRadius, this),
+  parallel_ (this)
 {
 }
 
@@ -3888,7 +3920,8 @@ linkedCell_t (const linkedCell_t& x,
   Boundary_ (x.Boundary_, f, this),
   Domain_ (x.Domain_, f, this),
   CellSize_ (x.CellSize_, f, this),
-  cutoffRadius_ (x.cutoffRadius_, f, this)
+  cutoffRadius_ (x.cutoffRadius_, f, this),
+  parallel_ (x.parallel_, f, this)
 {
 }
 
@@ -3900,7 +3933,8 @@ linkedCell_t (const ::xercesc::DOMElement& e,
   Boundary_ (this),
   Domain_ (this),
   CellSize_ (this),
-  cutoffRadius_ (this)
+  cutoffRadius_ (this),
+  parallel_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
   {
@@ -3996,6 +4030,12 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       this->cutoffRadius_.set (cutoffRadius_traits::create (i, f, this));
       continue;
     }
+
+    if (n.name () == "parallel" && n.namespace_ ().empty ())
+    {
+      this->parallel_.set (parallel_traits::create (i, f, this));
+      continue;
+    }
   }
 
   if (!cutoffRadius_.present ())
@@ -4023,6 +4063,7 @@ operator= (const linkedCell_t& x)
     this->Domain_ = x.Domain_;
     this->CellSize_ = x.CellSize_;
     this->cutoffRadius_ = x.cutoffRadius_;
+    this->parallel_ = x.parallel_;
   }
 
   return *this;
@@ -5679,6 +5720,18 @@ operator<< (::xercesc::DOMElement& e, const linkedCell_t& i)
         e));
 
     a << ::xml_schema::as_double(i.cutoffRadius ());
+  }
+
+  // parallel
+  //
+  if (i.parallel ())
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "parallel",
+        e));
+
+    a << *i.parallel ();
   }
 }
 

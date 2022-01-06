@@ -52,6 +52,11 @@ class XMLArgument : public Argument<dim> {
   std::optional<Vector<dim>> cellSize;
 
   /**
+   * Stores the used parallelization strategy.
+   */
+  std::optional<std::string> parallel;
+
+  /**
    * Stores the boundaries used by the linked cell algorithm.
    */
   std::optional<std::vector<BoundaryType>> boundaries;
@@ -78,6 +83,7 @@ class XMLArgument : public Argument<dim> {
    * @param pProfileWriter optional profile writer
    * @param pAdditionalGravitation optional additional gravitation
    * @param pForce optional additional force
+   * @param pParallel optional parallelization strategy
    */
   XMLArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
               std::string pWriter, int pIteration, std::string pPhysics,
@@ -86,7 +92,7 @@ class XMLArgument : public Argument<dim> {
               std::optional<double> pCutoffRadius, std::optional<Vector<dim>> pDomain,
               std::optional<std::vector<BoundaryType>> pBoundaries, std::optional<Vector<dim>> pCellSize,
               std::unique_ptr<Thermostat<dim>> pThermostat, std::unique_ptr<ProfileWriter<dim>> pProfileWriter,
-              Vector<dim> pAdditionalGravitation, std::vector<Force<dim>> pForces) : Argument<dim>(std::move(pFiles),
+              Vector<dim> pAdditionalGravitation, std::vector<Force<dim>> pForces, std::optional<std::string> pParallel) : Argument<dim>(std::move(pFiles),
                                                                                                    pEndTime, pDeltaT,
                                                                                                    std::move(pOutput),
                                                                                                    std::move(pWriter),
@@ -98,7 +104,7 @@ class XMLArgument : public Argument<dim> {
                                                                                      domain{pDomain},
                                                                                      cutoffRadius{pCutoffRadius},
                                                                                      boundaries{std::move(pBoundaries)},
-                                                                                     cellSize{pCellSize} {
+                                                                                     cellSize{pCellSize}, parallel{std::move(pParallel)} {
     SPDLOG_TRACE("XMLArgument created!");
   }
 
@@ -202,7 +208,7 @@ class XMLArgument : public Argument<dim> {
 
   //----------------------------------------Getter & Setter----------------------------------------
 
-  void updateCellSizeOnIndex(size_t index, double pCellSize) {
+  void updateCellSizeOnIndex(size_t index, double pCellSize){
     cellSize.value()[index] = pCellSize;
   }
 
@@ -267,5 +273,13 @@ class XMLArgument : public Argument<dim> {
   [[nodiscard]] const std::optional<Vector<dim>> &getCellSize() const {
     SPDLOG_TRACE("XMLArgument->getCellSize(): {}", ArrayUtils::to_string(cellSize.value()));
     return cellSize;
+  }
+
+  /**
+   * Getter for parallelization.
+   * @return cellSize.
+   */
+  [[nodiscard]] const std::optional<std::string> &getParallel() const {
+    return parallel;
   }
 };

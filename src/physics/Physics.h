@@ -2,7 +2,6 @@
 
 #include "container/ParticleContainer.h"
 #include "Forces/Forces.h"
-#include "Forces/Force.h"
 
 /**
  * This is the superclass for the different types of physics we implemented.
@@ -48,7 +47,9 @@ class Physics {
     const auto deltaTPow = deltaT * deltaT;
     Vector<dim> temp{};
 
-    for (auto &p: particleContainer) {
+//#pragma omp parallel for shared(particleContainer, deltaT, deltaTPow, std::cout) private(temp) default(none)
+    for (size_t t = 0; t < particleContainer.size(); ++t) {
+      Particle<dim> &p = particleContainer.getParticles()[t];
       SPDLOG_TRACE("Calculating position for {}", p.toString());
       for (size_t i = 0; i < dim; ++i) {
         temp[i] = p.getX()[i] + deltaT * p.getV()[i] + deltaTPow * (p.getF()[i] / (2 * p.getM()));
@@ -66,7 +67,9 @@ class Physics {
   static void calculateV(ParticleContainer<dim> &particleContainer, double deltaT) {
     SPDLOG_DEBUG("started calculating velocities");
     Vector<dim> temp{};
-    for (auto &p: particleContainer) {
+//#pragma omp parallel for shared(particleContainer, deltaT) private(temp) default(none)
+    for (size_t t = 0; t < particleContainer.size(); ++t) {
+      Particle<dim> &p = particleContainer.getParticles()[t];
       SPDLOG_TRACE("Calculating velocity for {}", p.toString());
       for (size_t i = 0; i < dim; ++i) {
         temp[i] = p.getV()[i] + deltaT * (p.getOldF()[i] + p.getF()[i]) / (2 * p.getM());
@@ -82,9 +85,11 @@ class Physics {
    * @param additionalForce Vector that contains the additional force
    */
   void calculateF(ParticleContainer<dim> &particleContainer, Vector<dim> &additionalForce,
-                  std::vector<Force<dim>> forces) const {
+                  std::vector<Force<dim>>& forces) const {
     SPDLOG_DEBUG("started calculating forces");
-    for (auto &p: particleContainer) {
+//#pragma omp parallel for shared(particleContainer, additionalForce) default(none)
+    for (size_t t = 0; t < particleContainer.size(); ++t) {
+      Particle<dim> &p = particleContainer.getParticles()[t];
       p.setOldF(p.getF());
       p.setF(Forces<dim>::additionalGravitation(p, additionalForce));
     }
@@ -107,7 +112,7 @@ class Physics {
   * @param additionalForce Vector that contains the additional force
   */
   virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce,
-                                 std::vector<Force<dim>> forces) const {
+                                 std::vector<Force<dim>>& forces) const {
     // calculate new x
     calculateX(particleContainer, deltaT);
     // calculate new f

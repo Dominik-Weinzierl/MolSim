@@ -16,7 +16,10 @@ class HarmonicPotential : public PhysicsType {
   }
 
   template<size_t dim>
-  static inline Vector<dim> calculateForceBetweenTwoDiagonalParticles(Particle<dim> *i, Particle<dim> *j, double &l2Norm) {
-    return i->getMembraneArguments()[0] * (l2Norm - std::pow(2, 0.5)*i->getMembraneArguments()[1]) * (j->getX() - i->getX());
+  static inline Vector<dim> calculateForceBetweenTwoDiagonalParticles(Particle<dim> *i, Particle<dim> *j,
+                                                                      double &l2Norm) {
+    // TODO replace pow
+    return i->getMembraneArguments()[0] * (l2Norm - std::pow(2, 0.5) * i->getMembraneArguments()[1])
+        * (j->getX() - i->getX());
   }
 };

@@ -34,8 +34,8 @@ TEST(XMLReader_3D, test_case_1) { // NOLINT(cert-err58-cpp)
   std::string writer{"vtk"};
   std::string algorithm{"DirectSum"};
   XMLArgument<dim> expected
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, {}, algorithm,
-       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::make_unique<DummyThermostat<dim>>(), {0.0, 0.0, 0.0}};
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
+       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::make_unique<DummyThermostat<dim>>(), 0.0};
 
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);
@@ -65,8 +65,8 @@ TEST(XMLReader_2D, test_case_1) { // NOLINT(cert-err58-cpp)
   std::string writer{"vtk"};
   std::string algorithm{"DirectSum"};
   XMLArgument<dim> expected
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, {}, algorithm,
-       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::make_unique<DummyThermostat<dim>>(), {0.0, 0.0}};
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
+       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::make_unique<DummyThermostat<dim>>(), 0.0};
 
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);

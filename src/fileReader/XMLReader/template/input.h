@@ -5447,6 +5447,82 @@ class linkedCell_t: public ::xml_schema::type
   //@}
 
   /**
+   * @name parallel
+   *
+   * @brief Accessor and modifier functions for the %parallel
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::string parallel_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional< parallel_type > parallel_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits< parallel_type, char > parallel_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const parallel_optional&
+  parallel () const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  parallel_optional&
+  parallel ();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void
+  parallel (const parallel_type& x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void
+  parallel (const parallel_optional& x);
+
+  /**
+   * @brief Set the attribute value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly instead
+   * of making a copy.
+   */
+  void
+  parallel (::std::unique_ptr< parallel_type > p);
+
+  //@}
+
+  /**
    * @name Constructors
    */
   //@{
@@ -5547,6 +5623,7 @@ class linkedCell_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< Domain_type > Domain_;
   ::xsd::cxx::tree::one< CellSize_type > CellSize_;
   ::xsd::cxx::tree::one< cutoffRadius_type > cutoffRadius_;
+  parallel_optional parallel_;
 
   //@endcond
 };
