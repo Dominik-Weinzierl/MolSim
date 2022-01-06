@@ -8,27 +8,6 @@
  * This is the superclass for the different types of physics we implemented.
  */
 class PhysicsType {
-  /**
-   * Time used for forces.
-   */
-  static double time;
-
- public:
-  /**
-   * Getter for the time.
-   * @return time
-   */
-  static double getTime(){
-    return time;
-  }
-
-  /**
-   * Getter for the time.
-   * @return time
-   */
-  static void addToTime(double t){
-    time += t;
-  }
 };
 
 /**
@@ -102,18 +81,18 @@ class Physics {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param additionalForce Vector that contains the additional force
    */
-  void calculateF(ParticleContainer<dim> &particleContainer, Vector<dim> &additionalForce, std::vector<Force<dim>> forces) const {
+  void calculateF(ParticleContainer<dim> &particleContainer, Vector<dim> &additionalForce,
+                  std::vector<Force<dim>> forces) const {
     SPDLOG_DEBUG("started calculating forces");
     for (auto &p: particleContainer) {
       p.setOldF(p.getF());
       p.setF(Forces<dim>::additionalGravitation(p, additionalForce));
     }
 
-    for(auto &f: forces){
-      for(auto &a: f.getAdditionalForceParticles()){
-        //TODO: Innerhalb der Start/Endzeit?, Geht das mit dem a-pointer so?
-        if(PhysicsType::getTime() >= static_cast<double>(f.getStartTime()) && PhysicsType::getTime() <= static_cast<double>(f.getEndTime()))
-          a->setF(a->getF() + f.getForce());
+    for (auto &f: forces) {
+      for (auto &a: f.getAdditionalForceParticles()) {
+        (void) a;
+        // TODO additional Force
       }
     }
 
@@ -127,8 +106,8 @@ class Physics {
   * @param deltaT time step of our simulation
   * @param additionalForce Vector that contains the additional force
   */
-  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce, std::vector<Force<dim>> forces) const {
-    PhysicsType::addToTime(deltaT);
+  virtual void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce,
+                                 std::vector<Force<dim>> forces) const {
     // calculate new x
     calculateX(particleContainer, deltaT);
     // calculate new f

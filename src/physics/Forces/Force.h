@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ostream>
+
 /**
  * Wrapper for xsd-force_t.
  * @tparam dim dimension of the Vectors
@@ -12,7 +14,7 @@ class Force {
    * Vector of indices.
    * Empty if force should be applied to all particles.
    */
-  std::vector<Vector<dim>> indices;
+  std::vector<std::array<int, dim>> indices;
 
   /**
   * Vector of particle-pointers.
@@ -27,12 +29,12 @@ class Force {
   /**
    * Start time of force.
    */
-  long long unsigned int startTime;
+  unsigned int startTime;
 
   /**
    * End time of force.
    */
-  long long unsigned int endTime;
+  unsigned int endTime;
 
  public:
 
@@ -43,24 +45,22 @@ class Force {
    * @param pStartTime start time of the force
    * @param pEndTime end time of the force
    */
-  Force(std::vector<Vector<dim>> pIndices,
-        Vector<dim> pForce,
-        long long unsigned int pStartTime,
-        long long unsigned int pEndTime) : indices{pIndices}, force{pForce}, startTime{pStartTime}, endTime{pEndTime} {}
+  Force(std::vector<std::array<int, dim>> pIndices, Vector<dim> pForce, unsigned int pStartTime,
+        unsigned int pEndTime) : indices{pIndices}, force{pForce}, startTime{pStartTime}, endTime{pEndTime} {}
 
   /**
    * Adds a particle to additionalForceParticles.
    * @param a Vector of particle-pointers
    */
-  void addAdditionalForceParticles(Particle<dim> *a){
-    additionalForceParticles.template emplace_back(a);
+  void addAdditionalForceParticles(Particle<dim> *a) {
+    additionalForceParticles.emplace_back(a);
   }
 
   /**
    * Getter for startTime.
    * @return startTime
    */
-  [[nodiscard]] long long unsigned int getStartTime() const {
+  [[nodiscard]] unsigned int getStartTime() const {
     return startTime;
   }
 
@@ -68,7 +68,7 @@ class Force {
    * Getter for endTime.
    * @return endTime
    */
-  [[nodiscard]] long long unsigned int getEndTime() const {
+  [[nodiscard]] unsigned int getEndTime() const {
     return endTime;
   }
 
@@ -76,7 +76,7 @@ class Force {
    * Getter for indices.
    * @return indices
    */
-  [[nodiscard]] const std::vector<Vector<dim>> &getIndices() const {
+  [[nodiscard]] const std::vector<std::array<int, dim>> &getIndices() const {
     return indices;
   }
 
@@ -94,5 +94,11 @@ class Force {
    */
   [[nodiscard]] const Vector<dim> &getForce() const {
     return force;
+  }
+
+  friend std::ostream &operator<<(std::ostream &os, const Force &f) {
+    os << "indices: " << f.indices << " additionalForceParticles: " << f.additionalForceParticles << " force: "
+       << f.force << " startTime: " << f.startTime << " endTime: " << f.endTime;
+    return os;
   }
 };

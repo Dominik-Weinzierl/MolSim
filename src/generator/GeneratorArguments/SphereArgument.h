@@ -11,11 +11,6 @@ template<size_t dim>
 class SphereArgument : public GeneratorArguments {
 
   /**
-   * Should the particles be fixed
-   */
-  bool fixed;
-
-  /**
    * Coordinates of the center.
    */
   Vector<dim> centerCoordinates;
@@ -65,6 +60,11 @@ class SphereArgument : public GeneratorArguments {
    */
   int type;
 
+  /**
+   * Should the particles be fixed
+   */
+  bool fixed;
+
  public:
 
   //----------------------------------------Constructor----------------------------------------
@@ -81,12 +81,14 @@ class SphereArgument : public GeneratorArguments {
  * @param pZeroCrossing is a point where the sign of a mathematical function changes.
  * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
  * @param pType of all particles generated with this specific generator argument.
+ * @param pFixed whether the particles should be fixed.
  */
   SphereArgument(Vector<dim> pCenterCoordinates, int pRadius, Vector<dim> pInitialVelocity, double pDistance,
                  double pMass, double pMeanValue, bool pPacked, double pZeroCrossing, double pDepthOfPotentialWell,
-                 int pType) : centerCoordinates{pCenterCoordinates}, radius{pRadius}, initialVelocity{pInitialVelocity},
-                              distance{pDistance}, mass{pMass}, meanValue{pMeanValue}, packed{pPacked},
-                              zeroCrossing{pZeroCrossing}, depthOfPotentialWell{pDepthOfPotentialWell}, type{pType} {
+                 int pType, bool pFixed) : centerCoordinates{pCenterCoordinates}, radius{pRadius},
+                                           initialVelocity{pInitialVelocity}, distance{pDistance}, mass{pMass},
+                                           meanValue{pMeanValue}, packed{pPacked}, zeroCrossing{pZeroCrossing},
+                                           depthOfPotentialWell{pDepthOfPotentialWell}, type{pType}, fixed{pFixed} {
   }
 
   //----------------------------------------Methods----------------------------------------
@@ -107,6 +109,7 @@ class SphereArgument : public GeneratorArguments {
     argument << "\t\t\t\t Zero crossing: " << zeroCrossing << std::endl;
     argument << "\t\t\t\t Depth of potential well: " << depthOfPotentialWell << std::endl;
     argument << "\t\t\t\t Type: " << type << std::endl;
+    argument << "\t\t\t\t Fixed: " << fixed << std::endl;
     return argument.str();
   };
 

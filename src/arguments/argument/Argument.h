@@ -8,8 +8,8 @@
 
 #include "outputWriter/OutputWriter.h"
 #include "thermostat/Thermostat.h"
-#include "outputWriter/profileWriter/ProfileWriter.h"
-#include "outputWriter/profileWriter/DummyProfileWriter.h"
+#include "outputWriter/ProfileWriter/ProfileWriter.h"
+#include "outputWriter/ProfileWriter/DummyProfileWriter.h"
 #include "physics/Forces/Force.h"
 
 /**
@@ -95,46 +95,19 @@ class Argument {
    * @param pPhysics defines the used Physics during the simulation
    * @param pStrategy defines the used strategy for this simulation (direct vs linked cell)
    * @param pThermostat optional thermostat which is applied during the simulation
+   * @param pProfileWriter optional profile writer
    * @param pAdditionalGravitation optional additional gravitation
    * @param pForces Vector of optional additional force
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
            int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat,
-           Vector<dim> pAdditionalGravitation, std::vector<Force<dim>> pForces) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
-                                            output{std::move(pOutput)}, writer{std::move(pWriter)},
-                                            physics{std::move(pPhysics)}, iteration{pIteration},
-                                            strategy{std::move(pStrategy)}, thermostat{std::move(pThermostat)},
-                                            profileWriter{std::make_unique<DummyProfileWriter<dim>>()},additionalGravitation{pAdditionalGravitation}, forces{pForces} {};
-
-  /**
-   * Argument constructor to construct Arguments provided by the ArgumentParser.
-   * @param pFiles additional input files to load additional Particle
-   * @param pEndTime end time of the simulation
-   * @param pDeltaT time steps during the simulation
-   * @param pOutput output file prefix
-   * @param pWriter used writer to write in the output files
-   * @param pIteration defines the writing iteration
-   * @param pPhysics defines the used Physics during the simulation
-   * @param pStrategy defines the used strategy for this simulation (direct vs linked cell)
-   * @param pThermostat optional thermostat which is applied during the simulation
-   * @param pProfileWriter optional profile writer
-   * @param pAdditionalGravitation optional additional gravitation
-   */
-  Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
-           int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat,
-           std::unique_ptr<ProfileWriter<dim>> pProfileWriter, double pAdditionalGravitation) : files{
-      std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT}, output{std::move(pOutput)}, writer{std::move(pWriter)},
-                                                                                                physics{std::move(
-                                                                                                    pPhysics)},
-                                                                                                iteration{pIteration},
-                                                                                                strategy{std::move(
-                                                                                                    pStrategy)},
-                                                                                                thermostat{std::move(
-                                                                                                    pThermostat)},
-                                                                                                profileWriter{std::move(
-                                                                                                    pProfileWriter)},
-                                                                                                additionalGravitation{
-                                                                                                    pAdditionalGravitation} {};
+           std::unique_ptr<ProfileWriter<dim>> pProfileWriter, Vector<dim> pAdditionalGravitation,
+           std::vector<Force<dim>> pForces) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
+                                              output{std::move(pOutput)}, writer{std::move(pWriter)},
+                                              physics{std::move(pPhysics)}, iteration{pIteration},
+                                              strategy{std::move(pStrategy)}, thermostat{std::move(pThermostat)},
+                                              profileWriter{std::move(pProfileWriter)},
+                                              additionalGravitation{pAdditionalGravitation}, forces{pForces} {};
 
   //----------------------------------------Methods----------------------------------------
 
@@ -188,8 +161,8 @@ class Argument {
   bool operator==(const Argument &rhs) const {
     return files == rhs.files && endTime == rhs.endTime && deltaT == rhs.deltaT && output == rhs.output
         && writer == rhs.writer && physics == rhs.physics && iteration == rhs.iteration && strategy == rhs.strategy
-        && *thermostat.get() == *rhs.thermostat.get() && additionalGravitation == rhs.additionalGravitation
-        && forces == rhs.forces;
+        && thermostat == rhs.thermostat && profileWriter == rhs.profileWriter
+        && additionalGravitation == rhs.additionalGravitation && forces == rhs.forces;
   }
 
   /**
@@ -200,6 +173,7 @@ class Argument {
   bool operator!=(const Argument &rhs) const {
     return !(rhs == *this);
   }
+
 
   //----------------------------------------Getter & Setter----------------------------------------
 

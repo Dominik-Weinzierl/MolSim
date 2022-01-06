@@ -10,7 +10,7 @@
 #include "thermostat/DummyThermostat.h"
 #include "physics/Forces/Force.h"
 #include "thermostat/FlowThermostat.h"
-#include "outputWriter/profileWriter/ProfileWriter.h"
+#include "outputWriter/ProfileWriter/ProfileWriter.h"
 
 /**
  * XMLReader class reads a xml file and and provides Argument(s) to create Particle(s) via Generator(s)
@@ -136,18 +136,13 @@ class XMLReader {
         if (membrane.type().present()) {
           type = static_cast<int>(membrane.type().get());
         }
-        membraneArguments.template emplace_back(wrapVector_t(pos),
-                                                wrapVector_i(dime),
-                                                wrapVector_t(vel),
-                                                dis,
-                                                mass,
-                                                mean,
-                                                pack,
-                                                zeroCrossing,
-                                                depthOfPotentialWell,
-                                                stiffness,
-                                                averageBondLength,
-                                                type);
+        bool fixed = false;
+        if (membrane.fixed().present()) {
+          fixed = membrane.fixed().get();
+        }
+        membraneArguments
+            .template emplace_back(wrapVector_t(pos), wrapVector_i(dime), wrapVector_t(vel), dis, mass, mean, pack,
+                                   zeroCrossing, depthOfPotentialWell, stiffness, averageBondLength, type, fixed);
       }
     }
 
@@ -210,11 +205,10 @@ class XMLReader {
     std::optional<Vector<dim>> domain = std::nullopt;
     std::optional<std::vector<BoundaryType>> boundaries = std::nullopt;
     std::optional<Vector<dim>> cellSize = std::nullopt;
-    double additionalGravitation = 0.0;
     std::unique_ptr<Thermostat<dim>> thermostat;
     std::unique_ptr<ProfileWriter<dim>> profileWriter;
-//    Vector<dim> additionalGravitation{};
-//    std::vector<Force<dim>> forces{};
+    Vector<dim> additionalGravitation{};
+    std::vector<Force<dim>> forces{};
 
     for (auto &it: simulation->Source()) {
       std::string path = it.path();
@@ -227,10 +221,6 @@ class XMLReader {
     deltaT = simulation->deltaT();
     fileName = simulation->output();
     iteration = static_cast<int>(simulation->iteration());
-
-    if (simulation->additionalGravitation().present()) {
-      additionalGravitation = simulation->additionalGravitation().get();
-    }
 
     if (simulation->Strategy().present() && simulation->Strategy()->LinkedCell().present()) {
       strategy = std::string{"LinkedCell"};
@@ -267,46 +257,28 @@ class XMLReader {
       profileWriter = std::make_unique<DummyProfileWriter<dim>>();
     }
 
+    if (simulation->AdditionalGravitation().present()) {
+      additionalGravitation = wrapVector_t(simulation->AdditionalGravitation().get());
+    }
+
+    for (auto &i: simulation->Force()) {
+      std::vector<std::array<int, dim>> indices{};
+
+      if (!i.Index().empty()) {
+        for (auto &j: i.Index()) {
+          std::array<int, dim> index = wrapVector_i(j);
+          indices.push_back(index);
+        }
+      } else {
+        indices.clear();
+      }
+
+      forces.emplace_back(indices, wrapVector_t({i.forceX(), i.forceY(), i.forceZ()}), i.start(), i.end());
+    }
+
     return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
-                                              this->loadCuboid(), this->loadSpheres(), strategy, cutoffRadius, domain,
-                                              boundaries, cellSize, std::move(thermostat), std::move(profileWriter),
-                                              additionalGravitation);
-//    if (simulation->AdditionalGravitation().present()) {
-//      additionalGravitation = wrapVector_t(simulation->AdditionalGravitation().get());
-//    }
-
-//    for (auto &i: simulation->Force()) {
-//      std::vector<Vector<dim>> indices{};
-//
-//      if (!i.Index().empty()) {
-//        for (auto &j: i.Index()) {
-//          indices.emplace_back(wrapVector_i(j));
-//        }
-//      } else {
-//        //TODO: Können hier sonst iwelche unüberschriebene Werte liegen?
-//        indices.clear();
-//      }
-//
-//      forces.template emplace_back(Force<dim>{indices, wrapVector_t({i.forceX(), i.forceY(), i.forceZ()}), i.start(), i.end()});
-//    }
-
-    return std::make_unique<XMLArgument<dim>>(files,
-                                              endTime,
-                                              deltaT,
-                                              fileName,
-                                              writer,
-                                              iteration,
-                                              physics,
-                                              this->loadCuboid(),
-                                              this->loadSpheres(),
-                                              this->loadMembrane(),
-                                              strategy,
-                                              cutoffRadius,
-                                              domain,
-                                              boundaries,
-                                              cellSize,
-                                              std::move(thermostat));
-//                                              additionalGravitation,
-//                                              forces);
+                                              this->loadCuboid(), this->loadSpheres(), this->loadMembrane(), strategy,
+                                              cutoffRadius, domain, boundaries, cellSize, std::move(thermostat),
+                                              std::move(profileWriter), additionalGravitation, forces);
   }
 };

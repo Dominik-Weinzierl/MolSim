@@ -31,11 +31,14 @@ class MembraneArgument : public RectangularArgument<dim> {
    * @param pZeroCrossing is a point where the sign of a mathematical function changes.
    * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
    * @param pType of all particles generated with this specific generator argument.
+   * @param pFixed of all particles generated with this specific generator argument.
    */
   MembraneArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
-  double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
-  double pDepthOfPotentialWell, double pStiffness, double pAverageBondLength, int pType) : RectangularArgument<dim>{pStartingCoordinates, pDimensions, pInitialVelocity, pDistance, pMass, pMeanValue, pPacked,
-        pZeroCrossing, pDepthOfPotentialWell, pType}, stiffness{pStiffness}, averageBondLength{pAverageBondLength} {  }
+                   double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
+                   double pDepthOfPotentialWell, double pStiffness, double pAverageBondLength, int pType, bool pFixed)
+      : RectangularArgument<dim>{pStartingCoordinates, pDimensions, pInitialVelocity, pDistance, pMass, pMeanValue,
+                                 pPacked, pZeroCrossing, pDepthOfPotentialWell, pType, pFixed}, stiffness{pStiffness},
+        averageBondLength{pAverageBondLength} {}
 
   //----------------------------------------Methods----------------------------------------
 
@@ -61,15 +64,18 @@ class MembraneArgument : public RectangularArgument<dim> {
   [[nodiscard]] std::string toString() const {
     std::stringstream argument;
     argument << "\t\t\tMembrane:" << std::endl;
-    argument << "\t\t\t\t Stating coordinates: " << ArrayUtils::to_string(RectangularArgument<dim>::getStartingCoordinates()) << std::endl;
+    argument << "\t\t\t\t Stating coordinates: "
+             << ArrayUtils::to_string(RectangularArgument<dim>::getStartingCoordinates()) << std::endl;
     argument << "\t\t\t\t Dimension: " << ArrayUtils::to_string(RectangularArgument<dim>::getDimensions()) << std::endl;
-    argument << "\t\t\t\t Velocity: " << ArrayUtils::to_string(RectangularArgument<dim>::getInitialVelocity()) << std::endl;
+    argument << "\t\t\t\t Velocity: " << ArrayUtils::to_string(RectangularArgument<dim>::getInitialVelocity())
+             << std::endl;
     argument << "\t\t\t\t Distance: " << RectangularArgument<dim>::getDistance() << std::endl;
     argument << "\t\t\t\t Mass: " << RectangularArgument<dim>::getMass() << std::endl;
     argument << "\t\t\t\t Mean value: " << RectangularArgument<dim>::getMeanValue() << std::endl;
     argument << "\t\t\t\t Packed: " << (RectangularArgument<dim>::getPacked() ? "true" : "false") << std::endl;
     argument << "\t\t\t\t Zero crossing: " << RectangularArgument<dim>::getZeroCrossing() << std::endl;
-    argument << "\t\t\t\t Depth of potential well: " << RectangularArgument<dim>::getDepthOfPotentialWell() << std::endl;
+    argument << "\t\t\t\t Depth of potential well: " << RectangularArgument<dim>::getDepthOfPotentialWell()
+             << std::endl;
     argument << "\t\t\t\t Stiffness: " << getStiffness() << std::endl;
     argument << "\t\t\t\t AverageBondLength: " << getAverageBondLength() << std::endl;
     argument << "\t\t\t\t Type: " << RectangularArgument<dim>::getType() << std::endl;

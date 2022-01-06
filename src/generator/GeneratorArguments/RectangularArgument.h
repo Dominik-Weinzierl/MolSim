@@ -13,11 +13,6 @@ class RectangularArgument : public GeneratorArguments {
 
  private:
   /**
-   * Should the particles be fixed
-   */
-  bool fixed;
-
-  /**
    * Coordinates of the lower left corner.
    */
   Vector<dim> startingCoordinates;
@@ -67,6 +62,11 @@ class RectangularArgument : public GeneratorArguments {
    */
   int type;
 
+  /**
+   * Should the particles be fixed
+   */
+  bool fixed;
+
  public:
 
   //----------------------------------------Constructor----------------------------------------
@@ -83,15 +83,19 @@ class RectangularArgument : public GeneratorArguments {
    * @param pZeroCrossing is a point where the sign of a mathematical function changes.
    * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
    * @param pType of all particles generated with this specific generator argument.
+   * @param pFixed whether the particles should be fixed.
    */
   RectangularArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
-                 double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
-                 double pDepthOfPotentialWell, int pType) : startingCoordinates{pStartingCoordinates},
-                                                            dimensions{std::move(pDimensions)},
-                                                            initialVelocity{pInitialVelocity}, distance{pDistance},
-                                                            mass{pMass}, meanValue{pMeanValue}, packed{pPacked},
-                                                            zeroCrossing{pZeroCrossing},
-                                                            depthOfPotentialWell{pDepthOfPotentialWell}, type{pType} {
+                      double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
+                      double pDepthOfPotentialWell, int pType, bool pFixed) : startingCoordinates{pStartingCoordinates},
+                                                                              dimensions{std::move(pDimensions)},
+                                                                              initialVelocity{pInitialVelocity},
+                                                                              distance{pDistance}, mass{pMass},
+                                                                              meanValue{pMeanValue}, packed{pPacked},
+                                                                              zeroCrossing{pZeroCrossing},
+                                                                              depthOfPotentialWell{
+                                                                                  pDepthOfPotentialWell}, type{pType},
+                                                                              fixed{pFixed} {
 
   }
 

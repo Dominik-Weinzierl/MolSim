@@ -27,11 +27,18 @@ class CuboidArgument : public RectangularArgument<dim> {
    * @param pZeroCrossing is a point where the sign of a mathematical function changes.
    * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
    * @param pType of all particles generated with this specific generator argument.
+   * @param pFixed of all particles generated with this specific generator argument.
    */
   CuboidArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
-  double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
-  double pDepthOfPotentialWell, int pType) : RectangularArgument<dim>{pStartingCoordinates, pDimensions, pInitialVelocity, pDistance, pMass, pMeanValue, pPacked,
-        pZeroCrossing, pDepthOfPotentialWell, pType} {  }
+                 double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
+                 double pDepthOfPotentialWell, int pType, bool pFixed) : RectangularArgument<dim>{pStartingCoordinates,
+                                                                                                  pDimensions,
+                                                                                                  pInitialVelocity,
+                                                                                                  pDistance, pMass,
+                                                                                                  pMeanValue, pPacked,
+                                                                                                  pZeroCrossing,
+                                                                                                  pDepthOfPotentialWell, pType,
+                                                                                                  pFixed} {}
 
   //----------------------------------------Methods----------------------------------------
 
