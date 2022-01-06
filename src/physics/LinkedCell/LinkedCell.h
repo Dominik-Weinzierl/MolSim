@@ -18,7 +18,8 @@ class LinkedCell : public Physics<T, dim> {
 
   void performUpdate(ParticleContainer<dim> &particleContainer) const override;
 
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &, double current_time) const override;
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &,
+                         double current_time) const override;
 };
 
 /**
@@ -35,19 +36,20 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * @param i Molecule 1
    * @param j Molecule 2
    */
-  void calculateMoleculeForce(Particle<dim> *i, Particle<dim> *j, double l2Norm) const {
-    if(i->getParticleType() == MOLECULE && j->getParticleType() == MOLECULE && i->getType() == j->getType()) {
-      if (i->isNeighbour(j) || j->isNeighbour(i)) {
-        Vector<dim> force{HarmonicPotential::calculateForceBetweenTwoParticles(i, j, l2Norm)};
-        i->updateForce(force);
-        j->updateForce(-force);
-      } else if (i->isDiagonalNeighbour(j) || j->isDiagonalNeighbour(i)) {
-        Vector<dim> force{HarmonicPotential::calculateForceBetweenTwoDiagonalParticles(i, j, l2Norm)};
-        i->updateForce(force);
-        j->updateForce(-force);
-      }
+  void inline calculateMoleculeForce(Particle<dim> *i, Particle<dim> *j, double &l2NormSquare) const {
+    // TODO Check how expensive
+    double l2Norm = std::sqrt(l2NormSquare);
+    if (i->isNeighbour(j) || j->isNeighbour(i)) {
+      Vector<dim> force{HarmonicPotential::calculateForceBetweenTwoParticles(i, j, l2Norm)};
+      i->updateForce(force);
+      j->updateForce(-force);
+    } else if (i->isDiagonalNeighbour(j) || j->isDiagonalNeighbour(i)) {
+      Vector<dim> force{HarmonicPotential::calculateForceBetweenTwoDiagonalParticles(i, j, l2Norm)};
+      i->updateForce(force);
+      j->updateForce(-force);
     }
   }
+
   void inline calcBetweenNeighboursAndCell(std::vector<Cell<dim> *> &neighbours,
                                            std::vector<Particle<dim> *> &cellParticles,
                                            LinkedCellContainer<dim> &cellContainer) const {
@@ -60,12 +62,13 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
           if (l2Norm > cellContainer.getCutoffRadiusSquare())
             continue;
 
-          //TODO Pass ParticlePointer to function?
-          calculateMoleculeForce((*i), (*j), l2Norm);
+          if((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE && (*i)->getType() == (*j)->getType()) {
+            calculateMoleculeForce((*i), (*j), l2Norm);
 
-          //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
-          if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
-            continue;
+            //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
+            if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
+              continue;
+          }
 
           SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
           Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
@@ -84,12 +87,13 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
 
         double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
 
-        //TODO Pass ParticlePointer to function?
-        calculateMoleculeForce((*i), (*j), l2Norm);
+        if((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE && (*i)->getType() == (*j)->getType()) {
+          calculateMoleculeForce((*i), (*j), l2Norm);
 
-        //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
-        if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
-          continue;
+          //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
+          if (l2Norm > (sixthSqrtOfTwo * (*i)->getZeroCrossing() * sixthSqrtOfTwo * (*i)->getZeroCrossing()))
+            continue;
+        }
 
         Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
 
@@ -122,12 +126,13 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
             if (l2Norm > cellContainer.getCutoffRadiusSquare())
               continue;
 
-            //TODO Pass ParticlePointer to function?
-            calculateMoleculeForce((*i), (*j), l2Norm);
+            if((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE && (*i)->getType() == (*j)->getType()) {
+              calculateMoleculeForce((*i), (*j), l2Norm);
 
-            //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
-            if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
-              continue;
+              //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
+              if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
+                continue;
+            }
 
             SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
             Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
@@ -172,7 +177,8 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
   */
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> & gravitation, double current_time) const override {
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &gravitation,
+                         double current_time) const override {
     // Calculate new x
     Physics<LennardJones, dim>::calculateX(particleContainer, deltaT);
 

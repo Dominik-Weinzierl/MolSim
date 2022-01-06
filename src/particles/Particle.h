@@ -527,7 +527,7 @@ class Particle {
   */
   void addNeighbour(Particle<dim> *p) {
     if (particleType == MOLECULE) {
-      neighbours.template emplace_back(p);
+      neighbours.emplace_back(p);
     }
   }
 
@@ -537,7 +537,7 @@ class Particle {
   */
   void addDiagonalNeighbour(Particle<dim> *p) {
     if (particleType == MOLECULE) {
-      diagonalNeighbours.template emplace_back(p);
+      diagonalNeighbours.emplace_back(p);
     }
   }
 

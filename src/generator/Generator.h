@@ -14,21 +14,20 @@
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of<GeneratorArguments<dim>, T>::value,
                                                          bool>::type = true>
 class Generator {
- public:
-
   //----------------------------------------Methods----------------------------------------
 
   /**
-   * Generates shapes and fills the ParticleContainer accordingly.
-   * @param g used GeneratorArgument
-   * @param container provided particle container
+   *
+   * @return
    */
-  static void generate(const T &g, ParticleContainer<dim> &container);
-  static void generateRectangular(const RectangularArgument<dim> &t, ParticleContainer<dim> &container);
-  // If we provide a default implementation, the default implementation is used in all cases. Therefore we have no default implementation here.
+  static inline int getPositionInContainer(std::array<int, dim> index, int zero, const RectangularArgument<dim> &c);
 
- private:
-
+  /**
+   *
+   * @param p
+   * @param forceContainers
+   * @param index
+   */
   static void inline linkForce(Particle<dim> &p, const std::vector<ForceContainer<dim>> &forceContainers,
                                std::array<int, dim> index) {
     for (auto &forceContainer: forceContainers) {
@@ -52,4 +51,22 @@ class Generator {
     auto max = maxwellBoltzmannDistributedVelocity<dim>(meanValue);
     p.setV(t + max);
   }
+
+  /**
+   *
+   * @param t
+   * @param container
+   */
+  static void generateRectangular(const RectangularArgument<dim> &t, ParticleContainer<dim> &container);
+
+ public:
+
+  //----------------------------------------Methods----------------------------------------
+
+  /**
+   * Generates shapes and fills the ParticleContainer accordingly.
+   * @param g used GeneratorArgument
+   * @param container provided particle container
+   */
+  static void generate(const T &g, ParticleContainer<dim> &container);
 };
