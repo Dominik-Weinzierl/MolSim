@@ -28,7 +28,8 @@ class BasicArgument : public Argument<dim> {
   BasicArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
                 std::string pWriter, int pIteration, std::string pPhysics, std::string pStrategy) : Argument<dim>(
       std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
-      pStrategy, std::make_unique<DummyThermostat<dim>>(), std::make_unique<DummyProfileWriter<dim>>(), 0.0) {
+      pStrategy, std::make_unique<DummyThermostat<dim>>(), std::make_unique<DummyProfileWriter<dim>>(), Vector<dim>{},
+      std::vector<Force<dim>>{}) {
     SPDLOG_TRACE("BasicArgument created!");
   }
 

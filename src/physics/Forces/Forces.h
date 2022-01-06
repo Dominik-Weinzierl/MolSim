@@ -15,10 +15,12 @@ class Forces {
   /**
    * Additional gravitation which is applied in each iteration.
    * @param p Particle
-   * @param gravitation additional force
+   * @param gravitation Vector with additional force
    * @return force scaled with the mass
    */
-  static inline double additionalGravitation(Particle<dim> &p, double &gravitation) {
+  static inline Vector<dim> additionalGravitation(Particle<dim> &p, Vector<dim> &gravitation) {
+
+    //gravity along the axis is set, other axes should be zero (0*M = 0)
     return p.getM() * gravitation;
   }
 };

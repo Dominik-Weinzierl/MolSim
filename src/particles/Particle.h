@@ -5,6 +5,9 @@
 #include "physics/Vector/Vector.h"
 #include "logger/Logger.h"
 
+enum ParticleType{
+  MOLECULE, PARTICLE
+};
 /**
  * Particle is a class that wraps up the properties of a particle, getters, setters and standard methods.
  * @tparam dim dimension of our simulation.
@@ -58,6 +61,26 @@ class Particle {
     */
   bool fixed;
 
+  /**
+   * Vector of moleculeArguments.
+   */
+  std::vector<double> membraneArguments;
+
+  /**
+   * Vector of neighbours (only for MOLECULE).
+   */
+  std::vector<Particle<dim> *> neighbours;
+
+  /**
+   * Vector of diagonalNeighbours (only for MOLECULE).
+   */
+  std::vector<Particle<dim> *> diagonalNeighbours;
+
+  /**
+   * ParticleTypes (either PARTICLE or MOLECULE, default PARTICLE)
+   */
+  ParticleType particleType = PARTICLE;
+
  public:
 
   //----------------------------------------Constructor & Destructor----------------------------------------
@@ -66,7 +89,7 @@ class Particle {
    * Default constructor.
    * @param type Default value 0.
    */
-  explicit Particle(int type_arg) : x{}, v{}, f{}, old_f{}, m{}, type{type_arg}, fixed{false} {
+  explicit Particle(int type_arg) : x{}, v{}, f{}, old_f{}, m{}, type{type_arg} {
     SPDLOG_TRACE("Particle generated");
   }
 
@@ -84,7 +107,7 @@ class Particle {
    * @param pType type of the Particle
    */
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, int pType = 0) : x{pX}, v{pV}, f{}, old_f{}, m{pM},
-                                                                                     type{pType}, fixed{false} {
+                                                                                     type{pType} {
     SPDLOG_TRACE("Particle generated");
   }
 
@@ -133,8 +156,7 @@ class Particle {
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, const Vector<dim> &pF, const Vector<dim> &pOldF, double pM,
            double pZeroCrossing, double pPotentialWellDepth, int pType) : x{pX}, v{pV}, f{pF}, old_f{pOldF}, m{pM},
                                                                           type{pType}, zeroCrossing{pZeroCrossing},
-                                                                          potentialWellDepth{pPotentialWellDepth},
-                                                                          fixed{false} {
+                                                                          potentialWellDepth{pPotentialWellDepth} {
     SPDLOG_TRACE("Particle generated");
   }
 
@@ -302,6 +324,31 @@ class Particle {
   }
 
   /**
+   * Getter for neighbours.
+   * @return neighbours
+   */
+  [[nodiscard]] const std::vector<Particle<dim> *> &getNeighbours() const {
+    return neighbours;
+  }
+
+  /**
+  * Getter for membraneArguments.
+  * @return membraneArguments
+  */
+  [[nodiscard]] std::vector<double> getMembraneArguments() const {
+    if(particleType == MOLECULE) return membraneArguments;
+    else return {};
+  }
+
+  /**
+   * Getter for particleType.
+   * @return particleType
+   */
+  [[nodiscard]] ParticleType getParticleType() const {
+    return particleType;
+  }
+
+  /**
    * Setter for the position of the Particle.
    * @param position new position
    */
@@ -444,5 +491,53 @@ class Particle {
    */
   inline void setType(int pType) {
     type = pType;
+  }
+
+  /**
+   * Sets particleType to MOLECULE.
+   */
+  void setParticleTypeToMolecule() {
+    particleType = MOLECULE;
+  }
+
+  /**
+  * Set stiffness and averageBondLength if particleType is MOLECULE.
+  * @param stiffness
+  * @param averageBondLength
+  */
+  void setMembraneArguments(double stiffness, double averageBondLength){
+    if(particleType == MOLECULE){
+      membraneArguments.clear();
+      membraneArguments.template emplace_back(stiffness);
+      membraneArguments.template emplace_back(averageBondLength);
+    }
+  }
+
+  /**
+  * Adds a molecule-pointer to neighbours.
+  * @param p molecule-pointer
+  */
+  void addNeighbour(Particle<dim> *p){
+    if(particleType == MOLECULE){
+      neighbours.template emplace_back(p);
+    }
+  }
+
+  /**
+  * Adds a molecule-pointer to diagonalNeighbours.
+  * @param p molecule-pointer
+  */
+  void addDiagonalNeighbour(Particle<dim> *p){
+    if(particleType == MOLECULE){
+      diagonalNeighbours.template emplace_back(p);
+    }
+  }
+
+  bool isNeighbour(Particle<dim> *p){
+    return std::find(neighbours.begin(), neighbours.end(), p) != neighbours.end();
+  }
+
+  bool isDiagonalNeighbour(Particle<dim> *p){
+    return std::find(diagonalNeighbours.begin(), diagonalNeighbours.end(), p) != diagonalNeighbours.end();
   }
 };

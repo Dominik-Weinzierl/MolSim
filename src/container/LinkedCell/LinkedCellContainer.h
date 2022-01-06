@@ -67,7 +67,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   const Vector<dim> domain;
 
   /**
-   * Boundary type of each side (4/6)
+   * Boundary type of each side (4/6).
    */
   std::vector<BoundaryType> boundaries;
 

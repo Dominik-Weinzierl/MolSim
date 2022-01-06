@@ -30,8 +30,8 @@ TEST(Gravitation_3D_DirectSumContainer, calculateForceBetweenSunAndEarth) { // N
   planet_1.setF({0.0, -8.0, 0.0});
 
   // Perform calculation
-  double force = 0.0;
-  g.calculateF(container, force);
+  Vector<dim> force{0.0, 0.0, 0.0};
+  g.calculateF(container, force, {});
 
   EXPECT_EQ(container[0], planet_0);
   EXPECT_EQ(container[1], planet_1);
@@ -50,10 +50,10 @@ TEST(Gravitation_3D_DirectSumContainer, calculateNextStepWithSinglePlanetWithout
 
   Particle sun = container[0];
 
-  double force = 0;
+  Vector<dim> force{0.0, 0.0, 0.0};
 
   // Perform calculation
-  g.calculateNextStep(container, 1.0, force);
+  g.calculateNextStep(container, 1.0, force, {});
 
   EXPECT_EQ(container[0], sun);
 }
@@ -78,8 +78,8 @@ TEST(Gravitation_2D_DirectSumContainer, calculateForceBetweenSunAndEarth) { // N
   planet_1.setF({0.0, -8.0});
 
   // Perform calculation
-  double force = 0.0;
-  g.calculateF(container, force);
+  Vector<dim> force{0.0, 0.0};
+  g.calculateF(container, force, {});
 
   EXPECT_EQ(container[0], planet_0);
   EXPECT_EQ(container[1], planet_1);
@@ -98,10 +98,10 @@ TEST(Gravitation_2D_DirectSumContainer, calculateNextStepWithSinglePlanetWithout
 
   Particle sun = container[0];
 
-  double force = 0;
+  Vector<dim> force{0.0, 0.0};
 
   // Perform calculation
-  g.calculateNextStep(container, 1.0, force);
+  g.calculateNextStep(container, 1.0, force, {});
 
   EXPECT_EQ(container[0], sun);
 }

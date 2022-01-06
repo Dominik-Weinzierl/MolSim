@@ -1,10 +1,13 @@
 #include "generator/GeneratorArguments/SphereArgument.h"
-#include "generator/GeneratorArguments/CuboidArgument.h"
-#include "Generator.h"
+#include "generator/GeneratorArguments/variants/CuboidArgument.h"
+#include "generator/GeneratorArguments/variants/MembraneArgument.h"
+#include "generator/Generator.h"
 
+// TODO FIX and REFACTORING -> Avoid hard coding of values!
 template<>
-void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, ParticleContainer<3> &container) {
-  SPDLOG_TRACE("Cuboid generated!");
+void Generator<RectangularArgument<3>, 3>::generateRectangular(const RectangularArgument<3> &c,
+                                                               ParticleContainer<3> &container) {
+
   if (c.getPacked()) {
     for (auto x = 0; x < c.getDimensions()[0]; ++x) {
       for (auto y = 0; y < c.getDimensions()[1]; ++y) {
@@ -70,11 +73,16 @@ void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, Parti
       }
     }
   }
+
+  // ToDo link membrane
+  if (auto *m = dynamic_cast<const MembraneArgument<3> *>(&c)) {
+    (void) m;
+  }
 }
 
 template<>
-void Generator<CuboidArgument<2>, 2>::generate(const CuboidArgument<2> &c, ParticleContainer<2> &container) {
-  SPDLOG_TRACE("Cuboid generated!");
+void Generator<RectangularArgument<2>, 2>::generateRectangular(const RectangularArgument<2> &c,
+                                                               ParticleContainer<2> &container) {
   if (c.getPacked()) {
     for (auto x = 0; x < c.getDimensions()[0]; ++x) {
       for (auto y = 0; y < c.getDimensions()[1]; ++y) {
@@ -115,6 +123,23 @@ void Generator<CuboidArgument<2>, 2>::generate(const CuboidArgument<2> &c, Parti
       }
     }
   }
+
+  // ToDo link membrane
+  if (auto *m = dynamic_cast<const MembraneArgument<2> *>(&c)) {
+    (void) m;
+  }
+}
+
+template<>
+void Generator<RectangularArgument<3>, 3>::generate(const RectangularArgument<3> &c, ParticleContainer<3> &container) {
+  SPDLOG_TRACE("Rectangular generated!");
+  generateRectangular(c, container);
+}
+
+template<>
+void Generator<RectangularArgument<2>, 2>::generate(const RectangularArgument<2> &c, ParticleContainer<2> &container) {
+  SPDLOG_TRACE("Rectangular generated!");
+  generateRectangular(c, container);
 }
 
 template<>

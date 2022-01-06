@@ -14,17 +14,17 @@
  * Checks the removal of a Particle that moves out of the domain, 2D
  */
 TEST(Halo_2D, checkOutflow) {
-  LinkedCell<LennardJones, 2> linkedCell{};
-  LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 1.0};
+  const size_t dim = 2;
+  LinkedCell<LennardJones, dim> linkedCell{};
+  LinkedCellContainer<dim> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 1.0};
   ASSERT_TRUE(l.size() == 0);
 
   l.addParticle({{0.1, 0.1}, {-1.0, -1.0}, 1.0});
-
   l.init();
 
-  double force = 0;
+  Vector<dim> force{0.0, 0.0};
 
-  linkedCell.calculateNextStep(l, 0.5, force);
+  linkedCell.calculateNextStep(l, 0.5, force, {});
   ASSERT_TRUE(l.size() == 0);
 }
 
@@ -32,16 +32,16 @@ TEST(Halo_2D, checkOutflow) {
  * Checks the removal of a Particle that moves out of the domain, 2D
  */
 TEST(Halo_3D, checkOutflow) {
-  LinkedCell<LennardJones, 3> linkedCell{};
-  LinkedCellContainer<3> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 1.0};
+  const size_t dim = 3;
+  LinkedCell<LennardJones, dim> linkedCell{};
+  LinkedCellContainer<dim> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 1.0};
   ASSERT_TRUE(l.size() == 0);
 
   l.addParticle({{0.1, 0.1, 0.1}, {-1.0, -1.0, -1.0}, 1.0});
-
   l.init();
 
-  double force = 0;
+  Vector<dim> force{0.0, 0.0, 0.0};
 
-  linkedCell.calculateNextStep(l, 0.5, force);
+  linkedCell.calculateNextStep(l, 0.5, force, {});
   ASSERT_TRUE(l.size() == 0);
 }

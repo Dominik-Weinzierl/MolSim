@@ -23,6 +23,8 @@ TEST(XMLReader_3D, test_case_1) { // NOLINT(cert-err58-cpp)
       cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
   std::vector<SphereArgument<dim>>
       sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
+  //std::vector<MembraneArgument<dim>>
+     // membraneArguments{MembraneArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
   std::vector<std::string> files{};
   double endTime = 5;
   double deltaT = 0.0002;
@@ -32,8 +34,8 @@ TEST(XMLReader_3D, test_case_1) { // NOLINT(cert-err58-cpp)
   std::string writer{"vtk"};
   std::string algorithm{"DirectSum"};
   XMLArgument<dim> expected
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::make_unique<DummyThermostat<dim>>(), 0.0};
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, {}, algorithm,
+       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::make_unique<DummyThermostat<dim>>(), {0.0, 0.0, 0.0}};
 
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);
@@ -63,8 +65,8 @@ TEST(XMLReader_2D, test_case_1) { // NOLINT(cert-err58-cpp)
   std::string writer{"vtk"};
   std::string algorithm{"DirectSum"};
   XMLArgument<dim> expected
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::make_unique<DummyThermostat<dim>>(), 0.0};
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, {}, algorithm,
+       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::make_unique<DummyThermostat<dim>>(), {0.0, 0.0}};
 
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);
@@ -260,8 +262,9 @@ TEST(XMLReader_3D, test_case_5) { // NOLINT(cert-err58-cpp)
 
   // Create argument
   std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+  Vector<dim> additionalGravitation{9.81, 0.0, 0.0};
 
-  EXPECT_EQ((*arg).getAdditionalGravitation(), 9.81);
+  EXPECT_EQ((*arg).getAdditionalGravitation(), additionalGravitation);
 }
 
 /**
@@ -275,8 +278,9 @@ TEST(XMLReader_2D, test_case_5) { // NOLINT(cert-err58-cpp)
 
   // Create argument
   std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+  Vector<dim> additionalGravitation{9.81, 0.0};
 
-  EXPECT_EQ((*arg).getAdditionalGravitation(), 9.81);
+  EXPECT_EQ((*arg).getAdditionalGravitation(), additionalGravitation);
 }
 
 /**

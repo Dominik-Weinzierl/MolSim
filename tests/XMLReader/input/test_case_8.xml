@@ -18,4 +18,5 @@
         </Cuboid>
     </Shapes>
     <Thermostat initialT="40" targetT="69" numberT="1000"/>
+    <AdditionalGravitation x="-12.44" y="0.0" z="0.0"/>
 </Simulation>
