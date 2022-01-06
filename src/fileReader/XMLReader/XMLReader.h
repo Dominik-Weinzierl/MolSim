@@ -181,7 +181,7 @@ class XMLReader {
     for (auto &j: force.Index()) {
       indices.push_back(wrapVector_i(j));
     }
-    return ForceContainer<dim>{indices, wrapVector_t(force.Force()), static_cast<unsigned int>(force.start()),  static_cast<unsigned int>(force.end())};
+    return ForceContainer<dim>{indices, wrapVector_t(force.Strength()), static_cast<unsigned int>(force.start()),  static_cast<unsigned int>(force.end())};
   }
 
   [[nodiscard]] std::optional<std::vector<BoundaryType>> loadBoundaries() const;

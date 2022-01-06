@@ -92,7 +92,7 @@ class Physics {
       p.setF(p.getM() * gravitation);
 
       for (const Force<dim> &force: p.getAdditionalForces()) {
-        if (force.getStartTime() >= current_time && force.getEndTime() <= current_time) {
+        if (force.getStartTime() <= current_time && force.getEndTime() > current_time) {
           p.updateForce(force.getForce());
         }
       }

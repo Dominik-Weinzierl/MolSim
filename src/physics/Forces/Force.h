@@ -33,11 +33,11 @@ class Force {
   /**
    * Prints the Force.
    */
-  [[nodiscard]] virtual std::string toString() const {
+  [[nodiscard]] std::string toString() const {
     std::stringstream argument;
-    argument << "\t\t\t\t\t Force: " << ArrayUtils::to_string(force) << std::endl;
-    argument << "\t\t\t\t\t Start time: " << startTime << std::endl;
-    argument << "\t\t\t\t\t End time: " << endTime << std::endl;
+    argument << "\t\t\t\t\t\t Force: " << ArrayUtils::to_string(force) << std::endl;
+    argument << "\t\t\t\t\t\t Start time: " << startTime << std::endl;
+    argument << "\t\t\t\t\t\t End time: " << endTime << std::endl;
     return argument.str();
   };
 

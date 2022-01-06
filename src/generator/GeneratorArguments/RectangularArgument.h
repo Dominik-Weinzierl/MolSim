@@ -64,7 +64,7 @@ class RectangularArgument : public GeneratorArguments<dim> {
     std::stringstream argument;
     argument << "\t\t\t\t Start coordinates: " << ArrayUtils::to_string(startingCoordinates) << std::endl;
     argument << "\t\t\t\t Dimension: " << ArrayUtils::to_string(dimensions) << std::endl;
-    argument << GeneratorArguments<dim>::toString() << std::endl;
+    argument << GeneratorArguments<dim>::toString();
     return argument.str();
   };
 

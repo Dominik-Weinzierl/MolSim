@@ -73,7 +73,7 @@
     <!-- Force vector - all attributes are required -->
     <xsd:complexType name="force_t">
         <xsd:sequence>
-            <xsd:element name="Force" type="vector_t"/>
+            <xsd:element name="Strength" type="vector_t"/>
             <xsd:element name="Index" type="vector_i" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
         <xsd:attribute name="start" type="xsd:nonNegativeInteger" use="required"/>
@@ -165,7 +165,6 @@
         <xsd:attribute name="physics" type="xsd:string" use="required"/>
         <!-- writer: vtk | xyz -->
         <xsd:attribute name="writer" type="xsd:string" use="required"/>
-        <xsd:attribute name="additionalGravitation" type="xsd:double"/>
     </xsd:complexType>
     <xsd:element name="Simulation" type="simulation_t"/>
 </xsd:schema>

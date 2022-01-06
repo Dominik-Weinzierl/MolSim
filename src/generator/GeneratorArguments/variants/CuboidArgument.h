@@ -49,7 +49,7 @@ class CuboidArgument : public RectangularArgument<dim> {
   [[nodiscard]] std::string toString() const {
     std::stringstream argument;
     argument << "\t\t\tCuboid:" << std::endl;
-    argument << RectangularArgument<dim>::toString() << std::endl;
+    argument << RectangularArgument<dim>::toString();
     return argument.str();
   };
 };

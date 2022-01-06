@@ -54,7 +54,7 @@ struct GeneratorArguments {
   /**
    *
    */
-   std::vector<ForceContainer<dim>> forces;
+  std::vector<ForceContainer<dim>> forces;
 
  public:
 
@@ -74,9 +74,12 @@ struct GeneratorArguments {
    * @param pForces additional forces applied on the particles.
    */
   GeneratorArguments(Vector<dim> pInitialVelocity, double pDistance, double pMass, double pMeanValue, bool pPacked,
-                     double pZeroCrossing, double pDepthOfPotentialWell, int pType, bool pFixed, std::vector<ForceContainer<dim>> pForces) : initialVelocity{
-      pInitialVelocity}, distance{pDistance}, mass{pMass}, meanValue{pMeanValue}, packed{pPacked}, zeroCrossing{
-      pZeroCrossing}, depthOfPotentialWell{pDepthOfPotentialWell}, type{pType}, fixed{pFixed}, forces{pForces} {
+                     double pZeroCrossing, double pDepthOfPotentialWell, int pType, bool pFixed,
+                     std::vector<ForceContainer<dim>> pForces) : initialVelocity{pInitialVelocity}, distance{pDistance},
+                                                                 mass{pMass}, meanValue{pMeanValue}, packed{pPacked},
+                                                                 zeroCrossing{pZeroCrossing},
+                                                                 depthOfPotentialWell{pDepthOfPotentialWell},
+                                                                 type{pType}, fixed{pFixed}, forces{pForces} {
 
   }
 
@@ -98,10 +101,14 @@ struct GeneratorArguments {
     argument << "\t\t\t\t Depth of potential well: " << depthOfPotentialWell << std::endl;
     argument << "\t\t\t\t Type: " << type << std::endl;
     argument << "\t\t\t\t Fixed: " << fixed << std::endl;
-    //TODO Add force container
+    if (!forces.empty()) {
+      argument << "\t\t\t\t Additional Forces: " << std::endl;
+      for (auto &f: forces) {
+        argument << f << std::endl;
+      }
+    }
     return argument.str();
   };
-
 
   /**
    * Compare operator for GeneratorArgument(s);

@@ -63,7 +63,7 @@ class MembraneArgument : public RectangularArgument<dim> {
     argument << "\t\t\tMembrane:" << std::endl;
     argument << "\t\t\t\t Stiffness: " << getStiffness() << std::endl;
     argument << "\t\t\t\t AverageBondLength: " << getAverageBondLength() << std::endl;
-    argument << RectangularArgument<dim>::toString() << std::endl;
+    argument << RectangularArgument<dim>::toString();
     return argument.str();
   };
 

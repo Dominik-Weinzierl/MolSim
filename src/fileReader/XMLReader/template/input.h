@@ -3565,9 +3565,9 @@ class force_t: public ::xml_schema::type
 {
   public:
   /**
-   * @name Force
+   * @name Strength
    *
-   * @brief Accessor and modifier functions for the %Force
+   * @brief Accessor and modifier functions for the %Strength
    * required element.
    */
   //@{
@@ -3575,28 +3575,28 @@ class force_t: public ::xml_schema::type
   /**
    * @brief Element type.
    */
-  typedef ::vector_t Force_type;
+  typedef ::vector_t Strength_type;
 
   /**
    * @brief Element traits type.
    */
-  typedef ::xsd::cxx::tree::traits< Force_type, char > Force_traits;
+  typedef ::xsd::cxx::tree::traits< Strength_type, char > Strength_traits;
 
   /**
    * @brief Return a read-only (constant) reference to the element.
    *
    * @return A constant reference to the element.
    */
-  const Force_type&
-  Force () const;
+  const Strength_type&
+  Strength () const;
 
   /**
    * @brief Return a read-write reference to the element.
    *
    * @return A reference to the element.
    */
-  Force_type&
-  Force ();
+  Strength_type&
+  Strength ();
 
   /**
    * @brief Set the element value.
@@ -3607,7 +3607,7 @@ class force_t: public ::xml_schema::type
    * the new value of the element.
    */
   void
-  Force (const Force_type& x);
+  Strength (const Strength_type& x);
 
   /**
    * @brief Set the element value without copying.
@@ -3618,7 +3618,7 @@ class force_t: public ::xml_schema::type
    * instead of making a copy.
    */
   void
-  Force (::std::unique_ptr< Force_type > p);
+  Strength (::std::unique_ptr< Strength_type > p);
 
   //@}
 
@@ -3789,7 +3789,7 @@ class force_t: public ::xml_schema::type
    * @brief Create an instance from the ultimate base and
    * initializers for required elements and attributes.
    */
-  force_t (const Force_type&,
+  force_t (const Strength_type&,
            const start_type&,
            const end_type&);
 
@@ -3801,7 +3801,7 @@ class force_t: public ::xml_schema::type
    * This constructor will try to use the passed values directly
    * instead of making copies.
    */
-  force_t (::std::unique_ptr< Force_type >,
+  force_t (::std::unique_ptr< Strength_type >,
            const start_type&,
            const end_type&);
 
@@ -3875,7 +3875,7 @@ class force_t: public ::xml_schema::type
          ::xml_schema::flags);
 
   protected:
-  ::xsd::cxx::tree::one< Force_type > Force_;
+  ::xsd::cxx::tree::one< Strength_type > Strength_;
   Index_sequence Index_;
   ::xsd::cxx::tree::one< start_type > start_;
   ::xsd::cxx::tree::one< end_type > end_;
@@ -7139,71 +7139,6 @@ class simulation_t: public ::xml_schema::type
   //@}
 
   /**
-   * @name additionalGravitation
-   *
-   * @brief Accessor and modifier functions for the %additionalGravitation
-   * optional attribute.
-   */
-  //@{
-
-  /**
-   * @brief Attribute type.
-   */
-  typedef ::xml_schema::double_ additionalGravitation_type;
-
-  /**
-   * @brief Attribute optional container type.
-   */
-  typedef ::xsd::cxx::tree::optional< additionalGravitation_type > additionalGravitation_optional;
-
-  /**
-   * @brief Attribute traits type.
-   */
-  typedef ::xsd::cxx::tree::traits< additionalGravitation_type, char, ::xsd::cxx::tree::schema_type::double_ > additionalGravitation_traits;
-
-  /**
-   * @brief Return a read-only (constant) reference to the attribute
-   * container.
-   *
-   * @return A constant reference to the optional container.
-   */
-  const additionalGravitation_optional&
-  additionalGravitation () const;
-
-  /**
-   * @brief Return a read-write reference to the attribute container.
-   *
-   * @return A reference to the optional container.
-   */
-  additionalGravitation_optional&
-  additionalGravitation ();
-
-  /**
-   * @brief Set the attribute value.
-   *
-   * @param x A new value to set.
-   *
-   * This function makes a copy of its argument and sets it as
-   * the new value of the attribute.
-   */
-  void
-  additionalGravitation (const additionalGravitation_type& x);
-
-  /**
-   * @brief Set the attribute value.
-   *
-   * @param x An optional container with the new value to set.
-   *
-   * If the value is present in @a x then this function makes a copy 
-   * of this value and sets it as the new value of the attribute.
-   * Otherwise the attribute container is set the 'not present' state.
-   */
-  void
-  additionalGravitation (const additionalGravitation_optional& x);
-
-  //@}
-
-  /**
    * @name Constructors
    */
   //@{
@@ -7301,7 +7236,6 @@ class simulation_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< iteration_type > iteration_;
   ::xsd::cxx::tree::one< physics_type > physics_;
   ::xsd::cxx::tree::one< writer_type > writer_;
-  additionalGravitation_optional additionalGravitation_;
 
   //@endcond
 };

@@ -32,7 +32,7 @@ class Generator {
   static void inline linkForce(Particle<dim> &p, const std::vector<ForceContainer<dim>> &forceContainers,
                                std::array<int, dim> index) {
     for (auto &forceContainer: forceContainers) {
-      if (forceContainer.getIndices().empty()) {
+      if (!forceContainer.getIndices().empty()) {
         if (std::find(forceContainer.getIndices().begin(), forceContainer.getIndices().end(), index)
             == forceContainer.getIndices().end()) {
           continue;

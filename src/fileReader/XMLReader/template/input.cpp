@@ -939,28 +939,28 @@ z (const z_type& x)
 // force_t
 // 
 
-const force_t::Force_type& force_t::
-Force () const
+const force_t::Strength_type& force_t::
+Strength () const
 {
-  return this->Force_.get ();
+  return this->Strength_.get ();
 }
 
-force_t::Force_type& force_t::
-Force ()
+force_t::Strength_type& force_t::
+Strength ()
 {
-  return this->Force_.get ();
-}
-
-void force_t::
-Force (const Force_type& x)
-{
-  this->Force_.set (x);
+  return this->Strength_.get ();
 }
 
 void force_t::
-Force (::std::unique_ptr< Force_type > x)
+Strength (const Strength_type& x)
 {
-  this->Force_.set (std::move (x));
+  this->Strength_.set (x);
+}
+
+void force_t::
+Strength (::std::unique_ptr< Strength_type > x)
+{
+  this->Strength_.set (std::move (x));
 }
 
 const force_t::Index_sequence& force_t::
@@ -1981,30 +1981,6 @@ void simulation_t::
 writer (::std::unique_ptr< writer_type > x)
 {
   this->writer_.set (std::move (x));
-}
-
-const simulation_t::additionalGravitation_optional& simulation_t::
-additionalGravitation () const
-{
-  return this->additionalGravitation_;
-}
-
-simulation_t::additionalGravitation_optional& simulation_t::
-additionalGravitation ()
-{
-  return this->additionalGravitation_;
-}
-
-void simulation_t::
-additionalGravitation (const additionalGravitation_type& x)
-{
-  this->additionalGravitation_.set (x);
-}
-
-void simulation_t::
-additionalGravitation (const additionalGravitation_optional& x)
-{
-  this->additionalGravitation_ = x;
 }
 
 
@@ -3242,11 +3218,11 @@ vector_i::
 //
 
 force_t::
-force_t (const Force_type& Force,
+force_t (const Strength_type& Strength,
          const start_type& start,
          const end_type& end)
 : ::xml_schema::type (),
-  Force_ (Force, this),
+  Strength_ (Strength, this),
   Index_ (this),
   start_ (start, this),
   end_ (end, this)
@@ -3254,11 +3230,11 @@ force_t (const Force_type& Force,
 }
 
 force_t::
-force_t (::std::unique_ptr< Force_type > Force,
+force_t (::std::unique_ptr< Strength_type > Strength,
          const start_type& start,
          const end_type& end)
 : ::xml_schema::type (),
-  Force_ (std::move (Force), this),
+  Strength_ (std::move (Strength), this),
   Index_ (this),
   start_ (start, this),
   end_ (end, this)
@@ -3270,7 +3246,7 @@ force_t (const force_t& x,
          ::xml_schema::flags f,
          ::xml_schema::container* c)
 : ::xml_schema::type (x, f, c),
-  Force_ (x.Force_, f, this),
+  Strength_ (x.Strength_, f, this),
   Index_ (x.Index_, f, this),
   start_ (x.start_, f, this),
   end_ (x.end_, f, this)
@@ -3282,7 +3258,7 @@ force_t (const ::xercesc::DOMElement& e,
          ::xml_schema::flags f,
          ::xml_schema::container* c)
 : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-  Force_ (this),
+  Strength_ (this),
   Index_ (this),
   start_ (this),
   end_ (this)
@@ -3304,16 +3280,16 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
     const ::xsd::cxx::xml::qualified_name< char > n (
       ::xsd::cxx::xml::dom::name< char > (i));
 
-    // Force
+    // Strength
     //
-    if (n.name () == "Force" && n.namespace_ ().empty ())
+    if (n.name () == "Strength" && n.namespace_ ().empty ())
     {
-      ::std::unique_ptr< Force_type > r (
-        Force_traits::create (i, f, this));
+      ::std::unique_ptr< Strength_type > r (
+        Strength_traits::create (i, f, this));
 
-      if (!Force_.present ())
+      if (!Strength_.present ())
       {
-        this->Force_.set (::std::move (r));
+        this->Strength_.set (::std::move (r));
         continue;
       }
     }
@@ -3332,10 +3308,10 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
     break;
   }
 
-  if (!Force_.present ())
+  if (!Strength_.present ())
   {
     throw ::xsd::cxx::tree::expected_element< char > (
-      "Force",
+      "Strength",
       "");
   }
 
@@ -3386,7 +3362,7 @@ operator= (const force_t& x)
   if (this != &x)
   {
     static_cast< ::xml_schema::type& > (*this) = x;
-    this->Force_ = x.Force_;
+    this->Strength_ = x.Strength_;
     this->Index_ = x.Index_;
     this->start_ = x.start_;
     this->end_ = x.end_;
@@ -4367,8 +4343,7 @@ simulation_t (const endTime_type& endTime,
   output_ (output, this),
   iteration_ (iteration, this),
   physics_ (physics, this),
-  writer_ (writer, this),
-  additionalGravitation_ (this)
+  writer_ (writer, this)
 {
 }
 
@@ -4388,8 +4363,7 @@ simulation_t (const simulation_t& x,
   output_ (x.output_, f, this),
   iteration_ (x.iteration_, f, this),
   physics_ (x.physics_, f, this),
-  writer_ (x.writer_, f, this),
-  additionalGravitation_ (x.additionalGravitation_, f, this)
+  writer_ (x.writer_, f, this)
 {
 }
 
@@ -4409,8 +4383,7 @@ simulation_t (const ::xercesc::DOMElement& e,
   output_ (this),
   iteration_ (this),
   physics_ (this),
-  writer_ (this),
-  additionalGravitation_ (this)
+  writer_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
   {
@@ -4551,12 +4524,6 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       this->writer_.set (writer_traits::create (i, f, this));
       continue;
     }
-
-    if (n.name () == "additionalGravitation" && n.namespace_ ().empty ())
-    {
-      this->additionalGravitation_.set (additionalGravitation_traits::create (i, f, this));
-      continue;
-    }
   }
 
   if (!endTime_.present ())
@@ -4627,7 +4594,6 @@ operator= (const simulation_t& x)
     this->iteration_ = x.iteration_;
     this->physics_ = x.physics_;
     this->writer_ = x.writer_;
-    this->additionalGravitation_ = x.additionalGravitation_;
   }
 
   return *this;
@@ -5446,15 +5412,15 @@ operator<< (::xercesc::DOMElement& e, const force_t& i)
 {
   e << static_cast< const ::xml_schema::type& > (i);
 
-  // Force
+  // Strength
   //
   {
     ::xercesc::DOMElement& s (
       ::xsd::cxx::xml::dom::create_element (
-        "Force",
+        "Strength",
         e));
 
-    s << i.Force ();
+    s << i.Strength ();
   }
 
   // Index
@@ -6017,18 +5983,6 @@ operator<< (::xercesc::DOMElement& e, const simulation_t& i)
         e));
 
     a << i.writer ();
-  }
-
-  // additionalGravitation
-  //
-  if (i.additionalGravitation ())
-  {
-    ::xercesc::DOMAttr& a (
-      ::xsd::cxx::xml::dom::create_attribute (
-        "additionalGravitation",
-        e));
-
-    a << ::xml_schema::as_double(*i.additionalGravitation ());
   }
 }
 

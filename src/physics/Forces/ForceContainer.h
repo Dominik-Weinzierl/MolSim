@@ -40,12 +40,12 @@ class ForceContainer {
   /**
    * Prints the ForceContainer.
    */
-  [[nodiscard]] virtual std::string toString() const {
+  [[nodiscard]] std::string toString() const {
     std::stringstream argument;
-    argument << "\t\t\t\t Additional Force: " << std::endl;
-    argument << "\t\t\t\t\t Indices: " << std::endl;
+    argument << "\t\t\t\t\t Additional Force: " << std::endl;
+    argument << "\t\t\t\t\t\t Indices: " << std::endl;
     for (auto &index: indices) {
-      argument << "\t\t\t\t\t\t Index: " << ArrayUtils::to_string(index) << std::endl;
+      argument << "\t\t\t\t\t\t\t Index: " << ArrayUtils::to_string(index) << std::endl;
     }
     argument << force << std::endl;
     return argument.str();
