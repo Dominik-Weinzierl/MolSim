@@ -11,6 +11,11 @@ template<size_t dim>
 class CuboidArgument : public GeneratorArguments {
 
   /**
+   * Should the particles be fixed
+   */
+  bool fixed;
+
+  /**
    * Coordinates of the lower left corner.
    */
   Vector<dim> startingCoordinates;
@@ -65,6 +70,31 @@ class CuboidArgument : public GeneratorArguments {
   //----------------------------------------Constructor----------------------------------------
 
   /**
+  * CuboidArgument used to create Cuboid(s) by the Generator.
+  * @param pStartingCoordinates coordinates of the lower left corner
+  * @param pDimensions dimension of the Cuboid
+  * @param pInitialVelocity initial velocity of the Cuboid (of each Particle)
+  * @param pDistance distance between the Particle(s)
+  * @param pMass mass of the Particle(s)
+  * @param pMeanValue mean value of the Particle(s)
+  * @param pPacked describes if the Cuboid is packed with Particle(s)
+  * @param pZeroCrossing is a point where the sign of a mathematical function changes.
+  * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
+  * @param pType of all particles generated with this specific generator argument.
+  */
+  CuboidArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
+                 double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
+                 double pDepthOfPotentialWell, int pType) : startingCoordinates{pStartingCoordinates},
+                                                            dimensions{std::move(pDimensions)},
+                                                            initialVelocity{pInitialVelocity}, distance{pDistance},
+                                                            mass{pMass}, meanValue{pMeanValue}, packed{pPacked},
+                                                            zeroCrossing{pZeroCrossing},
+                                                            depthOfPotentialWell{pDepthOfPotentialWell}, type{pType},
+                                                            fixed{false} {
+
+  }
+
+  /**
    * CuboidArgument used to create Cuboid(s) by the Generator.
    * @param pStartingCoordinates coordinates of the lower left corner
    * @param pDimensions dimension of the Cuboid
@@ -76,15 +106,18 @@ class CuboidArgument : public GeneratorArguments {
    * @param pZeroCrossing is a point where the sign of a mathematical function changes.
    * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
    * @param pType of all particles generated with this specific generator argument.
+   * @param pFixed whether the particles should be fixed.
    */
   CuboidArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
                  double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
-                 double pDepthOfPotentialWell, int pType) : startingCoordinates{pStartingCoordinates},
-                                                            dimensions{std::move(pDimensions)},
-                                                            initialVelocity{pInitialVelocity}, distance{pDistance},
-                                                            mass{pMass}, meanValue{pMeanValue}, packed{pPacked},
-                                                            zeroCrossing{pZeroCrossing},
-                                                            depthOfPotentialWell{pDepthOfPotentialWell}, type{pType} {
+                 double pDepthOfPotentialWell, int pType, bool pFixed) : startingCoordinates{pStartingCoordinates},
+                                                                         dimensions{std::move(pDimensions)},
+                                                                         initialVelocity{pInitialVelocity},
+                                                                         distance{pDistance}, mass{pMass},
+                                                                         meanValue{pMeanValue}, packed{pPacked},
+                                                                         zeroCrossing{pZeroCrossing},
+                                                                         depthOfPotentialWell{pDepthOfPotentialWell},
+                                                                         type{pType}, fixed{pFixed} {
 
   }
 
@@ -169,6 +202,14 @@ class CuboidArgument : public GeneratorArguments {
    */
   [[nodiscard]] double getDistance() const {
     return distance;
+  }
+
+  /**
+ * Getter for isStatic
+ * @return isStatic
+ */
+  [[nodiscard]] bool isFixed() const {
+    return fixed;
   }
 
   /**

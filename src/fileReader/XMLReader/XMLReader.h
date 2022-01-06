@@ -7,6 +7,8 @@
 #include "generator/GeneratorArguments/SphereArgument.h"
 #include "template/input.h"
 #include "thermostat/DummyThermostat.h"
+#include "thermostat/FlowThermostat.h"
+#include "outputWriter/profileWriter/ProfileWriter.h"
 
 /**
  * XMLReader class reads a xml file and and provides Argument(s) to create Particle(s) via Generator(s)
@@ -57,11 +59,15 @@ class XMLReader {
         auto &zeroCrossing = sphere.zeroCrossing();
         auto &depthOfPotentialWell = sphere.depthOfPotentialWell();
         int type = 0;
-        if(sphere.type().present()) {
+        if (sphere.type().present()) {
           type = static_cast<int>(sphere.type().get());
         }
+        bool fixed = false;
+        if (sphere.fixed().present()) {
+          fixed = sphere.fixed().get();
+        }
         sphereArguments.emplace_back(wrapVector_t(pos), rad, wrapVector_t(vel), dis, mass, mean, pack, zeroCrossing,
-                                     depthOfPotentialWell, type);
+                                     depthOfPotentialWell, type, fixed);
       }
     }
 
@@ -87,12 +93,16 @@ class XMLReader {
         auto &zeroCrossing = cuboid.zeroCrossing();
         auto &depthOfPotentialWell = cuboid.depthOfPotentialWell();
         int type = 0;
-        if(cuboid.type().present()) {
+        if (cuboid.type().present()) {
           type = static_cast<int>(cuboid.type().get());
+        }
+        bool fixed = false;
+        if (cuboid.fixed().present()) {
+          fixed = cuboid.fixed().get();
         }
         cuboidArguments
             .emplace_back(wrapVector_t(pos), wrapVector_i(dime), wrapVector_t(vel), dis, mass, mean, pack, zeroCrossing,
-                          depthOfPotentialWell, type);
+                          depthOfPotentialWell, type, fixed);
       }
     }
 
@@ -157,6 +167,7 @@ class XMLReader {
     std::optional<Vector<dim>> cellSize = std::nullopt;
     double additionalGravitation = 0.0;
     std::unique_ptr<Thermostat<dim>> thermostat;
+    std::unique_ptr<ProfileWriter<dim>> profileWriter;
 
     for (auto &it: simulation->Source()) {
       std::string path = it.path();
@@ -190,13 +201,28 @@ class XMLReader {
       int tDeltaT =
           simulation->Thermostat()->deltaT().present() ? static_cast<int>(simulation->Thermostat()->deltaT().get())
                                                        : -1;
-      thermostat = std::make_unique<Thermostat<dim>>(initialT, targetT, numberT, tDeltaT);
+      if (simulation->Thermostat()->flow().present() && simulation->Thermostat()->flow().get())
+        thermostat = std::make_unique<FlowThermostat<dim>>(initialT, targetT, numberT, tDeltaT);
+      else
+        thermostat = std::make_unique<Thermostat<dim>>(initialT, targetT, numberT, tDeltaT);
     } else {
       thermostat = std::make_unique<DummyThermostat<dim>>();
     }
 
+    // we can't really generate the profiles if using direct sum, as the domain size is not known a priori.
+    if (simulation->ProfileWriter().present() && strategy == "LinkedCell") {
+      int numOfBins = static_cast<int>(simulation->ProfileWriter()->numOfBins());
+      int numOfIterations = static_cast<int>(simulation->ProfileWriter()->numOfIterations());
+      bool velocity = simulation->ProfileWriter()->velocity();
+      bool density = simulation->ProfileWriter()->density();
+      profileWriter = std::make_unique<ProfileWriter<dim>>(numOfBins, numOfIterations, velocity, density, *domain);
+    } else {
+      profileWriter = std::make_unique<DummyProfileWriter<dim>>();
+    }
+
     return std::make_unique<XMLArgument<dim>>(files, endTime, deltaT, fileName, writer, iteration, physics,
                                               this->loadCuboid(), this->loadSpheres(), strategy, cutoffRadius, domain,
-                                              boundaries, cellSize, std::move(thermostat), additionalGravitation);
+                                              boundaries, cellSize, std::move(thermostat), std::move(profileWriter),
+                                              additionalGravitation);
   }
 };

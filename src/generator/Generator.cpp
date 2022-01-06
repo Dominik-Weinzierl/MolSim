@@ -13,7 +13,8 @@ void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, Parti
               {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1],
                z * c.getDistance() + c.getStartingCoordinates()[2]};
           Particle<3> p
-              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
+               c.isFixed()};
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -31,7 +32,8 @@ void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, Parti
               {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1],
                z * c.getDistance() + c.getStartingCoordinates()[2]};
           Particle<3> p
-              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
+               c.isFixed()};
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -45,7 +47,8 @@ void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, Parti
               {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1],
                z * c.getDistance() + c.getStartingCoordinates()[2]};
           Particle<3> p
-              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
+               c.isFixed()};
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -59,7 +62,8 @@ void Generator<CuboidArgument<3>, 3>::generate(const CuboidArgument<3> &c, Parti
               {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1],
                z * c.getDistance() + c.getStartingCoordinates()[2]};
           Particle<3> p
-              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+              {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
+               c.isFixed()};
           applyMotion(c.getMeanValue(), p);
           container.addParticle(p);
         }
@@ -76,8 +80,9 @@ void Generator<CuboidArgument<2>, 2>::generate(const CuboidArgument<2> &c, Parti
       for (auto y = 0; y < c.getDimensions()[1]; ++y) {
         Vector<2> pos
             {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1]};
-        Particle<2>
-            p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+        Particle<2> p
+            {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
+             c.isFixed()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -90,8 +95,9 @@ void Generator<CuboidArgument<2>, 2>::generate(const CuboidArgument<2> &c, Parti
       for (int y = 0; y < c.getDimensions()[1]; ++y) {
         Vector<2> pos
             {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1]};
-        Particle<2>
-            p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+        Particle<2> p
+            {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
+             c.isFixed()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -101,8 +107,9 @@ void Generator<CuboidArgument<2>, 2>::generate(const CuboidArgument<2> &c, Parti
       for (int x = 1; x < c.getDimensions()[0] - 1; ++x) {
         Vector<2> pos
             {x * c.getDistance() + c.getStartingCoordinates()[0], y * c.getDistance() + c.getStartingCoordinates()[1]};
-        Particle<2>
-            p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+        Particle<2> p
+            {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
+             c.isFixed()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -127,8 +134,9 @@ void Generator<SphereArgument<3>, 3>::generate(const SphereArgument<3> &c, Parti
             || (!c.getPacked() && ArrayUtils::L2Norm(pos - c.getCenterCoordinates()) < rad - 0.6 * c.getDistance()))
           continue;
 
-        Particle<3>
-            p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+        Particle<3> p
+            {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
+             c.isFixed()};
         applyMotion(c.getMeanValue(), p);
         container.addParticle(p);
       }
@@ -150,8 +158,9 @@ void Generator<SphereArgument<2>, 2>::generate(const SphereArgument<2> &c, Parti
           || (!c.getPacked() && ArrayUtils::L2Norm(pos - c.getCenterCoordinates()) < rad - 0.6 * c.getDistance()))
         continue;
 
-      Particle<2>
-          p{pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType()};
+      Particle<2> p
+          {pos, c.getInitialVelocity(), c.getMass(), c.getZeroCrossing(), c.getDepthOfPotentialWell(), c.getType(),
+           c.isFixed()};
       applyMotion(c.getMeanValue(), p);
       container.addParticle(p);
     }

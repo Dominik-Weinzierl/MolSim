@@ -91,6 +91,22 @@ void cuboid_t::Dimension(::std::unique_ptr<Dimension_type> x) {
   this->Dimension_.set(std::move(x));
 }
 
+const cuboid_t::fixed_optional &cuboid_t::fixed() const {
+  return this->fixed_;
+}
+
+cuboid_t::fixed_optional &cuboid_t::fixed() {
+  return this->fixed_;
+}
+
+void cuboid_t::fixed(const fixed_type &x) {
+  this->fixed_.set(x);
+}
+
+void cuboid_t::fixed(const fixed_optional &x) {
+  this->fixed_ = x;
+}
+
 const cuboid_t::distance_type &cuboid_t::distance() const {
   return this->distance_.get();
 }
@@ -213,6 +229,22 @@ void sphere_t::Velocity(const Velocity_type &x) {
 
 void sphere_t::Velocity(::std::unique_ptr<Velocity_type> x) {
   this->Velocity_.set(std::move(x));
+}
+
+const sphere_t::fixed_optional &sphere_t::fixed() const {
+  return this->fixed_;
+}
+
+sphere_t::fixed_optional &sphere_t::fixed() {
+  return this->fixed_;
+}
+
+void sphere_t::fixed(const fixed_type &x) {
+  this->fixed_.set(x);
+}
+
+void sphere_t::fixed(const fixed_optional &x) {
+  this->fixed_ = x;
 }
 
 const sphere_t::radius_type &sphere_t::radius() const {
@@ -759,6 +791,22 @@ void thermostat_t::deltaT(const deltaT_optional &x) {
   this->deltaT_ = x;
 }
 
+const thermostat_t::flow_optional &thermostat_t::flow() const {
+  return this->flow_;
+}
+
+thermostat_t::flow_optional &thermostat_t::flow() {
+  return this->flow_;
+}
+
+void thermostat_t::flow(const flow_type &x) {
+  this->flow_.set(x);
+}
+
+void thermostat_t::flow(const flow_optional &x) {
+  this->flow_ = x;
+}
+
 
 // simulation_t
 //
@@ -825,6 +873,26 @@ void simulation_t::Thermostat(const Thermostat_optional &x) {
 
 void simulation_t::Thermostat(::std::unique_ptr<Thermostat_type> x) {
   this->Thermostat_.set(std::move(x));
+}
+
+const simulation_t::ProfileWriter_optional &simulation_t::ProfileWriter() const {
+  return this->ProfileWriter_;
+}
+
+simulation_t::ProfileWriter_optional &simulation_t::ProfileWriter() {
+  return this->ProfileWriter_;
+}
+
+void simulation_t::ProfileWriter(const ProfileWriter_type &x) {
+  this->ProfileWriter_.set(x);
+}
+
+void simulation_t::ProfileWriter(const ProfileWriter_optional &x) {
+  this->ProfileWriter_ = x;
+}
+
+void simulation_t::ProfileWriter(::std::unique_ptr<ProfileWriter_type> x) {
+  this->ProfileWriter_.set(std::move(x));
 }
 
 const simulation_t::endTime_type &simulation_t::endTime() const {
@@ -927,6 +995,58 @@ void simulation_t::additionalGravitation(const additionalGravitation_optional &x
   this->additionalGravitation_ = x;
 }
 
+
+// profilewriter_t
+//
+
+const profilewriter_t::numOfBins_type &profilewriter_t::numOfBins() const {
+  return this->numOfBins_.get();
+}
+
+profilewriter_t::numOfBins_type &profilewriter_t::numOfBins() {
+  return this->numOfBins_.get();
+}
+
+void profilewriter_t::numOfBins(const numOfBins_type &x) {
+  this->numOfBins_.set(x);
+}
+
+const profilewriter_t::numOfIterations_type &profilewriter_t::numOfIterations() const {
+  return this->numOfIterations_.get();
+}
+
+profilewriter_t::numOfIterations_type &profilewriter_t::numOfIterations() {
+  return this->numOfIterations_.get();
+}
+
+void profilewriter_t::numOfIterations(const numOfIterations_type &x) {
+  this->numOfIterations_.set(x);
+}
+
+const profilewriter_t::velocity_type &profilewriter_t::velocity() const {
+  return this->velocity_.get();
+}
+
+profilewriter_t::velocity_type &profilewriter_t::velocity() {
+  return this->velocity_.get();
+}
+
+void profilewriter_t::velocity(const velocity_type &x) {
+  this->velocity_.set(x);
+}
+
+const profilewriter_t::density_type &profilewriter_t::density() const {
+  return this->density_.get();
+}
+
+profilewriter_t::density_type &profilewriter_t::density() {
+  return this->density_.get();
+}
+
+void profilewriter_t::density(const density_type &x) {
+  this->density_.set(x);
+}
+
 #include <xsd/cxx/xml/dom/parsing-source.hxx>
 
 // cuboid_t
@@ -937,7 +1057,7 @@ cuboid_t::cuboid_t(const Position_type &Position, const Velocity_type &Velocity,
                    const packed_type &packed, const depthOfPotentialWell_type &depthOfPotentialWell,
                    const zeroCrossing_type &zeroCrossing)
     : ::xml_schema::type(), Position_(Position, this), Velocity_(Velocity, this), Dimension_(Dimension, this),
-      distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(packed, this),
+      fixed_(this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(packed, this),
       depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this), type_(this) {
 }
 
@@ -946,9 +1066,9 @@ cuboid_t::cuboid_t(::std::unique_ptr<Position_type> Position, ::std::unique_ptr<
                    const meanValue_type &meanValue, const packed_type &packed,
                    const depthOfPotentialWell_type &depthOfPotentialWell, const zeroCrossing_type &zeroCrossing)
     : ::xml_schema::type(), Position_(std::move(Position), this), Velocity_(std::move(Velocity), this),
-      Dimension_(std::move(Dimension), this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this),
-      packed_(packed, this), depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this),
-      type_(this) {
+      Dimension_(std::move(Dimension), this), fixed_(this), distance_(distance, this), mass_(mass, this),
+      meanValue_(meanValue, this), packed_(packed, this), depthOfPotentialWell_(depthOfPotentialWell, this),
+      zeroCrossing_(zeroCrossing, this), type_(this) {
 }
 
 cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::container *c) : ::xml_schema::type(x, f, c),
@@ -958,6 +1078,7 @@ cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::conta
                                                                                                      this),
                                                                                            Dimension_(x.Dimension_, f,
                                                                                                       this),
+                                                                                           fixed_(x.fixed_, f, this),
                                                                                            distance_(x.distance_, f,
                                                                                                      this),
                                                                                            mass_(x.mass_, f, this),
@@ -972,8 +1093,8 @@ cuboid_t::cuboid_t(const cuboid_t &x, ::xml_schema::flags f, ::xml_schema::conta
 
 cuboid_t::cuboid_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Position_(this), Velocity_(this), Dimension_(this),
-      distance_(this), mass_(this), meanValue_(this), packed_(this), depthOfPotentialWell_(this), zeroCrossing_(this),
-      type_(this) {
+      fixed_(this), distance_(this), mass_(this), meanValue_(this), packed_(this), depthOfPotentialWell_(this),
+      zeroCrossing_(this), type_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -1036,6 +1157,11 @@ void cuboid_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags 
   while (p.more_attributes()) {
     const ::xercesc::DOMAttr &i(p.next_attribute());
     const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    if (n.name() == "fixed" && n.namespace_().empty()) {
+      this->fixed_.set(fixed_traits::create(i, f, this));
+      continue;
+    }
 
     if (n.name() == "distance" && n.namespace_().empty()) {
       this->distance_.set(distance_traits::create(i, f, this));
@@ -1108,6 +1234,7 @@ cuboid_t &cuboid_t::operator=(const cuboid_t &x) {
     this->Position_ = x.Position_;
     this->Velocity_ = x.Velocity_;
     this->Dimension_ = x.Dimension_;
+    this->fixed_ = x.fixed_;
     this->distance_ = x.distance_;
     this->mass_ = x.mass_;
     this->meanValue_ = x.meanValue_;
@@ -1130,7 +1257,7 @@ sphere_t::sphere_t(const Center_type &Center, const Velocity_type &Velocity, con
                    const distance_type &distance, const mass_type &mass, const meanValue_type &meanValue,
                    const packed_type &packed, const depthOfPotentialWell_type &depthOfPotentialWell,
                    const zeroCrossing_type &zeroCrossing)
-    : ::xml_schema::type(), Center_(Center, this), Velocity_(Velocity, this), radius_(radius, this),
+    : ::xml_schema::type(), Center_(Center, this), Velocity_(Velocity, this), fixed_(this), radius_(radius, this),
       distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this), packed_(packed, this),
       depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this), type_(this) {
 }
@@ -1139,7 +1266,7 @@ sphere_t::sphere_t(::std::unique_ptr<Center_type> Center, ::std::unique_ptr<Velo
                    const radius_type &radius, const distance_type &distance, const mass_type &mass,
                    const meanValue_type &meanValue, const packed_type &packed,
                    const depthOfPotentialWell_type &depthOfPotentialWell, const zeroCrossing_type &zeroCrossing)
-    : ::xml_schema::type(), Center_(std::move(Center), this), Velocity_(std::move(Velocity), this),
+    : ::xml_schema::type(), Center_(std::move(Center), this), Velocity_(std::move(Velocity), this), fixed_(this),
       radius_(radius, this), distance_(distance, this), mass_(mass, this), meanValue_(meanValue, this),
       packed_(packed, this), depthOfPotentialWell_(depthOfPotentialWell, this), zeroCrossing_(zeroCrossing, this),
       type_(this) {
@@ -1149,6 +1276,7 @@ sphere_t::sphere_t(const sphere_t &x, ::xml_schema::flags f, ::xml_schema::conta
                                                                                            Center_(x.Center_, f, this),
                                                                                            Velocity_(x.Velocity_, f,
                                                                                                      this),
+                                                                                           fixed_(x.fixed_, f, this),
                                                                                            radius_(x.radius_, f, this),
                                                                                            distance_(x.distance_, f,
                                                                                                      this),
@@ -1163,9 +1291,9 @@ sphere_t::sphere_t(const sphere_t &x, ::xml_schema::flags f, ::xml_schema::conta
 }
 
 sphere_t::sphere_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
-    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Center_(this), Velocity_(this), radius_(this),
-      distance_(this), mass_(this), meanValue_(this), packed_(this), depthOfPotentialWell_(this), zeroCrossing_(this),
-      type_(this) {
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Center_(this), Velocity_(this), fixed_(this),
+      radius_(this), distance_(this), mass_(this), meanValue_(this), packed_(this), depthOfPotentialWell_(this),
+      zeroCrossing_(this), type_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -1213,6 +1341,11 @@ void sphere_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags 
   while (p.more_attributes()) {
     const ::xercesc::DOMAttr &i(p.next_attribute());
     const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    if (n.name() == "fixed" && n.namespace_().empty()) {
+      this->fixed_.set(fixed_traits::create(i, f, this));
+      continue;
+    }
 
     if (n.name() == "radius" && n.namespace_().empty()) {
       this->radius_.set(radius_traits::create(i, f, this));
@@ -1293,6 +1426,7 @@ sphere_t &sphere_t::operator=(const sphere_t &x) {
     static_cast< ::xml_schema::type & > (*this) = x;
     this->Center_ = x.Center_;
     this->Velocity_ = x.Velocity_;
+    this->fixed_ = x.fixed_;
     this->radius_ = x.radius_;
     this->distance_ = x.distance_;
     this->mass_ = x.mass_;
@@ -1894,17 +2028,18 @@ strategy_t::~strategy_t() {
 //
 
 thermostat_t::thermostat_t(const initialT_type &initialT, const numberT_type &numberT)
-    : ::xml_schema::type(), initialT_(initialT, this), targetT_(this), numberT_(numberT, this), deltaT_(this) {
+    : ::xml_schema::type(), initialT_(initialT, this), targetT_(this), numberT_(numberT, this), deltaT_(this),
+      flow_(this) {
 }
 
 thermostat_t::thermostat_t(const thermostat_t &x, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(x, f, c), initialT_(x.initialT_, f, this), targetT_(x.targetT_, f, this),
-      numberT_(x.numberT_, f, this), deltaT_(x.deltaT_, f, this) {
+      numberT_(x.numberT_, f, this), deltaT_(x.deltaT_, f, this), flow_(x.flow_, f, this) {
 }
 
 thermostat_t::thermostat_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), initialT_(this), targetT_(this), numberT_(this),
-      deltaT_(this) {
+      deltaT_(this), flow_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, false, false, true);
     this->parse(p, f);
@@ -1935,6 +2070,11 @@ void thermostat_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
       this->deltaT_.set(deltaT_traits::create(i, f, this));
       continue;
     }
+
+    if (n.name() == "flow" && n.namespace_().empty()) {
+      this->flow_.set(flow_traits::create(i, f, this));
+      continue;
+    }
   }
 
   if (!initialT_.present()) {
@@ -1957,6 +2097,7 @@ thermostat_t &thermostat_t::operator=(const thermostat_t &x) {
     this->targetT_ = x.targetT_;
     this->numberT_ = x.numberT_;
     this->deltaT_ = x.deltaT_;
+    this->flow_ = x.flow_;
   }
 
   return *this;
@@ -1970,23 +2111,23 @@ thermostat_t::~thermostat_t() {
 
 simulation_t::simulation_t(const endTime_type &endTime, const deltaT_type &deltaT, const output_type &output,
                            const iteration_type &iteration, const physics_type &physics, const writer_type &writer)
-    : ::xml_schema::type(), Shapes_(this), Source_(this), Strategy_(this), Thermostat_(this), endTime_(endTime, this),
-      deltaT_(deltaT, this), output_(output, this), iteration_(iteration, this), physics_(physics, this),
-      writer_(writer, this), additionalGravitation_(this) {
+    : ::xml_schema::type(), Shapes_(this), Source_(this), Strategy_(this), Thermostat_(this), ProfileWriter_(this),
+      endTime_(endTime, this), deltaT_(deltaT, this), output_(output, this), iteration_(iteration, this),
+      physics_(physics, this), writer_(writer, this), additionalGravitation_(this) {
 }
 
 simulation_t::simulation_t(const simulation_t &x, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(x, f, c), Shapes_(x.Shapes_, f, this), Source_(x.Source_, f, this),
-      Strategy_(x.Strategy_, f, this), Thermostat_(x.Thermostat_, f, this), endTime_(x.endTime_, f, this),
-      deltaT_(x.deltaT_, f, this), output_(x.output_, f, this), iteration_(x.iteration_, f, this),
-      physics_(x.physics_, f, this), writer_(x.writer_, f, this),
+      Strategy_(x.Strategy_, f, this), Thermostat_(x.Thermostat_, f, this), ProfileWriter_(x.ProfileWriter_, f, this),
+      endTime_(x.endTime_, f, this), deltaT_(x.deltaT_, f, this), output_(x.output_, f, this),
+      iteration_(x.iteration_, f, this), physics_(x.physics_, f, this), writer_(x.writer_, f, this),
       additionalGravitation_(x.additionalGravitation_, f, this) {
 }
 
 simulation_t::simulation_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
     : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), Shapes_(this), Source_(this), Strategy_(this),
-      Thermostat_(this), endTime_(this), deltaT_(this), output_(this), iteration_(this), physics_(this), writer_(this),
-      additionalGravitation_(this) {
+      Thermostat_(this), ProfileWriter_(this), endTime_(this), deltaT_(this), output_(this), iteration_(this),
+      physics_(this), writer_(this), additionalGravitation_(this) {
   if ((f & ::xml_schema::flags::base) == 0) {
     ::xsd::cxx::xml::dom::parser<char> p(e, true, false, true);
     this->parse(p, f);
@@ -2034,6 +2175,17 @@ void simulation_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::fl
 
       if (!this->Thermostat_) {
         this->Thermostat_.set(::std::move(r));
+        continue;
+      }
+    }
+
+    // ProfileWriter
+    //
+    if (n.name() == "ProfileWriter" && n.namespace_().empty()) {
+      ::std::unique_ptr<ProfileWriter_type> r(ProfileWriter_traits::create(i, f, this));
+
+      if (!this->ProfileWriter_) {
+        this->ProfileWriter_.set(::std::move(r));
         continue;
       }
     }
@@ -2117,6 +2269,7 @@ simulation_t &simulation_t::operator=(const simulation_t &x) {
     this->Source_ = x.Source_;
     this->Strategy_ = x.Strategy_;
     this->Thermostat_ = x.Thermostat_;
+    this->ProfileWriter_ = x.ProfileWriter_;
     this->endTime_ = x.endTime_;
     this->deltaT_ = x.deltaT_;
     this->output_ = x.output_;
@@ -2130,6 +2283,91 @@ simulation_t &simulation_t::operator=(const simulation_t &x) {
 }
 
 simulation_t::~simulation_t() {
+}
+
+// profilewriter_t
+//
+
+profilewriter_t::profilewriter_t(const numOfBins_type &numOfBins, const numOfIterations_type &numOfIterations,
+                                 const velocity_type &velocity, const density_type &density)
+    : ::xml_schema::type(), numOfBins_(numOfBins, this), numOfIterations_(numOfIterations, this),
+      velocity_(velocity, this), density_(density, this) {
+}
+
+profilewriter_t::profilewriter_t(const profilewriter_t &x, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(x, f, c), numOfBins_(x.numOfBins_, f, this), numOfIterations_(x.numOfIterations_, f, this),
+      velocity_(x.velocity_, f, this), density_(x.density_, f, this) {
+}
+
+profilewriter_t::profilewriter_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f, ::xml_schema::container *c)
+    : ::xml_schema::type(e, f | ::xml_schema::flags::base, c), numOfBins_(this), numOfIterations_(this),
+      velocity_(this), density_(this) {
+  if ((f & ::xml_schema::flags::base) == 0) {
+    ::xsd::cxx::xml::dom::parser<char> p(e, false, false, true);
+    this->parse(p, f);
+  }
+}
+
+void profilewriter_t::parse(::xsd::cxx::xml::dom::parser<char> &p, ::xml_schema::flags f) {
+  while (p.more_attributes()) {
+    const ::xercesc::DOMAttr &i(p.next_attribute());
+    const ::xsd::cxx::xml::qualified_name<char> n(::xsd::cxx::xml::dom::name<char>(i));
+
+    if (n.name() == "numOfBins" && n.namespace_().empty()) {
+      this->numOfBins_.set(numOfBins_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "numOfIterations" && n.namespace_().empty()) {
+      this->numOfIterations_.set(numOfIterations_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "velocity" && n.namespace_().empty()) {
+      this->velocity_.set(velocity_traits::create(i, f, this));
+      continue;
+    }
+
+    if (n.name() == "density" && n.namespace_().empty()) {
+      this->density_.set(density_traits::create(i, f, this));
+      continue;
+    }
+  }
+
+  if (!numOfBins_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("numOfBins", "");
+  }
+
+  if (!numOfIterations_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("numOfIterations", "");
+  }
+
+  if (!velocity_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("velocity", "");
+  }
+
+  if (!density_.present()) {
+    throw ::xsd::cxx::tree::expected_attribute<char>("density", "");
+  }
+}
+
+profilewriter_t *profilewriter_t::_clone(::xml_schema::flags f, ::xml_schema::container *c) const {
+  return new class profilewriter_t(*this, f, c);
+}
+
+profilewriter_t &profilewriter_t::operator=(const profilewriter_t &x) {
+  if (this != &x) {
+    static_cast< ::xml_schema::type & > (*this) = x;
+    this->numOfBins_ = x.numOfBins_;
+    this->numOfIterations_ = x.numOfIterations_;
+    this->velocity_ = x.velocity_;
+    this->density_ = x.density_;
+  }
+
+  return *this;
+}
+
+profilewriter_t::~profilewriter_t() {
 }
 
 #include <istream>
@@ -2327,6 +2565,14 @@ void operator<<(::xercesc::DOMElement &e, const cuboid_t &i) {
     s << i.Dimension();
   }
 
+  // fixed
+  //
+  if (i.fixed()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("fixed", e));
+
+    a << *i.fixed();
+  }
+
   // distance
   //
   {
@@ -2401,6 +2647,14 @@ void operator<<(::xercesc::DOMElement &e, const sphere_t &i) {
     ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Velocity", e));
 
     s << i.Velocity();
+  }
+
+  // fixed
+  //
+  if (i.fixed()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("fixed", e));
+
+    a << *i.fixed();
   }
 
   // radius
@@ -2716,6 +2970,14 @@ void operator<<(::xercesc::DOMElement &e, const thermostat_t &i) {
 
     a << *i.deltaT();
   }
+
+  // flow
+  //
+  if (i.flow()) {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("flow", e));
+
+    a << *i.flow();
+  }
 }
 
 void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
@@ -2751,6 +3013,14 @@ void operator<<(::xercesc::DOMElement &e, const simulation_t &i) {
     ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("Thermostat", e));
 
     s << *i.Thermostat();
+  }
+
+  // ProfileWriter
+  //
+  if (i.ProfileWriter()) {
+    ::xercesc::DOMElement &s(::xsd::cxx::xml::dom::create_element("ProfileWriter", e));
+
+    s << *i.ProfileWriter();
   }
 
   // endTime
@@ -2890,6 +3160,42 @@ void Simulation(::xercesc::DOMDocument &d, const ::simulation_t &s, ::xml_schema
 
   ::Simulation(*d, s, f);
   return d;
+}
+
+void operator<<(::xercesc::DOMElement &e, const profilewriter_t &i) {
+  e << static_cast< const ::xml_schema::type & > (i);
+
+  // numOfBins
+  //
+  {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("numOfBins", e));
+
+    a << i.numOfBins();
+  }
+
+  // numOfIterations
+  //
+  {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("numOfIterations", e));
+
+    a << i.numOfIterations();
+  }
+
+  // velocity
+  //
+  {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("velocity", e));
+
+    a << i.velocity();
+  }
+
+  // density
+  //
+  {
+    ::xercesc::DOMAttr &a(::xsd::cxx::xml::dom::create_attribute("density", e));
+
+    a << i.density();
+  }
 }
 
 #include <xsd/cxx/post.hxx>

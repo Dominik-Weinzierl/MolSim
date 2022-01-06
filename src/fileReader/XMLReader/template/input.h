@@ -624,6 +624,7 @@ class linkedCell_t;
 class strategy_t;
 class thermostat_t;
 class simulation_t;
+class profilewriter_t;
 
 #include <memory>    // ::std::unique_ptr
 #include <limits>    // std::numeric_limits
@@ -805,6 +806,67 @@ class cuboid_t : public ::xml_schema::type {
    * instead of making a copy.
    */
   void Dimension(::std::unique_ptr<Dimension_type> p);
+
+  //@}
+
+  /**
+   * @name fixed
+   *
+   * @brief Accessor and modifier functions for the %fixed
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::boolean fixed_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<fixed_type> fixed_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<fixed_type, char> fixed_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const fixed_optional &fixed() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  fixed_optional &fixed();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void fixed(const fixed_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void fixed(const fixed_optional &x);
 
   //@}
 
@@ -1223,6 +1285,7 @@ class cuboid_t : public ::xml_schema::type {
   ::xsd::cxx::tree::one<Position_type> Position_;
   ::xsd::cxx::tree::one<Velocity_type> Velocity_;
   ::xsd::cxx::tree::one<Dimension_type> Dimension_;
+  fixed_optional fixed_;
   ::xsd::cxx::tree::one<distance_type> distance_;
   ::xsd::cxx::tree::one<mass_type> mass_;
   ::xsd::cxx::tree::one<meanValue_type> meanValue_;
@@ -1346,6 +1409,67 @@ class sphere_t : public ::xml_schema::type {
    * instead of making a copy.
    */
   void Velocity(::std::unique_ptr<Velocity_type> p);
+
+  //@}
+
+  /**
+   * @name fixed
+   *
+   * @brief Accessor and modifier functions for the %fixed
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::boolean fixed_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<fixed_type> fixed_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<fixed_type, char> fixed_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const fixed_optional &fixed() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  fixed_optional &fixed();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void fixed(const fixed_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void fixed(const fixed_optional &x);
 
   //@}
 
@@ -1806,6 +1930,7 @@ class sphere_t : public ::xml_schema::type {
  protected:
   ::xsd::cxx::tree::one<Center_type> Center_;
   ::xsd::cxx::tree::one<Velocity_type> Velocity_;
+  fixed_optional fixed_;
   ::xsd::cxx::tree::one<radius_type> radius_;
   ::xsd::cxx::tree::one<distance_type> distance_;
   ::xsd::cxx::tree::one<mass_type> mass_;
@@ -4018,6 +4143,67 @@ class thermostat_t : public ::xml_schema::type {
   //@}
 
   /**
+   * @name flow
+   *
+   * @brief Accessor and modifier functions for the %flow
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::boolean flow_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<flow_type> flow_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<flow_type, char> flow_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const flow_optional &flow() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  flow_optional &flow();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void flow(const flow_type &x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void flow(const flow_optional &x);
+
+  //@}
+
+  /**
    * @name Constructors
    */
   //@{
@@ -4093,6 +4279,7 @@ class thermostat_t : public ::xml_schema::type {
   targetT_optional targetT_;
   ::xsd::cxx::tree::one<numberT_type> numberT_;
   deltaT_optional deltaT_;
+  flow_optional flow_;
 
   //@endcond
 };
@@ -4365,6 +4552,77 @@ class simulation_t : public ::xml_schema::type {
    * of making a copy.
    */
   void Thermostat(::std::unique_ptr<Thermostat_type> p);
+
+  //@}
+
+  /**
+   * @name ProfileWriter
+   *
+   * @brief Accessor and modifier functions for the %ProfileWriter
+   * optional element.
+   */
+  //@{
+
+  /**
+   * @brief Element type.
+   */
+  typedef ::profilewriter_t ProfileWriter_type;
+
+  /**
+   * @brief Element optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional<ProfileWriter_type> ProfileWriter_optional;
+
+  /**
+   * @brief Element traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<ProfileWriter_type, char> ProfileWriter_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the element
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const ProfileWriter_optional &ProfileWriter() const;
+
+  /**
+   * @brief Return a read-write reference to the element container.
+   *
+   * @return A reference to the optional container.
+   */
+  ProfileWriter_optional &ProfileWriter();
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the element.
+   */
+  void ProfileWriter(const ProfileWriter_type &x);
+
+  /**
+   * @brief Set the element value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the element.
+   * Otherwise the element container is set the 'not present' state.
+   */
+  void ProfileWriter(const ProfileWriter_optional &x);
+
+  /**
+   * @brief Set the element value without copying.
+   *
+   * @param p A new value to use.
+   *
+   * This function will try to use the passed value directly instead
+   * of making a copy.
+   */
+  void ProfileWriter(::std::unique_ptr<ProfileWriter_type> p);
 
   //@}
 
@@ -4801,6 +5059,7 @@ class simulation_t : public ::xml_schema::type {
   Source_sequence Source_;
   Strategy_optional Strategy_;
   Thermostat_optional Thermostat_;
+  ProfileWriter_optional ProfileWriter_;
   ::xsd::cxx::tree::one<endTime_type> endTime_;
   ::xsd::cxx::tree::one<deltaT_type> deltaT_;
   ::xsd::cxx::tree::one<output_type> output_;
@@ -4808,6 +5067,269 @@ class simulation_t : public ::xml_schema::type {
   ::xsd::cxx::tree::one<physics_type> physics_;
   ::xsd::cxx::tree::one<writer_type> writer_;
   additionalGravitation_optional additionalGravitation_;
+
+  //@endcond
+};
+
+/**
+ * @brief Class corresponding to the %profilewriter_t schema type.
+ *
+ * @nosubgrouping
+ */
+class profilewriter_t : public ::xml_schema::type {
+ public:
+  /**
+   * @name numOfBins
+   *
+   * @brief Accessor and modifier functions for the %numOfBins
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::non_negative_integer numOfBins_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<numOfBins_type, char> numOfBins_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const numOfBins_type &numOfBins() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  numOfBins_type &numOfBins();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void numOfBins(const numOfBins_type &x);
+
+  //@}
+
+  /**
+   * @name numOfIterations
+   *
+   * @brief Accessor and modifier functions for the %numOfIterations
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::non_negative_integer numOfIterations_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<numOfIterations_type, char> numOfIterations_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const numOfIterations_type &numOfIterations() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  numOfIterations_type &numOfIterations();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void numOfIterations(const numOfIterations_type &x);
+
+  //@}
+
+  /**
+   * @name velocity
+   *
+   * @brief Accessor and modifier functions for the %velocity
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::boolean velocity_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<velocity_type, char> velocity_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const velocity_type &velocity() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  velocity_type &velocity();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void velocity(const velocity_type &x);
+
+  //@}
+
+  /**
+   * @name density
+   *
+   * @brief Accessor and modifier functions for the %density
+   * required attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::boolean density_type;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits<density_type, char> density_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute.
+   *
+   * @return A constant reference to the attribute.
+   */
+  const density_type &density() const;
+
+  /**
+   * @brief Return a read-write reference to the attribute.
+   *
+   * @return A reference to the attribute.
+   */
+  density_type &density();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void density(const density_type &x);
+
+  //@}
+
+  /**
+   * @name Constructors
+   */
+  //@{
+
+  /**
+   * @brief Create an instance from the ultimate base and
+   * initializers for required elements and attributes.
+   */
+  profilewriter_t(const numOfBins_type &, const numOfIterations_type &, const velocity_type &, const density_type &);
+
+  /**
+   * @brief Create an instance from a DOM element.
+   *
+   * @param e A DOM element to extract the data from.
+   * @param f Flags to create the new instance with.
+   * @param c A pointer to the object that will contain the new
+   * instance.
+   */
+  profilewriter_t(const ::xercesc::DOMElement &e, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
+
+  /**
+   * @brief Copy constructor.
+   *
+   * @param x An instance to make a copy of.
+   * @param f Flags to create the copy with.
+   * @param c A pointer to the object that will contain the copy.
+   *
+   * For polymorphic object models use the @c _clone function instead.
+   */
+  profilewriter_t(const profilewriter_t &x, ::xml_schema::flags f = 0, ::xml_schema::container *c = 0);
+
+  /**
+   * @brief Copy the instance polymorphically.
+   *
+   * @param f Flags to create the copy with.
+   * @param c A pointer to the object that will contain the copy.
+   * @return A pointer to the dynamically allocated copy.
+   *
+   * This function ensures that the dynamic type of the instance is
+   * used for copying and should be used for polymorphic object
+   * models instead of the copy constructor.
+   */
+  virtual profilewriter_t *_clone(::xml_schema::flags f = 0, ::xml_schema::container *c = 0) const;
+
+  /**
+   * @brief Copy assignment operator.
+   *
+   * @param x An instance to make a copy of.
+   * @return A reference to itself.
+   *
+   * For polymorphic object models use the @c _clone function instead.
+   */
+  profilewriter_t &operator=(const profilewriter_t &x);
+
+  //@}
+
+  /**
+   * @brief Destructor.
+   */
+  virtual
+  ~profilewriter_t();
+
+  // Implementation.
+  //
+
+  //@cond
+
+ protected:
+  void parse(::xsd::cxx::xml::dom::parser<char> &, ::xml_schema::flags);
+
+ protected:
+  ::xsd::cxx::tree::one<numOfBins_type> numOfBins_;
+  ::xsd::cxx::tree::one<numOfIterations_type> numOfIterations_;
+  ::xsd::cxx::tree::one<velocity_type> velocity_;
+  ::xsd::cxx::tree::one<density_type> density_;
 
   //@endcond
 };
@@ -5209,6 +5731,8 @@ void Simulation(::xercesc::DOMDocument &d, const ::simulation_t &x, ::xml_schema
                                                                  ::xml_schema::flags f = 0);
 
 //@}
+
+void operator<<(::xercesc::DOMElement &, const profilewriter_t &);
 
 #include <xsd/cxx/post.hxx>
 

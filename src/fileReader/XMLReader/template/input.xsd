@@ -7,6 +7,7 @@
             <xsd:element name="Velocity" type="vector_t"/>
             <xsd:element name="Dimension" type="vector_i"/>
         </xsd:sequence>
+        <xsd:attribute name="fixed" type="xsd:boolean"/>
         <xsd:attribute name="distance" type="xsd:double" use="required"/>
         <xsd:attribute name="mass" type="xsd:double" use="required"/>
         <xsd:attribute name="meanValue" type="xsd:double" use="required"/>
@@ -22,6 +23,7 @@
             <xsd:element name="Center" type="vector_t"/>
             <xsd:element name="Velocity" type="vector_t"/>
         </xsd:sequence>
+        <xsd:attribute name="fixed" type="xsd:boolean"/>
         <xsd:attribute name="radius" type="xsd:nonNegativeInteger" use="required"/>
         <xsd:attribute name="distance" type="xsd:double" use="required"/>
         <xsd:attribute name="mass" type="xsd:double" use="required"/>
@@ -80,7 +82,7 @@
             <xsd:element name="Boundary" type="boundary_t"/>
             <!-- Domain: size of the domain -->
             <xsd:element name="Domain" type="vector_t"/>
-            <!-- Domain: size of the domain -->
+            <!-- CellSize: size of the cells -->
             <xsd:element name="CellSize" type="vector_t"/>
         </xsd:sequence>
         <!-- cutoffRadius: used for linked cell optimizations -->
@@ -96,11 +98,11 @@
 
     <!-- Thermostat -->
     <xsd:complexType name="thermostat_t">
-        <!-- cutoffRadius: used for linked cell optimizations -->
         <xsd:attribute name="initialT" type="xsd:double" use="required"/>
         <xsd:attribute name="targetT" type="xsd:double"/>
         <xsd:attribute name="numberT" type="xsd:nonNegativeInteger" use="required"/>
         <xsd:attribute name="deltaT" type="xsd:nonNegativeInteger"/>
+        <xsd:attribute name="flow" type="xsd:boolean"/>
     </xsd:complexType>
 
     <!-- Simulation -->
@@ -110,16 +112,23 @@
             <xsd:element name="Source" type="input_t" minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="Strategy" type="strategy_t" minOccurs="0"/>
             <xsd:element name="Thermostat" type="thermostat_t" minOccurs="0"/>
+            <xsd:element name="ProfileWriter" type="profilewriter_t" minOccurs="0"/>
         </xsd:sequence>
         <xsd:attribute name="endTime" type="xsd:double" use="required"/>
         <xsd:attribute name="deltaT" type="xsd:double" use="required"/>
         <xsd:attribute name="output" type="xsd:string" use="required"/>
         <xsd:attribute name="iteration" type="xsd:nonNegativeInteger" use="required"/>
-        <!-- writer: gravitation | lennard -->
+        <!-- physics: gravitation | lennard -->
         <xsd:attribute name="physics" type="xsd:string" use="required"/>
         <!-- writer: vtk | xyz -->
         <xsd:attribute name="writer" type="xsd:string" use="required"/>
         <xsd:attribute name="additionalGravitation" type="xsd:double"/>
     </xsd:complexType>
     <xsd:element name="Simulation" type="simulation_t"/>
+    <xsd:complexType name="profilewriter_t">
+        <xsd:attribute name="numOfBins" type="xsd:nonNegativeInteger" use="required"/>
+        <xsd:attribute name="numOfIterations" type="xsd:nonNegativeInteger" use="required"/>
+        <xsd:attribute name="velocity" type="xsd:boolean" use="required"/>
+        <xsd:attribute name="density" type="xsd:boolean" use="required"/>
+    </xsd:complexType>
 </xsd:schema>

@@ -38,7 +38,8 @@ class MDSimulation {
     auto deltaT = arg.getDeltaT();
 
     T physics;
-    std::unique_ptr<Thermostat<dim>>& thermostat = arg.getThermostat();
+    std::unique_ptr<Thermostat<dim>> &thermostat = arg.getThermostat();
+    std::unique_ptr<ProfileWriter<dim>> &profile_writer = arg.getProfileWriter();
 
     thermostat->setInitialTemperature(particleContainer);
 
@@ -50,6 +51,10 @@ class MDSimulation {
 
       if (iteration % thermostat->getNumberT() == 0) {
         thermostat->applyThermostat(particleContainer);
+      }
+
+      if (iteration % profile_writer->getNumOfIterations() == 0) {
+        profile_writer->generateProfiles(particleContainer, iteration);
       }
 
       if (iteration % arg.getIteration() == 0) {

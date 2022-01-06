@@ -1,13 +1,13 @@
 #pragma once
 
 #include <cmath>
-
+#include "iostream"
 #include "container/ParticleContainer.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
 
 /**
- *
- * @tparam dim
+ * The thermostat as introduced on worksheet 4.
+ * @tparam dim Dimension of the simulation
  */
 template<size_t dim>
 class Thermostat {
@@ -38,7 +38,7 @@ class Thermostat {
    * @param c A particle container
    * @return The temperature according to the kinetic energy
    */
-  [[nodiscard]] inline double kineticEnergyTemp(ParticleContainer<dim> &c) {
+  [[nodiscard]] virtual inline double kineticEnergyTemp(ParticleContainer<dim> &c) {
     double ret = 0;
     for (auto &p: c) {
       ret += (p.getM() * p.getV() * p.getV()) / 2;
@@ -81,6 +81,15 @@ class Thermostat {
   void applyInitialThermostat(ParticleContainer<dim> &c) {
     auto currentTemp = kineticEnergyTemp(c);
     double beta = calculateBeta(currentTemp, initialT, -1);
+    applyScaling(c, beta);
+  }
+
+  /**
+ * Apply the scaling
+ * @param c The particle container on which the scaling should be applied
+ * @param beta The factor
+ */
+  virtual void applyScaling(ParticleContainer<dim> &c, double beta) {
     for (auto &p: c) {
       p.setV(beta * p.getV());
     }
@@ -127,9 +136,7 @@ class Thermostat {
   virtual void applyThermostat(ParticleContainer<dim> &c) {
     auto currentTemp = kineticEnergyTemp(c);
     double beta = calculateBeta(currentTemp, targetT, deltaT);
-    for (auto &p: c) {
-      p.setV(beta * p.getV());
-    }
+    applyScaling(c, beta);
   }
 
   /**
