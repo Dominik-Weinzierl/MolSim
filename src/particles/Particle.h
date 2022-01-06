@@ -574,4 +574,12 @@ class Particle {
   void addAdditionalForce(const Force<dim> &additional_forces) {
     additionalForces.push_back(additional_forces);
   }
+
+  /**
+   *
+   * @param fix
+   */
+  void setFixed(bool fix) {
+    fixed = fix;
+  }
 };

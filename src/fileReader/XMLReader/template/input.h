@@ -2950,6 +2950,71 @@ class membrane_t: public ::xml_schema::type
   //@}
 
   /**
+   * @name fixedOutline
+   *
+   * @brief Accessor and modifier functions for the %fixedOutline
+   * optional attribute.
+   */
+  //@{
+
+  /**
+   * @brief Attribute type.
+   */
+  typedef ::xml_schema::boolean fixedOutline_type;
+
+  /**
+   * @brief Attribute optional container type.
+   */
+  typedef ::xsd::cxx::tree::optional< fixedOutline_type > fixedOutline_optional;
+
+  /**
+   * @brief Attribute traits type.
+   */
+  typedef ::xsd::cxx::tree::traits< fixedOutline_type, char > fixedOutline_traits;
+
+  /**
+   * @brief Return a read-only (constant) reference to the attribute
+   * container.
+   *
+   * @return A constant reference to the optional container.
+   */
+  const fixedOutline_optional&
+  fixedOutline () const;
+
+  /**
+   * @brief Return a read-write reference to the attribute container.
+   *
+   * @return A reference to the optional container.
+   */
+  fixedOutline_optional&
+  fixedOutline ();
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x A new value to set.
+   *
+   * This function makes a copy of its argument and sets it as
+   * the new value of the attribute.
+   */
+  void
+  fixedOutline (const fixedOutline_type& x);
+
+  /**
+   * @brief Set the attribute value.
+   *
+   * @param x An optional container with the new value to set.
+   *
+   * If the value is present in @a x then this function makes a copy 
+   * of this value and sets it as the new value of the attribute.
+   * Otherwise the attribute container is set the 'not present' state.
+   */
+  void
+  fixedOutline (const fixedOutline_optional& x);
+
+  //@}
+
+  /**
    * @name Constructors
    */
   //@{
@@ -3074,6 +3139,7 @@ class membrane_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< stiffness_type > stiffness_;
   ::xsd::cxx::tree::one< averageBondLength_type > averageBondLength_;
   type_optional type_;
+  fixedOutline_optional fixedOutline_;
 
   //@endcond
 };

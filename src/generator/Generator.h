@@ -5,6 +5,7 @@
 #include "generator/GeneratorArguments/RectangularArgument.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
 #include "generator/GeneratorArguments/GeneratorArguments.h"
+#include "generator/GeneratorArguments/variants/MembraneArgument.h"
 
 /**
  * Generates shapes based on the provided arguments.
@@ -20,7 +21,7 @@ class Generator {
    *
    * @return
    */
-  static inline int getPositionInContainer(std::array<int, dim> index, int zero, const RectangularArgument<dim> &c);
+  static int getPositionInContainer(std::array<int, dim> index, int zero, const RectangularArgument<dim> &c);
 
   /**
    *
@@ -58,6 +59,30 @@ class Generator {
    * @param container
    */
   static void generateRectangular(const RectangularArgument<dim> &t, ParticleContainer<dim> &container);
+
+  /**
+   *
+   * @param t
+   * @param container
+   */
+  static void fixOutline(int zero, const MembraneArgument<dim> &m, ParticleContainer<dim> &container);
+
+  /**
+   *
+   * @param index
+   * @param zero
+   * @param m
+   * @param container
+   */
+  static void setFixed(int pos, ParticleContainer<dim> &container) {
+    if (pos == -1) {
+      return;
+    }
+
+    Particle<dim> &p = container.getParticles()[static_cast<unsigned long>(pos)];
+    p.setV(Vector<dim>{});
+    p.setFixed(true);
+  }
 
  public:
 

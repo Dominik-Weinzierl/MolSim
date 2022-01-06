@@ -145,6 +145,11 @@ class XMLReader {
         auto &stiffness = membrane.stiffness();
         auto &averageBondLength = membrane.averageBondLength();
 
+        auto fixedOutline = false;
+        if (membrane.fixedOutline().present()) {
+          fixedOutline = membrane.fixedOutline();
+        }
+
         std::vector<ForceContainer<dim>> forces;
         for (auto &f: membrane.Forces()) {
           forces.push_back(loadForces(f));
@@ -161,7 +166,7 @@ class XMLReader {
         membraneArguments
             .template emplace_back(wrapVector_t(pos), wrapVector_i(dime), wrapVector_t(vel), dis, mass, mean, pack,
                                    zeroCrossing, depthOfPotentialWell, stiffness, averageBondLength, type, fixed,
-                                   forces);
+                                   forces, fixedOutline);
       }
     }
 
@@ -176,12 +181,13 @@ class XMLReader {
     return wrapVector_t(simulation->Strategy()->LinkedCell().get().CellSize());
   }
 
-  ForceContainer<dim> loadForces(force_t &force) const{
+  ForceContainer<dim> loadForces(force_t &force) const {
     std::vector<std::array<int, dim>> indices{};
     for (auto &j: force.Index()) {
       indices.push_back(wrapVector_i(j));
     }
-    return ForceContainer<dim>{indices, wrapVector_t(force.Strength()), static_cast<unsigned int>(force.start()),  static_cast<unsigned int>(force.end())};
+    return ForceContainer<dim>{indices, wrapVector_t(force.Strength()), static_cast<unsigned int>(force.start()),
+                               static_cast<unsigned int>(force.end())};
   }
 
   [[nodiscard]] std::optional<std::vector<BoundaryType>> loadBoundaries() const;

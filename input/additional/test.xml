@@ -1,32 +1,23 @@
-<Simulation endTime="500" deltaT="0.01" iteration="60" physics="lennard" writer="vtk" output="MD">
+<Simulation endTime="20" deltaT="0.0005" iteration="60" physics="lennard" writer="vtk" output="MD">
     <AdditionalGravitation x="0.0" y="0.0" z="-0.001"/>
     <Strategy>
         <LinkedCell cutoffRadius="4.0">
-            <Domain x="148" y="148" z="148"/>
+            <Domain x="140" y="140" z="140"/>
             <CellSize x="4" y="4" z="4"/>
             <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="periodic"
                       boundary-bottom="periodic" boundary-front="reflecting" boundary-back="reflecting"/>
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Membrane mass="1.0" distance="2.2" meanValue="0" packed="true" depthOfPotentialWell="1.0" zeroCrossing="1.0" stiffness="300" averageBondLength="2.2" type="0">
-            <Position x="15.0" y="15.0" z="1.5"/>
+        <Membrane mass="1.0" distance="2.2" meanValue="0" packed="true" depthOfPotentialWell="1.0" zeroCrossing="1.0" stiffness="300" averageBondLength="2.2" type="0" fixedOutline="true">
+            <Position x="20.0" y="20.0" z="20.5"/>
             <Velocity x="0.0" y="0.0" z="0.0"/>
-            <Dimension x="50" y="50" z="1"/>
-            <Forces start="0" end="200">
-                <Strength x="0.0" y ="0.0" z="2.0"/>
-                <Index x ="17" y="24" z="0"/>
-                <Index x ="17" y="25" z="0"/>
-                <Index x ="18" y="24" z="0"/>
-                <Index x ="18" y="25" z="0"/>
-            </Forces>
-            <Forces start="200" end="300">
-                <Strength x="0.0" y ="0.0" z="-2.0"/>
-                <Index x ="17" y="24" z="0"/>
-                <Index x ="17" y="25" z="0"/>
-                <Index x ="18" y="24" z="0"/>
-                <Index x ="18" y="25" z="0"/>
-            </Forces>
+            <Dimension x="30" y="30" z="1"/>
         </Membrane>
+        <Sphere mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.2"
+                type="1" radius="10">
+            <Center x="45.0" y="45.0" z="40.0"/>
+            <Velocity x="0.0" y="0.0" z="-10.0"/>
+        </Sphere>
     </Shapes>
 </Simulation>

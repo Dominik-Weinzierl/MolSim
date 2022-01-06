@@ -66,6 +66,61 @@ int Generator<RectangularArgument<3>, 3>::getPositionInContainer(std::array<int,
 }
 
 template<>
+void Generator<RectangularArgument<2>, 2>::fixOutline(int zero, const MembraneArgument<2> &m,
+                                                      ParticleContainer<2> &container) {
+
+  std::array<int, 2> xMinMax{0, m.getDimensions()[0] - 1};
+  std::array<int, 2> yMinMax{0, m.getDimensions()[1] - 1};
+
+  for (auto x: xMinMax) {
+    for (int y = 0; y < m.getDimensions()[1]; ++y) {
+      setFixed(getPositionInContainer({x, y}, zero, m), container);
+    }
+  }
+
+  for (auto y: yMinMax) {
+    for (int x = 1; x < m.getDimensions()[0] - 1; ++x) {
+      setFixed(getPositionInContainer({x, y}, zero, m), container);
+    }
+  }
+}
+
+template<>
+void Generator<RectangularArgument<3>, 3>::fixOutline(int zero, const MembraneArgument<3> &m,
+                                                      ParticleContainer<3> &container) {
+
+  std::array<int, 2> xMinMax{0, m.getDimensions()[0] - 1};
+  std::array<int, 2> yMinMax{0, m.getDimensions()[1] - 1};
+  std::array<int, 2> zMinMax{0, m.getDimensions()[2] - 1};
+
+  for (auto x: xMinMax) {
+    for (auto y = 0; y < m.getDimensions()[1]; ++y) {
+      for (auto z = 0; z < m.getDimensions()[2]; ++z) {
+        setFixed(getPositionInContainer({x, y, z}, zero, m), container);
+      }
+    }
+  }
+
+  for (auto y: yMinMax) {
+    for (auto x = 1; x < m.getDimensions()[0] - 1; ++x) {
+      for (auto z = 0; z < m.getDimensions()[2]; ++z) {
+        setFixed(getPositionInContainer({x, y, z}, zero, m), container);
+      }
+    }
+  }
+
+  if (m.getDimensions()[2] > 1) {
+    for (auto z: zMinMax) {
+      for (auto x = 1; x < m.getDimensions()[0] - 1; ++x) {
+        for (auto y = 1; y < m.getDimensions()[1] - 1; ++y) {
+          setFixed(getPositionInContainer({x, y, z}, zero, m), container);
+        }
+      }
+    }
+  }
+}
+
+template<>
 void Generator<RectangularArgument<3>, 3>::generateRectangular(const RectangularArgument<3> &c,
                                                                ParticleContainer<3> &container) {
 
@@ -166,6 +221,12 @@ void Generator<RectangularArgument<3>, 3>::generateRectangular(const Rectangular
 
   // ToDo link membrane
   if (auto *m = dynamic_cast<const MembraneArgument<3> *>(&c)) {
+
+    // Fixed outline
+    if (m->getFixedOutline()) {
+      fixOutline(amount, *m, container);
+    }
+
     for (auto x = 0; x < c.getDimensions()[0]; ++x) {
       for (auto y = 0; y < c.getDimensions()[1]; ++y) {
         for (auto z = 0; z < c.getDimensions()[2]; ++z) {
@@ -277,6 +338,12 @@ void Generator<RectangularArgument<2>, 2>::generateRectangular(const Rectangular
 
 // ToDo link membrane
   if (auto *m = dynamic_cast<const MembraneArgument<2> *>(&c)) {
+
+    // Fixed outline
+    if (m->getFixedOutline()) {
+      fixOutline(amount, *m, container);
+    }
+
     for (auto x = 0; x < c.getDimensions()[0]; ++x) {
       for (auto y = 0; y < c.getDimensions()[1]; ++y) {
         auto pos = getPositionInContainer({x, y}, amount, *m);

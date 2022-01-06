@@ -21,6 +21,11 @@ class MembraneArgument : public RectangularArgument<dim> {
    */
   double averageBondLength;
 
+  /**
+   *
+   */
+  bool fixedOutline;
+
  public:
 
   //----------------------------------------Constructor----------------------------------------
@@ -39,18 +44,15 @@ class MembraneArgument : public RectangularArgument<dim> {
    * @param pType of all particles generated with this specific generator argument.
    * @param pFixed of all particles generated with this specific generator argument.
    * @param pForces additional forces applied on the particles.
+   * @param pFixedOutline fixed outline
    */
   MembraneArgument(Vector<dim> pStartingCoordinates, std::array<int, dim> pDimensions, Vector<dim> pInitialVelocity,
                    double pDistance, double pMass, double pMeanValue, bool pPacked, double pZeroCrossing,
                    double pDepthOfPotentialWell, double pStiffness, double pAverageBondLength, int pType, bool pFixed,
-                   std::vector<ForceContainer<dim>> pForces) : RectangularArgument<dim>{pStartingCoordinates,
-                                                                                        pDimensions, pInitialVelocity,
-                                                                                        pDistance, pMass, pMeanValue,
-                                                                                        pPacked, pZeroCrossing,
-                                                                                        pDepthOfPotentialWell,
-                                                                                        pType, pFixed, pForces},
-                                                               stiffness{pStiffness},
-                                                               averageBondLength{pAverageBondLength} {}
+                   std::vector<ForceContainer<dim>> pForces, bool pFixedOutline) : RectangularArgument<dim>{
+      pStartingCoordinates, pDimensions, pInitialVelocity, pDistance, pMass, pMeanValue, pPacked, pZeroCrossing,
+      pDepthOfPotentialWell, pType, pFixed, pForces}, stiffness{pStiffness}, averageBondLength{pAverageBondLength},
+                                                                                   fixedOutline{pFixedOutline} {}
 
 
   //----------------------------------------Methods----------------------------------------
@@ -63,6 +65,7 @@ class MembraneArgument : public RectangularArgument<dim> {
     argument << "\t\t\tMembrane:" << std::endl;
     argument << "\t\t\t\t Stiffness: " << getStiffness() << std::endl;
     argument << "\t\t\t\t AverageBondLength: " << getAverageBondLength() << std::endl;
+    argument << "\t\t\t\t Fixed outline: " << getFixedOutline() << std::endl;
     argument << RectangularArgument<dim>::toString();
     return argument.str();
   };
@@ -83,5 +86,12 @@ class MembraneArgument : public RectangularArgument<dim> {
    */
   [[nodiscard]] const double &getAverageBondLength() const {
     return averageBondLength;
+  }
+
+  /**
+   *
+   */
+  [[nodiscard]] const bool &getFixedOutline() const {
+    return fixedOutline;
   }
 };

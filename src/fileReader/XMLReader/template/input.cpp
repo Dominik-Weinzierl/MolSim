@@ -819,6 +819,30 @@ type (const type_optional& x)
   this->type_ = x;
 }
 
+const membrane_t::fixedOutline_optional& membrane_t::
+fixedOutline () const
+{
+  return this->fixedOutline_;
+}
+
+membrane_t::fixedOutline_optional& membrane_t::
+fixedOutline ()
+{
+  return this->fixedOutline_;
+}
+
+void membrane_t::
+fixedOutline (const fixedOutline_type& x)
+{
+  this->fixedOutline_.set (x);
+}
+
+void membrane_t::
+fixedOutline (const fixedOutline_optional& x)
+{
+  this->fixedOutline_ = x;
+}
+
 
 // vector_t
 // 
@@ -2647,7 +2671,8 @@ membrane_t (const Position_type& Position,
   zeroCrossing_ (zeroCrossing, this),
   stiffness_ (stiffness, this),
   averageBondLength_ (averageBondLength, this),
-  type_ (this)
+  type_ (this),
+  fixedOutline_ (this)
 {
 }
 
@@ -2677,7 +2702,8 @@ membrane_t (::std::unique_ptr< Position_type > Position,
   zeroCrossing_ (zeroCrossing, this),
   stiffness_ (stiffness, this),
   averageBondLength_ (averageBondLength, this),
-  type_ (this)
+  type_ (this),
+  fixedOutline_ (this)
 {
 }
 
@@ -2699,7 +2725,8 @@ membrane_t (const membrane_t& x,
   zeroCrossing_ (x.zeroCrossing_, f, this),
   stiffness_ (x.stiffness_, f, this),
   averageBondLength_ (x.averageBondLength_, f, this),
-  type_ (x.type_, f, this)
+  type_ (x.type_, f, this),
+  fixedOutline_ (x.fixedOutline_, f, this)
 {
 }
 
@@ -2721,7 +2748,8 @@ membrane_t (const ::xercesc::DOMElement& e,
   zeroCrossing_ (this),
   stiffness_ (this),
   averageBondLength_ (this),
-  type_ (this)
+  type_ (this),
+  fixedOutline_ (this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
   {
@@ -2882,6 +2910,12 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       this->type_.set (type_traits::create (i, f, this));
       continue;
     }
+
+    if (n.name () == "fixedOutline" && n.namespace_ ().empty ())
+    {
+      this->fixedOutline_.set (fixedOutline_traits::create (i, f, this));
+      continue;
+    }
   }
 
   if (!distance_.present ())
@@ -2968,6 +3002,7 @@ operator= (const membrane_t& x)
     this->stiffness_ = x.stiffness_;
     this->averageBondLength_ = x.averageBondLength_;
     this->type_ = x.type_;
+    this->fixedOutline_ = x.fixedOutline_;
   }
 
   return *this;
@@ -5326,6 +5361,18 @@ operator<< (::xercesc::DOMElement& e, const membrane_t& i)
         e));
 
     a << *i.type ();
+  }
+
+  // fixedOutline
+  //
+  if (i.fixedOutline ())
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "fixedOutline",
+        e));
+
+    a << *i.fixedOutline ();
   }
 }
 
