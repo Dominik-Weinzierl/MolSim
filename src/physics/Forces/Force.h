@@ -97,8 +97,7 @@ class Force {
   }
 
   friend std::ostream &operator<<(std::ostream &os, const Force &f) {
-    os << "indices: " << ArrayUtils::to_string(f.indices) << " additionalForceParticles: " << ArrayUtils::to_string(f.additionalForceParticles) << " force: "
-       << ArrayUtils::to_string(f.force) << " startTime: " << f.startTime << " endTime: " << f.endTime;
+    os << "indices: ";
     return os;
   }
 };
