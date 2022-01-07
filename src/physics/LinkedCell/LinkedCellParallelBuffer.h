@@ -3,7 +3,6 @@
 #include "physics/Physics.h"
 #include "physics/variants/LennardJones.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
-#include "physics/Forces/Forces.h"
 #include "LinkedCell.h"
 
 /**
@@ -25,8 +24,9 @@ class LinkedCellParallelBuffer : LinkedCell<T, dim> {
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
   */
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &force) const override {
-    LinkedCell<T, dim>::calculateNextStep(particleContainer, deltaT, force);
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &gravitation,
+                         double current_time) const override {
+    LinkedCell<T, dim>::calculateNextStep(particleContainer, deltaT, gravitation, current_time);
   }
 };
 
@@ -73,13 +73,13 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
               if (l2Norm > cellContainer.getCutoffRadiusSquare())
                 continue;
 
-              //TODO Pass ParticlePointer to function?
-              LinkedCell<LennardJones, dim>::calculateMoleculeForce((*i), (*j), l2Norm);
+              if((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE && (*i)->getType() == (*j)->getType()) {
+                LinkedCell<LennardJones, dim>::calculateMoleculeForce((*i), (*j), l2Norm);
 
-              //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
-              if (l2Norm > (LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()
-                  * LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()))
-                continue;
+                //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
+                if(l2Norm > (LinkedCell<LennardJones, dim>::sixthSqrtOfTwo*(*i)->getZeroCrossing() * LinkedCell<LennardJones, dim>::sixthSqrtOfTwo*(*i)->getZeroCrossing()))
+                  continue;
+              }
 
               SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
               Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
@@ -127,8 +127,8 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
     }
   }
 
-  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &additionalForce,
-                         std::vector<Force<dim>> &forces) const override {
-    LinkedCell<LennardJones, dim>::calculateNextStep(particleContainer, deltaT, additionalForce, forces);
+  void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &gravitation,
+                         double current_time) const override {
+    LinkedCell<LennardJones, dim>::calculateNextStep(particleContainer, deltaT, gravitation, current_time);
   }
 };

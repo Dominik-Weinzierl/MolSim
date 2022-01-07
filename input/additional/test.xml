@@ -1,26 +1,23 @@
-<Simulation endTime="0.5" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
-            additionalGravitation="-12.44">
+<Simulation endTime="20" deltaT="0.0005" iteration="60" physics="lennard" writer="vtk" output="MD">
+    <AdditionalGravitation x="0.0" y="0.0" z="-0.001"/>
     <Strategy>
-        <LinkedCell cutoffRadius="3.0" parallel="lock-free">
-            <Domain x="60" y="60" z="60"/>
-            <CellSize x="3" y="3" z="3"/>
-            <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
-                      boundary-bottom="reflecting" boundary-front="periodic" boundary-back="periodic"/>
+        <LinkedCell cutoffRadius="4.0">
+            <Domain x="140" y="140" z="140"/>
+            <CellSize x="4" y="4" z="4"/>
+            <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="periodic"
+                      boundary-bottom="periodic" boundary-front="reflecting" boundary-back="reflecting"/>
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Cuboid mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.2"
-                type="0">
-            <Position x="0.6" y="0.6" z="0.6"/>
+        <Membrane mass="1.0" distance="2.2" meanValue="0" packed="true" depthOfPotentialWell="1.0" zeroCrossing="1.0" stiffness="300" averageBondLength="2.2" type="0" fixedOutline="true">
+            <Position x="20.0" y="20.0" z="20.5"/>
             <Velocity x="0.0" y="0.0" z="0.0"/>
-            <Dimension x="50" y="20" z="50"/>
-        </Cuboid>
-        <Cuboid mass="2.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.1"
-                type="1">
-            <Position x="0.6" y="24.6" z="0.6"/>
-            <Velocity x="0.0" y="0.0" z="0.0"/>
-            <Dimension x="50" y="20" z="50"/>
-        </Cuboid>
+            <Dimension x="30" y="30" z="1"/>
+        </Membrane>
+        <Sphere mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.2"
+                type="1" radius="10">
+            <Center x="45.0" y="45.0" z="40.0"/>
+            <Velocity x="0.0" y="0.0" z="-10.0"/>
+        </Sphere>
     </Shapes>
-    <Thermostat initialT="40" numberT="1000"/>
 </Simulation>

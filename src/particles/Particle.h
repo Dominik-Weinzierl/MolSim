@@ -4,8 +4,9 @@
 
 #include "physics/Vector/Vector.h"
 #include "logger/Logger.h"
+#include "physics/Forces/Force.h"
 
-enum ParticleType{
+enum ParticleType {
   MOLECULE, PARTICLE
 };
 /**
@@ -59,7 +60,7 @@ class Particle {
   /**
     * Whether the particle should be considered fixed (aka does not move)
     */
-  bool fixed;
+  bool fixed{};
 
   /**
    * Vector of moleculeArguments.
@@ -80,6 +81,11 @@ class Particle {
    * ParticleTypes (either PARTICLE or MOLECULE, default PARTICLE)
    */
   ParticleType particleType = PARTICLE;
+
+  /**
+   *
+   */
+  std::vector<Force<dim>> additionalForces{};
 
  public:
 
@@ -127,15 +133,15 @@ class Particle {
   }
 
   /**
-* Constructor which generates a particle with the given parameters.
- * @param pX position vector
- * @param pV velocity vector
- * @param pM mass
- * @param pZeroCrossing zero crossing
- * @param pPotentialWellDepth potential well depth
- * @param pType type of the Particle
- * @param pFixed if the particle should be fixed
- */
+   * Constructor which generates a particle with the given parameters.
+   * @param pX position vector
+   * @param pV velocity vector
+   * @param pM mass
+   * @param pZeroCrossing zero crossing
+   * @param pPotentialWellDepth potential well depth
+   * @param pType type of the Particle
+   * @param pFixed if the particle should be fixed
+   */
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth,
            int pType, bool pFixed) : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
                                      potentialWellDepth{pPotentialWellDepth}, fixed{pFixed} {
@@ -336,8 +342,10 @@ class Particle {
   * @return membraneArguments
   */
   [[nodiscard]] std::vector<double> getMembraneArguments() const {
-    if(particleType == MOLECULE) return membraneArguments;
-    else return {};
+    if (particleType == MOLECULE)
+      return membraneArguments;
+    else
+      return {};
   }
 
   /**
@@ -505,8 +513,8 @@ class Particle {
   * @param stiffness
   * @param averageBondLength
   */
-  void setMembraneArguments(double stiffness, double averageBondLength){
-    if(particleType == MOLECULE){
+  void setMembraneArguments(double stiffness, double averageBondLength) {
+    if (particleType == MOLECULE) {
       membraneArguments.clear();
       membraneArguments.template emplace_back(stiffness);
       membraneArguments.template emplace_back(averageBondLength);
@@ -517,9 +525,9 @@ class Particle {
   * Adds a molecule-pointer to neighbours.
   * @param p molecule-pointer
   */
-  void addNeighbour(Particle<dim> *p){
-    if(particleType == MOLECULE){
-      neighbours.template emplace_back(p);
+  void addNeighbour(Particle<dim> *p) {
+    if (particleType == MOLECULE) {
+      neighbours.emplace_back(p);
     }
   }
 
@@ -527,17 +535,51 @@ class Particle {
   * Adds a molecule-pointer to diagonalNeighbours.
   * @param p molecule-pointer
   */
-  void addDiagonalNeighbour(Particle<dim> *p){
-    if(particleType == MOLECULE){
-      diagonalNeighbours.template emplace_back(p);
+  void addDiagonalNeighbour(Particle<dim> *p) {
+    if (particleType == MOLECULE) {
+      diagonalNeighbours.emplace_back(p);
     }
   }
 
-  bool isNeighbour(Particle<dim> *p){
+  /**
+   *
+   * @param p
+   * @return
+   */
+  bool isNeighbour(Particle<dim> *p) {
     return std::find(neighbours.begin(), neighbours.end(), p) != neighbours.end();
   }
 
-  bool isDiagonalNeighbour(Particle<dim> *p){
+  /**
+   *
+   * @param p
+   * @return
+   */
+  bool isDiagonalNeighbour(Particle<dim> *p) {
     return std::find(diagonalNeighbours.begin(), diagonalNeighbours.end(), p) != diagonalNeighbours.end();
+  }
+
+  /**
+   *
+   * @return
+   */
+  const std::vector<Force<dim>> &getAdditionalForces() const {
+    return additionalForces;
+  }
+
+  /**
+   *
+   * @param additional_forces
+   */
+  void addAdditionalForce(const Force<dim> &additional_forces) {
+    additionalForces.push_back(additional_forces);
+  }
+
+  /**
+   *
+   * @param fix
+   */
+  void setFixed(bool fix) {
+    fixed = fix;
   }
 };

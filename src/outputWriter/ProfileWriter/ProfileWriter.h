@@ -150,6 +150,15 @@ class ProfileWriter {
 
   }
 
+  bool operator==(const ProfileWriter &rhs) const {
+    return numOfBins == rhs.numOfBins && numOfIterations == rhs.numOfIterations && velocity == rhs.velocity
+        && density == rhs.density;
+  }
+
+  bool operator!=(const ProfileWriter &rhs) const {
+    return !(rhs == *this);
+  }
+
 
   //----------------------------------------Getter & Setter----------------------------------------
 

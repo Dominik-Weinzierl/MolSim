@@ -12,7 +12,7 @@
 #include "generator/GeneratorArguments/RectangularArgument.h"
 #include "boundaryType/BoundaryType.h"
 #include "thermostat/Thermostat.h"
-#include "physics/Forces/Force.h"
+#include "physics/Forces/ForceContainer.h"
 
 /**
  * XMLArgument stores the arguments parsed by XMLArgumentParser for easy access.
@@ -82,7 +82,6 @@ class XMLArgument : public Argument<dim> {
    * @param pThermostat optional thermostat which is applied during the simulation
    * @param pProfileWriter optional profile writer
    * @param pAdditionalGravitation optional additional gravitation
-   * @param pForce optional additional force
    * @param pParallel optional parallelization strategy
    */
   XMLArgument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput,
@@ -92,19 +91,13 @@ class XMLArgument : public Argument<dim> {
               std::optional<double> pCutoffRadius, std::optional<Vector<dim>> pDomain,
               std::optional<std::vector<BoundaryType>> pBoundaries, std::optional<Vector<dim>> pCellSize,
               std::unique_ptr<Thermostat<dim>> pThermostat, std::unique_ptr<ProfileWriter<dim>> pProfileWriter,
-              Vector<dim> pAdditionalGravitation, std::vector<Force<dim>> pForces, std::optional<std::string> pParallel) : Argument<dim>(std::move(pFiles),
-                                                                                                   pEndTime, pDeltaT,
-                                                                                                   std::move(pOutput),
-                                                                                                   std::move(pWriter),
-                                                                                                   pIteration,
-                                                                                                   std::move(pPhysics),
-                                                                                                   pStrategy, std::move(
-          pThermostat), std::move(pProfileWriter), pAdditionalGravitation, pForces), cuboidArguments{
-      std::move(pCuboidArguments)}, sphereArguments{std::move(pSphereArguments)}, membraneArguments{pMembraneArguments},
-                                                                                     domain{pDomain},
-                                                                                     cutoffRadius{pCutoffRadius},
-                                                                                     boundaries{std::move(pBoundaries)},
-                                                                                     cellSize{pCellSize}, parallel{std::move(pParallel)} {
+              Vector<dim> pAdditionalGravitation, std::optional<std::string> pParallel)
+      : Argument<dim>(std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration,
+                      std::move(pPhysics), pStrategy, std::move(pThermostat), std::move(pProfileWriter),
+                      pAdditionalGravitation), cuboidArguments{std::move(pCuboidArguments)},
+        sphereArguments{std::move(pSphereArguments)}, membraneArguments{pMembraneArguments}, domain{pDomain},
+        cutoffRadius{pCutoffRadius}, boundaries{std::move(pBoundaries)}, cellSize{pCellSize},
+        parallel{std::move(pParallel)} {
     SPDLOG_TRACE("XMLArgument created!");
   }
 
@@ -148,6 +141,10 @@ class XMLArgument : public Argument<dim> {
       configuration << "\t\tDomain: " << ArrayUtils::to_string(this->domain.value()) << std::endl;
       configuration << "\t\tCell size: " << ArrayUtils::to_string(this->cellSize.value()) << std::endl;
       configuration << "\t\tBoundary: " << ArrayUtils::to_string(this->boundaries.value()) << std::endl;
+
+      if (parallel.has_value()) {
+        configuration << "\t\tParallelization: " << parallel.value() << std::endl;
+      }
     };
 
     // Print additional generators
@@ -177,8 +174,11 @@ class XMLArgument : public Argument<dim> {
       }
     }
 
-    // Print thermostat if available
+    // Print thermostat
     configuration << this->thermostat->toString() << std::endl;
+
+    // Print profile writer
+    // configuration << this->profileWriter->toString() << std::endl;
 
     return configuration.str();
   }
@@ -194,7 +194,7 @@ class XMLArgument : public Argument<dim> {
     return static_cast<const Argument<dim> &>(*this) == static_cast<const Argument<dim> &>(rhs)
         && cuboidArguments == rhs.cuboidArguments && sphereArguments == rhs.sphereArguments
         && membraneArguments == rhs.membraneArguments && cutoffRadius == rhs.cutoffRadius && domain == rhs.domain
-        && cellSize == rhs.cellSize && boundaries == rhs.boundaries;
+        && cellSize == rhs.cellSize && parallel == rhs.parallel && boundaries == rhs.boundaries;
   }
 
   /**
@@ -206,9 +206,11 @@ class XMLArgument : public Argument<dim> {
     return !(rhs == *this);
   }
 
+
+
   //----------------------------------------Getter & Setter----------------------------------------
 
-  void updateCellSizeOnIndex(size_t index, double pCellSize){
+  void updateCellSizeOnIndex(size_t index, double pCellSize) {
     cellSize.value()[index] = pCellSize;
   }
 

@@ -8,7 +8,7 @@
  * @tparam dim dimension of our simulation.
  */
 template<size_t dim>
-class SphereArgument : public GeneratorArguments {
+class SphereArgument : public GeneratorArguments<dim> {
 
   /**
    * Coordinates of the center.
@@ -19,51 +19,6 @@ class SphereArgument : public GeneratorArguments {
    * Radius of the Sphere.
    */
   int radius;
-
-  /**
-   * Initial velocity of the Cuboid.
-   */
-  Vector<dim> initialVelocity;
-
-  /**
-   * Distance between the Particle(s).
-   */
-  double distance;
-
-  /**
-   * Mass of the Particle(s).
-   */
-  double mass;
-
-  /**
-   * Mean value of the Particle(s).
-   */
-  double meanValue;
-
-  /**
-   * Packed value of the Particle(s).
-   */
-  bool packed;
-
-  /**
-   * A zero-crossing is a point where the sign of a mathematical function changes.
-   */
-  double zeroCrossing;
-
-  /**
-   * A potential well is the region surrounding a local minimum of potential energy.
-   */
-  double depthOfPotentialWell;
-
-  /**
-   * Type of all particles generated with this specific generator argument.
-   */
-  int type;
-
-  /**
-   * Should the particles be fixed
-   */
-  bool fixed;
 
  public:
 
@@ -82,13 +37,13 @@ class SphereArgument : public GeneratorArguments {
  * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
  * @param pType of all particles generated with this specific generator argument.
  * @param pFixed whether the particles should be fixed.
+ * @param pForces additional forces applied on the particles.
  */
   SphereArgument(Vector<dim> pCenterCoordinates, int pRadius, Vector<dim> pInitialVelocity, double pDistance,
                  double pMass, double pMeanValue, bool pPacked, double pZeroCrossing, double pDepthOfPotentialWell,
-                 int pType, bool pFixed) : centerCoordinates{pCenterCoordinates}, radius{pRadius},
-                                           initialVelocity{pInitialVelocity}, distance{pDistance}, mass{pMass},
-                                           meanValue{pMeanValue}, packed{pPacked}, zeroCrossing{pZeroCrossing},
-                                           depthOfPotentialWell{pDepthOfPotentialWell}, type{pType}, fixed{pFixed} {
+                 int pType, bool pFixed, std::vector<ForceContainer<dim>> pForces) : GeneratorArguments<dim>(
+      pInitialVelocity, pDistance, pMass, pMeanValue, pPacked, pZeroCrossing, pDepthOfPotentialWell, pType, pFixed,
+      pForces), centerCoordinates{pCenterCoordinates}, radius{pRadius} {
   }
 
   //----------------------------------------Methods----------------------------------------
@@ -100,44 +55,28 @@ class SphereArgument : public GeneratorArguments {
     std::stringstream argument;
     argument << "\t\t\tSphere:" << std::endl;
     argument << "\t\t\t\t Center coordinates: " << ArrayUtils::to_string(centerCoordinates) << std::endl;
-    argument << "\t\t\t\t Velocity: " << ArrayUtils::to_string(initialVelocity) << std::endl;
     argument << "\t\t\t\t Radius: " << radius << std::endl;
-    argument << "\t\t\t\t Distance: " << distance << std::endl;
-    argument << "\t\t\t\t Mass: " << mass << std::endl;
-    argument << "\t\t\t\t Mean value: " << meanValue << std::endl;
-    argument << "\t\t\t\t Packed: " << (packed ? "true" : "false") << std::endl;
-    argument << "\t\t\t\t Zero crossing: " << zeroCrossing << std::endl;
-    argument << "\t\t\t\t Depth of potential well: " << depthOfPotentialWell << std::endl;
-    argument << "\t\t\t\t Type: " << type << std::endl;
-    argument << "\t\t\t\t Fixed: " << fixed << std::endl;
+    argument << GeneratorArguments<dim>::toString();
     return argument.str();
   };
 
   /**
    * Compare operator for SphereArgument(s);
-   * @tparam dim dimension of current simulation
-   * @param left first SphereArgument
-   * @param right second SphereArgument
-   * @return true if they equal
+   * @param rhs SphereArgument
+   * @return true if they not equal
    */
-  friend bool operator==(const SphereArgument<dim> &left, const SphereArgument<dim> &right) {
-    return left.getCenterCoordinates() == right.getCenterCoordinates() && left.getRadius() == right.getRadius()
-        && left.getInitialVelocity() == right.getInitialVelocity() && left.getDistance() == right.getDistance()
-        && left.getMass() == right.getMass() && left.getMeanValue() == right.getMeanValue()
-        && left.getPacked() == right.getPacked() && left.getDepthOfPotentialWell() == right.getDepthOfPotentialWell()
-        && left.getZeroCrossing() == right.getZeroCrossing() && left.getType() == right.getType();
+  bool operator==(const SphereArgument &rhs) const {
+    return static_cast<const GeneratorArguments<dim> &>(*this) == static_cast<const GeneratorArguments<dim> &>(rhs)
+        && centerCoordinates == rhs.centerCoordinates && radius == rhs.radius;
   }
 
   /**
-   * Stream operator for SphereArgument(s).
-   * @tparam dim dimension of our simulation.
-   * @param stream std::ostream
-   * @param p SphereArgument to print
-   * @return updated stream
+   * Compare operator for SphereArgument(s);
+   * @param rhs GeneratorArgument
+   * @return true if they not equal
    */
-  friend std::ostream &operator<<(std::ostream &stream, const SphereArgument<dim> &s) {
-    stream << s.toString();
-    return stream;
+  bool operator!=(const SphereArgument &rhs) const {
+    return !(rhs == *this);
   }
 
   //----------------------------------------Getter & Setter----------------------------------------
@@ -156,77 +95,5 @@ class SphereArgument : public GeneratorArguments {
    */
   [[nodiscard]] int getRadius() const {
     return radius;
-  }
-
-  /**
-   * Getter for the initialVelocity.
-   * @return initialVelocity
-   */
-  const Vector<dim> &getInitialVelocity() const {
-    return initialVelocity;
-  }
-
-  /**
-   * Getter for the distance.
-   * @return distance
-   */
-  [[nodiscard]] double getDistance() const {
-    return distance;
-  }
-
-  /**
-* Getter for fixed
-* @return fixed
-*/
-  [[nodiscard]] bool isFixed() const {
-    return fixed;
-  }
-
-  /**
-   * Getter for the mass.
-   * @return mass
-   */
-  [[nodiscard]] double getMass() const {
-    return mass;
-  }
-
-  /**
-   * Getter for the meanValue.
-   * @return meanValue
-   */
-  [[nodiscard]] double getMeanValue() const {
-    return meanValue;
-  }
-
-  /**
-   * Getter for the packed.
-   * @return packed
-   */
-  [[nodiscard]] bool getPacked() const {
-    return packed;
-  }
-
-  /**
-   * Getter for the zero crossing of all generated particles.
-   * @return double zeroCrossing
-   */
-  [[nodiscard]] double getZeroCrossing() const {
-    return zeroCrossing;
-  }
-
-  /**
-   * Getter for the potential well.
-   * @return double depthOfPotentialWell
-   */
-  [[nodiscard]] double getDepthOfPotentialWell() const {
-    return depthOfPotentialWell;
-  }
-
-  /**
-   * Getter for the type of the generated Particle(s).
-   * @return int type
-   */
-  [[nodiscard]] int getType() const {
-    return type;
   }
 };

@@ -52,15 +52,11 @@ class MDSimulation {
 
     thermostat->setInitialTemperature(particleContainer);
 
-    Vector<dim> additionalForce = arg.getAdditionalGravitation();
-
-    std::vector<Force<dim>> forces = arg.getForces();
-
-    particleContainer.setForces(forces);
+    Vector<dim> gravitation = arg.getAdditionalGravitation();
 
     // for this loop, we assume: current x, current f and current v are known
     while (current_time < arg.getEndTime()) {
-      physics.calculateNextStep(particleContainer, deltaT, additionalForce, forces);
+      physics.calculateNextStep(particleContainer, deltaT, gravitation, current_time);
 
       if (iteration % thermostat->getNumberT() == 0) {
         thermostat->applyThermostat(particleContainer);

@@ -1,0 +1,25 @@
+<Simulation endTime="500" deltaT="0.01" iteration="60" physics="lennard" writer="vtk" output="MD">
+    <AdditionalGravitation x="0.0" y="0.0" z="-0.001"/>
+    <Strategy>
+        <LinkedCell cutoffRadius="4.0">
+            <Domain x="148" y="148" z="148"/>
+            <CellSize x="4" y="4" z="4"/>
+            <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="periodic"
+                      boundary-bottom="periodic" boundary-front="reflecting" boundary-back="reflecting"/>
+        </LinkedCell>
+    </Strategy>
+    <Shapes>
+        <Membrane mass="1.0" distance="2.2" meanValue="0" packed="true" depthOfPotentialWell="1.0" zeroCrossing="1.0" stiffness="300" averageBondLength="2.2" type="0">
+            <Position x="15.0" y="15.0" z="1.5"/>
+            <Velocity x="0.0" y="0.0" z="0.0"/>
+            <Dimension x="50" y="50" z="1"/>
+            <Forces start="0" end="150">
+                <Strength x="0.0" y ="0.0" z="0.8"/>
+                <Index x ="17" y="24" z="0"/>
+                <Index x ="17" y="25" z="0"/>
+                <Index x ="18" y="24" z="0"/>
+                <Index x ="18" y="25" z="0"/>
+            </Forces>
+        </Membrane>
+    </Shapes>
+</Simulation>
