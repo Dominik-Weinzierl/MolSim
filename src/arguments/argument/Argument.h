@@ -153,7 +153,7 @@ class Argument {
   bool operator==(const Argument &rhs) const {
     return files == rhs.files && endTime == rhs.endTime && deltaT == rhs.deltaT && output == rhs.output
         && writer == rhs.writer && physics == rhs.physics && iteration == rhs.iteration && strategy == rhs.strategy
-        && thermostat == rhs.thermostat && profileWriter == rhs.profileWriter
+        && *thermostat == *rhs.thermostat && *profileWriter == *rhs.profileWriter
         && additionalGravitation == rhs.additionalGravitation;
   }
 

@@ -19,12 +19,10 @@ TEST(XMLReader_3D, test_case_1) { // NOLINT(cert-err58-cpp)
 
   // Create expected argument
   std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
-  std::vector<CuboidArgument<dim>>
-      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
+  std::vector<CuboidArgument<dim>> cuboidArguments
+      {CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0, false, {}}};
   std::vector<SphereArgument<dim>>
-      sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
-  //std::vector<MembraneArgument<dim>>
-     // membraneArguments{MembraneArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
+      sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0, false, {}}};
   std::vector<std::string> files{};
   double endTime = 5;
   double deltaT = 0.0002;
@@ -34,8 +32,9 @@ TEST(XMLReader_3D, test_case_1) { // NOLINT(cert-err58-cpp)
   std::string writer{"vtk"};
   std::string algorithm{"DirectSum"};
   XMLArgument<dim> expected
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::make_unique<DummyThermostat<dim>>(), 0.0};
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, {}, algorithm,
+       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::make_unique<DummyThermostat<dim>>(),
+       std::make_unique<DummyProfileWriter<dim>>(), {}, std::nullopt};
 
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);
@@ -53,9 +52,9 @@ TEST(XMLReader_2D, test_case_1) { // NOLINT(cert-err58-cpp)
   // Create expected argument
   std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
   std::vector<CuboidArgument<dim>>
-      cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
+      cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0, false, {}}};
   std::vector<SphereArgument<dim>>
-      sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
+      sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true, 1, 5, 0, false, {}}};
   std::vector<std::string> files{};
   double endTime = 5;
   double deltaT = 0.0002;
@@ -65,8 +64,9 @@ TEST(XMLReader_2D, test_case_1) { // NOLINT(cert-err58-cpp)
   std::string writer{"vtk"};
   std::string algorithm{"DirectSum"};
   XMLArgument<dim> expected
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, algorithm,
-       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::make_unique<DummyThermostat<dim>>(), 0.0};
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, {}, algorithm,
+       std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::make_unique<DummyThermostat<dim>>(),
+       std::make_unique<DummyProfileWriter<dim>>(), {}, std::nullopt};
 
   // Compare both XMLArgument
   EXPECT_EQ(*arg, expected);
@@ -299,10 +299,41 @@ TEST(XMLReader_2D, test_case_6) { // NOLINT(cert-err58-cpp)
 }
 
 /**
+* Test that targetT is set to initialT if not specified.
+*/
+TEST(XMLReader_3D, test_case_6) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 3;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_6.xml");
+
+  // Create argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+
+  EXPECT_EQ((*arg).getThermostat()->getTargetT(), 42);
+}
+
+/**
 * Test that thermostat properties are set correctly.
 */
 TEST(XMLReader_2D, test_case_7) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
+
+  // Read input file
+  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_7.xml");
+
+  // Create argument
+  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
+  Thermostat<dim> expected{40, 69, 1000, 42};
+
+  EXPECT_EQ(*(*arg).getThermostat(), expected);
+}
+
+/**
+* Test that thermostat properties are set correctly.
+*/
+TEST(XMLReader_3D, test_case_7) { // NOLINT(cert-err58-cpp)
+  constexpr static size_t dim = 3;
 
   // Read input file
   XMLReader<dim> reader("../../tests/XMLReader/input/test_case_7.xml");
@@ -326,37 +357,6 @@ TEST(XMLReader_2D, test_case_8) { // NOLINT(cert-err58-cpp)
   // Create argument
   std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
   Thermostat<dim> expected{40, 69, 1000, -1};
-
-  EXPECT_EQ(*(*arg).getThermostat(), expected);
-}
-
-/**
-* Test that targetT is set to initialT if not specified.
-*/
-TEST(XMLReader_3D, test_case_6) { // NOLINT(cert-err58-cpp)
-  constexpr static size_t dim = 3;
-
-  // Read input file
-  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_6.xml");
-
-  // Create argument
-  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
-
-  EXPECT_EQ((*arg).getThermostat()->getTargetT(), 42);
-}
-
-/**
-* Test that thermostat properties are set correctly.
-*/
-TEST(XMLReader_3D, test_case_7) { // NOLINT(cert-err58-cpp)
-  constexpr static size_t dim = 3;
-
-  // Read input file
-  XMLReader<dim> reader("../../tests/XMLReader/input/test_case_7.xml");
-
-  // Create argument
-  std::unique_ptr<XMLArgument<dim>> arg = reader.readXML();
-  Thermostat<dim> expected{40, 69, 1000, 42};
 
   EXPECT_EQ(*(*arg).getThermostat(), expected);
 }

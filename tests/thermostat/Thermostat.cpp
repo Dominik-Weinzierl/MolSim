@@ -3,7 +3,7 @@
 #include "thermostat/Thermostat.h"
 #include "container/DirectSum/DirectSumContainer.h"
 
-static double eps = std::numeric_limits<double>::epsilon() * 100;
+static double eps = std::numeric_limits<double>::epsilon() * 10e8;
 
 /**
  * Calculates the temperature from the kinetic energy of the container.

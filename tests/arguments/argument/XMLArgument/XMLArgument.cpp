@@ -24,10 +24,12 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
   int iteration = 5;
   std::string physics{"gravitation"};
   std::vector<CuboidArgument<dim>>
-      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
+      cuboidArguments{CuboidArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0, true, {}}};
   std::vector<SphereArgument<dim>>
-      sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
-  std::vector<MembraneArgument<dim>> membraneArguments{MembraneArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 2.2, 300, 0}};
+      sphereArguments{SphereArgument<dim>{{15.0, 15.0, 0}, 3, {0, -10, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0, true, {}}};
+  std::vector<MembraneArgument<dim>> membraneArguments
+      {MembraneArgument<dim>{{0, 0, 0}, {40, 8, 1}, {0, 0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 2.2, 300, 0, true, {},
+                             false}};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
   std::optional<Vector<dim>> domain{{5, 5, 5}};
@@ -35,11 +37,12 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
       {{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting,
         BoundaryType::Outflow, BoundaryType::Outflow}};
   std::optional<Vector<dim>> cellSize{{1, 1, 1}};
-  double additionalGravitation = 5;
+  Vector<dim> additionalGravitation{};
+  std::optional<std::string> parallel{"lock-free"};
 
   XMLArgument<dim> arg
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, nullptr, additionalGravitation};
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, membraneArguments,
+       strategy, cutoffRadius, domain, boundaries, cellSize, nullptr, nullptr, additionalGravitation, parallel};
 
   // Expect getter und setter to return correct values
   EXPECT_EQ(arg.getFiles(), files);
@@ -58,7 +61,9 @@ TEST(XMLArgument_3D, constructor) { // NOLINT(cert-err58-cpp)
   EXPECT_EQ(arg.getBoundaries(), boundaries);
   EXPECT_EQ(arg.getCellSize(), cellSize);
   EXPECT_EQ(arg.getThermostat(), nullptr);
+  EXPECT_EQ(arg.getProfileWriter(), nullptr);
   EXPECT_EQ(arg.getAdditionalGravitation(), additionalGravitation);
+  EXPECT_EQ(arg.getParallel(), parallel);
 }
 
 /**
@@ -75,12 +80,11 @@ TEST(XMLArgument_2D, constructor) { // NOLINT(cert-err58-cpp)
   int iteration = 5;
   std::string physics{"gravitation"};
   std::vector<CuboidArgument<dim>>
-      cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
+      cuboidArguments{CuboidArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 0, true, {}}};
   std::vector<SphereArgument<dim>>
-      sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true, 1, 5, 0}};
-//  std::vector<MembraneArgument<dim>>
-//      membraneArguments{MembraneArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 2.2, 300, 0}};
-  std::vector<MembraneArgument<dim>> membraneArguments{};
+      sphereArguments{SphereArgument<dim>{{15.0, 15.0}, 3, {0, -10}, 1.1225, 1.0, 0.1, true, 1, 5, 0, true, {}}};
+  std::vector<MembraneArgument<dim>> membraneArguments
+      {MembraneArgument<dim>{{0, 0}, {40, 8}, {0, 0}, 1.1225, 1.0, 0.1, true, 1, 5, 2.2, 300, 0, true, {}, false}};
   std::string strategy{"DirectSum"};
   std::optional<double> cutoffRadius{5.0};
   std::optional<Vector<dim>> domain{{5, 5}};
@@ -88,10 +92,12 @@ TEST(XMLArgument_2D, constructor) { // NOLINT(cert-err58-cpp)
       boundaries{{BoundaryType::Outflow, BoundaryType::Outflow, BoundaryType::Reflecting, BoundaryType::Reflecting}};
   std::optional<Vector<dim>> cellSize{{1, 1}};
   Vector<dim> additionalGravitation = {5, 0};
+  std::optional<std::string> parallel{"lock-free"};
 
   XMLArgument<dim> arg
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, nullptr, additionalGravitation};
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, membraneArguments,
+       strategy, cutoffRadius, domain, boundaries, cellSize, nullptr,
+       nullptr, additionalGravitation, parallel};
 
   // Expect getter und setter to return correct values
   EXPECT_EQ(arg.getFiles(), files);
@@ -103,13 +109,16 @@ TEST(XMLArgument_2D, constructor) { // NOLINT(cert-err58-cpp)
   EXPECT_EQ(arg.getPhysics(), physics);
   EXPECT_EQ(arg.getCuboidArguments(), cuboidArguments);
   EXPECT_EQ(arg.getSphereArguments(), sphereArguments);
+  EXPECT_EQ(arg.getMembraneArguments(), membraneArguments);
   EXPECT_EQ(arg.getStrategy(), strategy);
   EXPECT_EQ(arg.getCutoffRadius(), cutoffRadius);
   EXPECT_EQ(arg.getDomain(), domain);
   EXPECT_EQ(arg.getBoundaries(), boundaries);
   EXPECT_EQ(arg.getCellSize(), cellSize);
   EXPECT_EQ(arg.getThermostat(), nullptr);
+  EXPECT_EQ(arg.getProfileWriter(), nullptr);
   EXPECT_EQ(arg.getAdditionalGravitation(), additionalGravitation);
+  EXPECT_EQ(arg.getParallel(), parallel);
 }
 
 /**
@@ -134,14 +143,16 @@ TEST(XMLArgument, compareOperatorEqual) { // NOLINT(cert-err58-cpp)
   std::optional<std::vector<BoundaryType>> boundaries{};
   std::optional<Vector<dim>> cellSize{{1, 1}};
   Vector<dim> additionalGravitation = {0, 0};
+  std::optional<std::string> parallel{"lock-free"};
 
   XMLArgument<dim> first
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
-
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, membraneArguments,
+       strategy, cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(),
+       std::make_unique<DummyProfileWriter<dim>>(), additionalGravitation, parallel};
   XMLArgument<dim> second
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, membraneArguments,
+       strategy, cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(),
+       std::make_unique<DummyProfileWriter<dim>>(), additionalGravitation, parallel};
 
   EXPECT_EQ(first, second);
 }
@@ -168,16 +179,19 @@ TEST(XMLArgument, compareOperatorNotEqual) { // NOLINT(cert-err58-cpp)
   std::optional<std::vector<BoundaryType>> boundaries{};
   std::optional<Vector<dim>> cellSize{{1, 1}};
   Vector<dim> additionalGravitation = {0, 0};
+  std::optional<std::string> parallel{"lock-free"};
 
   XMLArgument<dim> first
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, membraneArguments,
+       strategy, cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(),
+       std::make_unique<DummyProfileWriter<dim>>(), additionalGravitation, parallel};
 
   physics = std::string{"lennard"};
 
   XMLArgument<dim> second
-      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, strategy,
-       cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(), additionalGravitation};
+      {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, membraneArguments,
+       strategy, cutoffRadius, domain, boundaries, cellSize, std::make_unique<DummyThermostat<dim>>(),
+       std::make_unique<DummyProfileWriter<dim>>(), additionalGravitation, parallel};
 
   EXPECT_NE(first, second);
 }

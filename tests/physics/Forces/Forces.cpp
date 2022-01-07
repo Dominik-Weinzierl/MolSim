@@ -2,7 +2,6 @@
 
 #include "physics/DirectSum.h"
 #include "physics/variants/Gravitation.h"
-#include "physics/Forces/Forces.h"
 #include "container/DirectSum/DirectSumContainer.h"
 
 /**
