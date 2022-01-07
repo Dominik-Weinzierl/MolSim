@@ -65,11 +65,20 @@ jobs:
         run: |
           sudo apt-get install libxerces-c-dev
           make build_with_test
+        env:
+          CC: gcc-11
+          CXX: g++-11
 
       - name: Install test environement (2/2)
         run: make
         working-directory: ${{github.workspace}}/build
+        env:
+          CC: gcc-11
+          CXX: g++-11
 
       - name: Run CTest
         run: ctest
         working-directory: ${{github.workspace}}/build
+        env:
+          CC: gcc-11
+          CXX: g++-11
