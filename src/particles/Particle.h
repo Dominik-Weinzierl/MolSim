@@ -143,8 +143,12 @@ class Particle {
    * @param pFixed if the particle should be fixed
    */
   Particle(const Vector<dim> &pX, const Vector<dim> &pV, double pM, double pZeroCrossing, double pPotentialWellDepth,
-           int pType, bool pFixed) : x{pX}, v{pV}, f{}, old_f{}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
+           int pType, bool pFixed) : x{pX}, f{}, old_f{}, m{pM}, type{pType}, zeroCrossing{pZeroCrossing},
                                      potentialWellDepth{pPotentialWellDepth}, fixed{pFixed} {
+    if (fixed) {
+      v = {};
+    } else
+      v = pV;
     SPDLOG_TRACE("Particle generated");
   }
 

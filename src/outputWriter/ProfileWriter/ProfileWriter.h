@@ -1,4 +1,5 @@
 #include "fstream"
+#include "container/ParticleContainer.h"
 #pragma once
 
 /**
@@ -27,7 +28,7 @@ class ProfileWriter {
   /**
    * Domain size
    */
-  Vector <dim> dom;
+  Vector<dim> dom;
   /**
    * file to write to
    */
@@ -38,12 +39,9 @@ class ProfileWriter {
    * @param c the particle container
    * @return a vector of vectors aka bins
    */
-  std::vector<std::vector<Particle < dim>>>
-  particlesIntoBins(ParticleContainer<dim>
-  &c) {
-    std::vector<std::vector<Particle < dim>> > bins;
-    std::vector<Particle < dim>>
-    empty = {};
+  std::vector<std::vector<Particle<dim>>> particlesIntoBins(ParticleContainer<dim> &c) {
+    std::vector<std::vector<Particle<dim>>> bins;
+    std::vector<Particle<dim>> empty = {};
     for (int i = 0; i < numOfBins; ++i) {
       bins.emplace_back(empty);
     }
@@ -59,8 +57,8 @@ class ProfileWriter {
    * @param b the vector
    * @return the average speed
    */
-  double computeAverageSpeed(std::vector<Particle < dim>> &b) {
-    Vector <dim> ret{};
+  double computeAverageSpeed(std::vector<Particle<dim>> &b) {
+    Vector<dim> ret{};
     unsigned long count = 0;
     for (auto &p: b) {
       // ToDo think about fixed particles
@@ -79,7 +77,7 @@ class ProfileWriter {
  * @param b the particle vector
  * @return the density
  */
-  double computeDensity(std::vector<Particle < 2>> &b) {
+  double computeDensity(std::vector<Particle<2>> &b) {
     return static_cast<double>(b.size()) / (dom[0] / static_cast<double>(numOfBins) * dom[1]);
   }
 /**
@@ -87,7 +85,7 @@ class ProfileWriter {
  * @param b the particle vector
  * @return the density
  */
-  double computeDensity(std::vector<Particle < 3>> &b) {
+  double computeDensity(std::vector<Particle<3>> &b) {
     return static_cast<double>(b.size()) / (dom[0] / static_cast<double>(numOfBins) * dom[1] * dom[2]);
   }
 
@@ -100,10 +98,19 @@ class ProfileWriter {
    * @param pDens Generate density profiles?
    * @param pDom domain of the simulation
    */
-  ProfileWriter(int pBins, int pIter, bool pVel, bool pDens, Vector <dim> pDom) : numOfBins(pBins),
-                                                                                  numOfIterations(pIter),
-                                                                                  velocity(pVel), density(pDens),
-                                                                                  dom(pDom) {};
+  ProfileWriter(int pBins, int pIter, bool pVel, bool pDens, Vector<dim> pDom) : numOfBins(pBins),
+                                                                                 numOfIterations(pIter), velocity(pVel),
+                                                                                 density(pDens), dom(pDom) {
+    // delete already existing files
+    if (velocity) {
+      file.open("output/velprofile.csv");
+      file.close();
+    }
+    if (density) {
+      file.open("output/densprofile.csv");
+      file.close();
+    }
+  };
   /**
   * Constructor
   * @param pBins Number of bins
@@ -112,7 +119,17 @@ class ProfileWriter {
   * @param pDens Generate density profiles?
   */
   ProfileWriter(int pBins, int pIter, bool pVel, bool pDens) : numOfBins(pBins), numOfIterations(pIter), velocity(pVel),
-                                                               density(pDens) {};
+                                                               density(pDens) {
+    // delete already existing files
+    if (velocity) {
+      file.open("output/velprofile.csv");
+      file.close();
+    }
+    if (density) {
+      file.open("output/densprofile.csv");
+      file.close();
+    }
+  };
   /**
    * Destructor
    */
@@ -123,8 +140,8 @@ class ProfileWriter {
    * @param c the container
    * @param iteration the iteration number (needed for the .csv file)
    */
-  virtual void generateProfiles(ParticleContainer <dim> &c, int iteration) {
-    std::vector < std::vector < Particle < dim>>> bins = particlesIntoBins(c);
+  virtual void generateProfiles(ParticleContainer<dim> &c, int iteration) {
+    std::vector<std::vector<Particle<dim>>> bins = particlesIntoBins(c);
 
     if (velocity) {
       file.open("output/velprofile.csv", std::ios::app);
