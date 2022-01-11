@@ -83,7 +83,7 @@ TEST(FlowThermostat, heatingDirect) {
   FlowThermostat<dim> FlowThermostat{42, 10000000, 0, -1};
   FlowThermostat.applyThermostat(container);
 
-  // resulting energy will be less, as average only the x component is scaled!
+  // resulting energy will be less, as only the x component is scaled!
   EXPECT_LE(kineticEnergyTemp(container), 10000000);
 }
 
@@ -100,7 +100,7 @@ TEST(FlowThermostat, heatingDeltaT) {
   double tempBefore = kineticEnergyTemp(container);
   FlowThermostat.applyThermostat(container);
 
-  // resulting energy will be less, as average only the x component is scaled!
+  // resulting energy will be less, as only the x component is scaled!
   EXPECT_LE(kineticEnergyTemp(container) - tempBefore, 5);
 }
 
@@ -118,8 +118,8 @@ TEST(FlowThermostat, initalTNoInitialMotion) {
   FlowThermostat.setInitialTemperature(container);
 
 
-  // resulting energy will be less, as average only the x component is scaled!
-  EXPECT_LE(kineticEnergyTemp(container), 42);
+  // resulting energy will be greater, as the random y-velocity is ignored when calculating the scaling factor
+  EXPECT_GE(kineticEnergyTemp(container), 42);
 }
 
 /**
@@ -134,6 +134,6 @@ TEST(FlowThermostat, initalTInitialMotion) {
   FlowThermostat<dim> FlowThermostat{42, 897150, 0, 5};
   FlowThermostat.setInitialTemperature(container);
 
-  // resulting energy will be less, as average only the x component is scaled!
+  // resulting energy will be less, as only the x component is scaled!
   EXPECT_LE(kineticEnergyTemp(container), 42);
 }
