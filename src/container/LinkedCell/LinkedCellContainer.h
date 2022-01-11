@@ -110,7 +110,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
       boundaryTypes = {BoundaryType::Periodic};
     }
 
-    halosCells.emplace_back(boundaryTypes, pBorderDirection, this->particles, position, cellSize, domain);
+    halosCells.emplace_back(boundaryTypes, pBorderDirection, position, cellSize, domain);
     cells.push_back(&halosCells[halosCells.size() - 1]);
   }
 
@@ -155,7 +155,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
     for (BoardDirectionType &b: pBorderDirection) {
       boundaryTypes.push_back(getBoundaries()[b]);
     }
-    boundaryCells.emplace_back(boundaryTypes, pBorderDirection, this->particles, position, cellSize, domain);
+    boundaryCells.emplace_back(boundaryTypes, pBorderDirection, position, cellSize, domain);
     auto *ptr = &boundaryCells[boundaryCells.size() - 1];
     cells.push_back(ptr);
     boundaryAndInnerCells.push_back(ptr);
@@ -186,7 +186,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
    */
   void setupInner(int amount, Vector<dim> position) {
     for (int y = 0; y < amount; ++y) {
-      innerCells.emplace_back(this->particles, position, cellSize, domain);
+      innerCells.emplace_back(position, cellSize, domain);
       auto *ptr = &innerCells[innerCells.size() - 1];
       cells.push_back(ptr);
       boundaryAndInnerCells.push_back(ptr);

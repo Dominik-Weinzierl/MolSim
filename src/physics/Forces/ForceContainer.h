@@ -19,7 +19,7 @@ class ForceContainer {
   std::vector<std::array<int, dim>> indices;
 
   /**
-   *
+   * Force object applied on all indices.
    */
   Force<dim> force;
 

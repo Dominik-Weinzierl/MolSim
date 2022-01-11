@@ -59,16 +59,17 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
         for (auto j = (*n)->getParticles().begin(); j != (*n)->getParticles().end(); ++j) {
           double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
 
-          if (l2Norm > cellContainer.getCutoffRadiusSquare())
-            continue;
-
-          if((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE && (*i)->getType() == (*j)->getType()) {
+          if ((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE
+              && (*i)->getType() == (*j)->getType()) {
             calculateMoleculeForce((*i), (*j), l2Norm);
 
             //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
-            if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
+            if (l2Norm > (sixthSqrtOfTwo * (*i)->getZeroCrossing() * sixthSqrtOfTwo * (*i)->getZeroCrossing()))
               continue;
           }
+
+          if (l2Norm > cellContainer.getCutoffRadiusSquare())
+            continue;
 
           SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
           Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
@@ -87,7 +88,8 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
 
         double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
 
-        if((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE && (*i)->getType() == (*j)->getType()) {
+        if ((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE
+            && (*i)->getType() == (*j)->getType()) {
           calculateMoleculeForce((*i), (*j), l2Norm);
 
           //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
@@ -123,16 +125,17 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
           for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
             double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
 
-            if (l2Norm > cellContainer.getCutoffRadiusSquare())
-              continue;
-
-            if((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE && (*i)->getType() == (*j)->getType()) {
+            if ((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE
+                && (*i)->getType() == (*j)->getType()) {
               calculateMoleculeForce((*i), (*j), l2Norm);
 
               //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
-              if(l2Norm > (sixthSqrtOfTwo*(*i)->getZeroCrossing() * sixthSqrtOfTwo*(*i)->getZeroCrossing()))
+              if (l2Norm > (sixthSqrtOfTwo * (*i)->getZeroCrossing() * sixthSqrtOfTwo * (*i)->getZeroCrossing()))
                 continue;
             }
+
+            if (l2Norm > cellContainer.getCutoffRadiusSquare())
+              continue;
 
             SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
             Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};

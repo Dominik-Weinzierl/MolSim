@@ -138,7 +138,6 @@ class MolSim {
       }
     } else if (arg->getPhysics() == "lennard") {
       if (arg->getStrategy() == "LinkedCell") {
-        // TODO Fix cast with check
         auto &xmlArg = static_cast<XMLArgument<dim> &>(*arg);
         if (xmlArg.getParallel() == "lock-free") {
           MDSimulation<LinkedCellParallelLockFree<LennardJones, dim>, dim>::performSimulation(*writer,
@@ -175,7 +174,6 @@ class MolSim {
       }
     } else if (arg->getPhysics() == "lennard") {
       if (arg->getStrategy() == "LinkedCell") {
-        // TODO Fix cast with check
         auto &xmlArg = static_cast<XMLArgument<dim> &>(*arg);
         if (xmlArg.getParallel() == "lock-free") {
           MDSimulation<LinkedCellParallelLockFree<LennardJones, dim>, dim>::performSimulation(*benchWriter,

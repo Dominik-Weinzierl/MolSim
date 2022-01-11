@@ -5,14 +5,14 @@
             <Domain x="140" y="140" z="140"/>
             <CellSize x="4" y="4" z="4"/>
             <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="periodic"
-                      boundary-bottom="periodic" boundary-front="reflecting" boundary-back="reflecting"/>
+                      boundary-bottom="periodic" boundary-front="periodic" boundary-back="periodic"/>
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Membrane mass="1.0" distance="2.2" meanValue="0" packed="true" depthOfPotentialWell="1.0" zeroCrossing="1.0" stiffness="300" averageBondLength="2.2" type="0" fixedOutline="true">
+        <Membrane mass="1.0" distance="0.5" meanValue="0" packed="true" depthOfPotentialWell="1.0" zeroCrossing="1.0" stiffness="500" averageBondLength="2.2" type="0" fixed="true">
             <Position x="20.0" y="20.0" z="20.5"/>
             <Velocity x="0.0" y="0.0" z="0.0"/>
-            <Dimension x="30" y="30" z="1"/>
+            <Dimension x="120" y="120" z="1"/>
         </Membrane>
         <Sphere mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.2"
                 type="1" radius="10">

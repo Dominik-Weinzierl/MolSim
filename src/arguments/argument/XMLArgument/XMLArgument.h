@@ -91,13 +91,16 @@ class XMLArgument : public Argument<dim> {
               std::optional<double> pCutoffRadius, std::optional<Vector<dim>> pDomain,
               std::optional<std::vector<BoundaryType>> pBoundaries, std::optional<Vector<dim>> pCellSize,
               std::unique_ptr<Thermostat<dim>> pThermostat, std::unique_ptr<ProfileWriter<dim>> pProfileWriter,
-              Vector<dim> pAdditionalGravitation, std::optional<std::string> pParallel)
-      : Argument<dim>(std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration,
-                      std::move(pPhysics), pStrategy, std::move(pThermostat), std::move(pProfileWriter),
-                      pAdditionalGravitation), cuboidArguments{std::move(pCuboidArguments)},
-        sphereArguments{std::move(pSphereArguments)}, membraneArguments{pMembraneArguments}, domain{pDomain},
-        cutoffRadius{pCutoffRadius}, boundaries{std::move(pBoundaries)}, cellSize{pCellSize},
-        parallel{std::move(pParallel)} {
+              Vector<dim> pAdditionalGravitation, std::optional<std::string> pParallel) : Argument<dim>(
+      std::move(pFiles), pEndTime, pDeltaT, std::move(pOutput), std::move(pWriter), pIteration, std::move(pPhysics),
+      pStrategy, std::move(pThermostat), std::move(pProfileWriter), pAdditionalGravitation), cuboidArguments{
+      std::move(pCuboidArguments)}, sphereArguments{std::move(pSphereArguments)}, membraneArguments{pMembraneArguments},
+                                                                                          domain{pDomain},
+                                                                                          cutoffRadius{pCutoffRadius},
+                                                                                          boundaries{
+                                                                                              std::move(pBoundaries)},
+                                                                                          cellSize{pCellSize}, parallel{
+          std::move(pParallel)} {
     SPDLOG_TRACE("XMLArgument created!");
   }
 

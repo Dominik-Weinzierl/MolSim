@@ -96,8 +96,7 @@ TEST(XMLArgument_2D, constructor) { // NOLINT(cert-err58-cpp)
 
   XMLArgument<dim> arg
       {files, endTime, deltaT, output, writer, iteration, physics, cuboidArguments, sphereArguments, membraneArguments,
-       strategy, cutoffRadius, domain, boundaries, cellSize, nullptr,
-       nullptr, additionalGravitation, parallel};
+       strategy, cutoffRadius, domain, boundaries, cellSize, nullptr, nullptr, additionalGravitation, parallel};
 
   // Expect getter und setter to return correct values
   EXPECT_EQ(arg.getFiles(), files);

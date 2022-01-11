@@ -27,11 +27,6 @@ class Cell {
   std::vector<Particle<dim> *> particles{};
 
   /**
-   * Vector of all Particle(s) in this simulation.
-   */
-  std::vector<Particle<dim>> &allParticles;
-
-  /**
    * Vector of neighbours of this Cell.
    */
   std::vector<Cell<dim> *> neighbours{};
@@ -74,25 +69,23 @@ class Cell {
    * Constructor to create our Cell(s).
    * @param pBoundaryType default is Outflow (but other types are also possible)
    * @param pBorderDirection direct of this cell
-   * @param pAllParticles all Particle(s) used in this simulation
    * @param pPosition position of this Cell in our Mesh
    * @param pCellSize size of this cell (each Cell has the same size)
    * @param pDomain domain size used during this simulation
    */
-  Cell(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection,
-       std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain)
-      : boundaryType{std::move(pBoundaryType)}, borderDirection{std::move(pBorderDirection)},
-        allParticles{pAllParticles}, position{pPosition}, cellSize{pCellSize}, domain{pDomain} {};
+  Cell(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection, Vector<dim> pPosition,
+       Vector<dim> pCellSize, Vector<dim> pDomain) : boundaryType{std::move(pBoundaryType)},
+                                                     borderDirection{std::move(pBorderDirection)}, position{pPosition},
+                                                     cellSize{pCellSize}, domain{pDomain} {};
 
   /**
    * Constructor to create our Cell(s). In this case our boundary type is always Outflow.
    * @param pPosition position of this Cell in our Mesh
-   * @param pAllParticles all Particle(s) used in this simulation
    * @param pCellSize size of this cell (each Cell has the same size)
    * @param pDomain domain size used during this simulation
    */
-  Cell(std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain)
-      : allParticles{pAllParticles}, position{pPosition}, cellSize{pCellSize}, domain{pDomain} {};
+  Cell(Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain) : position{pPosition}, cellSize{pCellSize},
+                                                                            domain{pDomain} {};
 
   /**
    * Default destructor used for inheritance.
