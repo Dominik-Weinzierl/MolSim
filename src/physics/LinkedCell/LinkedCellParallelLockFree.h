@@ -157,11 +157,11 @@ class LinkedCellParallelLockFree<LennardJones, dim> : public LinkedCell<LennardJ
     }
 
     // Periodic neighbours sequentially
-    for (size_t c = 0; c < cellContainer.getBoundaryCells().size(); ++c) {
-      Boundary<dim> &cell = cellContainer.getBoundaryCells()[c];
-      std::vector<Particle<dim> *> &cellParticles = cell.getParticles();
+    for (size_t c = 0; c < cellContainer.getBoundaryAndInnerCells().size(); ++c) {
+      Cell<dim>* cell = cellContainer.getBoundaryAndInnerCells()[c];
+      std::vector<Particle<dim> *> &cellParticles = cell->getParticles();
 
-      LinkedCell<LennardJones, dim>::calcPeriodic(cellParticles, cellContainer, cell);
+      LinkedCell<LennardJones, dim>::calcPeriodic(cellParticles, cellContainer, *cell);
     }
 
     LinkedCell<LennardJones, dim>::calculateMolecules(cellContainer);

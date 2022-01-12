@@ -294,8 +294,8 @@ void LinkedCellContainer<3>::linkHalosForPeriodic() {
       } else if ((boardDirection[0] == BoardDirectionType::FRONT || boardDirection[0] == BoardDirectionType::BACK)
           && (boardDirection[1] == BoardDirectionType::TOP || boardDirection[1] == BoardDirectionType::BOTTOM)) {
         // TOP: 2, BOTTOM: 3, FRONT: 2, BACK: 3  -> TOP: - domain[1], BOTTOM: + domain[1], FRONT: 5, BACK: 4 -> FRONT: + domain[2], BACK: - domain[2]
-        pos = {position[0], position[1] + domain[1] * (-1 + 2 * (boardDirection[0] % 2)),
-               position[2] + domain[2] * (-1 + 2 * (boardDirection[1] % 2))};
+        pos = {position[0], position[1] + domain[1] * (-1 + 2 * (boardDirection[1] % 2)),
+               position[2] + domain[2] * (-1 + 2 * (boardDirection[0] % 2))};
       }
     } else {
       pos = {position[0] + domain[0] * (-1 + 2 * boardDirection[0]),

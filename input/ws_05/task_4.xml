@@ -1,7 +1,7 @@
-<Simulation endTime="10" deltaT="0.0005" iteration="20" physics="lennard" writer="vtk" output="nanoflow"
-            additionalGravitation="-0.8">
+<Simulation endTime="500" deltaT="0.0005" iteration="20" physics="lennard" writer="vtk" output="nanoflow">
+    <AdditionalGravitation x="0.0" y="-0.8" z="0.0"/>
     <Strategy>
-        <LinkedCell cutoffRadius="3">
+        <LinkedCell cutoffRadius="2.75" parallel="lock-free">
             <Domain x="30" y="30" z="12"/>
             <CellSize x="3" y="3" z="3"/>
             <Boundary boundary-left="outflow" boundary-right="outflow" boundary-top="periodic"
@@ -21,7 +21,7 @@
             <Velocity x="0.0" y="0.0" z="0.0"/>
             <Dimension x="2" y="30" z="12"/>
         </Cuboid>
-        <Cuboid mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.1"
+        <Cuboid mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.0"
                 type="2" fixed="false">
             <Position x="3.2" y="0.6" z="0.6"/>
             <Velocity x="0.0" y="0.0" z="0.0"/>
