@@ -37,8 +37,15 @@ class LinkedCellParallelLockFree : LinkedCell<T, dim> {
 template<size_t dim>
 class LinkedCellParallelLockFree<LennardJones, dim> : public LinkedCell<LennardJones, dim> {
  private:
+  /**
+   *
+   */
   std::vector<std::vector<Cell<dim> *>> cells;
 
+  /**
+   *
+   * @param cellContainer
+   */
   inline void checkCorrectness(LinkedCellContainer<dim> &cellContainer) {
     for (auto &cellVector: cells) {
       for (auto &other: cells) {
@@ -125,6 +132,8 @@ class LinkedCellParallelLockFree<LennardJones, dim> : public LinkedCell<LennardJ
 
       LinkedCell<LennardJones, dim>::calcPeriodic(cellParticles, cellContainer, cell);
     }
+
+    LinkedCell<LennardJones, dim>::calculateMolecules(cellContainer);
   }
 
   void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &gravitation,

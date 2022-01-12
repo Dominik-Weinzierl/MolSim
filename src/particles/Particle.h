@@ -338,6 +338,14 @@ class Particle {
   }
 
   /**
+   * Getter for diagonal neighbours.
+   * @return diagonalNeighbours
+   */
+  [[nodiscard]] const std::vector<Particle<dim> *> &getDiagonalNeighbours() const {
+    return diagonalNeighbours;
+  }
+
+  /**
   * Getter for membraneArguments.
   * @return membraneArguments
   */

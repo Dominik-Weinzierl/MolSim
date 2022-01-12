@@ -140,7 +140,7 @@ class XMLArgument : public Argument<dim> {
 
     // Print additional strategy information if linked cell is used
     if (this->strategy == "LinkedCell") {
-      configuration << "\t\tcutoffRadius: " << this->cutoffRadius.value() << std::endl;
+      configuration << "\t\tCutoffRadius: " << this->cutoffRadius.value() << std::endl;
       configuration << "\t\tDomain: " << ArrayUtils::to_string(this->domain.value()) << std::endl;
       configuration << "\t\tCell size: " << ArrayUtils::to_string(this->cellSize.value()) << std::endl;
       configuration << "\t\tBoundary: " << ArrayUtils::to_string(this->boundaries.value()) << std::endl;

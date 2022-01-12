@@ -75,7 +75,6 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
 
               if ((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE
                   && (*i)->getType() == (*j)->getType()) {
-                LinkedCell<LennardJones, dim>::calculateMoleculeForce((*i), (*j), l2Norm);
 
                 //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
                 if (l2Norm > (LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()
@@ -99,13 +98,14 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
 
             double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
 
-            //TODO Pass ParticlePointer to function?
-            LinkedCell<LennardJones, dim>::calculateMoleculeForce((*i), (*j), l2Norm);
+            if ((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE
+                && (*i)->getType() == (*j)->getType()) {
 
-            //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
-            if (l2Norm > (LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()
-                * LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()))
-              continue;
+              //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
+              if (l2Norm > (LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()
+                  * LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()))
+                continue;
+            }
 
             Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
 
@@ -127,6 +127,8 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
 
       LinkedCell<LennardJones, dim>::calcPeriodic(cellParticles, cellContainer, cell);
     }
+
+    LinkedCell<LennardJones, dim>::calculateMolecules(cellContainer);
   }
 
   void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &gravitation,

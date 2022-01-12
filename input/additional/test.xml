@@ -9,7 +9,8 @@
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Membrane mass="1.0" distance="0.5" meanValue="0" packed="true" depthOfPotentialWell="1.0" zeroCrossing="1.0" stiffness="500" averageBondLength="2.2" type="0" fixed="true">
+        <Membrane mass="1.0" distance="0.5" meanValue="0" packed="true" depthOfPotentialWell="1.0" zeroCrossing="1.0"
+                  stiffness="500" averageBondLength="2.2" type="0" fixed="true">
             <Position x="20.0" y="20.0" z="20.5"/>
             <Velocity x="0.0" y="0.0" z="0.0"/>
             <Dimension x="120" y="120" z="1"/>
