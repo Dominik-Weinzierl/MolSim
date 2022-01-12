@@ -123,10 +123,17 @@ class ProfileWriter {
     // delete already existing files
     if (velocity) {
       file.open("output/velprofile.csv");
+      file << "iteration,";
+      for (int i = 0; i < numOfBins; i++) {
+        file << i << ",";
+      }
       file.close();
     }
     if (density) {
       file.open("output/densprofile.csv");
+      for (int i = 0; i < numOfBins; i++) {
+        file << i << ",";
+      }
       file.close();
     }
   };
@@ -145,10 +152,10 @@ class ProfileWriter {
 
     if (velocity) {
       file.open("output/velprofile.csv", std::ios::app);
-      file << iteration << ";";
+      file << iteration << ",";
       file.setf(std::ios_base::showpoint);
       for (auto &b: bins) {
-        file << computeAverageSpeed(b) << ";";
+        file << computeAverageSpeed(b) << ",";
       }
       file << std::endl;
       file.close();
@@ -156,10 +163,10 @@ class ProfileWriter {
 
     if (density) {
       file.open("output/denprofile.csv", std::ios::app);
-      file << iteration << ";";
+      file << iteration << ",";
       file.setf(std::ios_base::showpoint);
       for (auto &b: bins) {
-        file << computeDensity(b) << ";";
+        file << computeDensity(b) << ",";
       }
       file << std::endl;
       file.close();
