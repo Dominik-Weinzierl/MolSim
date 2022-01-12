@@ -54,7 +54,8 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * @param j second Particle
    * @param cellContainer that provides possible required values and functionalities
    */
-  inline void calculateLennardJones(Particle<dim> &i, Particle<dim> &j, LinkedCellContainer<dim> &cellContainer) {
+  inline Vector<dim> calculateLennardJones(Particle<dim> &i, Particle<dim> &j,
+                                           LinkedCellContainer<dim> &cellContainer) const {
     double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(i, j);
 
     // This prevents molecules from attracting each other too strongly due to the Lennard Jones potential.
@@ -63,16 +64,27 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
 
       // Checks if distance of i and j is greater => nextParticle, else apply lennardJones
       if (l2Norm > (sixthSqrtOfTwo * i.getZeroCrossing() * sixthSqrtOfTwo * j.getZeroCrossing()))
-        return;
+        return Vector<dim>{};
     }
 
     if (l2Norm > cellContainer.getCutoffRadiusSquare())
-      return;
+      return Vector<dim>{};
 
     SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
-    Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(i, j, l2Norm)};
-    i.updateForce(force);
-    j.updateForce(-force);
+    return LennardJones::calculateForceBetweenTwoParticles<dim>(i, j, l2Norm);
+  }
+
+  /**
+   * This method updates the force for two particles.
+   * @param i first Particle
+   * @param j second Particle
+   * @param force additional force
+   */
+  inline void updateForceForParticle(Particle<dim> &i, Particle<dim> &j, Vector<dim> &force) const {
+    if (!isNull(force)) {
+      i.updateForce(force);
+      j.updateForce(-force);
+    }
   }
 
   /**
@@ -87,15 +99,13 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
       for (Particle<dim> *n: p->getNeighbours()) {
         double l2Norm = std::sqrt(Physics<LennardJones, dim>::calcL2NormSquare(*p, *n));
         Vector<dim> force{HarmonicPotential::calculateForceBetweenTwoParticles(p, n, l2Norm)};
-        p->updateForce(force);
-        n->updateForce(-force);
+        updateForceForParticle(*p, *n, force);
       }
       // Molecules which are diagonal
       for (Particle<dim> *d: p->getDiagonalNeighbours()) {
         double l2Norm = std::sqrt(Physics<LennardJones, dim>::calcL2NormSquare(*p, *d));
         Vector<dim> force{HarmonicPotential::calculateForceBetweenTwoDiagonalParticles(p, d, l2Norm)};
-        p->updateForce(force);
-        d->updateForce(-force);
+        updateForceForParticle(*p, *d, force);
       }
     }
   }
@@ -114,7 +124,8 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
     for (auto n = neighbours.begin(); n != neighbours.end(); ++n) {
       for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
         for (auto j = (*n)->getParticles().begin(); j != (*n)->getParticles().end(); ++j) {
-          calculateLennardJones(*(*i), *(*j), cellContainer);
+          auto force = calculateLennardJones(*(*i), *(*j), cellContainer);
+          updateForceForParticle(*(*i), *(*j), force);
         }
       }
     }
@@ -131,7 +142,8 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
     // calc in the cells
     for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
       for (auto j = i + 1; j != cellParticles.end(); ++j) {
-        calculateLennardJones(*(*i), *(*j), cellContainer);
+        auto force = calculateLennardJones(*(*i), *(*j), cellContainer);
+        updateForceForParticle(*(*i), *(*j), force);
       }
     }
   }
@@ -163,7 +175,8 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
           (*j)->setX(pos);
 
           for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
-            calculateLennardJones(*(*i), *(*j), cellContainer);
+            auto force = calculateLennardJones(*(*i), *(*j), cellContainer);
+            updateForceForParticle(*(*i), *(*j), force);
           }
 
           (*j)->setX(oldPos);
@@ -194,7 +207,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
       if (!cellParticles.empty()) {
         calcBetweenNeighboursAndCell(neighbours, cellParticles, cellContainer);
 
-        calcInTheCell(cellParticles);
+        calcInTheCell(cellParticles, cellContainer);
 
         calcPeriodic(cellParticles, cellContainer, *cell);
       }

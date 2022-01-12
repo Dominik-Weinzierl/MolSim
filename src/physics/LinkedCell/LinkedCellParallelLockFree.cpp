@@ -7,7 +7,6 @@ LinkedCellParallelLockFree<LennardJones, 3>::LinkedCellParallelLockFree(double c
   auto maxY = static_cast<size_t>(std::ceil(cutoffRadius / cellSize[1])) + 2;
   auto maxZ = static_cast<size_t>(std::ceil(cutoffRadius / cellSize[2])) + 1;
 
-  // TODO add check
   auto &cellContainer = dynamic_cast<LinkedCellContainer<3> &>(particleContainer);
 
   auto cellsPerLayer = static_cast<unsigned long>(cellContainer.cellsPerColumn())
@@ -53,7 +52,6 @@ LinkedCellParallelLockFree<LennardJones, 2>::LinkedCellParallelLockFree(double c
   auto maxX = static_cast<size_t>(std::ceil(cutoffRadius / cellSize[0])) + 1;
   auto maxY = static_cast<size_t>(std::ceil(cutoffRadius / cellSize[1])) + 2;
 
-  // TODO add check
   auto &cellContainer = dynamic_cast<LinkedCellContainer<2> &>(particleContainer);
 
   auto cellsPerColumn = static_cast<unsigned long>(cellContainer.cellsPerColumn());

@@ -6,7 +6,7 @@
 #include "LinkedCell.h"
 
 /**
- * This class implements the LinkedCell algorithm.
+ * This class implements the linked cell algorithm in the form of a parallel algorithm that works with buffer and without locks.
  * @tparam T The physics to be used.
  * @tparam dim The dimension of our simulation
  */
@@ -17,13 +17,21 @@ class LinkedCellParallelBuffer : LinkedCell<T, dim> {
 
   //----------------------------------------Methods----------------------------------------
 
+  /**
+   * This method calculates the forces between the different particles in the different cells.
+   * @param particleContainer that provides possible required values and functionalities
+   */
   void performUpdate(ParticleContainer<dim> &particleContainer) const override;
 
   /**
-   * Calls the calculate-Methods for the position, force and velocity with the given parameters.
+   * This method calculates the force, position and velocity of the particles in the container.
+   * In addition, the structure is updated appropriately and renewed if needed.
+   * Particles that leave the structure are deleted.
    * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
    * @param deltaT time step of our simulation
-  */
+   * @param gravitation additional vector of gravitational force applied on all particles
+   * @param current_time current time of this iteration
+   */
   void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, double &gravitation,
                          double current_time) const override {
     LinkedCell<T, dim>::calculateNextStep(particleContainer, deltaT, gravitation, current_time);
@@ -31,7 +39,7 @@ class LinkedCellParallelBuffer : LinkedCell<T, dim> {
 };
 
 /**
- * Implements LinkedCell for LennardJones
+ * This class implements the linked cell algorithm in the form of a parallel algorithm that works with buffer and without locks.
  * @tparam dim The dimension of our simulation
  */
 template<size_t dim>
@@ -41,6 +49,10 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
 
   //----------------------------------------Methods----------------------------------------
 
+  /**
+   * This method calculates the forces between the different particles in the different cells.
+   * @param particleContainer that provides possible required values and functionalities
+   */
   void performUpdate(ParticleContainer<dim> &particleContainer) const override {
     auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
 
@@ -64,53 +76,27 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
 
       if (!cellParticles.empty()) {
 
-        // calc between particles in cells and relevant neighbours
+        // Calc between particles in cells and relevant neighbours
         for (auto n = neighbours.begin(); n != neighbours.end(); ++n) {
           for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
             for (auto j = (*n)->getParticles().begin(); j != (*n)->getParticles().end(); ++j) {
-              double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
-
-              if (l2Norm > cellContainer.getCutoffRadiusSquare())
-                continue;
-
-              if ((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE
-                  && (*i)->getType() == (*j)->getType()) {
-
-                //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
-                if (l2Norm > (LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()
-                    * LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()))
-                  continue;
+              Vector<dim> force = LinkedCell<LennardJones, dim>::calculateLennardJones(*(*i), *(*j), cellContainer);
+              if (!isNull(force)) {
+                (*i)->updateForce(force);
+                updates.emplace_back(*j, -force);
               }
-
-              SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
-              Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
-
-              (*i)->updateForce(force);
-              updates.emplace_back(*j, -force);
             }
           }
         }
 
-        // calc in the cells
+        // Calc in the cells
         for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
           for (auto j = i + 1; j != cellParticles.end(); ++j) {
-            SPDLOG_TRACE("Calculating force for {} and {}", (*i)->toString(), (*j)->toString());
-
-            double l2Norm = Physics<LennardJones, dim>::calcL2NormSquare(*(*i), *(*j));
-
-            if ((*i)->getParticleType() == MOLECULE && (*j)->getParticleType() == MOLECULE
-                && (*i)->getType() == (*j)->getType()) {
-
-              //Checks if distance of i and j is greater => nextParticle, else apply lennardJones
-              if (l2Norm > (LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()
-                  * LinkedCell<LennardJones, dim>::sixthSqrtOfTwo * (*i)->getZeroCrossing()))
-                continue;
+            Vector<dim> force = LinkedCell<LennardJones, dim>::calculateLennardJones(*(*i), *(*j), cellContainer);
+            if (!isNull(force)) {
+              (*i)->updateForce(force);
+              updates.emplace_back(*j, -force);
             }
-
-            Vector<dim> force{LennardJones::calculateForceBetweenTwoParticles<dim>(*(*i), *(*j), l2Norm)};
-
-            (*i)->updateForce(force);
-            updates.emplace_back(*j, -force);
           }
         }
       }
@@ -131,6 +117,15 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
     LinkedCell<LennardJones, dim>::calculateMolecules(cellContainer);
   }
 
+  /**
+   * This method calculates the force, position and velocity of the particles in the container.
+   * In addition, the structure is updated appropriately and renewed if needed.
+   * Particles that leave the structure are deleted.
+   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   * @param deltaT time step of our simulation
+   * @param gravitation additional vector of gravitational force applied on all particles
+   * @param current_time current time of this iteration
+   */
   void calculateNextStep(ParticleContainer<dim> &particleContainer, double deltaT, Vector<dim> &gravitation,
                          double current_time) const override {
     LinkedCell<LennardJones, dim>::calculateNextStep(particleContainer, deltaT, gravitation, current_time);

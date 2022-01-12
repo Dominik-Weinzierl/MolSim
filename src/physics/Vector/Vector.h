@@ -133,3 +133,16 @@ std::ostream &operator<<(std::ostream &stream, const Vector<dim> &v) {
   stream << ArrayUtils::to_string(v);
   return stream;
 }
+
+/**
+ * This method returns whether all elements in the vector are zero.
+ * @tparam dim dimension of our simulation.
+ * @param v Vector<dim>
+ * @return true if the vector contains only zero.
+ */
+template<size_t dim>
+bool isNull(const Vector<dim> &v) {
+  return std::all_of(v.begin(), v.end(), [](double i) {
+    return i == 0;
+  });
+}
