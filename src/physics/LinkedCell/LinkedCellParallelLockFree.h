@@ -133,14 +133,14 @@ class LinkedCellParallelLockFree<LennardJones, dim> : public LinkedCell<LennardJ
   void performUpdate(ParticleContainer<dim> &particleContainer) const override {
     auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
 
-#pragma omp parallel for shared(cellContainer) default(none)
+#pragma omp parallel for shared(cellContainer) default(none)  schedule(static, 8)
     for (size_t i = 0; i < cellContainer.getBoundaryCells().size(); ++i) {
       Boundary<dim> &b = cellContainer.getBoundaryCells()[i];
       b.applyCellProperties();
     }
 
     for (auto &cellVector: cells) {
-#pragma omp parallel for shared(cellVector, cellContainer) default(none)
+#pragma omp parallel for shared(cellVector, cellContainer) default(none)  schedule(static, 8)
       for (size_t c = 0; c < cellVector.size(); ++c) {
 
         Cell<dim> *cell = cellVector[c];
