@@ -66,10 +66,6 @@ class LinkedCellParallelCellLock<LennardJones, dim> : public LinkedCell<LennardJ
    * This method calculates the forces between the different particles in the different cells.
    * @param particleContainer that provides possible required values and functionalities
    */
-  /**
-   * This method calculates the forces between the different particles in the different cells.
-   * @param particleContainer that provides possible required values and functionalities
-   */
   void performUpdate(ParticleContainer<dim> &particleContainer) const override {
     auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
 
@@ -83,7 +79,6 @@ class LinkedCellParallelCellLock<LennardJones, dim> : public LinkedCell<LennardJ
     for (size_t c = 0; c < cellContainer.getBoundaryAndInnerCells().size(); ++c) {
       Cell<dim> *cell = cellContainer.getBoundaryAndInnerCells()[c];
 
-      // lock cell
       std::vector<Cell<dim> *> &neighbours = cell->getNeighbours();
       std::vector<Particle<dim> *> &cellParticles = cell->getParticles();
 

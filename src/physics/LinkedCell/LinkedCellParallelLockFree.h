@@ -49,7 +49,7 @@ class LinkedCellParallelLockFree : LinkedCell<T, dim> {
  */
 template<size_t dim>
 class LinkedCellParallelLockFree<LennardJones, dim> : public LinkedCell<LennardJones, dim> {
- private:
+ protected:
   /**
    * This vector contains vectors of cells.
    * Each vector of cells contains independent cells and can be used in parallel without using locks.

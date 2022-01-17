@@ -210,6 +210,10 @@ int LinkedCellContainer<2>::getIndexBasedOnCoordinates(Vector<2> coords) {
   index += cellsPerColumn * static_cast<int>(std::floor(coords[0] / cellSize[0]));
   index += static_cast<int>(std::floor(coords[1] / cellSize[1])) + 1;
 
+  if (index < 0 || static_cast<size_t>(index) > cells.size()) {
+    throw std::invalid_argument("out of bounds");
+  }
+
   return index;
 }
 
@@ -223,6 +227,9 @@ int LinkedCellContainer<3>::getIndexBasedOnCoordinates(Vector<3> coords) {
   index += cellsPerColumn * static_cast<int>(std::floor(coords[0] / cellSize[0]));
   index += static_cast<int>(std::floor(coords[1] / cellSize[1])) + 1;
 
+  if (index < 0 || static_cast<size_t>(index) > cells.size()) {
+    throw std::invalid_argument("out of bounds");
+  }
   return index;
 }
 

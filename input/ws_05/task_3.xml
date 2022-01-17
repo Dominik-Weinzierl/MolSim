@@ -1,7 +1,7 @@
 <Simulation endTime="0.5" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
             additionalGravitation="-12.44">
     <Strategy>
-        <LinkedCell cutoffRadius="3.6" parallel="lock-cell">
+        <LinkedCell cutoffRadius="3.6" parallel="lock-optimized">
             <Domain x="60" y="60" z="60"/>
             <CellSize x="3" y="3" z="3"/>
             <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
