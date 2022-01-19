@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "fstream"
 #include "container/ParticleContainer.h"
 #pragma once
@@ -33,6 +35,8 @@ class ProfileWriter {
    * file to write to
    */
   std::ofstream file;
+
+  std::string path;
 
   /**
    * Sort the particles into bins
@@ -98,16 +102,20 @@ class ProfileWriter {
    * @param pDens Generate density profiles?
    * @param pDom domain of the simulation
    */
-  ProfileWriter(int pBins, int pIter, bool pVel, bool pDens, Vector<dim> pDom) : numOfBins(pBins),
-                                                                                 numOfIterations(pIter), velocity(pVel),
-                                                                                 density(pDens), dom(pDom) {
+  ProfileWriter(int pBins, int pIter, bool pVel, bool pDens, Vector<dim> pDom, std::string pPath) : numOfBins(pBins),
+                                                                                                     numOfIterations(
+                                                                                                         pIter),
+                                                                                                     velocity(pVel),
+                                                                                                     density(pDens),
+                                                                                                     dom(pDom),
+                                                                                                     path{std::move(pPath)} {
     // delete already existing files
     if (velocity) {
-      file.open("output/velprofile.csv");
+      file.open(path + "/velprofile.csv");
       file.close();
     }
     if (density) {
-      file.open("output/densprofile.csv");
+      file.open(path + "/densprofile.csv");
       file.close();
     }
   };
@@ -118,22 +126,27 @@ class ProfileWriter {
   * @param pVel Generate velocity profiles?
   * @param pDens Generate density profiles?
   */
-  ProfileWriter(int pBins, int pIter, bool pVel, bool pDens) : numOfBins(pBins), numOfIterations(pIter), velocity(pVel),
-                                                               density(pDens) {
+  ProfileWriter(int pBins, int pIter, bool pVel, bool pDens, std::string pPath) : numOfBins(pBins),
+                                                                                   numOfIterations(pIter),
+                                                                                   velocity(pVel), density(pDens),
+                                                                                   path{std::move(pPath)} {
     // delete already existing files
     if (velocity) {
-      file.open("output/velprofile.csv");
-      file << "iteration,";
+      file.open(path + "/velprofile.csv");
+      file << "iteration";
       for (int i = 0; i < numOfBins; i++) {
-        file << i << ",";
+        file << "," << i;
       }
+      file << std::endl;
       file.close();
     }
     if (density) {
-      file.open("output/densprofile.csv");
-      for (int i = 0; i < numOfBins; i++) {
-        file << i << ",";
+      file.open(path + "/densprofile.csv");
+      file << "iteration";
+      for (int i = 0; i < numOfBins - 1; i++) {
+        file << "," << i;
       }
+      file << std::endl;
       file.close();
     }
   };
@@ -151,22 +164,22 @@ class ProfileWriter {
     std::vector<std::vector<Particle<dim>>> bins = particlesIntoBins(c);
 
     if (velocity) {
-      file.open("output/velprofile.csv", std::ios::app);
-      file << iteration << ",";
+      file.open(path + "/velprofile.csv", std::ios::app);
+      file << iteration;
       file.setf(std::ios_base::showpoint);
       for (auto &b: bins) {
-        file << computeAverageSpeed(b) << ",";
+        file << "," << computeAverageSpeed(b);
       }
       file << std::endl;
       file.close();
     }
 
     if (density) {
-      file.open("output/denprofile.csv", std::ios::app);
-      file << iteration << ",";
+      file.open(path + "/denprofile.csv", std::ios::app);
+      file << iteration;
       file.setf(std::ios_base::showpoint);
       for (auto &b: bins) {
-        file << computeDensity(b) << ",";
+        file << "," << computeDensity(b);
       }
       file << std::endl;
       file.close();

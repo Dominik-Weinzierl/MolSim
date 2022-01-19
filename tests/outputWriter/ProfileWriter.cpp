@@ -11,10 +11,11 @@ TEST(ProfileWriter, avgV) {
   DirectSumContainer<dim> c;
   c.addParticle({{0, 0}, {1, 0}, 0});
   c.addParticle({{0, 2}, {2, 0}, 0});
-  ProfileWriter<dim> w{1, 100, true, false};
+  std::string path{"../../tests/outputWriter/output"};
+  ProfileWriter<dim> w{1, 100, true, false, path};
   w.generateProfiles(c, 0);
   std::ifstream file;
-  file.open("output/velprofile.csv", std::ios::in);
+  file.open("../../tests/outputWriter/output/velprofile.csv", std::ios::in);
   std::string line;
   //todo: read line correctly - how?
   std::getline(file, line);
