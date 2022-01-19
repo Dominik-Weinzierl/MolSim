@@ -41,5 +41,5 @@
         </Cuboid>
     </Shapes>
     <Thermostat initialT="40" numberT="10" flow="true"/>
-    <ProfileWriter numOfBins="10" numOfIterations="1000" velocity="true" density="false"/>
+    <ProfileWriter numOfBins="10" numOfIterations="1000" velocity="true" density="true"/>
 </Simulation>
