@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <omp.h>
 
 #include "logger/Logger.h"
 #include "arguments/argument/Argument.h"
@@ -158,15 +159,20 @@ class MolSim {
                                                                                                               *particleContainer,
                                                                                                               *arg);
         } else {
-          duration = MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
+          duration =
+              MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
         }
       } else {
-        duration = MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
+        duration =
+            MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
       }
     }
     std::cout << "Finished simulation after " << arg->getEndTime() / arg->getDeltaT() << " iterations..." << std::endl;
     std::cout << "Output written..." << std::endl;
     std::cout << "Time: " << duration << " ms" << std::endl;
+#ifdef _OPENMP
+    std::cout << "Threads: " << omp_get_max_threads() << std::endl;
+#endif
     return 0;
   };
 
@@ -180,7 +186,8 @@ class MolSim {
     long int duration = 0;
     if (arg->getPhysics() == "gravitation") {
       if (arg->getStrategy() == "DirectSum") {
-        duration = MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
+        duration =
+            MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
       }
     } else if (arg->getPhysics() == "lennard") {
       if (arg->getStrategy() == "LinkedCell") {
@@ -198,15 +205,18 @@ class MolSim {
                                                                                                          *particleContainer,
                                                                                                          *arg);
         } else if (xmlArg.getParallel() == "lock-optimized") {
-          duration = MDSimulation<LinkedCellParallelOptimizedLock<LennardJones, dim>, dim>::performSimulation(*benchWriter,
-                                                                                                              *particleContainer,
-                                                                                                              *arg);
+          duration =
+              MDSimulation<LinkedCellParallelOptimizedLock<LennardJones, dim>, dim>::performSimulation(*benchWriter,
+                                                                                                       *particleContainer,
+                                                                                                       *arg);
         } else {
-          duration = MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer,
-                                                                                         *arg);
+          duration =
+              MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer,
+                                                                                  *arg);
         }
       } else {
-        duration = MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
+        duration =
+            MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
       }
     }
     auto iterations = std::floor(arg->getEndTime() / arg->getDeltaT());
@@ -218,7 +228,11 @@ class MolSim {
     std::cout << "\t\tParticle amount - end: " << particleContainer->size() << " particle" << std::endl;
     std::cout << "\t\tIterations: " << iterations << std::endl;
     std::cout << "\t\tMMUPS/s: "
-              << ((iterations * static_cast<double>(particleAmount)) / static_cast<double>(duration)) / 1.0e3 << std::endl;
+              << ((iterations * static_cast<double>(particleAmount)) / static_cast<double>(duration)) / 1.0e3
+              << std::endl;
+#ifdef _OPENMP
+    std::cout << "\t\tThreads: " << omp_get_max_threads() << std::endl;
+#endif
     return 0;
   };
 
