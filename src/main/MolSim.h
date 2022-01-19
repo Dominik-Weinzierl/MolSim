@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <omp.h>
 
 #include "logger/Logger.h"
 #include "arguments/argument/Argument.h"
@@ -19,6 +20,8 @@
 #include "fileReader/VTKReader/VTKReader.h"
 #include "physics/LinkedCell/LinkedCellParallelLockFree.h"
 #include "physics/LinkedCell/LinkedCellParallelBuffer.h"
+#include "physics/LinkedCell/LinkedCellParallelCellLock.h"
+#include "physics/LinkedCell/LinkedCellParallelOptimizedLock.h"
 
 /**
  * Provides static functions for simulation and benchmark.
@@ -131,33 +134,45 @@ class MolSim {
    * @return
    */
   int simulate() {
-    auto start = std::chrono::high_resolution_clock::now();
+    long int duration = 0;
     if (arg->getPhysics() == "gravitation") {
       if (arg->getStrategy() == "DirectSum") {
-        MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
+        duration = MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
       }
     } else if (arg->getPhysics() == "lennard") {
       if (arg->getStrategy() == "LinkedCell") {
-        // TODO Fix cast with check
         auto &xmlArg = static_cast<XMLArgument<dim> &>(*arg);
         if (xmlArg.getParallel() == "lock-free") {
-          MDSimulation<LinkedCellParallelLockFree<LennardJones, dim>, dim>::performSimulation(*writer,
-                                                                                              *particleContainer, *arg);
+          duration = MDSimulation<LinkedCellParallelLockFree<LennardJones, dim>, dim>::performSimulation(*writer,
+                                                                                                         *particleContainer,
+                                                                                                         *arg);
         } else if (xmlArg.getParallel() == "buffer") {
-          MDSimulation<LinkedCellParallelBuffer<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer,
-                                                                                            *arg);
+          duration = MDSimulation<LinkedCellParallelBuffer<LennardJones, dim>, dim>::performSimulation(*writer,
+                                                                                                       *particleContainer,
+                                                                                                       *arg);
+        } else if (xmlArg.getParallel() == "lock-cell") {
+          duration = MDSimulation<LinkedCellParallelCellLock<LennardJones, dim>, dim>::performSimulation(*writer,
+                                                                                                         *particleContainer,
+                                                                                                         *arg);
+        } else if (xmlArg.getParallel() == "lock-optimized") {
+          duration = MDSimulation<LinkedCellParallelOptimizedLock<LennardJones, dim>, dim>::performSimulation(*writer,
+                                                                                                              *particleContainer,
+                                                                                                              *arg);
         } else {
-          MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
+          duration =
+              MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
         }
       } else {
-        MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
+        duration =
+            MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*writer, *particleContainer, *arg);
       }
     }
-    auto end = std::chrono::high_resolution_clock::now();
     std::cout << "Finished simulation after " << arg->getEndTime() / arg->getDeltaT() << " iterations..." << std::endl;
     std::cout << "Output written..." << std::endl;
-    std::cout << "Time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms"
-              << std::endl;
+    std::cout << "Time: " << duration << " ms" << std::endl;
+#ifdef _OPENMP
+    std::cout << "Threads: " << omp_get_max_threads() << std::endl;
+#endif
     return 0;
   };
 
@@ -167,31 +182,43 @@ class MolSim {
    */
   int benchmark() {
     auto benchWriter = std::make_unique<DummyWriter<dim>>(arg->getOutput(), *particleContainer);
-    auto start = std::chrono::high_resolution_clock::now();
     auto particleAmount = particleContainer->size();
+    long int duration = 0;
     if (arg->getPhysics() == "gravitation") {
       if (arg->getStrategy() == "DirectSum") {
-        MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
+        duration =
+            MDSimulation<DirectSum<Gravitation, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
       }
     } else if (arg->getPhysics() == "lennard") {
       if (arg->getStrategy() == "LinkedCell") {
-        // TODO Fix cast with check
         auto &xmlArg = static_cast<XMLArgument<dim> &>(*arg);
         if (xmlArg.getParallel() == "lock-free") {
-          MDSimulation<LinkedCellParallelLockFree<LennardJones, dim>, dim>::performSimulation(*benchWriter,
-                                                                                              *particleContainer, *arg);
+          duration = MDSimulation<LinkedCellParallelLockFree<LennardJones, dim>, dim>::performSimulation(*benchWriter,
+                                                                                                         *particleContainer,
+                                                                                                         *arg);
         } else if (xmlArg.getParallel() == "buffer") {
-          MDSimulation<LinkedCellParallelBuffer<LennardJones, dim>, dim>::performSimulation(*benchWriter,
-                                                                                            *particleContainer, *arg);
+          duration = MDSimulation<LinkedCellParallelBuffer<LennardJones, dim>, dim>::performSimulation(*benchWriter,
+                                                                                                       *particleContainer,
+                                                                                                       *arg);
+        } else if (xmlArg.getParallel() == "lock-cell") {
+          duration = MDSimulation<LinkedCellParallelCellLock<LennardJones, dim>, dim>::performSimulation(*benchWriter,
+                                                                                                         *particleContainer,
+                                                                                                         *arg);
+        } else if (xmlArg.getParallel() == "lock-optimized") {
+          duration =
+              MDSimulation<LinkedCellParallelOptimizedLock<LennardJones, dim>, dim>::performSimulation(*benchWriter,
+                                                                                                       *particleContainer,
+                                                                                                       *arg);
         } else {
-          MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
+          duration =
+              MDSimulation<LinkedCell<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer,
+                                                                                  *arg);
         }
       } else {
-        MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
+        duration =
+            MDSimulation<DirectSum<LennardJones, dim>, dim>::performSimulation(*benchWriter, *particleContainer, *arg);
       }
     }
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
     auto iterations = std::floor(arg->getEndTime() / arg->getDeltaT());
     std::cout << "Finished benchmarks after " << iterations << " iterations..." << std::endl;
     std::cout << std::endl;
@@ -203,6 +230,9 @@ class MolSim {
     std::cout << "\t\tMMUPS/s: "
               << ((iterations * static_cast<double>(particleAmount)) / static_cast<double>(duration)) / 1.0e3
               << std::endl;
+#ifdef _OPENMP
+    std::cout << "\t\tThreads: " << omp_get_max_threads() << std::endl;
+#endif
     return 0;
   };
 

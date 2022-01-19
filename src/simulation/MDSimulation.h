@@ -9,6 +9,7 @@
 #include "arguments/argumentParser/BasicArgumentParser/BasicArgumentParser.h"
 #include "physics/Physics.h"
 #include "physics/LinkedCell/LinkedCellParallelLockFree.h"
+#include "physics/LinkedCell/LinkedCellParallelOptimizedLock.h"
 
 /**
  * Simulation class which contains a start time and a method to run a simulation.
@@ -33,7 +34,7 @@ class MDSimulation {
    * @param particleContainer The initial particles.
    * @param arg The command line-arguments.
    */
-  static void performSimulation([[maybe_unused]] OutputWriter<dim> &writer, ParticleContainer<dim> &particleContainer,
+  static auto performSimulation([[maybe_unused]] OutputWriter<dim> &writer, ParticleContainer<dim> &particleContainer,
                                 Argument<dim> &arg) {
     double current_time = start_time;
     int iteration = 0;
@@ -41,18 +42,20 @@ class MDSimulation {
 
     T physics;
 
-    if constexpr(std::is_same<T, LinkedCellParallelLockFree<LennardJones,dim>>::value) {
-      // TODO Fix cast with check
+    if constexpr(std::is_same<T, LinkedCellParallelLockFree<LennardJones, dim>>::value
+        || std::is_same<T, LinkedCellParallelOptimizedLock<LennardJones, dim>>::value) {
       auto &xmlArg = static_cast<XMLArgument<dim> &>(arg);
       physics = T(xmlArg.getCutoffRadius().value(), xmlArg.getCellSize().value(), particleContainer);
     }
 
-    std::unique_ptr<Thermostat<dim>>& thermostat = arg.getThermostat();
+    std::unique_ptr<Thermostat<dim>> &thermostat = arg.getThermostat();
     std::unique_ptr<ProfileWriter<dim>> &profile_writer = arg.getProfileWriter();
 
     thermostat->setInitialTemperature(particleContainer);
 
     Vector<dim> gravitation = arg.getAdditionalGravitation();
+
+    auto start = std::chrono::high_resolution_clock::now();
 
     // for this loop, we assume: current x, current f and current v are known
     while (current_time < arg.getEndTime()) {
@@ -71,6 +74,7 @@ class MDSimulation {
       }
 
       if (iteration % 500 == 0) {
+        std::cout << iteration << std::endl;
         SPDLOG_INFO("Iteration {} finished", iteration);
       } else {
         SPDLOG_TRACE("Iteration {} finished", iteration);
@@ -79,5 +83,7 @@ class MDSimulation {
       iteration++;
       current_time += deltaT;
     }
+    auto end = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
   };
 };

@@ -210,6 +210,10 @@ int LinkedCellContainer<2>::getIndexBasedOnCoordinates(Vector<2> coords) {
   index += cellsPerColumn * static_cast<int>(std::floor(coords[0] / cellSize[0]));
   index += static_cast<int>(std::floor(coords[1] / cellSize[1])) + 1;
 
+  if (index < 0 || static_cast<size_t>(index) > cells.size()) {
+    throw std::invalid_argument("out of bounds");
+  }
+
   return index;
 }
 
@@ -223,6 +227,9 @@ int LinkedCellContainer<3>::getIndexBasedOnCoordinates(Vector<3> coords) {
   index += cellsPerColumn * static_cast<int>(std::floor(coords[0] / cellSize[0]));
   index += static_cast<int>(std::floor(coords[1] / cellSize[1])) + 1;
 
+  if (index < 0 || static_cast<size_t>(index) > cells.size()) {
+    throw std::invalid_argument("out of bounds");
+  }
   return index;
 }
 
@@ -294,8 +301,8 @@ void LinkedCellContainer<3>::linkHalosForPeriodic() {
       } else if ((boardDirection[0] == BoardDirectionType::FRONT || boardDirection[0] == BoardDirectionType::BACK)
           && (boardDirection[1] == BoardDirectionType::TOP || boardDirection[1] == BoardDirectionType::BOTTOM)) {
         // TOP: 2, BOTTOM: 3, FRONT: 2, BACK: 3  -> TOP: - domain[1], BOTTOM: + domain[1], FRONT: 5, BACK: 4 -> FRONT: + domain[2], BACK: - domain[2]
-        pos = {position[0], position[1] + domain[1] * (-1 + 2 * (boardDirection[0] % 2)),
-               position[2] + domain[2] * (-1 + 2 * (boardDirection[1] % 2))};
+        pos = {position[0], position[1] + domain[1] * (-1 + 2 * (boardDirection[1] % 2)),
+               position[2] + domain[2] * (-1 + 2 * (boardDirection[0] % 2))};
       }
     } else {
       pos = {position[0] + domain[0] * (-1 + 2 * boardDirection[0]),

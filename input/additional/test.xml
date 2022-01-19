@@ -1,23 +1,33 @@
-<Simulation endTime="20" deltaT="0.0005" iteration="60" physics="lennard" writer="vtk" output="MD">
-    <AdditionalGravitation x="0.0" y="0.0" z="-0.001"/>
+<Simulation endTime="50" deltaT="0.0005" iteration="20" physics="lennard" writer="vtk" output="nanoflow">
+    <AdditionalGravitation x="0.0" y="-0.8" z="0.0"/>
     <Strategy>
-        <LinkedCell cutoffRadius="4.0">
-            <Domain x="140" y="140" z="140"/>
-            <CellSize x="4" y="4" z="4"/>
-            <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="periodic"
-                      boundary-bottom="periodic" boundary-front="reflecting" boundary-back="reflecting"/>
+        <LinkedCell cutoffRadius="3">
+            <Domain x="30" y="30" z="12"/>
+            <CellSize x="3" y="3" z="3"/>
+            <Boundary boundary-left="outflow" boundary-right="outflow" boundary-top="periodic"
+                      boundary-bottom="periodic" boundary-front="periodic" boundary-back="periodic"/>
         </LinkedCell>
     </Strategy>
     <Shapes>
-        <Membrane mass="1.0" distance="2.2" meanValue="0" packed="true" depthOfPotentialWell="1.0" zeroCrossing="1.0" stiffness="300" averageBondLength="2.2" type="0" fixedOutline="true">
-            <Position x="20.0" y="20.0" z="20.5"/>
+        <Cuboid mass="1.0" distance="1.0" meanValue="0" packed="true" depthOfPotentialWell="2" zeroCrossing="1.1"
+                type="1" fixed="true">
+            <Position x="1" y="0.5" z="0.5"/>
             <Velocity x="0.0" y="0.0" z="0.0"/>
-            <Dimension x="30" y="30" z="1"/>
-        </Membrane>
-        <Sphere mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.2"
-                type="1" radius="10">
-            <Center x="45.0" y="45.0" z="40.0"/>
-            <Velocity x="0.0" y="0.0" z="-10.0"/>
-        </Sphere>
+            <Dimension x="2" y="30" z="12"/>
+        </Cuboid>
+        <Cuboid mass="1.0" distance="1.0" meanValue="0" packed="true" depthOfPotentialWell="2" zeroCrossing="1.1"
+                type="1" fixed="true">
+            <Position x="27.2" y="0.5" z="0.5"/>
+            <Velocity x="0.0" y="0.0" z="0.0"/>
+            <Dimension x="2" y="30" z="12"/>
+        </Cuboid>
+        <Cuboid mass="1.0" distance="1.2" meanValue="0" packed="true" depthOfPotentialWell="1" zeroCrossing="1.0"
+                type="2" fixed="false">
+            <Position x="3.2" y="0.6" z="0.6"/>
+            <Velocity x="0.0" y="0.0" z="0.0"/>
+            <Dimension x="20" y="25" z="10"/>
+        </Cuboid>
     </Shapes>
+    <Thermostat initialT="40" numberT="10" flow="true"/>
+    <ProfileWriter numOfBins="10" numOfIterations="1000" velocity="true" density="false"/>
 </Simulation>

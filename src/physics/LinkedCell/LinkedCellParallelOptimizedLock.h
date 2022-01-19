@@ -1,19 +1,26 @@
 #pragma once
 
+#include <omp.h>
+
 #include "physics/Physics.h"
 #include "physics/variants/LennardJones.h"
 #include "container/LinkedCell/LinkedCellContainer.h"
 #include "LinkedCell.h"
 
 /**
- * This class implements the linked cell algorithm in the form of a parallel algorithm that works with buffer and without locks.
+ * This class implements the linked cell algorithm in the form of a parallel algorithm that works with locks and is optimized.
  * @tparam T The physics to be used.
  * @tparam dim The dimension of our simulation
  */
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of<PhysicsType, T>::value, bool>::type = true>
-class LinkedCellParallelBuffer : LinkedCell<T, dim> {
+class LinkedCellParallelOptimizedLock : LinkedCellParallelLockFree<LennardJones, dim> {
  public:
-  LinkedCellParallelBuffer() = default;
+  //----------------------------------------Constructor----------------------------------------
+
+  /**
+   * Default constructor.
+   */
+  LinkedCellParallelOptimizedLock() = default;
 
   //----------------------------------------Methods----------------------------------------
 
@@ -39,13 +46,25 @@ class LinkedCellParallelBuffer : LinkedCell<T, dim> {
 };
 
 /**
- * This class implements the linked cell algorithm in the form of a parallel algorithm that works with buffer and without locks.
+ * This class implements the linked cell algorithm in the form of a parallel algorithm that works without locks and is optimized.
  * @tparam dim The dimension of our simulation
  */
 template<size_t dim>
-class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJones, dim> {
+class LinkedCellParallelOptimizedLock<LennardJones, dim> : public LinkedCellParallelLockFree<LennardJones, dim> {
  public:
-  LinkedCellParallelBuffer() = default;
+
+  //----------------------------------------Constructor----------------------------------------
+
+  /**
+   * Default constructor
+   */
+  LinkedCellParallelOptimizedLock() = default;
+
+  LinkedCellParallelOptimizedLock(double cutoffRadius, Vector<dim> cellSize, ParticleContainer<dim> &particleContainer)
+      : LinkedCellParallelLockFree<LennardJones, dim>(cutoffRadius, cellSize, particleContainer) {
+
+  };
+
 
   //----------------------------------------Methods----------------------------------------
 
@@ -56,62 +75,59 @@ class LinkedCellParallelBuffer<LennardJones, dim> : public LinkedCell<LennardJon
   void performUpdate(ParticleContainer<dim> &particleContainer) const override {
     auto &cellContainer = static_cast<LinkedCellContainer<dim> &>(particleContainer);
 
-#pragma omp declare reduction (merge : std::vector<std::pair<Particle<dim> *, Vector<dim>>> : omp_out.insert(omp_out.end(), omp_in.begin(), omp_in.end()))
-
-    // particle and value
-    std::vector<std::pair<Particle<dim> *, Vector<dim>>> updates;
-
-#pragma omp parallel for shared(cellContainer) default(none)
+#pragma omp parallel for shared(cellContainer) default(none) schedule(static, 8)
     for (size_t i = 0; i < cellContainer.getBoundaryCells().size(); ++i) {
       Boundary<dim> &b = cellContainer.getBoundaryCells()[i];
       b.applyCellProperties();
     }
 
-#pragma omp parallel for shared(cellContainer) default(none) reduction(merge: updates)
-    for (size_t c = 0; c < cellContainer.getBoundaryAndInnerCells().size(); ++c) {
+    for (auto &cellVector: LinkedCellParallelLockFree<LennardJones, dim>::cells) {
+#pragma omp parallel for shared(cellVector, cellContainer) default(none) schedule(static, 4)
+      for (size_t c = 0; c < cellVector.size(); ++c) {
 
-      Cell<dim> *cell = cellContainer.getBoundaryAndInnerCells()[c];
-      std::vector<Cell<dim> *> &neighbours = cell->getNeighbours();
-      std::vector<Particle<dim> *> &cellParticles = cell->getParticles();
+        Cell<dim> *cell = cellVector[c];
+        std::vector<Cell<dim> *> &neighbours = cell->getNeighbours();
+        std::vector<Particle<dim> *> &cellParticles = cell->getParticles();
 
-      if (!cellParticles.empty()) {
+        if (!cellParticles.empty()) {
 
-        // Calc between particles in cells and relevant neighbours
-        for (auto n = neighbours.begin(); n != neighbours.end(); ++n) {
-          for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
-            for (auto j = (*n)->getParticles().begin(); j != (*n)->getParticles().end(); ++j) {
-              Vector<dim> force = LinkedCell<LennardJones, dim>::calculateLennardJones(*(*i), *(*j), cellContainer);
-              if (!isNull(force)) {
-                (*i)->updateForce(force);
-                updates.emplace_back(*j, -force);
+          LinkedCell<LennardJones, dim>::calcBetweenNeighboursAndCell(neighbours, cellParticles, cellContainer);
+
+          LinkedCell<LennardJones, dim>::calcInTheCell(cellParticles, cellContainer);
+
+          std::vector<std::tuple<Cell<dim> *, Vector<dim>>> &periodicNeighbours = cell->getPeriodicNeighbours();
+
+          // Iterate over all periodic neighbours
+          for (std::tuple<Cell<dim> *, Vector<dim>> &t: periodicNeighbours) {
+            // Get the periodic cell which influences the current cell
+            Cell<dim> *periodicCell = std::get<0>(t);
+
+            if (!periodicCell->getParticles().empty()) {
+              periodicCell->setLock();
+
+              for (auto j = periodicCell->getParticles().begin(); j != periodicCell->getParticles().end(); ++j) {
+                // Update the current position of the Particle(s)
+                const Vector<dim> oldPos = (*j)->getX();
+                Vector<dim> pos;
+                for (size_t index = 0; index < dim; ++index) {
+                  pos[index] = oldPos[index] - periodicCell->getPosition()[index] + std::get<1>(t)[index];
+                }
+                (*j)->setX(pos);
+
+                cell->setLock();
+                for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
+                  auto force = LinkedCell<LennardJones, dim>::calculateLennardJones(*(*i), *(*j), cellContainer);
+                  LinkedCell<LennardJones, dim>::updateForceForParticle(*(*i), *(*j), force);
+                }
+                cell->unsetLock();
+
+                (*j)->setX(oldPos);
               }
-            }
-          }
-        }
-
-        // Calc in the cells
-        for (auto i = cellParticles.begin(); i != cellParticles.end(); ++i) {
-          for (auto j = i + 1; j != cellParticles.end(); ++j) {
-            Vector<dim> force = LinkedCell<LennardJones, dim>::calculateLennardJones(*(*i), *(*j), cellContainer);
-            if (!isNull(force)) {
-              (*i)->updateForce(force);
-              updates.emplace_back(*j, -force);
+              periodicCell->unsetLock();
             }
           }
         }
       }
-    }
-
-    for (auto &u: updates) {
-      u.first->updateForce(u.second);
-    }
-
-    // Periodic neighbours sequentially
-    for (size_t c = 0; c < cellContainer.getBoundaryCells().size(); ++c) {
-      Boundary<dim> &cell = cellContainer.getBoundaryCells()[c];
-      std::vector<Particle<dim> *> &cellParticles = cell.getParticles();
-
-      LinkedCell<LennardJones, dim>::calcPeriodic(cellParticles, cellContainer, cell);
     }
 
     LinkedCell<LennardJones, dim>::calculateMolecules(cellContainer);

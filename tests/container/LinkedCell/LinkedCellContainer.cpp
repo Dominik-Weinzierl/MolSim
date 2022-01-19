@@ -251,15 +251,15 @@ TEST(LinkedCellContainer, checkParticleGetsOutOfBounds) {
 */
 TEST(LinkedCellContainer, mixingRule) {
   // Different zeroCrossing and potentialWellDepth
-  Particle<2> p1 {{1, 0}, {-1.0, 0.0}, 1.0, 1.0, 5.0, 1};
-  Particle<2> p2 {{2.5, 0}, {-1.0, 0.0}, 1.0, 2.0, 4.0, 2};
+  Particle<2> p1{{1, 0}, {-1.0, 0.0}, 1.0, 1.0, 5.0, 1};
+  Particle<2> p2{{2.5, 0}, {-1.0, 0.0}, 1.0, 2.0, 4.0, 2};
 
   double l2Norm = Physics<LennardJones, 2>::calcL2NormSquare(p1, p2);
-  Vector<2>  force_1 = LennardJones::calculateForceBetweenTwoParticles(p1, p2, l2Norm);
+  Vector<2> force_1 = LennardJones::calculateForceBetweenTwoParticles(p1, p2, l2Norm);
 
   // Same zeroCrossing and potentialWellDepth
-  Particle<2> p3 {{1, 0}, {-1.0, 0.0}, 1.0, 1.0, 5.0, 1};
-  Particle<2> p4 {{2.5, 0}, {-1.0, 0.0}, 1.0, 1.0, 5.0, 2};
+  Particle<2> p3{{1, 0}, {-1.0, 0.0}, 1.0, 1.0, 5.0, 1};
+  Particle<2> p4{{2.5, 0}, {-1.0, 0.0}, 1.0, 1.0, 5.0, 2};
 
   l2Norm = Physics<LennardJones, 2>::calcL2NormSquare(p3, p4);
   Vector<2> force_2 = LennardJones::calculateForceBetweenTwoParticles(p3, p4, l2Norm);

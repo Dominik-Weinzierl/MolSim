@@ -18,6 +18,11 @@ class ParticleContainer {
    */
   std::vector<Particle<dim>> particles;
 
+  /**
+   *
+   */
+  std::vector<Particle<dim> *> molecules;
+
  public:
 
   //----------------------------------------Constructor & Destructor----------------------------------------
@@ -48,6 +53,14 @@ class ParticleContainer {
    */
   void addParticle(Particle<dim> p) {
     particles.push_back(std::move(p));
+  }
+
+  /**
+   * Adds the particle pointer to the ParticleContainer.
+   * @param p The particle to be added.
+   */
+  void addMolecule(Particle<dim> *p) {
+    molecules.push_back(p);
   }
 
   /**
@@ -111,6 +124,22 @@ class ParticleContainer {
    */
   [[nodiscard]] std::vector<Particle<dim>> &getParticles() {
     return particles;
+  }
+
+  /**
+   * Getter for the vector of Particle(s) pointer (molecules).
+   * @return
+   */
+  [[nodiscard]] const std::vector<Particle<dim> *> &getMolecules() const {
+    return molecules;
+  }
+
+  /**
+   * Getter for the vector of Particle(s) pointer (molecules).
+   * @return
+   */
+  [[nodiscard]] std::vector<Particle<dim> *> &getMolecules() {
+    return molecules;
   }
 };
 
