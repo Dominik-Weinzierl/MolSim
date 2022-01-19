@@ -18,7 +18,7 @@ class HarmonicPotential : public PhysicsType {
   template<size_t dim>
   static inline Vector<dim> calculateForceBetweenTwoDiagonalParticles(Particle<dim> *i, Particle<dim> *j,
                                                                       double &l2Norm) {
-    // TODO replace magic number
+    //1.41421356237 == sqrt(2)
     return i->getMembraneArguments()[0] * (l2Norm - 1.41421356237 * i->getMembraneArguments()[1])
         * ((j->getX() - i->getX()) / l2Norm);
   }

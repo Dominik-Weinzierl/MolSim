@@ -41,6 +41,8 @@ class MembraneArgument : public RectangularArgument<dim> {
    * @param pPacked describes if the Membrane is packed with Particle(s)
    * @param pZeroCrossing is a point where the sign of a mathematical function changes.
    * @param pDepthOfPotentialWell is the region surrounding a local minimum of potential energy.
+   * @param pStiffness is the stiffness constant of a molecule
+   * @param pAverageBondLength is the average bond length of a molecule
    * @param pType of all particles generated with this specific generator argument.
    * @param pFixed of all particles generated with this specific generator argument.
    * @param pForces additional forces applied on the particles.

@@ -4,7 +4,7 @@
 
 #include "physics/Vector/Vector.h"
 #include "logger/Logger.h"
-#include "physics/Forces/Force.h"
+#include "physics/Forces/Forces.h"
 
 enum ParticleType {
   MOLECULE, PARTICLE
@@ -63,7 +63,7 @@ class Particle {
   bool fixed{};
 
   /**
-   * Vector of moleculeArguments.
+   * Vector of moleculeArguments (only for MOLECULE).
    */
   std::vector<double> membraneArguments;
 
@@ -83,9 +83,9 @@ class Particle {
   ParticleType particleType = PARTICLE;
 
   /**
-   *
+   * Additional Forces applied to the Particle.
    */
-  std::vector<Force<dim>> additionalForces{};
+  std::vector<Forces<dim>> additionalForces{};
 
  public:
 
@@ -334,15 +334,15 @@ class Particle {
    * @return neighbours
    */
   [[nodiscard]] const std::vector<Particle<dim> *> &getNeighbours() const {
-    return neighbours;
+      return neighbours;
   }
 
   /**
-   * Getter for diagonal neighbours.
+   * Getter for diagonalNeighbours.
    * @return diagonalNeighbours
    */
   [[nodiscard]] const std::vector<Particle<dim> *> &getDiagonalNeighbours() const {
-    return diagonalNeighbours;
+      return diagonalNeighbours;
   }
 
   /**
@@ -355,6 +355,7 @@ class Particle {
     else
       return {};
   }
+
 
   /**
    * Getter for particleType.
@@ -518,8 +519,8 @@ class Particle {
 
   /**
   * Set stiffness and averageBondLength if particleType is MOLECULE.
-  * @param stiffness
-  * @param averageBondLength
+  * @param stiffness Stiffness of the Membrane.
+  * @param averageBondLength AverageBondLength of the Membrane.
   */
   void setMembraneArguments(double stiffness, double averageBondLength) {
     if (particleType == MOLECULE) {
@@ -550,42 +551,48 @@ class Particle {
   }
 
   /**
-   *
-   * @param p
-   * @return
+   * Checks if the given Particle p is a neighbour.
+   * @param p Particle that might be a neighbour
+   * @return True if p is a neighbour.
    */
   bool isNeighbour(Particle<dim> *p) {
-    return std::find(neighbours.begin(), neighbours.end(), p) != neighbours.end();
+    if (particleType == MOLECULE)
+      return std::find(neighbours.begin(), neighbours.end(), p) != neighbours.end();
+    else
+      return false;
   }
 
   /**
-   *
-   * @param p
-   * @return
+   * Checks if the given Particle p is a diagonal neighbour.
+   * @param p Particle that might be a diagonal neighbour
+   * @return True if p is a diagonal neighbour.
    */
   bool isDiagonalNeighbour(Particle<dim> *p) {
-    return std::find(diagonalNeighbours.begin(), diagonalNeighbours.end(), p) != diagonalNeighbours.end();
+    if (particleType == MOLECULE)
+      return std::find(diagonalNeighbours.begin(), diagonalNeighbours.end(), p) != diagonalNeighbours.end();
+    else
+      return false;
   }
 
   /**
-   *
-   * @return
+   * Returns the additionalForces-Vector
+   * @return additionalForces
    */
-  const std::vector<Force<dim>> &getAdditionalForces() const {
+  const std::vector<Forces<dim>> &getAdditionalForces() const {
     return additionalForces;
   }
 
   /**
-   *
-   * @param additional_forces
+   * Adds the given force-vector to the additionalForce-Vector.
+   * @param additional_forces Additional Force to add to the additionalForce-Vector.
    */
-  void addAdditionalForce(const Force<dim> &additional_forces) {
+  void addAdditionalForce(const Forces<dim> &additional_forces) {
     additionalForces.push_back(additional_forces);
   }
 
   /**
-   *
-   * @param fix
+   * Set fixed to given parameter.
+   * @param fix Bool to set fixed to.
    */
   void setFixed(bool fix) {
     fixed = fix;
