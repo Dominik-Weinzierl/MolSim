@@ -101,7 +101,7 @@ TEST(ProfileWriter3D, density) {
   std::getline(file, line);
   EXPECT_EQ(line, "iteration,0");
   std::getline(file, line);
-  EXPECT_EQ(line, "0,0.25000");
+  EXPECT_EQ(line, "0,0.250000");
 }
 
 /**
