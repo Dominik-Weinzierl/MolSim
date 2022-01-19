@@ -742,6 +742,9 @@ Usage:
     </LinkedCell>
 </Strategy>
 ```
+
+#### Performance:
+
 ### Benchmarks
 
 Disable all `spdlog` outputs to get best results. Therefore add `-D WITH_SPD_LOG_OFF=OFF` to your cmake command. (
