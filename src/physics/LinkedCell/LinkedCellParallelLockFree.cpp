@@ -3,11 +3,13 @@
 template<>
 LinkedCellParallelLockFree<LennardJones, 3>::LinkedCellParallelLockFree(double cutoffRadius, Vector<3> cellSize,
                                                                         ParticleContainer<3> &particleContainer) {
-  auto maxX = static_cast<size_t>(std::ceil(cutoffRadius / cellSize[0])) + 2;
-  auto maxY = static_cast<size_t>(std::ceil(cutoffRadius / cellSize[1])) + 2;
-  auto maxZ = static_cast<size_t>(std::ceil(cutoffRadius / cellSize[2])) + 1;
+  auto rangeX = std::ceil(cutoffRadius / cellSize[0]);
+  auto rangeY = std::ceil(cutoffRadius / cellSize[1]);
+  auto rangeZ = std::ceil(cutoffRadius / cellSize[2]);
+  auto maxX = static_cast<size_t>(rangeX + 1 + rangeX);
+  auto maxY = static_cast<size_t>(rangeY + 1 + rangeY);
+  auto maxZ = static_cast<size_t>(rangeZ + rangeZ);
 
-  // TODO add check
   auto &cellContainer = dynamic_cast<LinkedCellContainer<3> &>(particleContainer);
 
   auto cellsPerLayer = static_cast<unsigned long>(cellContainer.cellsPerColumn())
@@ -44,16 +46,17 @@ LinkedCellParallelLockFree<LennardJones, 3>::LinkedCellParallelLockFree(double c
     }
   }
 
-  checkCorrectness(cellContainer);
+  // checkCorrectness(cellContainer);
 }
 
 template<>
 LinkedCellParallelLockFree<LennardJones, 2>::LinkedCellParallelLockFree(double cutoffRadius, Vector<2> cellSize,
                                                                         ParticleContainer<2> &particleContainer) {
-  auto maxX = static_cast<size_t>(std::ceil(cutoffRadius / cellSize[0])) + 1;
-  auto maxY = static_cast<size_t>(std::ceil(cutoffRadius / cellSize[1])) + 2;
+  auto rangeX = std::ceil(cutoffRadius / cellSize[0]);
+  auto rangeY = std::ceil(cutoffRadius / cellSize[1]);
+  auto maxX = static_cast<size_t>(rangeX + rangeX);
+  auto maxY = static_cast<size_t>(rangeY + 1 + rangeY);
 
-  // TODO add check
   auto &cellContainer = dynamic_cast<LinkedCellContainer<2> &>(particleContainer);
 
   auto cellsPerColumn = static_cast<unsigned long>(cellContainer.cellsPerColumn());
@@ -77,5 +80,5 @@ LinkedCellParallelLockFree<LennardJones, 2>::LinkedCellParallelLockFree(double c
     }
   }
 
-  checkCorrectness(cellContainer);
+  // checkCorrectness(cellContainer);
 }

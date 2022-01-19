@@ -25,7 +25,6 @@ void InputReader<3>::readParticles(ParticleContainer<3> &particleContainer, int 
     particleContainer.addParticle({x, v, m});
 
     getline(inputFile, tmpString);
-    // std::cout << "Read line: " << tmpString << std::endl;
   }
 }
 
@@ -57,6 +56,5 @@ void InputReader<2>::readParticles(ParticleContainer<2> &particleContainer, int 
     particleContainer.addParticle({x, v, m});
 
     getline(inputFile, tmpString);
-    // std::cout << "Read line: " << tmpString << std::endl;
   }
 }

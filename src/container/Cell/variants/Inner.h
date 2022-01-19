@@ -15,12 +15,11 @@ class Inner : public Cell<dim> {
   /**
    * Constructor to create our Inner(s) cells. In this case our boundary type is always Outflow (unused).
    * @param pPosition position of this Cell in our Mesh
-   * @param pAllParticles all Particle(s) used in this simulation
    * @param pCellSize size of this cell (each Cell has the same size)
    * @param pDomain domain size used during this simulation
    */
-  Inner(std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain)
-      : Cell<dim>(pAllParticles, pPosition, pCellSize, pDomain) {};
+  Inner(Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain) : Cell<dim>(pPosition, pCellSize,
+                                                                                       pDomain) {};
 
   //----------------------------------------Methods----------------------------------------
 

@@ -3,6 +3,7 @@
 #include <functional>
 #include <iostream>
 #include <utility>
+#include <omp.h>
 
 #include "particles/Particle.h"
 #include "boundaryType/BoundaryType.h"
@@ -21,15 +22,13 @@ enum BoardDirectionType {
 template<size_t dim>
 class Cell {
  protected:
+#ifdef _OPENMP
+  omp_lock_t lock;
+#endif
   /**
    * Vector of Particle(s) in this Cell.
    */
   std::vector<Particle<dim> *> particles{};
-
-  /**
-   * Vector of all Particle(s) in this simulation.
-   */
-  std::vector<Particle<dim>> &allParticles;
 
   /**
    * Vector of neighbours of this Cell.
@@ -74,30 +73,40 @@ class Cell {
    * Constructor to create our Cell(s).
    * @param pBoundaryType default is Outflow (but other types are also possible)
    * @param pBorderDirection direct of this cell
-   * @param pAllParticles all Particle(s) used in this simulation
    * @param pPosition position of this Cell in our Mesh
    * @param pCellSize size of this cell (each Cell has the same size)
    * @param pDomain domain size used during this simulation
    */
-  Cell(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection,
-       std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain)
-      : boundaryType{std::move(pBoundaryType)}, borderDirection{std::move(pBorderDirection)},
-        allParticles{pAllParticles}, position{pPosition}, cellSize{pCellSize}, domain{pDomain} {};
+  Cell(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection, Vector<dim> pPosition,
+       Vector<dim> pCellSize, Vector<dim> pDomain) : boundaryType{std::move(pBoundaryType)},
+                                                     borderDirection{std::move(pBorderDirection)}, position{pPosition},
+                                                     cellSize{pCellSize}, domain{pDomain} {
+#ifdef _OPENMP
+    omp_init_lock(&lock);
+#endif
+  };
 
   /**
    * Constructor to create our Cell(s). In this case our boundary type is always Outflow.
    * @param pPosition position of this Cell in our Mesh
-   * @param pAllParticles all Particle(s) used in this simulation
    * @param pCellSize size of this cell (each Cell has the same size)
    * @param pDomain domain size used during this simulation
    */
-  Cell(std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain)
-      : allParticles{pAllParticles}, position{pPosition}, cellSize{pCellSize}, domain{pDomain} {};
+  Cell(Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain) : position{pPosition}, cellSize{pCellSize},
+                                                                            domain{pDomain} {
+#ifdef _OPENMP
+    omp_init_lock(&lock);
+#endif
+  };
 
   /**
    * Default destructor used for inheritance.
    */
-  virtual ~Cell() = default;
+  virtual ~Cell() {
+#ifdef _OPENMP
+    omp_destroy_lock(&lock);
+#endif
+  }
 
   //----------------------------------------Methods----------------------------------------
 
@@ -183,5 +192,18 @@ class Cell {
    */
   const Vector<dim> &getCellSize() const {
     return cellSize;
+  }
+
+  inline void setLock() {
+#ifdef _OPENMP
+    omp_set_lock(&lock);
+#endif
+  }
+
+  inline void unsetLock() {
+#ifdef _OPENMP
+    omp_unset_lock(&lock);
+#endif
+
   }
 };
