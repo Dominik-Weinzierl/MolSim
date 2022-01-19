@@ -219,8 +219,11 @@ void Generator<RectangularArgument<3>, 3>::generateRectangular(const Rectangular
     }
   }
 
-  // ToDo link membrane
   if (auto *m = dynamic_cast<const MembraneArgument<3> *>(&c)) {
+    // Insert Particle pointer into vector
+    for (auto i = static_cast<size_t>(amount); i < container.size(); ++i) {
+      container.addMolecule(&container.getParticles()[i]);
+    }
 
     // Fixed outline
     if (m->getFixedOutline()) {
@@ -336,8 +339,11 @@ void Generator<RectangularArgument<2>, 2>::generateRectangular(const Rectangular
     }
   }
 
-// ToDo link membrane
   if (auto *m = dynamic_cast<const MembraneArgument<2> *>(&c)) {
+    // Insert Particle pointer into vector
+    for (auto i = static_cast<size_t>(amount); i < container.size(); ++i) {
+      container.addMolecule(&container.getParticles()[i]);
+    }
 
     // Fixed outline
     if (m->getFixedOutline()) {

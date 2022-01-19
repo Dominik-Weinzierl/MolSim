@@ -101,6 +101,7 @@ class ProfileWriter {
    * @param pDens Generate density profiles?
    * @param pDom domain of the simulation
    */
+
   ProfileWriter(int pBins, int pIter, bool pVel, bool pDens, Vector<dim> pDom, std::string pPath) : numOfBins(pBins),
                                                                                                      numOfIterations(
                                                                                                          pIter),
@@ -108,7 +109,6 @@ class ProfileWriter {
                                                                                                      density(pDens),
                                                                                                      dom(pDom),
                                                                                                      path{std::move(pPath)} {
-    // delete already existing files
     // delete already existing files
     if (velocity) {
       file.open(path + "/velprofile.csv");
@@ -129,6 +129,7 @@ class ProfileWriter {
       file.close();
     }
   };
+
   /**
    * Destructor
    */

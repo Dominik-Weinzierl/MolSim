@@ -95,12 +95,22 @@ class Argument {
    */
   Argument(std::vector<std::string> pFiles, double pEndTime, double pDeltaT, std::string pOutput, std::string pWriter,
            int pIteration, std::string pPhysics, std::string pStrategy, std::unique_ptr<Thermostat<dim>> pThermostat,
-           std::unique_ptr<ProfileWriter<dim>> pProfileWriter, Vector<dim> pAdditionalGravitation) : files{std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT},
-                                              output{std::move(pOutput)}, writer{std::move(pWriter)},
-                                              physics{std::move(pPhysics)}, iteration{pIteration},
-                                              strategy{std::move(pStrategy)}, thermostat{std::move(pThermostat)},
-                                              profileWriter{std::move(pProfileWriter)},
-                                              additionalGravitation{pAdditionalGravitation}{};
+           std::unique_ptr<ProfileWriter<dim>> pProfileWriter, Vector<dim> pAdditionalGravitation) : files{
+      std::move(pFiles)}, endTime{pEndTime}, deltaT{pDeltaT}, output{std::move(pOutput)}, writer{std::move(pWriter)},
+                                                                                                     physics{std::move(
+                                                                                                         pPhysics)},
+                                                                                                     iteration{
+                                                                                                         pIteration},
+                                                                                                     strategy{std::move(
+                                                                                                         pStrategy)},
+                                                                                                     thermostat{
+                                                                                                         std::move(
+                                                                                                             pThermostat)},
+                                                                                                     profileWriter{
+                                                                                                         std::move(
+                                                                                                             pProfileWriter)},
+                                                                                                     additionalGravitation{
+                                                                                                         pAdditionalGravitation} {};
 
   //----------------------------------------Methods----------------------------------------
 

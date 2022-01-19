@@ -111,8 +111,7 @@ class XMLArgumentParser : public ArgumentParser<dim> {
             }
             if (possibleCellSizes.empty()) {
               throw std::invalid_argument(
-                  "Sadly I wasn't able to find a suitable cell size for your domain in dimension "
-                      + std::to_string(i));
+                  "Sadly I wasn't able to find a suitable cell size for your domain in dimension " + std::to_string(i));
             }
             possibleCellSizesForAllDimension[i] = possibleCellSizes;
           }

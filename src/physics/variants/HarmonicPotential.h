@@ -6,8 +6,6 @@
  * This class implements the HarmonicPotential.
  */
 class HarmonicPotential : public PhysicsType {
- private:
-
  public:
 
   //----------------------------------------Methods----------------------------------------

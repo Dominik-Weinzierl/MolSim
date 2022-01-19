@@ -69,14 +69,14 @@ class Boundary : public Cell<dim> {
    * Constructor to create our Boundary(s).
    * @param pBoundaryType default is Outflow (but other types are also possible)
    * @param pBorderDirection direct of this cell
-   * @param pAllParticles all Particle(s) used in this simulation
    * @param pPosition position of this Cell in our Mesh
    * @param pCellSize size of this cell (each Cell has the same size)
    * @param pDomain domain size used during this simulation
    */
   Boundary(std::vector<BoundaryType> pBoundaryType, std::vector<BoardDirectionType> pBorderDirection,
-           std::vector<Particle<dim>> &pAllParticles, Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain)
-      : Cell<dim>(pBoundaryType, pBorderDirection, pAllParticles, pPosition, pCellSize, pDomain) {};
+           Vector<dim> pPosition, Vector<dim> pCellSize, Vector<dim> pDomain) : Cell<dim>(pBoundaryType,
+                                                                                          pBorderDirection, pPosition,
+                                                                                          pCellSize, pDomain) {};
 
   //----------------------------------------Methods----------------------------------------
 
