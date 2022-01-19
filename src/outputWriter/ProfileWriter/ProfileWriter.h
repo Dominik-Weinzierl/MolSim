@@ -1,4 +1,7 @@
+#include <utility>
+
 #include "fstream"
+#include "container/ParticleContainer.h"
 #pragma once
 
 /**
@@ -33,6 +36,8 @@ class ProfileWriter {
    */
   std::ofstream file;
 
+  std::string path;
+
   /**
    * Sort the particles into bins
    * @param c the particle container
@@ -60,7 +65,6 @@ class ProfileWriter {
     Vector<dim> ret{};
     unsigned long count = 0;
     for (auto &p: b) {
-      // ToDo think about fixed particles
       ret = ret + p.getV();
       count++;
     }
@@ -97,18 +101,35 @@ class ProfileWriter {
    * @param pDens Generate density profiles?
    * @param pDom domain of the simulation
    */
-  ProfileWriter(int pBins, int pIter, bool pVel, bool pDens, Vector<dim> pDom) : numOfBins(pBins),
-                                                                                 numOfIterations(pIter), velocity(pVel),
-                                                                                 density(pDens), dom(pDom) {};
-  /**
-  * Constructor
-  * @param pBins Number of bins
-  * @param pIter Number of iterations
-  * @param pVel Generate velocity profiles?
-  * @param pDens Generate density profiles?
-  */
-  ProfileWriter(int pBins, int pIter, bool pVel, bool pDens) : numOfBins(pBins), numOfIterations(pIter), velocity(pVel),
-                                                               density(pDens) {};
+
+  ProfileWriter(int pBins, int pIter, bool pVel, bool pDens, Vector<dim> pDom, std::string pPath) : numOfBins(pBins),
+                                                                                                     numOfIterations(
+                                                                                                         pIter),
+                                                                                                     velocity(pVel),
+                                                                                                     density(pDens),
+                                                                                                     dom(pDom),
+                                                                                                     path{std::move(pPath)} {
+    // delete already existing files
+    if (velocity) {
+      file.open(path + "/velprofile.csv");
+      file << "iteration";
+      for (int i = 0; i < numOfBins; i++) {
+        file << "," << i;
+      }
+      file << std::endl;
+      file.close();
+    }
+    if (density) {
+      file.open(path + "/densprofile.csv");
+      file << "iteration";
+      for (int i = 0; i < numOfBins; i++) {
+        file << "," << i;
+      }
+      file << std::endl;
+      file.close();
+    }
+  };
+
   /**
    * Destructor
    */
@@ -123,22 +144,22 @@ class ProfileWriter {
     std::vector<std::vector<Particle<dim>>> bins = particlesIntoBins(c);
 
     if (velocity) {
-      file.open("output/velprofile.csv", std::ios::app);
-      file << iteration << ";";
+      file.open(path + "/velprofile.csv", std::ios::app);
+      file << iteration;
       file.setf(std::ios_base::showpoint);
       for (auto &b: bins) {
-        file << computeAverageSpeed(b) << ";";
+        file << "," << computeAverageSpeed(b);
       }
       file << std::endl;
       file.close();
     }
 
     if (density) {
-      file.open("output/denprofile.csv", std::ios::app);
-      file << iteration << ";";
+      file.open(path + "/densprofile.csv", std::ios::app);
+      file << iteration;
       file.setf(std::ios_base::showpoint);
       for (auto &b: bins) {
-        file << computeDensity(b) << ";";
+        file << "," << computeDensity(b);
       }
       file << std::endl;
       file.close();
