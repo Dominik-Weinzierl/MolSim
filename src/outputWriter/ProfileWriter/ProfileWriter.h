@@ -65,7 +65,6 @@ class ProfileWriter {
     Vector<dim> ret{};
     unsigned long count = 0;
     for (auto &p: b) {
-      // ToDo think about fixed particles
       ret = ret + p.getV();
       count++;
     }
@@ -110,26 +109,6 @@ class ProfileWriter {
                                                                                                      dom(pDom),
                                                                                                      path{std::move(pPath)} {
     // delete already existing files
-    if (velocity) {
-      file.open(path + "/velprofile.csv");
-      file.close();
-    }
-    if (density) {
-      file.open(path + "/densprofile.csv");
-      file.close();
-    }
-  };
-  /**
-  * Constructor
-  * @param pBins Number of bins
-  * @param pIter Number of iterations
-  * @param pVel Generate velocity profiles?
-  * @param pDens Generate density profiles?
-  */
-  ProfileWriter(int pBins, int pIter, bool pVel, bool pDens, std::string pPath) : numOfBins(pBins),
-                                                                                   numOfIterations(pIter),
-                                                                                   velocity(pVel), density(pDens),
-                                                                                   path{std::move(pPath)} {
     // delete already existing files
     if (velocity) {
       file.open(path + "/velprofile.csv");
@@ -143,7 +122,7 @@ class ProfileWriter {
     if (density) {
       file.open(path + "/densprofile.csv");
       file << "iteration";
-      for (int i = 0; i < numOfBins - 1; i++) {
+      for (int i = 0; i < numOfBins; i++) {
         file << "," << i;
       }
       file << std::endl;
@@ -175,7 +154,7 @@ class ProfileWriter {
     }
 
     if (density) {
-      file.open(path + "/denprofile.csv", std::ios::app);
+      file.open(path + "/densprofile.csv", std::ios::app);
       file << iteration;
       file.setf(std::ios_base::showpoint);
       for (auto &b: bins) {
