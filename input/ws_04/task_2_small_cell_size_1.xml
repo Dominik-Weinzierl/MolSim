@@ -1,5 +1,5 @@
-<Simulation endTime="25" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
-            additionalGravitation="-12.44">
+<Simulation endTime="25" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD">
+    <AdditionalGravitation x ="0" y="-12.44" z="0"/>
     <Strategy>
         <LinkedCell cutoffRadius="2.5">
             <Domain x="63" y="36" z="63"/>

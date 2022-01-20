@@ -111,6 +111,7 @@ class ProfileWriter {
                                                                                                      path{std::move(pPath)} {
     // delete already existing files
     if (velocity) {
+      std::cout << path << std::endl;
       file.open(path + "/velprofile.csv");
       file << "iteration";
       for (int i = 0; i < numOfBins; i++) {

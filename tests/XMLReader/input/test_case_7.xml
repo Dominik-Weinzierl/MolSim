@@ -1,7 +1,6 @@
 <Simulation endTime="25" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD">
     <Strategy>
         <LinkedCell cutoffRadius="2.5">
-            <!-- Domain size needs to be a multiple of Cell size -> we adapted the Domain size to 51 -->
             <Domain x="63" y="36" z="63"/>
             <CellSize x="3" y="3" z="3"/>
             <Boundary boundary-left="periodic" boundary-right="periodic" boundary-top="reflecting"
