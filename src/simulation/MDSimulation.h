@@ -74,7 +74,6 @@ class MDSimulation {
       }
 
       if (iteration % 500 == 0) {
-        std::cout << iteration << std::endl;
         SPDLOG_INFO("Iteration {} finished", iteration);
       } else {
         SPDLOG_TRACE("Iteration {} finished", iteration);
