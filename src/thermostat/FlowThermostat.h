@@ -24,9 +24,11 @@ class FlowThermostat : public Thermostat<dim> {
     }
     avgYV /= static_cast<double>(count);
     for (auto &p: c) {
-      Vector<dim> v = p.getV();
-      v[1] -= avgYV;
-      ret += (p.getM() * v * v) / 2;
+      if (!p.isFixed()) {
+        Vector<dim> v = p.getV();
+        v[1] -= avgYV;
+        ret += (p.getM() * v * v) / 2;
+      }
     }
     ret /= static_cast<double>(dim * c.size());
     ret *= 2;
