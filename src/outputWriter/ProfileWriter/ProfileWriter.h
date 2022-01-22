@@ -112,7 +112,7 @@ class ProfileWriter {
     // delete already existing files
     if (velocity) {
       std::cout << path << std::endl;
-      file.open(path + "/velprofile.csv");
+      file.open(path + "velprofile.csv");
       file << "iteration";
       for (int i = 0; i < numOfBins; i++) {
         file << "," << i;
@@ -121,7 +121,7 @@ class ProfileWriter {
       file.close();
     }
     if (density) {
-      file.open(path + "/densprofile.csv");
+      file.open(path + "densprofile.csv");
       file << "iteration";
       for (int i = 0; i < numOfBins; i++) {
         file << "," << i;
@@ -145,7 +145,7 @@ class ProfileWriter {
     std::vector<std::vector<Particle<dim>>> bins = particlesIntoBins(c);
 
     if (velocity) {
-      file.open(path + "/velprofile.csv", std::ios::app);
+      file.open(path + "velprofile.csv", std::ios::app);
       file << iteration;
       file.setf(std::ios_base::showpoint);
       for (auto &b: bins) {
@@ -156,7 +156,7 @@ class ProfileWriter {
     }
 
     if (density) {
-      file.open(path + "/densprofile.csv", std::ios::app);
+      file.open(path + "densprofile.csv", std::ios::app);
       file << iteration;
       file.setf(std::ios_base::showpoint);
       for (auto &b: bins) {

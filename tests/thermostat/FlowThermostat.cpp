@@ -118,8 +118,8 @@ TEST(FlowThermostat, initalTNoInitialMotion) {
   FlowThermostat.setInitialTemperature(container);
 
 
-  // resulting energy will be greater, as the random y-velocity is ignored when calculating the scaling factor
-  EXPECT_GE(kineticEnergyTemp(container), 42);
+  // resulting energy will be less, as only the x component is scaled!
+  EXPECT_LE(kineticEnergyTemp(container), 42);
 }
 
 /**
