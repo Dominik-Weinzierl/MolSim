@@ -14,7 +14,7 @@
 
 /**
  * Argument stores the arguments parsed by ArgumentParser for easy access.
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class Argument {
@@ -60,13 +60,13 @@ class Argument {
   std::string strategy;
 
   /**
-   *
+   * The thermostat of this simulation.
    */
   std::unique_ptr<Thermostat<dim>> thermostat;
 
   /**
- * Stores the profile writer
- */
+   * Stores the profile writer
+   */
   std::unique_ptr<ProfileWriter<dim>> profileWriter;
 
   /**
@@ -116,7 +116,7 @@ class Argument {
 
   /**
    * Used to create additional Particle based on input arguments.
-   * @param container modified ParticleContainer.
+   * @param container modified ParticleContainer
    */
   virtual void createAdditionalParticle(ParticleContainer<dim> &container) const = 0;
 
@@ -144,7 +144,7 @@ class Argument {
 
   /**
    * Stream operator for CuboidArgument(s).
-   * @tparam dim dimension of our simulation.
+   * @tparam dim dimension of our simulation
    * @param stream std::ostream
    * @param p CuboidArgument to print
    * @return updated stream
@@ -244,7 +244,7 @@ class Argument {
 
   /**
    * Getter for strategy.
-   * @return strategy.
+   * @return strategy
    */
   [[nodiscard]] const std::string &getStrategy() const {
     SPDLOG_TRACE("Argument->getStrategy(): {}", strategy);
@@ -253,7 +253,7 @@ class Argument {
 
   /**
    * Getter for thermostat.
-   * @return thermostat.
+   * @return thermostat
    */
   [[nodiscard]] const std::unique_ptr<Thermostat<dim>> &getThermostat() const {
     return thermostat;
@@ -261,7 +261,7 @@ class Argument {
 
   /**
    * Getter for profile writer.
-   * @return profile writer.
+   * @return profile writer
    */
   [[nodiscard]] const std::unique_ptr<ProfileWriter<dim>> &getProfileWriter() const {
     return profileWriter;
@@ -269,7 +269,7 @@ class Argument {
 
   /**
  * Getter for thermostat.
- * @return thermostat.
+ * @return thermostat
  */
   [[nodiscard]]  std::unique_ptr<Thermostat<dim>> &getThermostat() {
     return thermostat;
@@ -277,7 +277,7 @@ class Argument {
 
   /**
    * Getter for profile writer.
-   * @return profile writer.
+   * @return profile writer
    */
   [[nodiscard]]  std::unique_ptr<ProfileWriter<dim>> &getProfileWriter() {
     return profileWriter;
@@ -285,7 +285,7 @@ class Argument {
 
   /**
    * Getter for gravitation.
-   * @return gravitation.
+   * @return gravitation
    */
   [[nodiscard]] const Vector<dim> &getAdditionalGravitation() const {
     return additionalGravitation;

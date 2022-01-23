@@ -10,7 +10,7 @@
 /**
  * Generates shapes based on the provided arguments.
  * @tparam T type of the used GeneratorArguments (e.g. CuboidArguments, SphereArguments, ...)
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of<GeneratorArguments<dim>, T>::value,
                                                          bool>::type = true>

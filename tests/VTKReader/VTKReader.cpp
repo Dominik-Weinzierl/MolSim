@@ -12,7 +12,7 @@
  */
 
 /**
- * Tests the generation of two particles from the VTKReader.
+ * Tests the generation of two particles from the VTKReader, 2D.
  */
 TEST(VTKReader_2D, simple_test) { // NOLINT(cert-err58-cpp)
   constexpr size_t dim = 2;
@@ -31,7 +31,7 @@ TEST(VTKReader_2D, simple_test) { // NOLINT(cert-err58-cpp)
 }
 
 /**
- * Tests the generation of two particles from a xml-source and a txt-source.
+ * Tests the generation of two particles from a xml-source and a txt-source, 2D.
  */
 TEST(VTKReader_2D, two_sources_test) { // NOLINT(cert-err58-cpp)
   constexpr size_t dim = 2;
@@ -55,7 +55,7 @@ TEST(VTKReader_2D, two_sources_test) { // NOLINT(cert-err58-cpp)
 }
 
 /**
-* Tests the generation of two particles from a xml-source and a cuboid of 4 particles.
+* Tests the generation of two particles from a xml-source and a cuboid of 4 particles, 2D.
 */
 TEST(VTKReader_2D, generator_test) { // NOLINT(cert-err58-cpp)
   constexpr size_t dim = 2;
@@ -83,7 +83,7 @@ TEST(VTKReader_2D, generator_test) { // NOLINT(cert-err58-cpp)
 }
 
 /**
- * Tests the generation of two particles from two xml-sources.
+ * Tests the generation of two particles from two xml-sources, 3D.
  */
 TEST(VTKReader_3D, sources_test) { // NOLINT(cert-err58-cpp)
   constexpr size_t dim = 3;

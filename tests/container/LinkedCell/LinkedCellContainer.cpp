@@ -5,7 +5,7 @@
 
 /**
  * ***************************************************
- * Test correct functionality of the linked cell container(s)
+ * Test correct functionality of the linked cell container(s).
  * ******************************************+********
  */
 
@@ -14,7 +14,7 @@ static auto eps = std::numeric_limits<double>::epsilon() * 100;
 
 /**
  * Tests the 2d setup of the LinkedCellContainer, the amount of cells that get generated and the
- * function getIndexBasedOnCoordinates, 2D
+ * function getIndexBasedOnCoordinates, 2D.
  */
 TEST(LinkedCellContainer_2D, checkMeshProperties) {
   LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 1.5};
@@ -94,7 +94,7 @@ TEST(HugeLinkedCellContainer_3D, checkMeshProperties) {
 }
 
 /**
- * Test that Newton is used correctly.
+ * Test that Newton is used correctly, 2D.
  */
 TEST(LinkedCellContainer_2D, checkNewton) {
   LinkedCellContainer<2> l{{Outflow, Outflow, Outflow, Outflow}, {1, 1}, {3, 3}, 1.0};
@@ -110,7 +110,7 @@ TEST(LinkedCellContainer_2D, checkNewton) {
 }
 
 /**
- * Test that Newton is used correctly.
+ * Test that Newton is used correctly, 3D.
  */
 TEST(LinkedCellContainer_3D, checkNewton) {
   LinkedCellContainer<3> l{{Outflow, Outflow, Outflow, Outflow, Outflow, Outflow}, {1, 1, 1}, {3, 3, 3}, 1.0};
@@ -126,7 +126,7 @@ TEST(LinkedCellContainer_3D, checkNewton) {
 }
 
 /**
- * Tests the linked cells which are used to calculate the force.
+ * Tests the linked cells which are used to calculate the force, 2D.
  */
 TEST(LinkedCellContainer_2D, checkNewtonPeriodic) {
   LinkedCellContainer<2> l{{Periodic, Periodic, Periodic, Periodic}, {1, 1}, {3, 3}, 1.0};
@@ -143,7 +143,7 @@ TEST(LinkedCellContainer_2D, checkNewtonPeriodic) {
 }
 
 /**
- * Tests the linked cells which are used to calculate the force.
+ * Tests the linked cells which are used to calculate the force, 3D.
  */
 TEST(LinkedCellContainer_3D, checkNewtonPeriodic) {
   LinkedCellContainer<3> l{{Periodic, Periodic, Periodic, Periodic, Periodic, Periodic}, {1, 1, 1}, {3, 3, 3}, 1.0};
@@ -160,7 +160,7 @@ TEST(LinkedCellContainer_3D, checkNewtonPeriodic) {
 }
 
 /**
-* Checks behavior when the CutOffRadius is greater than the cell size, 2D
+* Checks behavior when the CutOffRadius is greater than the cell size, 2D.
 */
 TEST(LinkedCellContainer_2D, checkCutoffRadiusGreaterThanCellSize) {
   const size_t dim = 2;
@@ -180,7 +180,7 @@ TEST(LinkedCellContainer_2D, checkCutoffRadiusGreaterThanCellSize) {
 }
 
 /**
-* Checks behavior when the CutOffRadius is greater than the cell size, 3D
+* Checks behavior when the CutOffRadius is greater than the cell size, 3D.
 */
 TEST(LinkedCellContainer_3D, checkCutoffRadiusGreaterThanCellSize) {
   const size_t dim = 3;
@@ -199,7 +199,7 @@ TEST(LinkedCellContainer_3D, checkCutoffRadiusGreaterThanCellSize) {
 }
 
 /**
-* Checks behavior when the CutOffRadius is smaller than the cell size, 2D
+* Checks behavior when the CutOffRadius is smaller than the cell size, 2D.
 */
 TEST(LinkedCellContainer_2D, checkCutoffRadiusLessThanCellSize) {
   const size_t dim = 2;
@@ -219,7 +219,7 @@ TEST(LinkedCellContainer_2D, checkCutoffRadiusLessThanCellSize) {
 }
 
 /**
-* Checks linking behavior if cutoff radius is greater than cell size and has (no) common divisor.
+* Checks linking behavior if cutoff radius is greater than cell size and has (no) common divisor, 2D.
 */
 TEST(LinkedCellContainer_2D, checkCutoffRadiusWithRest) {
   LinkedCellContainer<2> l_1{{Outflow, Outflow, Outflow, Outflow}, {2, 2}, {6, 6}, 3};

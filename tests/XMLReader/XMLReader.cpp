@@ -252,7 +252,7 @@ TEST(XMLReader_2D, test_case_4) { // NOLINT(cert-err58-cpp)
 }
 
 /**
-* Test that additional force is available.
+* Test that additional force is available, 3D.
 */
 TEST(XMLReader_3D, test_case_5) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
@@ -268,7 +268,7 @@ TEST(XMLReader_3D, test_case_5) { // NOLINT(cert-err58-cpp)
 }
 
 /**
-* Test that additional force is available.
+* Test that additional force is available, 2D.
 */
 TEST(XMLReader_2D, test_case_5) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
@@ -284,7 +284,7 @@ TEST(XMLReader_2D, test_case_5) { // NOLINT(cert-err58-cpp)
 }
 
 /**
-* Test that targetT is set to initialT if not specified.
+* Test that targetT is set to initialT if not specified, 2D.
 */
 TEST(XMLReader_2D, test_case_6) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
@@ -299,7 +299,7 @@ TEST(XMLReader_2D, test_case_6) { // NOLINT(cert-err58-cpp)
 }
 
 /**
-* Test that targetT is set to initialT if not specified.
+* Test that targetT is set to initialT if not specified, 3D.
 */
 TEST(XMLReader_3D, test_case_6) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
@@ -314,7 +314,7 @@ TEST(XMLReader_3D, test_case_6) { // NOLINT(cert-err58-cpp)
 }
 
 /**
-* Test that thermostat properties are set correctly.
+* Test that thermostat properties are set correctly, 2D.
 */
 TEST(XMLReader_2D, test_case_7) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
@@ -330,7 +330,7 @@ TEST(XMLReader_2D, test_case_7) { // NOLINT(cert-err58-cpp)
 }
 
 /**
-* Test that thermostat properties are set correctly.
+* Test that thermostat properties are set correctly, 3D.
 */
 TEST(XMLReader_3D, test_case_7) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
@@ -346,7 +346,7 @@ TEST(XMLReader_3D, test_case_7) { // NOLINT(cert-err58-cpp)
 }
 
 /**
-* Test that thermostat properties are set correctly with no specified deltaT.
+* Test that thermostat properties are set correctly with no specified deltaT, 2D.
 */
 TEST(XMLReader_2D, test_case_8) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
@@ -362,7 +362,7 @@ TEST(XMLReader_2D, test_case_8) { // NOLINT(cert-err58-cpp)
 }
 
 /**
-* Test that thermostat properties are set correctly with no specified deltaT
+* Test that thermostat properties are set correctly with no specified deltaT, 3D.
 */
 TEST(XMLReader_3D, test_case_8) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;

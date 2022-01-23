@@ -7,7 +7,7 @@
 
 /**
  * BasicArgument stores the arguments parsed by BasicArgumentParser for easy access.
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class BasicArgument : public Argument<dim> {
@@ -37,7 +37,7 @@ class BasicArgument : public Argument<dim> {
   /**
    * There are no additional ways to create additional particles via the command line.
    * If you want to create additional particles, you must use an xml configuration file.
-   * @param container the ParticleContainer in which the current particles are stored.
+   * @param container the ParticleContainer in which the current particles are stored
    */
   void createAdditionalParticle([[maybe_unused]] ParticleContainer<dim> &container) const override {
     SPDLOG_TRACE("BasicArgument->createAdditionalParticle()");

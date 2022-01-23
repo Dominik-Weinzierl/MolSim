@@ -17,7 +17,7 @@ class DummyWriter : public OutputWriter<dim> {
    * Constructs a XYZWriter to create files based on the XYZ file format.
    * @param pFileName output filename
    * @param pPath output path
-   * @param pContainer ParticleContainer with a Vector that contains all Particle(s).
+   * @param pContainer ParticleContainer with a Vector that contains all Particle(s)
    */
   explicit DummyWriter(std::string pFileName, ParticleContainer<dim> &pContainer) : OutputWriter<dim>(
       std::move(pFileName), pContainer) {};

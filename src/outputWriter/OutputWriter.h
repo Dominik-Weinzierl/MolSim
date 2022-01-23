@@ -14,8 +14,20 @@
 template<size_t dim>
 class OutputWriter {
  protected:
+
+  /**
+   * Filename.
+   */
   const std::string fileName;
+
+  /**
+   * Path to the file.
+   */
   const std::string path;
+
+  /**
+   * ParticleContainer with a Vector that contains all Particles.
+   */
   ParticleContainer<dim> &container;
 
  public:

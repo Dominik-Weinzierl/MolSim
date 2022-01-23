@@ -37,7 +37,7 @@ class ArgumentStatus {
 
   /**
    * Used to verify the input. All required flags and values needs to be available.
-   * @return
+   * @return True if all flags are valid
    */
   bool validStatus() {
     return std::all_of(flags.begin(), flags.end(), [](auto v) {
@@ -69,7 +69,7 @@ class ArgumentStatus {
 
 /**
  * ArgumentParser is an extendable parser for arguments via commandline or configuration file.
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class ArgumentParser {
@@ -99,7 +99,7 @@ class ArgumentParser {
 
   /**
    * Creates an Argument based on the stored values in the ArgumentStatus.
-   * @return std::unique_ptr<Argument<dim>>.
+   * @return std::unique_ptr<Argument<dim>>
    */
   virtual std::unique_ptr<Argument<dim>> createArgument() = 0;
 

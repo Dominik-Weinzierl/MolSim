@@ -88,7 +88,7 @@ TEST(XMLArgumentParser, createInvalidArgumentDomainSize) { // NOLINT(cert-err58-
 }
 
 /**
-* Test with invalid cutoff radius size. Cutoff radius needs to be at least the size as the cell size.
+* Test with invalid cutoff radius size. Cutoff radius needs to be at least the size of the cell size.
 */
 TEST(XMLArgumentParser, createInvalidArgumentCutoffRadius) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
