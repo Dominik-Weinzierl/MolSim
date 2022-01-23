@@ -404,6 +404,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_1.xml -3
    ```
+  ![task_1](pics/ws_05_task_1.gif)
 - _(optional)_ Run example simulation of `Task 1` as benchmark.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_1.xml -b -3
@@ -455,8 +456,8 @@ Run `./MolSim` without any arguments to list possible and required arguments.
 - Input file used for simulation of `Task 3`.
 
   ```xml
-  <Simulation endTime="100" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
-              additionalGravitation="-12.44">
+  <Simulation endTime="100" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD">
+      <AdditionalGravitation x="0.0" y="-12.44" z="0.0"/>
       <Strategy>
           <LinkedCell cutoffRadius="3.6" parallel="lock-cell">
               <Domain x="60" y="60" z="60"/>
@@ -489,6 +490,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_4.xml -3
    ```
+  ![task_4](pics/ws_05_task_4.gif)
 - _(optional)_ Run example simulation of `Task 4` as benchmark.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_4.xml -b -3
@@ -744,6 +746,9 @@ Usage:
 ```
 
 #### Performance:
+Example simulation of Worksheet 2 (Task 2 big) with 1, 2, 4, 8, 14, 16 and 28 Threads.
+![threads_ws_04_task_2_big](pics/task_2_threads.png)
+![speedup_ws_04_task_2_big](pics/task_2_speedup.png)
 
 ### Benchmarks
 

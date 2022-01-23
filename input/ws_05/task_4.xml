@@ -1,7 +1,7 @@
-<Simulation endTime="250" deltaT="0.0005" iteration="1000" physics="lennard" writer="vtk" output="NanoFlow">
+<Simulation endTime="500" deltaT="0.0005" iteration="100" physics="lennard" writer="vtk" output="NanoFlow">
     <AdditionalGravitation x="0.0" y="-0.8" z="0.0"/>
     <Strategy>
-        <LinkedCell cutoffRadius="2.75" parallel="lock-cell">
+        <LinkedCell cutoffRadius="2.75">
             <Domain x="30" y="30" z="12"/>
             <CellSize x="3" y="3" z="3"/>
             <Boundary boundary-left="outflow" boundary-right="outflow" boundary-top="periodic"
@@ -29,5 +29,4 @@
         </Cuboid>
     </Shapes>
     <Thermostat initialT="40" numberT="10" flow="true"/>
-    <ProfileWriter numOfBins="10" numOfIterations="1000" velocity="true" density="true"/>
 </Simulation>
