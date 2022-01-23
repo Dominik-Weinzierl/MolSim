@@ -316,13 +316,14 @@ class XMLReader {
       thermostat = std::make_unique<DummyThermostat<dim>>();
     }
 
-    std::string path{"output"};
-
+    std::string path{"output/"};
+    
     // we can't really generate the profiles if using direct sum, as the domain size is not known a priori.
     if (simulation->ProfileWriter().present() && strategy == "LinkedCell") {
       if (!std::filesystem::exists(path)) {
         std::filesystem::create_directory(path);
       }
+      path += fileName;
       int numOfBins = static_cast<int>(simulation->ProfileWriter()->numOfBins());
       int numOfIterations = static_cast<int>(simulation->ProfileWriter()->numOfIterations());
       bool velocity = simulation->ProfileWriter()->velocity();
