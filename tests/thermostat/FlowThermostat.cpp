@@ -117,9 +117,7 @@ TEST(FlowThermostat, initalTNoInitialMotion) {
   FlowThermostat<dim> FlowThermostat{42, 897150, 0, 5};
   FlowThermostat.setInitialTemperature(container);
 
-
-  // resulting energy will be less, as only the x component is scaled!
-  EXPECT_LE(kineticEnergyTemp(container), 42);
+  EXPECT_GE(kineticEnergyTemp(container), 42);
 }
 
 /**
