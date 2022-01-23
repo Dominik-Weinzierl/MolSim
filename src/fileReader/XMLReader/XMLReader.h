@@ -27,7 +27,7 @@ class XMLReader {
   //----------------------------------------Methods----------------------------------------
 
   /**
-   * Generates Vector out of xsd vector_t
+   * Generates Vector out of xsd vector_t.
    * @param input xsd vector_t
    * @return Vector
    */
@@ -40,7 +40,7 @@ class XMLReader {
   }
 
   /**
-   * Generates Vector out of xsd vector_i
+   * Generates Vector out of xsd vector_i.
    * @param input xsd vector_i
    * @return Vector
    */
