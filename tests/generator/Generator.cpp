@@ -17,7 +17,7 @@
 //----------------------------------------Cuboid----------------------------------------
 
 /**
-* Tests correctness of 2d generation for Cuboids.
+* Tests correctness of 2d generation for Cuboids, 2D.
 */
 TEST(CuboidGenerator_2D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp)
   double distance = 1.1225;
@@ -103,7 +103,7 @@ TEST(CuboidGenerator_2D_DirectSumContainer, generateUnpacked) { // NOLINT(cert-e
 }
 
 /**
-* Tests correctness of 3d generation for Cuboids.
+* Tests correctness of 3D generation for Cuboids.
 */
 TEST(CuboidGenerator_3D_DirectSumContainer, generate) { // NOLINT(cert-err58-cpp)
   double distance = 1.1225;

@@ -11,7 +11,7 @@
 
 /**
  * LinkedCell is a container used to perform calculations based on the linked cell algorithm.
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class LinkedCellContainer : public ParticleContainer<dim> {
@@ -232,7 +232,7 @@ class LinkedCellContainer : public ParticleContainer<dim> {
   void setupCells();
 
   /**
-   * Reserve enough space in vectors tro avoid reference issues.
+   * Reserve enough space in vectors to avoid reference issues.
    */
   void reserve();
 

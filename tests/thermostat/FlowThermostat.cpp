@@ -23,7 +23,7 @@ template<size_t dim>
 }
 
 /**
-* Test that cooling to 0 sets all velocities to zero with no specified deltaT
+* Test that cooling to 0 sets all velocities to zero with no specified deltaT, 2D.
 */
 TEST(FlowThermostat, zeroDegreesDirect) {
   constexpr static size_t dim = 2;
@@ -39,7 +39,7 @@ TEST(FlowThermostat, zeroDegreesDirect) {
 }
 
 /**
-* Test that cooling to some other temperature results in the correct temperature with unspecified deltaT
+* Test that cooling to some other temperature results in the correct temperature with unspecified deltaT, 2D.
 */
 TEST(FlowThermostat, coolingDirect) {
   constexpr static size_t dim = 2;
@@ -55,7 +55,7 @@ TEST(FlowThermostat, coolingDirect) {
 }
 
 /**
-* Test that cooling to some other temperature results in the correct temperature with specified deltaT.
+* Test that cooling to some other temperature results in the correct temperature with specified deltaT, 2D.
 */
 TEST(FlowThermostat, coolingDeltaT) {
   constexpr static size_t dim = 2;
@@ -72,7 +72,7 @@ TEST(FlowThermostat, coolingDeltaT) {
 
 
 /**
-* Test that heating to some other temperature results in the correct temperature with unspecified deltaT
+* Test that heating to some other temperature results in the correct temperature with unspecified deltaT, 2D.
 */
 TEST(FlowThermostat, heatingDirect) {
   constexpr static size_t dim = 2;
@@ -88,7 +88,7 @@ TEST(FlowThermostat, heatingDirect) {
 }
 
 /**
-* Test that heating to some other temperature results in the correct temperature with specified deltaT.
+* Test that heating to some other temperature results in the correct temperature with specified deltaT, 2D.
 */
 TEST(FlowThermostat, heatingDeltaT) {
   constexpr static size_t dim = 2;
@@ -106,7 +106,7 @@ TEST(FlowThermostat, heatingDeltaT) {
 
 
 /**
- * Test that the initial temperature of a system without any motion is set correctly.
+ * Test that the initial temperature of a system without any motion is set correctly, 2D.
  */
 TEST(FlowThermostat, initalTNoInitialMotion) {
   constexpr static size_t dim = 2;
@@ -123,7 +123,7 @@ TEST(FlowThermostat, initalTNoInitialMotion) {
 }
 
 /**
- * Test that the initial temperature of a system with motion is set correctly.
+ * Test that the initial temperature of a system with motion is set correctly, 2D.
  */
 TEST(FlowThermostat, initalTInitialMotion) {
   constexpr static size_t dim = 2;

@@ -11,7 +11,7 @@
 
 /**
  * FileReader class reads a file and fills the provided ParticleContainer with Particle(s).
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class InputReader {

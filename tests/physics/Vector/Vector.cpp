@@ -4,7 +4,7 @@
 
 /**
  * ************************************************
- * Test correct functionality of the class Vector
+ * Test correct functionality of the class Vector.
  * ******************************************+*****
  */
 

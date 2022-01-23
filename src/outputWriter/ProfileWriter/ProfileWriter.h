@@ -12,34 +12,41 @@ template<size_t dim>
 class ProfileWriter {
 
   /**
-   * number of bins
+   * Number of bins.
    */
   int numOfBins;
   /**
-   * number of iterations
+   * Number of iterations.
    */
   int numOfIterations;
+
   /**
-   * Generate velocity profiles?
+   * True if velocity profiles should be generated.
    */
   bool velocity;
+
   /**
-   * Generate density profiles?
+   * True if density profiles should be generated.
    */
   bool density;
+
   /**
-   * Domain size
+   * Domain size.
    */
   Vector<dim> dom;
+
   /**
-   * file to write to
+   * File to write to.
    */
   std::ofstream file;
 
+  /**
+   * Path to file.
+   */
   std::string path;
 
   /**
-   * Sort the particles into bins
+   * Sort the particles into bins.
    * @param c the particle container
    * @return a vector of vectors aka bins
    */
@@ -57,7 +64,7 @@ class ProfileWriter {
   }
 
   /**
-   * Compute the average speed of a vector of particles
+   * Compute the average speed of a vector of particles.
    * @param b the vector
    * @return the average speed
    */
@@ -75,19 +82,21 @@ class ProfileWriter {
 
     return (ArrayUtils::L2Norm(ret) / static_cast<double>(count));
   }
-/**
- * compute the density of a particle vector
- * @param b the particle vector
- * @return the density
- */
+
+  /**
+   * Compute the density of a particle vector.
+   * @param b the particle vector
+   * @return the density
+   */
   double computeDensity(std::vector<Particle<2>> &b) {
     return static_cast<double>(b.size()) / (dom[0] / static_cast<double>(numOfBins) * dom[1]);
   }
-/**
- * compute the density of a particle vector
- * @param b the particle vector
- * @return the density
- */
+
+  /**
+   * Compute the density of a particle vector.
+   * @param b the particle vector
+   * @return the density
+   */
   double computeDensity(std::vector<Particle<3>> &b) {
     return static_cast<double>(b.size()) / (dom[0] / static_cast<double>(numOfBins) * dom[1] * dom[2]);
   }
@@ -101,7 +110,6 @@ class ProfileWriter {
    * @param pDens Generate density profiles?
    * @param pDom domain of the simulation
    */
-
   ProfileWriter(int pBins, int pIter, bool pVel, bool pDens, Vector<dim> pDom, std::string pPath) : numOfBins(pBins),
                                                                                                      numOfIterations(
                                                                                                          pIter),
@@ -137,7 +145,7 @@ class ProfileWriter {
   virtual ~ProfileWriter() = default;
 
   /**
-   * Generate profiles for a given container
+   * Generate profiles for a given container.
    * @param c the container
    * @param iteration the iteration number (needed for the .csv file)
    */
@@ -168,11 +176,21 @@ class ProfileWriter {
 
   }
 
+  /**
+   * Equality operator.
+   * @param rhs ProfileWriter
+   * @return true if the provided ProfileWriter has the same values
+   */
   bool operator==(const ProfileWriter &rhs) const {
     return numOfBins == rhs.numOfBins && numOfIterations == rhs.numOfIterations && velocity == rhs.velocity
         && density == rhs.density;
   }
 
+  /**
+   * Inequality operator.
+   * @param rhs ProfileWriter
+   * @return true if the provided ProfileWriter has different values
+   */
   bool operator!=(const ProfileWriter &rhs) const {
     return !(rhs == *this);
   }

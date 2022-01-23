@@ -8,18 +8,18 @@
 
 /**
  * ParticleContainer is a container for particles that provides functions to iterate over single particles and pairs.
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class ParticleContainer {
  protected:
   /**
-   * Particles-Vector Stores all particles.
+   * Particles-Vector stores all particles.
    */
   std::vector<Particle<dim>> particles;
 
   /**
-   *
+   * Stores all molecules.
    */
   std::vector<Particle<dim> *> molecules;
 
@@ -39,7 +39,7 @@ class ParticleContainer {
 
   /**
    * Constructs a ParticleContainer from the provided vector of particlesIn.
-   * @param pParticles vector of particles as initial value.
+   * @param pParticles vector of particles as initial value
    */
   explicit ParticleContainer(std::vector<Particle<dim>> pParticles) : particles{std::move(pParticles)} {
     SPDLOG_TRACE("ParticleContainer generated");
@@ -49,7 +49,7 @@ class ParticleContainer {
 
   /**
    * Adds the particle to the ParticleContainer.
-   * @param p The particle to be added.
+   * @param p The particle to be added
    */
   void addParticle(Particle<dim> p) {
     particles.push_back(std::move(p));
@@ -57,7 +57,7 @@ class ParticleContainer {
 
   /**
    * Adds the particle pointer to the ParticleContainer.
-   * @param p The particle to be added.
+   * @param p The particle to be added
    */
   void addMolecule(Particle<dim> *p) {
     molecules.push_back(p);
@@ -82,7 +82,7 @@ class ParticleContainer {
 
   /**
  * Operator that allows mutable member access.
- * @param i Index for member access.
+ * @param i Index for member access
  * @return Particle<dim> as reference
  */
   Particle<dim> &operator[](unsigned long i) {
@@ -91,7 +91,7 @@ class ParticleContainer {
 
   /**
    * Operator that allows immutable member access.
-   * @param i Index for member access.
+   * @param i Index for member access
    * @return Particle<dim> as value
    */
   Particle<dim> operator[](unsigned long i) const {

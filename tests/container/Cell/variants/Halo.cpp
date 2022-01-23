@@ -6,12 +6,12 @@
 
 /**
  * ***************************************************
- * Test correct functionality of Halo cells
+ * Test correct functionality of Halo cells.
  * ******************************************+********
  */
 
 /**
- * Checks the removal of a Particle that moves out of the domain, 2D
+ * Checks the removal of a Particle that moves out of the domain, 2D.
  */
 TEST(Halo_2D, checkOutflow) {
   const size_t dim = 2;
@@ -29,7 +29,7 @@ TEST(Halo_2D, checkOutflow) {
 }
 
 /**
- * Checks the removal of a Particle that moves out of the domain, 2D
+ * Checks the removal of a Particle that moves out of the domain, 3D.
  */
 TEST(Halo_3D, checkOutflow) {
   const size_t dim = 3;

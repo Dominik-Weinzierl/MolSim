@@ -9,13 +9,19 @@
 
 /**
  * XYZWriter writes files based on the XYZ file format.
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class XYZWriter : public OutputWriter<dim> {
 
+  /**
+   * File to write to.
+   */
   std::ofstream file;
 
+  /**
+   * Stream used to store the fileName in order to open the file.
+   */
   std::stringstream strStream;
 
   //----------------------------------------Methods----------------------------------------
@@ -44,7 +50,7 @@ class XYZWriter : public OutputWriter<dim> {
    * Constructs a XYZWriter to create files based on the XYZ file format.
    * @param pFileName output filename
    * @param pPath output path
-   * @param pContainer ParticleContainer with a Vector that contains all Particle(s).
+   * @param pContainer ParticleContainer with a Vector that contains all Particle(s)
    */
   explicit XYZWriter(std::string pFileName, std::string pPath, ParticleContainer<dim> &pContainer) : OutputWriter<dim>(
       std::move(pFileName), std::move(pPath), pContainer) {};

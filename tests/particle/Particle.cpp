@@ -3,7 +3,7 @@
 
 
 /**
- * ensure that the velocity of a fixed particle is (and remains) zero
+ * Ensure that the velocity of a fixed particle is (and remains) zero.
  */
 TEST(FixedParticle_2D, velocity) {
   constexpr size_t dim = 2;
@@ -16,7 +16,7 @@ TEST(FixedParticle_2D, velocity) {
 }
 
 /**
- * ensure that the velocity of a fixed particle is (and remains) zero
+ * Ensure that the velocity of a fixed particle is (and remains) zero.
  */
 TEST(FixedParticle_3D, velocity) {
   constexpr size_t dim = 3;

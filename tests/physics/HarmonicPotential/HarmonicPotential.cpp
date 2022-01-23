@@ -5,12 +5,12 @@
 
 /**
  * ***************************************************
- * Test correct functionality of the class HarmonicPotential
+ * Test correct functionality of the class HarmonicPotential.
  * ******************************************+********
  */
 
 /**
- * Test correct calculation of the calculateForceBetweenTwoParticles-Method 2D
+ * Test correct calculation of the calculateForceBetweenTwoParticles-Method 2D.
  */
 TEST(Harmonic_Potential_2D, calculateForceBetweenTwoParticles){ // NOLINT(cert-err58-cpp)
   constexpr int dim = 2;
@@ -30,7 +30,7 @@ TEST(Harmonic_Potential_2D, calculateForceBetweenTwoParticles){ // NOLINT(cert-e
 }
 
 /**
- * Test correct calculation of the calculateForceBetweenTwoParticles-Method 3D
+ * Test correct calculation of the calculateForceBetweenTwoParticles-Method 3D.
  */
 TEST(Harmonic_Potential_3D, calculateForceBetweenTwoParticles){ // NOLINT(cert-err58-cpp)
   constexpr int dim = 3;
@@ -50,7 +50,7 @@ TEST(Harmonic_Potential_3D, calculateForceBetweenTwoParticles){ // NOLINT(cert-e
 }
 
 /**
- * Test correct calculation of the calculateForceBetweenTwoDiagonalParticles-Method 2D
+ * Test correct calculation of the calculateForceBetweenTwoDiagonalParticles-Method 2D.
  */
 TEST(Harmonic_Potential_2D, calculateForceBetweenTwoDiagonalParticles){ // NOLINT(cert-err58-cpp)
   constexpr int dim = 2;
@@ -70,7 +70,7 @@ TEST(Harmonic_Potential_2D, calculateForceBetweenTwoDiagonalParticles){ // NOLIN
 }
 
 /**
- * Test correct calculation of the calculateForceBetweenTwoDiagonalParticles-Method 3D
+ * Test correct calculation of the calculateForceBetweenTwoDiagonalParticles-Method 3D.
  */
 TEST(Harmonic_Potential_3D, calculateForceBetweenTwoDiagonalParticles){ // NOLINT(cert-err58-cpp)
   constexpr int dim = 3;

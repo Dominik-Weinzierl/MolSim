@@ -11,7 +11,7 @@ enum ParticleType {
 };
 /**
  * Particle is a class that wraps up the properties of a particle, getters, setters and standard methods.
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class Particle {
@@ -93,7 +93,7 @@ class Particle {
 
   /**
    * Default constructor.
-   * @param type Default value 0.
+   * @param type Default value 0
    */
   explicit Particle(int type_arg) : x{}, v{}, f{}, old_f{}, m{}, type{type_arg} {
     SPDLOG_TRACE("Particle generated");
@@ -101,7 +101,7 @@ class Particle {
 
   /**
    * Copy constructor.
-   * @param other Particle to copy.
+   * @param other Particle to copy
    */
   Particle(const Particle &other) = default;
 
@@ -217,8 +217,8 @@ class Particle {
 
   /**
    * Operator which allows the comparison of the particle to a given particle.
-   * @param other
-   * @return True, if the given Particle equals this Particle.
+   * @param other Particle
+   * @return True, if the given Particle equals this Particle
    */
   bool operator==(const Particle &other) {
     return (x == other.x) and (v == other.v) and (f == other.f) and (type == other.type) and (m == other.m)
@@ -227,7 +227,7 @@ class Particle {
 
   /**
    * Method which returns the properties of the particle as a String.
-   * @return
+   * @return properties of the particle as a String
    */
   [[nodiscard]] std::string toString() const {
     std::stringstream stream;
@@ -359,7 +359,6 @@ class Particle {
     else
       return {};
   }
-
 
   /**
    * Getter for particleType.

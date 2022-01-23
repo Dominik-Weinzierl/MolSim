@@ -3,6 +3,7 @@
 #include <ostream>
 template<size_t dim>
 class Force {
+
   /**
    * Force-vector.
    */
@@ -41,6 +42,12 @@ class Force {
     return argument.str();
   };
 
+  /**
+   * Stream operator for Force.
+   * @param os std::ostream
+   * @param f Force
+   * @return updated stream
+   */
   friend std::ostream &operator<<(std::ostream &os, const Force &f) {
     os << f.toString();
     return os;

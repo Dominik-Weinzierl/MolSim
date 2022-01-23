@@ -12,22 +12,22 @@
 template<size_t dim>
 class Thermostat {
   /**
-   * Initial temperature
+   * Initial temperature.
    */
   double initialT;
 
   /**
-   * Target temperature
+   * Target temperature.
    */
   double targetT;
 
   /**
-   * number of time steps, after which the thermostat should be applied
+   * Number of time steps, after which the thermostat should be applied.
    */
   int numberT;
 
   /**
-   * Maximal absolute temperature difference per time step
+   * Maximal absolute temperature difference per time step.
    */
   int deltaT;
 
@@ -49,7 +49,7 @@ class Thermostat {
   }
 
   /**
-   * Calculate the scaling factor
+   * Calculate the scaling factor.
    * @param currentTemp The current temperature of the system
    * @param targetTemp The target temperature of the system
    * @param pDeltaT The absolute maximum temperature difference per timestep
@@ -75,7 +75,7 @@ class Thermostat {
   }
 
   /**
-   * Apply the specified thermostat behaviour to a ParticleContainer
+   * Apply the specified thermostat behaviour to a ParticleContainer.
    * @param c the ParticleContainer
    */
   void applyInitialThermostat(ParticleContainer<dim> &c) {
@@ -85,7 +85,7 @@ class Thermostat {
   }
 
   /**
- * Apply the scaling
+ * Apply the scaling.
  * @param c The particle container on which the scaling should be applied
  * @param beta The factor
  */
@@ -130,7 +130,7 @@ class Thermostat {
   };
 
   /**
-   * Apply the specified thermostat behaviour to a ParticleContainer
+   * Apply the specified thermostat behaviour to a ParticleContainer.
    * @param c the ParticleContainer
    */
   virtual void applyThermostat(ParticleContainer<dim> &c) {
@@ -140,7 +140,7 @@ class Thermostat {
   }
 
   /**
-   * Sets the initial temperature correctly for particles in the ParticleContainer
+   * Sets the initial temperature correctly for particles in the ParticleContainer.
    * @param c the ParticleContainer
    */
   virtual void setInitialTemperature(ParticleContainer<dim> &c) {
@@ -178,7 +178,7 @@ class Thermostat {
   /**
    * Inequality operator.
    * @param rhs an other thermostat
-   * @return true iff the two thermostats are not identical
+   * @return true if the two thermostats are not identical
    */
   bool operator!=(const Thermostat &rhs) const {
     return !(rhs == *this);
@@ -188,8 +188,8 @@ class Thermostat {
 
 
   /**
-   * Getter for the number of iterations after which the thermostat should be applied
-   * @return The number of simulation iterations per thermostat step.
+   * Getter for the number of iterations after which the thermostat should be applied.
+   * @return The number of simulation iterations per thermostat step
    */
   [[nodiscard]] int getNumberT() const {
     return numberT;

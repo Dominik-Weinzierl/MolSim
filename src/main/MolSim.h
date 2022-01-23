@@ -25,7 +25,7 @@
 
 /**
  * Provides static functions for simulation and benchmark.
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class MolSim {
@@ -131,7 +131,7 @@ class MolSim {
 
   /**
    * Simulation of our Particle(s).
-   * @return
+   * @return 0
    */
   int simulate() {
     long int duration = 0;
@@ -178,7 +178,7 @@ class MolSim {
 
   /**
    * Benchmarking of our simulation (with DummyWriter).
-   * @return
+   * @return 0
    */
   int benchmark() {
     auto benchWriter = std::make_unique<DummyWriter<dim>>(arg->getOutput(), *particleContainer);
@@ -239,7 +239,7 @@ class MolSim {
   /**
    * Select benchmark or simulation.
    * @param args input arguments
-   * @return return 0;
+   * @return 0
    */
   int selectMethod(const std::vector<std::string> &args) {
     if (std::find(args.begin(), args.end(), "-b") != args.end()
