@@ -5,7 +5,7 @@
 
 /**
  * ***************************************************
- * Test correct functionality of Boundary cells
+ * Test correct functionality of Boundary cells.
  * ******************************************+********
  */
 
@@ -13,7 +13,7 @@ static auto eps = std::numeric_limits<double>::epsilon() * 100;
 
 
 /**
- * Checks the reflection of a Particle that moves too close to the border, 2D
+ * Checks the reflection of a Particle that moves too close to the border, 2D.
  */
 TEST(Boundary_2D, checkReflection) {
   const size_t dim = 2;
@@ -36,7 +36,7 @@ TEST(Boundary_2D, checkReflection) {
 }
 
 /**
- * Checks the reflection of a Particle that moves too close to the border, 3D
+ * Checks the reflection of a Particle that moves too close to the border, 3D.
  */
 TEST(Boundary_3D, checkReflection) {
   const size_t dim = 3;
@@ -106,7 +106,7 @@ TEST(Boundary_3D, checkPeriodic) {
 }
 
 /**
- * Checks the periodic force.
+ * Checks the periodic force 2D.
  */
 TEST(Boundary_2D, checkPeriodicForce) {
   const size_t dim = 2;
@@ -128,7 +128,7 @@ TEST(Boundary_2D, checkPeriodicForce) {
 }
 
 /**
- * Checks the periodic force.
+ * Checks the periodic force 3D.
  */
 TEST(Boundary_3D, checkPeriodicForce) {
   const size_t dim = 3;
@@ -151,7 +151,7 @@ TEST(Boundary_3D, checkPeriodicForce) {
 }
 
 /**
- * Checks that the periodic force is only applied on the periodic sides.
+ * Checks that the periodic force is only applied on the periodic sides 2D.
  */
 TEST(Boundary_2D, checkPeriodicForceNotAppliedOnSides) {
   const size_t dim = 2;
@@ -173,7 +173,7 @@ TEST(Boundary_2D, checkPeriodicForceNotAppliedOnSides) {
 }
 
 /**
- * Checks that the periodic force is only applied on the periodic sides.
+ * Checks that the periodic force is only applied on the periodic sides 3D.
  */
 TEST(Boundary_2D, checkPeriodicForceNotAppliedOnTopAndBottom) {
   const size_t dim = 2;

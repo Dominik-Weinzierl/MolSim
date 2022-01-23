@@ -15,6 +15,10 @@ class DirectSum : public Physics<T, dim> {
 
   //----------------------------------------Methods----------------------------------------
 
+  /**
+   * Calculates the forces between the different particles.
+   * @param particleContainer ParticleContainer which stores all Particles
+   */
   void performUpdate(ParticleContainer<dim> &particleContainer) const override;
 };
 
@@ -28,6 +32,10 @@ class DirectSum<LennardJones, dim> : public Physics<LennardJones, dim> {
 
   //----------------------------------------Methods----------------------------------------
 
+  /**
+   * Calculates the forces between the different particles.
+   * @param particleContainer ParticleContainer which stores all Particles
+   */
   void performUpdate(ParticleContainer<dim> &particleContainer) const override {
     for (auto i = particleContainer.begin(); i != particleContainer.end(); ++i) {
       for (auto j = i + 1; j != particleContainer.end(); ++j) {
@@ -44,7 +52,7 @@ class DirectSum<LennardJones, dim> : public Physics<LennardJones, dim> {
 };
 
 /**
- * Implements DirectSum for Gravitation
+ * Implements DirectSum for Gravitation.
  * @tparam dim The dimension of our simulation
  */
 template<size_t dim>
@@ -53,6 +61,10 @@ class DirectSum<Gravitation, dim> : public Physics<Gravitation, dim> {
 
   //----------------------------------------Methods----------------------------------------
 
+  /**
+   * Calculates the forces between the different particles.
+   * @param particleContainer ParticleContainer which stores all Particles
+   */
   void performUpdate(ParticleContainer<dim> &particleContainer) const override {
     for (auto i = particleContainer.begin(); i != particleContainer.end(); ++i) {
       for (auto j = i + 1; j != particleContainer.end(); ++j) {

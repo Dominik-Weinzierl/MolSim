@@ -14,7 +14,7 @@
 
 /**
  * XMLReader class reads a xml file and and provides Argument(s) to create Particle(s) via Generator(s)
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class XMLReader {
@@ -26,6 +26,11 @@ class XMLReader {
 
   //----------------------------------------Methods----------------------------------------
 
+  /**
+   * Generates Vector out of xsd vector_t.
+   * @param input xsd vector_t
+   * @return Vector
+   */
   Vector<dim> wrapVector_t(const vector_t &input) const {
     Vector<dim> temp{input.x(), input.y()};
     if (dim == 3) {
@@ -34,6 +39,11 @@ class XMLReader {
     return temp;
   }
 
+  /**
+   * Generates Vector out of xsd vector_i.
+   * @param input xsd vector_i
+   * @return Vector
+   */
   std::array<int, dim> wrapVector_i(const vector_i &input) const {
     std::array<int, dim> temp{static_cast<int>(input.x()), static_cast<int>(input.y())};
     if (dim == 3) {
@@ -173,14 +183,27 @@ class XMLReader {
     return membraneArguments;
   }
 
+  /**
+   * Loads the Domain from the xml file.
+   * @return std::optional<Vector<dim>>
+   */
   std::optional<Vector<dim>> loadDomain() const {
     return wrapVector_t(simulation->Strategy()->LinkedCell().get().Domain());
   }
 
+  /**
+   * Loads the CellSize from the xml file.
+   * @return std::optional<Vector<dim>>
+   */
   std::optional<Vector<dim>> loadCellSize() const {
     return wrapVector_t(simulation->Strategy()->LinkedCell().get().CellSize());
   }
 
+  /**
+   * Loads the Force(s) from the xml file.
+   * @param force xsd force_t
+   * @return ForceContainer<dim>
+   */
   ForceContainer<dim> loadForces(force_t &force) const {
     std::vector<std::array<int, dim>> indices{};
     for (auto &j: force.Index()) {
@@ -190,8 +213,18 @@ class XMLReader {
                                static_cast<unsigned int>(force.end())};
   }
 
+  /**
+   * Loads the boundaries from the xml file.
+   * @return std::optional<std::vector<BoundaryType>>
+   */
   [[nodiscard]] std::optional<std::vector<BoundaryType>> loadBoundaries() const;
 
+  /**
+   * Converts a given string to a BoundaryType. This step is needed since we only accept values of the enum
+   * BoundaryType in our Simulation.
+   * @param s String to convert to BoundaryType
+   * @return BoundaryType
+   */
   BoundaryType toBoundaryType(std::string &s) const {
     if (s == "outflow") {
       return Outflow;
@@ -284,7 +317,7 @@ class XMLReader {
     }
 
     std::string path{"output/"};
-
+    
     // we can't really generate the profiles if using direct sum, as the domain size is not known a priori.
     if (simulation->ProfileWriter().present() && strategy == "LinkedCell") {
       if (!std::filesystem::exists(path)) {

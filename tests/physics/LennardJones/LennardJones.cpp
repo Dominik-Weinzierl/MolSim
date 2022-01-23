@@ -6,7 +6,7 @@
 
 /**
  * ***************************************************
- * Test correct functionality of the class LennardJones
+ * Test correct functionality of the class LennardJones.
  * ******************************************+********
  */
 

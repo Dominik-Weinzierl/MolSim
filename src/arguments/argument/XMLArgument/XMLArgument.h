@@ -16,7 +16,7 @@
 
 /**
  * XMLArgument stores the arguments parsed by XMLArgumentParser for easy access.
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class XMLArgument : public Argument<dim> {
@@ -213,13 +213,18 @@ class XMLArgument : public Argument<dim> {
 
   //----------------------------------------Getter & Setter----------------------------------------
 
+  /**
+   * Updates the cell size at the given index to given cell size.
+   * @param index Index at which the cell size Vector should be changed
+   * @param pCellSize cell size to update the value of cell size Vector to
+   */
   void updateCellSizeOnIndex(size_t index, double pCellSize) {
     cellSize.value()[index] = pCellSize;
   }
 
   /**
    * Getter for CuboidArguments.
-   * @return std::vector of CuboidArguments.
+   * @return std::vector of CuboidArguments
    */
   [[nodiscard]] const std::vector<CuboidArgument<dim>> &getCuboidArguments() const {
     SPDLOG_TRACE("XMLArgument->getCuboidArguments(): {}", cuboidArguments.size());
@@ -228,7 +233,7 @@ class XMLArgument : public Argument<dim> {
 
   /**
    * Getter for SphereArguments.
-   * @return std::vector of SphereArguments.
+   * @return std::vector of SphereArguments
    */
   [[nodiscard]] const std::vector<SphereArgument<dim>> &getSphereArguments() const {
     SPDLOG_TRACE("XMLArgument->getSphereArguments(): {}", sphereArguments.size());
@@ -237,7 +242,7 @@ class XMLArgument : public Argument<dim> {
 
   /**
    * Getter for MembraneArguments.
-   * @return std::vector of MembraneArguments.
+   * @return std::vector of MembraneArguments
    */
   [[nodiscard]] const std::vector<MembraneArgument<dim>> &getMembraneArguments() const {
     SPDLOG_TRACE("XMLArgument->getMembraneArguments(): {}", membraneArguments.size());
@@ -246,7 +251,7 @@ class XMLArgument : public Argument<dim> {
 
   /**
    * Getter for cutoffRadius.
-   * @return cutoffRadius.
+   * @return cutoffRadius
    */
   [[nodiscard]] const std::optional<double> &getCutoffRadius() const {
     SPDLOG_TRACE("XMLArgument->getCutoffRadius(): {}", cutoffRadius.value());
@@ -255,7 +260,7 @@ class XMLArgument : public Argument<dim> {
 
   /**
    * Getter for dimension.
-   * @return dimension.
+   * @return dimension
    */
   [[nodiscard]] const std::optional<Vector<dim>> &getDomain() const {
     SPDLOG_TRACE("XMLArgument->getDomain(): {}", ArrayUtils::to_string(domain.value()));
@@ -264,7 +269,7 @@ class XMLArgument : public Argument<dim> {
 
   /**
    * Getter for boundaries.
-   * @return boundaries.
+   * @return boundaries
    */
   [[nodiscard]] const std::optional<std::vector<BoundaryType>> &getBoundaries() const {
     SPDLOG_TRACE("XMLArgument->getBoundaries(): {}", ArrayUtils::to_string(boundaries.value()));
@@ -273,7 +278,7 @@ class XMLArgument : public Argument<dim> {
 
   /**
    * Getter for cell size.
-   * @return cellSize.
+   * @return cellSize
    */
   [[nodiscard]] const std::optional<Vector<dim>> &getCellSize() const {
     SPDLOG_TRACE("XMLArgument->getCellSize(): {}", ArrayUtils::to_string(cellSize.value()));
@@ -282,7 +287,7 @@ class XMLArgument : public Argument<dim> {
 
   /**
    * Getter for parallelization.
-   * @return cellSize.
+   * @return cellSize
    */
   [[nodiscard]] const std::optional<std::string> &getParallel() const {
     return parallel;

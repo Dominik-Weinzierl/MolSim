@@ -51,6 +51,12 @@ class ForceContainer {
     return argument.str();
   };
 
+  /**
+   * Stream operator for ForceContainer.
+   * @param os std::ostream
+   * @param container ForceContainer
+   * @return updated stream
+   */
   friend std::ostream &operator<<(std::ostream &os, const ForceContainer &container) {
     os << container.toString();
     return os;

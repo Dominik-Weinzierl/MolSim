@@ -9,10 +9,11 @@
 
 /**
  * VTKWriter writes files based on the VTK file format.
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class VTKWriter : public OutputWriter<dim> {
+
   /**
    * VTKFile in a reusable way.
    */
@@ -74,7 +75,7 @@ class VTKWriter : public OutputWriter<dim> {
    * Constructs a VTKWriter to create files based on the VTK file format.
    * @param pFileName output filename
    * @param pPath output path
-   * @param pContainer ParticleContainer with a Vector that contains all Particle(s).
+   * @param pContainer ParticleContainer with a Vector that contains all Particle(s)
    */
   explicit VTKWriter(std::string pFileName, std::string pPath, ParticleContainer<dim> &pContainer) : OutputWriter<dim>(
       std::move(pFileName), std::move(pPath), pContainer) {};

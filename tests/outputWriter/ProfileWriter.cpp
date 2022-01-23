@@ -4,7 +4,7 @@
 #include "fstream"
 
 /**
-* Test correct calculation of average velocity
+* Test correct calculation of average velocity.
 */
 TEST(ProfileWriter2D, avgV) {
   constexpr size_t dim = 2;
@@ -24,7 +24,7 @@ TEST(ProfileWriter2D, avgV) {
 }
 
 /**
-* Test correct calculation of bins
+* Test correct calculation of bins.
 */
 TEST(ProfileWriter2D, correctBins) {
   constexpr size_t dim = 2;
@@ -45,7 +45,7 @@ TEST(ProfileWriter2D, correctBins) {
 
 
 /**
-* Test correct calculation of average velocity
+* Test correct calculation of average velocity.
 */
 TEST(ProfileWriter3D, avgV) {
   constexpr size_t dim = 3;
@@ -65,7 +65,7 @@ TEST(ProfileWriter3D, avgV) {
 }
 
 /**
-* Test correct calculation of bins
+* Test correct calculation of bins.
 */
 TEST(ProfileWriter3D, correctBins) {
   constexpr size_t dim = 3;
@@ -85,7 +85,7 @@ TEST(ProfileWriter3D, correctBins) {
 }
 
 /**
-* Test correct calculation of density
+* Test correct calculation of density.
 */
 TEST(ProfileWriter3D, density) {
   constexpr size_t dim = 3;
@@ -105,7 +105,7 @@ TEST(ProfileWriter3D, density) {
 }
 
 /**
-* Test correct calculation of density
+* Test correct calculation of density.
 */
 TEST(ProfileWriter2D, density) {
   constexpr size_t dim = 2;

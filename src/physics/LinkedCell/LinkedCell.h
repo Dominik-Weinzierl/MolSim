@@ -7,7 +7,7 @@
 
 /**
  * This class implements the LinkedCell algorithm.
- * @tparam T The physics to be used.
+ * @tparam T The physics to be used
  * @tparam dim The dimension of our simulation
  */
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of<PhysicsType, T>::value, bool>::type = true>
@@ -26,7 +26,7 @@ class LinkedCell : public Physics<T, dim> {
    * This method calculates the force, position and velocity of the particles in the container.
    * In addition, the structure is updated appropriately and renewed if needed.
    * Particles that leave the structure are deleted.
-   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated
    * @param deltaT time step of our simulation
    * @param gravitation additional vector of gravitational force applied on all particles
    * @param current_time current time of this iteration
@@ -220,7 +220,7 @@ class LinkedCell<LennardJones, dim> : public Physics<LennardJones, dim> {
    * This method calculates the force, position and velocity of the particles in the container.
    * In addition, the structure is updated appropriately and renewed if needed.
    * Particles that leave the structure are deleted.
-   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated
    * @param deltaT time step of our simulation
    * @param gravitation additional vector of gravitational force applied on all particles
    * @param current_time current time of this iteration

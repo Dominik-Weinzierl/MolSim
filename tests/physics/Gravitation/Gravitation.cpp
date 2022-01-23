@@ -6,7 +6,7 @@
 
 /**
  * ***************************************************
- * Test correct functionality of the class Gravitation
+ * Test correct functionality of the class Gravitation.
  * ******************************************+********
  */
 

@@ -11,6 +11,13 @@ class Gravitation : public PhysicsType {
 
   //----------------------------------------Methods----------------------------------------
 
+  /**
+   * Calculates Force according to the worksheet between two given Particles.
+   * @tparam dim Dimension of the simulation
+   * @param i One of the Particles
+   * @param j Other Particle
+   * @return calculated Force
+   */
   template<size_t dim>
   static inline Vector<dim> calculateForceBetweenTwoParticles(Particle<dim> &i, Particle<dim> &j) {
     Vector<dim> force{};

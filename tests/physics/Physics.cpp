@@ -5,12 +5,12 @@
 
 /**
  * ***************************************************
- * Test correct functionality of the class Physics
+ * Test correct functionality of the class Physics.
  * ******************************************+********
  */
 
 /**
- * Test basic calculations of next steps. In this case, we test correct calculation of velocity.
+ * Test basic calculations of next steps. In this case, we test correct calculation of velocity, 3D.
  */
 TEST(Physics_3D, calculateVelocity) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
@@ -30,7 +30,7 @@ TEST(Physics_3D, calculateVelocity) { // NOLINT(cert-err58-cpp)
 }
 
 /**
- * Test basic calculations of next steps. In this case, we test correct calculation of position.
+ * Test basic calculations of next steps. In this case, we test correct calculation of position, 3D.
  */
 TEST(Physics_3D, calculatePosition) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 3;
@@ -50,7 +50,7 @@ TEST(Physics_3D, calculatePosition) { // NOLINT(cert-err58-cpp)
 }
 
 /**
- * Test basic calculations of next steps. In this case, we test correct calculation of velocity.
+ * Test basic calculations of next steps. In this case, we test correct calculation of velocity, 2D.
  */
 TEST(Physics_2D, calculateVelocity) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;
@@ -70,7 +70,7 @@ TEST(Physics_2D, calculateVelocity) { // NOLINT(cert-err58-cpp)
 }
 
 /**
- * Test basic calculations of next steps. In this case, we test correct calculation of position.
+ * Test basic calculations of next steps. In this case, we test correct calculation of position, 2D.
  */
 TEST(Physics_2D, calculatePosition) { // NOLINT(cert-err58-cpp)
   constexpr static size_t dim = 2;

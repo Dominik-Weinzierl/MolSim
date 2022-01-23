@@ -1,7 +1,7 @@
 #include "thermostat/Thermostat.h"
 
 /**
- * The thermostat for the nano-flow simulation
+ * The thermostat for the nano-flow simulation.
  * @tparam dim dimension of the simulation
  */
 template<size_t dim>
@@ -35,7 +35,7 @@ class FlowThermostat : public Thermostat<dim> {
     return ret;
   }
 /**
- * Apply the special scaling required for nano-flow simulations
+ * Apply the special scaling required for nano-flow simulations.
  * @param c The particle container on which the scaling should be applied
  * @param beta The factor
  */

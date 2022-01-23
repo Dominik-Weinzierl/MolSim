@@ -6,12 +6,12 @@
 
 /**
  * ***************************************************
- * Test correct functionality of the linked cell physics
+ * Test correct functionality of the linked cell physics.
  * ******************************************+********
  */
 
 /**
-* Test if force remains unchanged if there is only one particle
+* Test if force remains unchanged if there is only one particle, 2D.
 */
 TEST(LinkedCell_2D, oneParticle) { // NOLINT(cert-err58-cpp)
   std::vector<BoundaryType>
@@ -34,7 +34,7 @@ TEST(LinkedCell_2D, oneParticle) { // NOLINT(cert-err58-cpp)
 }
 
 /**
- * Test if the force remains unchanged if two particles are too far away.
+ * Test if the force remains unchanged if two particles are too far away, 2D.
  */
 TEST(LinkedCell_2D, twoParticlesFar) {
   std::vector<BoundaryType>
@@ -61,7 +61,7 @@ TEST(LinkedCell_2D, twoParticlesFar) {
 }
 
 /**
- * Test if force is calculated correctly for two close particles
+ * Test if force is calculated correctly for two close particles, 2D.
  */
 TEST(LinkedCell_2D, twoParticlesClose) {
   std::vector<BoundaryType>
@@ -93,7 +93,7 @@ TEST(LinkedCell_2D, twoParticlesClose) {
 }
 
 /**
- * Check change of force for only one particle.
+ * Check change of force for only one particle, 3D.
  */
 TEST(LinkedCell_3D, oneParticle) { // NOLINT(cert-err58-cpp)
   std::vector<BoundaryType> boundaries
@@ -117,7 +117,7 @@ TEST(LinkedCell_3D, oneParticle) { // NOLINT(cert-err58-cpp)
 }
 
 /**
- * Test if the force remains unchanged if two particles are too far away.
+ * Test if the force remains unchanged if two particles are too far away, 3D.
  */
 TEST(LinkedCell_3D, twoParticlesFar) {
   std::vector<BoundaryType> boundaries
@@ -144,7 +144,7 @@ TEST(LinkedCell_3D, twoParticlesFar) {
 }
 
 /**
- * Test if force is calculated correctly for two close particles
+ * Test if force is calculated correctly for two close particles, 3D
  */
 TEST(LinkedCell_3D, twoParticlesClose) {
   std::vector<BoundaryType> boundaries

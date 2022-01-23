@@ -8,7 +8,7 @@
 
 /**
  * ParserStrategy selects the ArgumentParser used to parse the input.
- * @tparam dim dimension of our simulation.
+ * @tparam dim dimension of our simulation
  */
 template<size_t dim>
 class ParserStrategy {

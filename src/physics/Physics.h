@@ -13,8 +13,7 @@ class PhysicsType {
 /**
  * Physics is an abstract class which provides methods to calculate the next simulation step
  * based on the template method pattern.
- *
- *
+ * @tparam T PhysicsType
  * @tparam dim dimension of our simulation.
  */
 template<typename T, size_t dim, typename std::enable_if<std::is_base_of_v<PhysicsType, T>, bool>::type = true>
@@ -33,14 +32,14 @@ class Physics {
 
   /**
    * Updates the force of the Particle(s).
-   * @param particleContainer container which contains the Particle(s) used for this simulation.
+   * @param particleContainer container which contains the Particle(s) used for this simulation
    */
   virtual void performUpdate(ParticleContainer<dim> &particleContainer) const = 0;
 
  public:
   /**
    * Calculates and updates the position of all particles in the specified container.
-   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated
    * @param deltaT time step of our simulation
    */
   static void calculateX(ParticleContainer<dim> &particleContainer, double deltaT) {
@@ -62,7 +61,7 @@ class Physics {
 
   /**
    * Calculates and updates the velocity of all particles in the specified container.
-   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated
    * @param deltaT time step of our simulation
    */
   static void calculateV(ParticleContainer<dim> &particleContainer, double deltaT) {
@@ -82,7 +81,7 @@ class Physics {
 
   /**
    * Calculates and updates the force for all particles in the specified container
-   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+   * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated
    * @param gravitation Vector that contains the additional gravitation force
    */
   void calculateF(ParticleContainer<dim> &particleContainer, Vector<dim> &gravitation, double current_time) const {
@@ -106,7 +105,7 @@ class Physics {
 
   /**
   * Calls the calculate-Methods for the position, force and velocity with the given parameters.
-  * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated.
+  * @param particleContainer The ParticleContainer, for whose contents the positions should be calculated
   * @param deltaT time step of our simulation
   * @param gravitation Vector that contains the additional gravitation force
   */

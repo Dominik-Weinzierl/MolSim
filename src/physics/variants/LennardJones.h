@@ -10,6 +10,14 @@ class LennardJones : public PhysicsType {
 
   //----------------------------------------Methods----------------------------------------
 
+  /**
+   * Calculates LennardJonesPotential according to the worksheet between two given Particles.
+   * @tparam dim Dimension of the simulation
+   * @param i One of the Particles
+   * @param j Other Particle
+   * @param l2Norm Other Particle
+   * @return Calculated LennardJonesPotential
+   */
   template<size_t dim>
   static inline Vector<dim> calculateForceBetweenTwoParticles(Particle<dim> &i, Particle<dim> &j, double &l2Norm) {
     Vector<dim> diff{i.getX() - j.getX()};

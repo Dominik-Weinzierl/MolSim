@@ -13,8 +13,8 @@
 
 /**
  * Simulation class which contains a start time and a method to run a simulation.
- * @tparam T type of physics used in this simulation.
- * @tparam dim dimension of our simulation.
+ * @tparam T type of physics used in this simulation
+ * @tparam dim dimension of our simulation
  */
 template<typename T, size_t dim>
 class MDSimulation {
@@ -29,10 +29,10 @@ class MDSimulation {
 
   /**
    * Performs the simulation via a default Gravitation.
-   * @param writer Defines the writer for the output.
-   * @param physics The Physics to be used.
-   * @param particleContainer The initial particles.
-   * @param arg The command line-arguments.
+   * @param writer Defines the writer for the output
+   * @param physics The Physics to be used
+   * @param particleContainer The initial particles
+   * @param arg The command line-arguments
    */
   static auto performSimulation([[maybe_unused]] OutputWriter<dim> &writer, ParticleContainer<dim> &particleContainer,
                                 Argument<dim> &arg) {
@@ -74,7 +74,6 @@ class MDSimulation {
       }
 
       if (iteration % 500 == 0) {
-        //std::cout << iteration << std::endl;
         SPDLOG_INFO("Iteration {} finished", iteration);
       } else {
         SPDLOG_TRACE("Iteration {} finished", iteration);
