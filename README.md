@@ -445,6 +445,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_3.xml -3
    ```
+  ![task_1](pics/ws_05_task_3.gif)
 - _(optional)_ Run example simulation of `Task 3` as benchmark.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_3.xml -b -3
@@ -491,6 +492,9 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    $ ./MolSim -x -f ../../input/ws_05/task_4.xml -3
    ```
   ![task_4](pics/ws_05_task_4.gif)
+  
+  Velocity-Profile:
+  ![task_4](pics/ws_05_task_4_velprofile.png)
 - _(optional)_ Run example simulation of `Task 4` as benchmark.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_4.xml -b -3
@@ -538,6 +542,21 @@ Run `./MolSim` without any arguments to list possible and required arguments.
   ```
 
 #### Variants and various influences:
+##### V1
+![task_4](pics/ws_05_task_4_v_1.gif)
+![task_4](pics/ws_05_task_4_v_1_velprofile.png)
+
+##### V2
+![task_4](pics/ws_05_task_4_v_2.gif)
+![task_4](pics/ws_05_task_4_v_2_velprofile.png)
+
+##### V4
+![task_4](pics/ws_05_task_4_v_4.gif)
+![task_4](pics/ws_05_task_4_v_4_velprofile.png)
+
+##### V5
+![task_4](pics/ws_05_task_4_v_5.gif)
+![task_4](pics/ws_05_task_4_v_5_velprofile.png)
 
 ### Parallelization
 
