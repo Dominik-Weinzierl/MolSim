@@ -18,15 +18,6 @@ class Generator {
   //----------------------------------------Methods----------------------------------------
 
   /**
-   * Gets position of Particle (in detail a Molecule) in the list of Particle(s).
-   * @param index index in membrane
-   * @param zero start index of membrane molecules in Particle list
-   * @param c argument to create the membrane
-   * @return position in list as int
-   */
-  static int getPositionInContainer(std::array<int, dim> index, int zero, const RectangularArgument<dim> &c);
-
-  /**
    * Links the force that is additional applied on this Particle p.
    * @param p Particle
    * @param forceContainers additional forces
@@ -96,4 +87,13 @@ class Generator {
    * @param container provided particle container
    */
   static void generate(const T &g, ParticleContainer<dim> &container);
+
+  /**
+   * Gets position of Particle (in detail a Molecule) in the list of Particle(s).
+   * @param index index in membrane
+   * @param zero start index of membrane molecules in Particle list
+   * @param c argument to create the membrane
+   * @return position in list as int
+   */
+  static int getPositionInContainer(std::array<int, dim> index, int zero, const RectangularArgument<dim> &c);
 };
