@@ -4,7 +4,7 @@
 
 #include "physics/Vector/Vector.h"
 #include "logger/Logger.h"
-#include "physics/Forces/Forces.h"
+#include "physics/Forces/Force.h"
 
 enum ParticleType {
   MOLECULE, PARTICLE
@@ -85,7 +85,7 @@ class Particle {
   /**
    * Additional Forces applied to the Particle.
    */
-  std::vector<Forces<dim>> additionalForces{};
+  std::vector<Force<dim>> additionalForces{};
 
  public:
 
@@ -578,7 +578,7 @@ class Particle {
    * Returns the additionalForces-Vector
    * @return additionalForces
    */
-  const std::vector<Forces<dim>> &getAdditionalForces() const {
+  const std::vector<Force<dim>> &getAdditionalForces() const {
     return additionalForces;
   }
 
@@ -586,7 +586,7 @@ class Particle {
    * Adds the given force-vector to the additionalForce-Vector.
    * @param additional_forces Additional Force to add to the additionalForce-Vector.
    */
-  void addAdditionalForce(const Forces<dim> &additional_forces) {
+  void addAdditionalForce(const Force<dim> &additional_forces) {
     additionalForces.push_back(additional_forces);
   }
 

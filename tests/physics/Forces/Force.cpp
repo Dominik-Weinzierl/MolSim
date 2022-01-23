@@ -3,7 +3,7 @@
 #include "physics/DirectSum.h"
 #include "physics/variants/Gravitation.h"
 #include "container/DirectSum/DirectSumContainer.h"
-#include "physics/Forces/Forces.h"
+#include "physics/Forces/Force.h"
 #include "generator/GeneratorArguments/variants/CuboidArgument.h"
 #include "physics/LinkedCell/LinkedCell.h"
 
@@ -48,7 +48,7 @@ TEST(Forces, checkAdditionalForce){ // NOLINT(cert-err58-cpp)
 
   Generator<RectangularArgument<dim>, dim>::generate(c, p);
 
-  Forces<dim> force{{1.0, 1.0}, 0, 1};
+  Force<dim> force{{1.0, 1.0}, 0, 1};
   p.getParticles()[0].addAdditionalForce(force);
 
   LinkedCell<LennardJones, dim> physics{};

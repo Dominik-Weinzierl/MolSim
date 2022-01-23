@@ -2,7 +2,7 @@
 
 #include <ostream>
 template<size_t dim>
-class Forces {
+class Force {
   /**
    * Force-vector.
    */
@@ -25,7 +25,7 @@ class Forces {
    * @param pStartTime start time of the force
    * @param pEndTime end time of the force
    */
-  Forces(Vector<dim> pForce, unsigned int pStartTime, unsigned int pEndTime) : force{pForce}, startTime{pStartTime},
+  Force(Vector<dim> pForce, unsigned int pStartTime, unsigned int pEndTime) : force{pForce}, startTime{pStartTime},
                                                                               endTime{pEndTime} {}
 
   //----------------------------------------Methods----------------------------------------
@@ -41,7 +41,7 @@ class Forces {
     return argument.str();
   };
 
-  friend std::ostream &operator<<(std::ostream &os, const Forces &f) {
+  friend std::ostream &operator<<(std::ostream &os, const Force &f) {
     os << f.toString();
     return os;
   }

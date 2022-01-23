@@ -2,7 +2,7 @@
 
 #include <ostream>
 
-#include "Forces.h"
+#include "Force.h"
 
 /**
  * Wrapper for xsd-force_t.
@@ -21,7 +21,7 @@ class ForceContainer {
   /**
    * Force object applied on all indices.
    */
-  Forces<dim> force;
+  Force<dim> force;
 
  public:
 
@@ -70,7 +70,7 @@ class ForceContainer {
    * Getter for force.
    * @return force
    */
-  [[nodiscard]] const Forces<dim> &getForce() const {
+  [[nodiscard]] const Force<dim> &getForce() const {
     return force;
   }
 };
