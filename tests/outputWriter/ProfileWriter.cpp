@@ -11,7 +11,7 @@ TEST(ProfileWriter2D, avgV) {
   DirectSumContainer<dim> c;
   c.addParticle({{0, 0}, {1, 0}, 0});
   c.addParticle({{0, 2}, {2, 0}, 0});
-  std::string path{"../../tests/outputWriter"};
+  std::string path{"../../tests/outputWriter/"};
   ProfileWriter<dim> w{1, 100, true, false, {2, 2}, path};
   w.generateProfiles(c, 0);
   std::ifstream file;
@@ -31,7 +31,7 @@ TEST(ProfileWriter2D, correctBins) {
   DirectSumContainer<dim> c;
   c.addParticle({{0, 0}, {1, 0}, 0});
   c.addParticle({{2, 2}, {2, 0}, 0});
-  std::string path{"../../tests/outputWriter"};
+  std::string path{"../../tests/outputWriter/"};
   ProfileWriter<dim> w{2, 100, true, false, {4, 4}, path};
   w.generateProfiles(c, 0);
   std::ifstream file;
@@ -52,7 +52,7 @@ TEST(ProfileWriter3D, avgV) {
   DirectSumContainer<dim> c;
   c.addParticle({{0, 0, 0}, {1, 0, 0}, 0});
   c.addParticle({{0, 2, 0}, {2, 0, 0}, 0});
-  std::string path{"../../tests/outputWriter"};
+  std::string path{"../../tests/outputWriter/"};
   ProfileWriter<dim> w{1, 100, true, false, {2, 2, 2}, path};
   w.generateProfiles(c, 0);
   std::ifstream file;
@@ -72,7 +72,7 @@ TEST(ProfileWriter3D, correctBins) {
   DirectSumContainer<dim> c;
   c.addParticle({{0, 0, 0}, {1, 0, 0}, 0});
   c.addParticle({{2, 2, 0}, {2, 0, 0}, 0});
-  std::string path{"../../tests/outputWriter"};
+  std::string path{"../../tests/outputWriter/"};
   ProfileWriter<dim> w{2, 100, true, false, {4, 4, 4}, path};
   w.generateProfiles(c, 0);
   std::ifstream file;
@@ -92,7 +92,7 @@ TEST(ProfileWriter3D, density) {
   DirectSumContainer<dim> c;
   c.addParticle({{0, 0, 0}, {1, 0, 0}, 0});
   c.addParticle({{0, 2, 0}, {2, 0, 0}, 0});
-  std::string path{"../../tests/outputWriter"};
+  std::string path{"../../tests/outputWriter/"};
   ProfileWriter<dim> w{1, 100, false, true, {2, 2, 2}, path};
   w.generateProfiles(c, 0);
   std::ifstream file;
@@ -112,7 +112,7 @@ TEST(ProfileWriter2D, density) {
   DirectSumContainer<dim> c;
   c.addParticle({{0, 0}, {1, 0}, 0});
   c.addParticle({{0, 2}, {2, 0}, 0});
-  std::string path{"../../tests/outputWriter"};
+  std::string path{"../../tests/outputWriter/"};
   ProfileWriter<dim> w{1, 100, false, true, {2, 2}, path};
   w.generateProfiles(c, 0);
   std::ifstream file;
