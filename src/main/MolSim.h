@@ -182,6 +182,8 @@ class MolSim {
    */
   int benchmark() {
     auto benchWriter = std::make_unique<DummyWriter<dim>>(arg->getOutput(), *particleContainer);
+    // Replace with dummy
+    arg->getProfileWriter() = std::make_unique<DummyProfileWriter<dim>>();
     auto particleAmount = particleContainer->size();
     long int duration = 0;
     if (arg->getPhysics() == "gravitation") {
