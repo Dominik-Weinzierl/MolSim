@@ -550,6 +550,10 @@ Run `./MolSim` without any arguments to list possible and required arguments.
 ![task_4](pics/ws_05_task_4_v_2.gif)
 ![task_4](pics/ws_05_task_4_v_2_velprofile.png)
 
+##### V3
+![task_4](pics/ws_05_task_4_v_3.gif)
+![task_4](pics/ws_05_task_4_v_3_velprofile.png)
+
 ##### V4
 ![task_4](pics/ws_05_task_4_v_4.gif)
 ![task_4](pics/ws_05_task_4_v_4_velprofile.png)
