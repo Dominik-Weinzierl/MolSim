@@ -572,6 +572,8 @@ With this strategy, the calculation is not applied directly to the particles of 
 stored in a buffer. In this way, the calculation can be parallelized and updating of the values is processed
 sequentially without locks.
 
+![task_3](pics/ws_05_task_3_buffer.png)
+
 ```c++
 #pragma omp declare reduction (merge : std::vector<std::pair<Particle<dim> *, Vector<dim>>> : omp_out.insert(omp_out.end(), omp_in.begin(), omp_in.end()))
 ```
@@ -589,6 +591,8 @@ Usage:
 #### Lock-cell
 
 With this strategy there is a lock for each cell, and with each write access the cell is then locked accordingly.
+
+![task_3](pics/ws_05_task_3_lock_cell.png)
 
 ```c++
 #pragma omp parallel for shared(cellContainer) default(none) schedule(static, 4)
@@ -658,6 +662,8 @@ Usage:
 #### Lock-free:
 
 With this strategy, no locks are used and the mesh is divided in such a way that no race conditions occur. Periodic neighbours are proceeded sequentially. 
+
+![task_3](pics/ws_05_task_3_lock_free.png)
 
 ```c++
 template<>
@@ -732,6 +738,9 @@ Usage:
 
 #### Lock-optimized:
 With this strategy, the mesh is divided as lock free, but in addition the periodic neighbours are processed in parallel with locks.
+
+![task_3](pics/ws_05_task_3_lock_optimized.png)
+
 ```c++
 for (auto &cellVector: LinkedCellParallelLockFree<LennardJones, dim>::cells) {
 #pragma omp parallel for shared(cellVector, cellContainer) default(none) schedule(static, 4)
