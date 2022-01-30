@@ -203,3 +203,27 @@ TEST(Main, ws_04_task_3_2D_02) { // NOLINT(cert-err58-cpp)
   EXPECT_EQ(sim.setup({"-x", "-f", "../../input/ws_04/task_3_checkpointing.xml", "-b", "-2"}), 1);
 }
 
+/**
+ * In this test we test the setup for simulation from worksheet 5.
+ */
+TEST(Main, ws_05_task_1) { // NOLINT(cert-err58-cpp)
+  MolSim<3> sim{};
+  EXPECT_EQ(sim.setup({"-x", "-f", "../../input/ws_05/task_1.xml", "-b", "-3"}), 1);
+}
+
+/**
+ * In this test we test the setup for simulation from worksheet 5.
+ */
+TEST(Main, ws_05_task_3) { // NOLINT(cert-err58-cpp)
+  MolSim<3> sim{};
+  EXPECT_EQ(sim.setup({"-x", "-f", "../../input/ws_05/task_3.xml", "-b", "-3"}), 1);
+}
+
+/**
+ * In this test we test the setup for simulation from worksheet 5.
+ */
+TEST(Main, ws_05_task_4) { // NOLINT(cert-err58-cpp)
+  MolSim<3> sim{};
+  EXPECT_EQ(sim.setup({"-x", "-f", "../../input/ws_05/task_4.xml", "-b", "-3"}), 1);
+}
+
