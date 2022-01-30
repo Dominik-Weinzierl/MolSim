@@ -404,6 +404,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_1.xml -3
    ```
+  ![task_1](pics/ws_05_task_1.gif)
 - _(optional)_ Run example simulation of `Task 1` as benchmark.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_1.xml -b -3
@@ -444,6 +445,7 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_3.xml -3
    ```
+  ![task_1](pics/ws_05_task_3.gif)
 - _(optional)_ Run example simulation of `Task 3` as benchmark.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_3.xml -b -3
@@ -455,8 +457,8 @@ Run `./MolSim` without any arguments to list possible and required arguments.
 - Input file used for simulation of `Task 3`.
 
   ```xml
-  <Simulation endTime="100" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD"
-              additionalGravitation="-12.44">
+  <Simulation endTime="100" deltaT="0.0005" iteration="120" physics="lennard" writer="vtk" output="MD">
+      <AdditionalGravitation x="0.0" y="-12.44" z="0.0"/>
       <Strategy>
           <LinkedCell cutoffRadius="3.6" parallel="lock-cell">
               <Domain x="60" y="60" z="60"/>
@@ -489,6 +491,10 @@ Run `./MolSim` without any arguments to list possible and required arguments.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_4.xml -3
    ```
+  ![task_4](pics/ws_05_task_4.gif)
+  
+  Velocity-Profile:
+  ![task_4](pics/ws_05_task_4_velprofile.png)
 - _(optional)_ Run example simulation of `Task 4` as benchmark.
    ```bash
    $ ./MolSim -x -f ../../input/ws_05/task_4.xml -b -3
@@ -536,6 +542,25 @@ Run `./MolSim` without any arguments to list possible and required arguments.
   ```
 
 #### Variants and various influences:
+##### V1
+![task_4](pics/ws_05_task_4_v_1.gif)
+![task_4](pics/ws_05_task_4_v_1_velprofile.png)
+
+##### V2
+![task_4](pics/ws_05_task_4_v_2.gif)
+![task_4](pics/ws_05_task_4_v_2_velprofile.png)
+
+##### V3
+![task_4](pics/ws_05_task_4_v_3.gif)
+![task_4](pics/ws_05_task_4_v_3_velprofile.png)
+
+##### V4
+![task_4](pics/ws_05_task_4_v_4.gif)
+![task_4](pics/ws_05_task_4_v_4_velprofile.png)
+
+##### V5
+![task_4](pics/ws_05_task_4_v_5.gif)
+![task_4](pics/ws_05_task_4_v_5_velprofile.png)
 
 ### Parallelization
 
@@ -546,6 +571,8 @@ Four different parallelization strategies:
 With this strategy, the calculation is not applied directly to the particles of the other cells and the result is first
 stored in a buffer. In this way, the calculation can be parallelized and updating of the values is processed
 sequentially without locks.
+
+![task_3](pics/ws_05_task_3_buffer.png)
 
 ```c++
 #pragma omp declare reduction (merge : std::vector<std::pair<Particle<dim> *, Vector<dim>>> : omp_out.insert(omp_out.end(), omp_in.begin(), omp_in.end()))
@@ -564,6 +591,8 @@ Usage:
 #### Lock-cell
 
 With this strategy there is a lock for each cell, and with each write access the cell is then locked accordingly.
+
+![task_3](pics/ws_05_task_3_lock_cell.png)
 
 ```c++
 #pragma omp parallel for shared(cellContainer) default(none) schedule(static, 4)
@@ -633,6 +662,8 @@ Usage:
 #### Lock-free:
 
 With this strategy, no locks are used and the mesh is divided in such a way that no race conditions occur. Periodic neighbours are proceeded sequentially. 
+
+![task_3](pics/ws_05_task_3_lock_free.png)
 
 ```c++
 template<>
@@ -707,6 +738,9 @@ Usage:
 
 #### Lock-optimized:
 With this strategy, the mesh is divided as lock free, but in addition the periodic neighbours are processed in parallel with locks.
+
+![task_3](pics/ws_05_task_3_lock_optimized.png)
+
 ```c++
 for (auto &cellVector: LinkedCellParallelLockFree<LennardJones, dim>::cells) {
 #pragma omp parallel for shared(cellVector, cellContainer) default(none) schedule(static, 4)
@@ -744,6 +778,9 @@ Usage:
 ```
 
 #### Performance:
+Example simulation of Worksheet 2 (Task 2 big) with 1, 2, 4, 8, 14, 16 and 28 Threads.
+![threads_ws_04_task_2_big](pics/task_2_threads.png)
+![speedup_ws_04_task_2_big](pics/task_2_speedup.png)
 
 ### Benchmarks
 
@@ -781,9 +818,9 @@ Additional cmake options:
     ```bash
     $ ctest
     [...]
-    100% tests passed, 0 tests failed out of 155
+    100% tests passed, 0 tests failed out of 193
     
-    Total Test time (real) =   29.29 sec
+    Total Test time (real) =   34.03 sec
     ```
 
 ### Input file format
