@@ -818,9 +818,9 @@ Additional cmake options:
     ```bash
     $ ctest
     [...]
-    100% tests passed, 0 tests failed out of 155
+    100% tests passed, 0 tests failed out of 193
     
-    Total Test time (real) =   29.29 sec
+    Total Test time (real) =   34.03 sec
     ```
 
 ### Input file format
