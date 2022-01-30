@@ -6,7 +6,7 @@
 - Group number: A
 - Repository link: [MolSim](https://github.com/Dominik-Weinzierl/MolSim)
 - Commit ID:
-- Presentation as LaTex: [Slides]()
+- Presentation as LaTex: [Slides](https://latex.tum.de/read/mnjkbqfcwmbs)
 - Videos: [Videos](http://home.in.tum.de/~harmsen/mdpraktikum/sheet5/)
 
 ## Run application
